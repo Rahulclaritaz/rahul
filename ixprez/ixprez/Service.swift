@@ -141,7 +141,7 @@ class WebService
     
     
    // This method will send the request to server and will get the response
-    func getOTPWebService(urlString : String , dicData : NSDictionary)
+    func getOTPWebService(urlString : String , dicData : NSDictionary, callBack : @escaping (_ message : String, _ error : NSError? ) -> Void)
     {
     
       let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
@@ -161,9 +161,13 @@ class WebService
             if ( error == nil && data != nil)
             {
                 do{
-                let otpArray = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-
+                    let otpArray: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     print(otpArray)
+                    let otpMessage : String = otpArray.value(forKey: "status") as! String
+                    callBack(otpMessage,nil)
+                    
+                    
+//                    callBack (otpArray as! Dictionary,nil)
                 }
                 
                 catch

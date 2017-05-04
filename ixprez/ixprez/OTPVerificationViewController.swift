@@ -14,6 +14,9 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     @IBOutlet var designView: UIView!
     @IBOutlet var btnDone: UIButton!
     @IBOutlet var txtOTP: UITextField!
+    var userName : String = ""
+    var emailId : String = ""
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     let getOTPClass = WebService()
     let getOTPUrl = URLDirectory.OTPVerification()
@@ -43,8 +46,8 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         self.view.addGestureRecognizer(tapKeyBoard)
         
         
-        print("contentoffset",otpScrollView.contentOffset)
-        print("bounces",otpScrollView.bounces)
+//        print("contentoffset",otpScrollView.contentOffset)
+//        print("bounces",otpScrollView.bounces)
         
         
         
@@ -59,12 +62,12 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool
-    {
-    txtOTP.resignFirstResponder()
-    
-    return true
-    }
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+//    {
+//    txtOTP.resignFirstResponder()
+//    
+//    return true
+//    }
     func dismissKeyBoard(rec : UITapGestureRecognizer)
     {
         
@@ -72,16 +75,16 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         
     }
     
-    override func viewWillAppear(_ animated: Bool)
-    {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector( keyBoardWillHide(notification:)) , name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        
-        
-        
-    }
+//    override func viewWillAppear(_ animated: Bool)
+//    {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+//        
+//        
+//        NotificationCenter.default.addObserver(self, selector: #selector( keyBoardWillHide(notification:)) , name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+//        
+//        
+//        
+//    }
     
     
     func keyBoardWillShow(notification : NSNotification)
@@ -131,7 +134,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         
       
         
-        let dicOtpResend  = [ "email_id" : "mathan6@gmail.com" , "device_id" : "789654xxx"]
+        let dicOtpResend  = [ "email_id" : emailId , "device_id" : appDelegate.deviceUDID]
         getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: dicOtpResend as NSDictionary)
         
     }
@@ -146,13 +149,27 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         }
         else
         {
-        let dicData : [String:Any] = [ "email_id" : "mathan6@gmail.com" ,"device_id" :"789654xxx" , "otp" : txtOTP.text!]
+        let dicData : [String:Any] = [ "email_id" : emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
     
-        getOTPClass.getOTPWebService(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary)
+            getOTPClass.getOTPWebService(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary, callBack : {(message, error) in
+                
+                let otpMessageStatus: String = message as! String
+                
+                if (otpMessageStatus == "Failed") {
+                    let alertController = UIAlertController(title: "Alert!", message: "Invalid OTP ", preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertController.addAction(defaultAction)
+                    self.present(alertController, animated: true, completion: nil)
+                } else {
+                    let welcomeScreen = self.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
+                    self.present(welcomeScreen, animated: true, completion: nil)
+                }
+                
+            })
+            
         }
         
-        let welcomeScreen = self.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
-        self.present(welcomeScreen, animated: true, completion: nil)
+        
         
     }
     

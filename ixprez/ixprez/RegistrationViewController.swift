@@ -169,22 +169,35 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     // This method will store the data into the NSUSerDefaults.
     @IBAction func saveButtonAction(_ sender: Any)
     {
-        defaults.set(nameTextField?.text, forKey: "userName")
-        defaults.set(emailTextField?.text, forKey: "emailAddress")
-        defaults.set(countrySelectedValue.text, forKey: "countryName")
-        defaults.set(languageSelectedValue.text, forKey: "languageName")
-        defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
-
+        if ((nameTextField?.text == "") || (emailTextField?.text == "") || (mobileNumberTextField?.text == "")) {
+            let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Name or Email or Mobile Text Field ", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            present(alertController, animated: true, completion: nil)
+            
+            
+            
+        } else {
+            defaults.set(nameTextField?.text, forKey: "userName")
+            defaults.set(emailTextField?.text, forKey: "emailAddress")
+            defaults.set(countrySelectedValue.text, forKey: "countryName")
+            defaults.set(languageSelectedValue.text, forKey: "languageName")
+            defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
+            
+            
+            
+            let parameter = ["user_name":defaults.string(forKey: "userName"),"email_id": defaults.string(forKey: "emailAddress"),"phone_number":defaults.string(forKey: "mobileNumber"),"country":defaults.string(forKey: "countryName"),"language": defaults.string(forKey: "languageName"),"device_id":appdelegate.deviceUDID,"notification": "1","reminder":"1","mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"]
+            
+            getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary)
+            
+            let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+            otpValidation.emailId = defaults.string(forKey: "emailAddress")!
+            self.present(otpValidation, animated: true, completion: nil)
+        }
         
         
-        let parameter = ["user_name":defaults.string(forKey: "userName"),"email_id": defaults.string(forKey: "emailAddress"),"phone_number":defaults.string(forKey: "mobileNumber"),"country":defaults.string(forKey: "countryName"),"language": defaults.string(forKey: "languageName"),"device_id":appdelegate.deviceUDID,"notification": "1","reminder":"1","mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"]
-       
-        getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary)
         
-      let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-        self.present(otpValidation, animated: true, completion: nil)
         
-              
         
 }
 }
