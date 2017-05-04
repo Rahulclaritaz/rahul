@@ -1,0 +1,466 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FD8E61EB8819F00026975 /* URLDirectory.swift */; };
+		130FD8EA1EB887CB00026975 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FD8E91EB887CB00026975 /* Service.swift */; };
+		13111E741EB1F0ED003661C2 /* moskmedium500.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5B1EB1EF87003661C2 /* moskmedium500.ttf */; };
+		13111E751EB1F0F0003661C2 /* mosksemibold600.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5C1EB1EF87003661C2 /* mosksemibold600.ttf */; };
+		13111E761EB1F0F2003661C2 /* proximanova-black-webfont_0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5D1EB1EF87003661C2 /* proximanova-black-webfont_0.ttf */; };
+		13111E771EB1F0F6003661C2 /* proximanova-extrabold-webfont_0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5E1EB1EF87003661C2 /* proximanova-extrabold-webfont_0.ttf */; };
+		13111E781EB1F0FC003661C2 /* ProximaNova-Light_0.otf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5F1EB1EF87003661C2 /* ProximaNova-Light_0.otf */; };
+		13111E791EB1F0FE003661C2 /* proximanova-regular-webfont_0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E601EB1EF87003661C2 /* proximanova-regular-webfont_0.ttf */; };
+		13111E7A1EB1F101003661C2 /* ProximaNovaSoft-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E611EB1EF87003661C2 /* ProximaNovaSoft-Bold.otf */; };
+		13111E7B1EB1FC09003661C2 /* mosklight300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5A1EB1EF87003661C2 /* mosklight300.ttf */; };
+		13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */; };
+		13111E821EB20C42003661C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13111E811EB20C42003661C2 /* UIKit.framework */; };
+		132131951EB46022008709DC /* intro-heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 132131921EB46022008709DC /* intro-heart.png */; };
+		132131961EB46022008709DC /* intro-audio.png in Resources */ = {isa = PBXBuildFile; fileRef = 132131931EB46022008709DC /* intro-audio.png */; };
+		132131971EB46022008709DC /* intro-video.png in Resources */ = {isa = PBXBuildFile; fileRef = 132131941EB46022008709DC /* intro-video.png */; };
+		132131991EB46F6F008709DC /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132131981EB46F6F008709DC /* ColorExtension.swift */; };
+		132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */; };
+		13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */; };
+		13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A0F1681EB9E03A0069ABDD /* IXValidation.swift */; };
+		13B06F2F1EB212F000BD439C /* bg_reg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F2E1EB212F000BD439C /* bg_reg.png */; };
+		13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */; };
+		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
+		13B06F3B1EB3502600BD439C /* IntroductionPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* IntroductionPageViewController.swift */; };
+		859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */; };
+		859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F21EB1ADDB008DD7F7 /* ViewController.swift */; };
+		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
+		859A22F81EB1ADDB008DD7F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */; };
+		859A22FB1EB1ADDB008DD7F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		130FD8E61EB8819F00026975 /* URLDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLDirectory.swift; sourceTree = "<group>"; };
+		130FD8E91EB887CB00026975 /* Service.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		13111E5A1EB1EF87003661C2 /* mosklight300.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mosklight300.ttf; sourceTree = "<group>"; };
+		13111E5B1EB1EF87003661C2 /* moskmedium500.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = moskmedium500.ttf; sourceTree = "<group>"; };
+		13111E5C1EB1EF87003661C2 /* mosksemibold600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mosksemibold600.ttf; sourceTree = "<group>"; };
+		13111E5D1EB1EF87003661C2 /* proximanova-black-webfont_0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanova-black-webfont_0.ttf"; sourceTree = "<group>"; };
+		13111E5E1EB1EF87003661C2 /* proximanova-extrabold-webfont_0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanova-extrabold-webfont_0.ttf"; sourceTree = "<group>"; };
+		13111E5F1EB1EF87003661C2 /* ProximaNova-Light_0.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNova-Light_0.otf"; sourceTree = "<group>"; };
+		13111E601EB1EF87003661C2 /* proximanova-regular-webfont_0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "proximanova-regular-webfont_0.ttf"; sourceTree = "<group>"; };
+		13111E611EB1EF87003661C2 /* ProximaNovaSoft-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ProximaNovaSoft-Bold.otf"; sourceTree = "<group>"; };
+		13111E631EB1F0C5003661C2 /* mosklight300.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mosklight300.ttf; path = "../Approved Templates/Fonts/mosklight300.ttf"; sourceTree = "<group>"; };
+		13111E641EB1F0C5003661C2 /* moskmedium500.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = moskmedium500.ttf; path = "../Approved Templates/Fonts/moskmedium500.ttf"; sourceTree = "<group>"; };
+		13111E651EB1F0C5003661C2 /* mosksemibold600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = mosksemibold600.ttf; path = "../Approved Templates/Fonts/mosksemibold600.ttf"; sourceTree = "<group>"; };
+		13111E661EB1F0C5003661C2 /* proximanova-black-webfont_0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-black-webfont_0.ttf"; path = "../Approved Templates/Fonts/proximanova-black-webfont_0.ttf"; sourceTree = "<group>"; };
+		13111E671EB1F0C5003661C2 /* proximanova-extrabold-webfont_0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-extrabold-webfont_0.ttf"; path = "../Approved Templates/Fonts/proximanova-extrabold-webfont_0.ttf"; sourceTree = "<group>"; };
+		13111E681EB1F0C5003661C2 /* proximanova-regular-webfont_0.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "proximanova-regular-webfont_0.ttf"; path = "../Approved Templates/Fonts/proximanova-regular-webfont_0.ttf"; sourceTree = "<group>"; };
+		13111E691EB1F0C5003661C2 /* ProximaNovaSoft-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNovaSoft-Bold.otf"; path = "../Approved Templates/Fonts/ProximaNovaSoft-Bold.otf"; sourceTree = "<group>"; };
+		13111E6A1EB1F0C5003661C2 /* ProximaNova-Light_0.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Light_0.otf"; path = "../Approved Templates/Fonts/ProximaNova-Light_0.otf"; sourceTree = "<group>"; };
+		13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerificationViewController.swift; sourceTree = "<group>"; };
+		13111E811EB20C42003661C2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		132131921EB46022008709DC /* intro-heart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-heart.png"; sourceTree = "<group>"; };
+		132131931EB46022008709DC /* intro-audio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-audio.png"; sourceTree = "<group>"; };
+		132131941EB46022008709DC /* intro-video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-video.png"; sourceTree = "<group>"; };
+		132131981EB46F6F008709DC /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextfieldExtension.swift; sourceTree = "<group>"; };
+		13A0F1681EB9E03A0069ABDD /* IXValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IXValidation.swift; sourceTree = "<group>"; };
+		13B06F2E1EB212F000BD439C /* bg_reg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_reg.png; sourceTree = "<group>"; };
+		13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
+		13B06F341EB30AE500BD439C /* intro_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_bg.png; sourceTree = "<group>"; };
+		13B06F3A1EB3502600BD439C /* IntroductionPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroductionPageViewController.swift; sourceTree = "<group>"; };
+		859A22ED1EB1ADDB008DD7F7 /* ixprez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ixprez.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		859A22F21EB1ADDB008DD7F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		859A22F51EB1ADDB008DD7F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		859A22FA1EB1ADDB008DD7F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		859A22FC1EB1ADDB008DD7F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		859A22EA1EB1ADDB008DD7F7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13111E821EB20C42003661C2 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		130FD8E51EB8816600026975 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				130FD8E61EB8819F00026975 /* URLDirectory.swift */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		130FD8E81EB887A900026975 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				130FD8E91EB887CB00026975 /* Service.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		13111E571EB1EF29003661C2 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				13111E591EB1EF64003661C2 /* Fonts */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		13111E591EB1EF64003661C2 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				13111E5A1EB1EF87003661C2 /* mosklight300.ttf */,
+				13111E5B1EB1EF87003661C2 /* moskmedium500.ttf */,
+				13111E5C1EB1EF87003661C2 /* mosksemibold600.ttf */,
+				13111E5D1EB1EF87003661C2 /* proximanova-black-webfont_0.ttf */,
+				13111E5E1EB1EF87003661C2 /* proximanova-extrabold-webfont_0.ttf */,
+				13111E5F1EB1EF87003661C2 /* ProximaNova-Light_0.otf */,
+				13111E601EB1EF87003661C2 /* proximanova-regular-webfont_0.ttf */,
+				13111E611EB1EF87003661C2 /* ProximaNovaSoft-Bold.otf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		13111E621EB1F0C4003661C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				13111E811EB20C42003661C2 /* UIKit.framework */,
+				13111E631EB1F0C5003661C2 /* mosklight300.ttf */,
+				13111E641EB1F0C5003661C2 /* moskmedium500.ttf */,
+				13111E651EB1F0C5003661C2 /* mosksemibold600.ttf */,
+				13111E661EB1F0C5003661C2 /* proximanova-black-webfont_0.ttf */,
+				13111E671EB1F0C5003661C2 /* proximanova-extrabold-webfont_0.ttf */,
+				13111E681EB1F0C5003661C2 /* proximanova-regular-webfont_0.ttf */,
+				13111E691EB1F0C5003661C2 /* ProximaNovaSoft-Bold.otf */,
+				13111E6A1EB1F0C5003661C2 /* ProximaNova-Light_0.otf */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		13111E7C1EB20ACD003661C2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */,
+				13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */,
+				13B06F3A1EB3502600BD439C /* IntroductionPageViewController.swift */,
+				132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		859A22E41EB1ADDB008DD7F7 = {
+			isa = PBXGroup;
+			children = (
+				859A22EF1EB1ADDB008DD7F7 /* ixprez */,
+				859A22EE1EB1ADDB008DD7F7 /* Products */,
+				13111E621EB1F0C4003661C2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		859A22EE1EB1ADDB008DD7F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				859A22ED1EB1ADDB008DD7F7 /* ixprez.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		859A22EF1EB1ADDB008DD7F7 /* ixprez */ = {
+			isa = PBXGroup;
+			children = (
+				130FD8E81EB887A900026975 /* Model */,
+				130FD8E51EB8816600026975 /* Base */,
+				13111E7C1EB20ACD003661C2 /* Controllers */,
+				13111E571EB1EF29003661C2 /* Resource */,
+				859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */,
+				859A22F21EB1ADDB008DD7F7 /* ViewController.swift */,
+				859A22F41EB1ADDB008DD7F7 /* Main.storyboard */,
+				859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */,
+				13B06F2E1EB212F000BD439C /* bg_reg.png */,
+				13B06F341EB30AE500BD439C /* intro_bg.png */,
+				132131921EB46022008709DC /* intro-heart.png */,
+				132131931EB46022008709DC /* intro-audio.png */,
+				132131941EB46022008709DC /* intro-video.png */,
+				859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */,
+				859A22FC1EB1ADDB008DD7F7 /* Info.plist */,
+				132131981EB46F6F008709DC /* ColorExtension.swift */,
+				13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */,
+				13A0F1681EB9E03A0069ABDD /* IXValidation.swift */,
+			);
+			path = ixprez;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		859A22EC1EB1ADDB008DD7F7 /* ixprez */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 859A22FF1EB1ADDB008DD7F7 /* Build configuration list for PBXNativeTarget "ixprez" */;
+			buildPhases = (
+				859A22E91EB1ADDB008DD7F7 /* Sources */,
+				859A22EA1EB1ADDB008DD7F7 /* Frameworks */,
+				859A22EB1EB1ADDB008DD7F7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ixprez;
+			productName = ixprez;
+			productReference = 859A22ED1EB1ADDB008DD7F7 /* ixprez.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		859A22E51EB1ADDB008DD7F7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = "Claritaz Techlabs";
+				TargetAttributes = {
+					859A22EC1EB1ADDB008DD7F7 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = PZH3LX64W7;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 859A22E81EB1ADDB008DD7F7 /* Build configuration list for PBXProject "ixprez" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 859A22E41EB1ADDB008DD7F7;
+			productRefGroup = 859A22EE1EB1ADDB008DD7F7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				859A22EC1EB1ADDB008DD7F7 /* ixprez */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		859A22EB1EB1ADDB008DD7F7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13111E7A1EB1F101003661C2 /* ProximaNovaSoft-Bold.otf in Resources */,
+				13B06F351EB30AE500BD439C /* intro_bg.png in Resources */,
+				13111E791EB1F0FE003661C2 /* proximanova-regular-webfont_0.ttf in Resources */,
+				13111E771EB1F0F6003661C2 /* proximanova-extrabold-webfont_0.ttf in Resources */,
+				13111E761EB1F0F2003661C2 /* proximanova-black-webfont_0.ttf in Resources */,
+				13111E7B1EB1FC09003661C2 /* mosklight300.ttf in Resources */,
+				859A22FB1EB1ADDB008DD7F7 /* LaunchScreen.storyboard in Resources */,
+				132131951EB46022008709DC /* intro-heart.png in Resources */,
+				13B06F2F1EB212F000BD439C /* bg_reg.png in Resources */,
+				13111E741EB1F0ED003661C2 /* moskmedium500.ttf in Resources */,
+				859A22F81EB1ADDB008DD7F7 /* Assets.xcassets in Resources */,
+				13111E751EB1F0F0003661C2 /* mosksemibold600.ttf in Resources */,
+				132131961EB46022008709DC /* intro-audio.png in Resources */,
+				132131971EB46022008709DC /* intro-video.png in Resources */,
+				13111E781EB1F0FC003661C2 /* ProximaNova-Light_0.otf in Resources */,
+				859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		859A22E91EB1ADDB008DD7F7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				13B06F3B1EB3502600BD439C /* IntroductionPageViewController.swift in Sources */,
+				130FD8EA1EB887CB00026975 /* Service.swift in Sources */,
+				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
+				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
+				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
+				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
+				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
+				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
+				13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */,
+				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
+				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		859A22F41EB1ADDB008DD7F7 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				859A22F51EB1ADDB008DD7F7 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				859A22FA1EB1ADDB008DD7F7 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		859A22FD1EB1ADDB008DD7F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		859A22FE1EB1ADDB008DD7F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		859A23001EB1ADDB008DD7F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PZH3LX64W7;
+				INFOPLIST_FILE = ixprez/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ixprez;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		859A23011EB1ADDB008DD7F7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = PZH3LX64W7;
+				INFOPLIST_FILE = ixprez/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ixprez;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		859A22E81EB1ADDB008DD7F7 /* Build configuration list for PBXProject "ixprez" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				859A22FD1EB1ADDB008DD7F7 /* Debug */,
+				859A22FE1EB1ADDB008DD7F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		859A22FF1EB1ADDB008DD7F7 /* Build configuration list for PBXNativeTarget "ixprez" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				859A23001EB1ADDB008DD7F7 /* Debug */,
+				859A23011EB1ADDB008DD7F7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 859A22E51EB1ADDB008DD7F7 /* Project object */;
+}
