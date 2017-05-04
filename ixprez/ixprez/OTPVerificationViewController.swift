@@ -151,6 +151,9 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         getOTPClass.getOTPWebService(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary)
         }
         
+        let welcomeScreen = self.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
+        self.present(welcomeScreen, animated: true, completion: nil)
+        
     }
     
     
