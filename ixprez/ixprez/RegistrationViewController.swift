@@ -55,6 +55,10 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     // This method will dismiss the keyboard
     func dismissKeyboard(rec: UIGestureRecognizer)
     {
@@ -71,11 +75,13 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
       getOTPClass.getCountryDataWebService(urlString: getCountryUrl.url(), dicData: paramsCountry as NSDictionary, callback:
         { ( countryData , error ) in
             
-       print("data")
-            print(countryData)
-            
+        print("data")
+        print(countryData)
+        self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
+        self.countryArrayData = (countryData.value(forKey: "country_name") as! NSArray) as! [String]
+        self.countryPickerView.reloadAllComponents()
       })
-      
+        
         
              
     }
@@ -85,10 +91,10 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     
         let paramsLanguage = ["list" : "language"] as Dictionary<String,String>
         
-        getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary)
-        
-        
-    
+        getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary, callBack:{(languageData , error) in
+           self.languageArrayData = (languageData.value(forKey: "name") as! NSArray) as! [String]
+            self.languagePickerView.reloadAllComponents()
+        })
     }
     
     
@@ -160,7 +166,6 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         }
         
     }
-    // rahul
     // This method will store the data into the NSUSerDefaults.
     @IBAction func saveButtonAction(_ sender: Any)
     {
