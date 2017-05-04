@@ -29,7 +29,7 @@
 		13B06F2F1EB212F000BD439C /* bg_reg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F2E1EB212F000BD439C /* bg_reg.png */; };
 		13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */; };
 		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
-		13B06F3B1EB3502600BD439C /* IntroductionPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* IntroductionPageViewController.swift */; };
+		13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */; };
 		859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */; };
 		859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F21EB1ADDB008DD7F7 /* ViewController.swift */; };
 		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
@@ -68,7 +68,7 @@
 		13B06F2E1EB212F000BD439C /* bg_reg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_reg.png; sourceTree = "<group>"; };
 		13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
 		13B06F341EB30AE500BD439C /* intro_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_bg.png; sourceTree = "<group>"; };
-		13B06F3A1EB3502600BD439C /* IntroductionPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroductionPageViewController.swift; sourceTree = "<group>"; };
+		13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
 		859A22ED1EB1ADDB008DD7F7 /* ixprez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ixprez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		859A22F21EB1ADDB008DD7F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 			children = (
 				13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */,
 				13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */,
-				13B06F3A1EB3502600BD439C /* IntroductionPageViewController.swift */,
+				13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */,
 				132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */,
 			);
 			name = Controllers;
@@ -284,7 +284,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B06F3B1EB3502600BD439C /* IntroductionPageViewController.swift in Sources */,
+				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* Service.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,

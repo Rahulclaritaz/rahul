@@ -24,7 +24,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
     let getAddData = WebService()
     
     let getAddDataUrl = URLDirectory.RegistrationData()
-    
+    let appdelegate = UIApplication.shared.delegate as! AppDelegate
     
    
     override func viewDidLoad()
@@ -56,30 +56,30 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        
-        txtReEnterEmail.resignFirstResponder()
-        
-        return true
-    }
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        
+//        
+//        txtReEnterEmail.resignFirstResponder()
+//        
+//        return true
+//    }
     
-   override func viewWillAppear(_ animated: Bool)
-    {
-        
-        NotificationCenter.default.addObserver(
-        self,
-         selector:#selector(keyBoardWillShow(notification:)),
-        name: NSNotification.Name.UIKeyboardWillShow,
-         object: nil)
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyBoardWillHide(notification:)),
-            name: NSNotification.Name.UIKeyboardWillHide ,
-            object: nil)
-    
-    }
+//   override func viewWillAppear(_ animated: Bool)
+//    {
+//        
+//        NotificationCenter.default.addObserver(
+//        self,
+//         selector:#selector(keyBoardWillShow(notification:)),
+//        name: NSNotification.Name.UIKeyboardWillShow,
+//         object: nil)
+//        
+//        NotificationCenter.default.addObserver(
+//            self,
+//            selector: #selector(keyBoardWillHide(notification:)),
+//            name: NSNotification.Name.UIKeyboardWillHide ,
+//            object: nil)
+//    
+//    }
     
   
     func keyBoardWillShow(notification : NSNotification)
@@ -124,8 +124,8 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         else
             {
                 
-        let dicData : NSDictionary = ["user_name" : "mathan" , "email_id" : "mathan6@gmail.com", "phone_number" : "9994029677" ,"country" : "india" , "language":"english","device_id":"789654xxx",
-                "notification":"1","remainder":"1","mobile_os":"ios", "mobile_version":"ios6","mobile_modelname":"K3ds3","gcm_id":"DDD454564" ]
+        let dicData : NSDictionary = ["user_name" : "mathan" , "email_id" : txtReEnterEmail.text, "phone_number" : "9994029677" ,"country" : "india" , "language":"english","device_id":appdelegate.deviceUDID,
+                "notification":"1","remainder":"1","mobile_os":appdelegate.deviceOS, "mobile_version":appdelegate.deviceName,"mobile_modelname":appdelegate.deviceModel,"gcm_id":"DDD454564" ]
 
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         
@@ -170,6 +170,8 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         
         
         }
+        let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+        self.present(otpValidation, animated: true, completion: nil)
         
         
     }

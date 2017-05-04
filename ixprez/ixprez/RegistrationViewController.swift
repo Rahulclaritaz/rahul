@@ -55,6 +55,10 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     // This method will dismiss the keyboard
     func dismissKeyboard(rec: UIGestureRecognizer)
     {
@@ -71,11 +75,13 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
       getOTPClass.getCountryDataWebService(urlString: getCountryUrl.url(), dicData: paramsCountry as NSDictionary, callback:
         { ( countryData , error ) in
             
-       print("data")
-            print(countryData)
-            
+        print("data")
+        print(countryData)
+        self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
+        self.countryArrayData = (countryData.value(forKey: "country_name") as! NSArray) as! [String]
+        self.countryPickerView.reloadAllComponents()
       })
-      
+        
         
              
     }
@@ -85,10 +91,10 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
     
         let paramsLanguage = ["list" : "language"] as Dictionary<String,String>
         
-        getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary)
-        
-        
-    
+        getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary, callBack:{(languageData , error) in
+           self.languageArrayData = (languageData.value(forKey: "name") as! NSArray) as! [String]
+            self.languagePickerView.reloadAllComponents()
+        })
     }
     
     
@@ -160,27 +166,38 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         }
         
     }
-    // rahul
     // This method will store the data into the NSUSerDefaults.
     @IBAction func saveButtonAction(_ sender: Any)
     {
-        defaults.set(nameTextField?.text, forKey: "userName")
-        defaults.set(emailTextField?.text, forKey: "emailAddress")
-        defaults.set(countrySelectedValue.text, forKey: "countryName")
-        defaults.set(languageSelectedValue.text, forKey: "languageName")
-        defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
-
+        if ((nameTextField?.text == "") || (emailTextField?.text == "") || (mobileNumberTextField?.text == "")) {
+            let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Name or Email or Mobile Text Field ", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            present(alertController, animated: true, completion: nil)
+            
+            
+            
+        } else {
+            defaults.set(nameTextField?.text, forKey: "userName")
+            defaults.set(emailTextField?.text, forKey: "emailAddress")
+            defaults.set(countrySelectedValue.text, forKey: "countryName")
+            defaults.set(languageSelectedValue.text, forKey: "languageName")
+            defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
+            
+            
+            
+            let parameter = ["user_name":defaults.string(forKey: "userName"),"email_id": defaults.string(forKey: "emailAddress"),"phone_number":defaults.string(forKey: "mobileNumber"),"country":defaults.string(forKey: "countryName"),"language": defaults.string(forKey: "languageName"),"device_id":appdelegate.deviceUDID,"notification": "1","reminder":"1","mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"]
+            
+            getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary)
+            
+            let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+            otpValidation.emailId = defaults.string(forKey: "emailAddress")!
+            self.present(otpValidation, animated: true, completion: nil)
+        }
         
         
-        let parameter = ["user_name":defaults.string(forKey: "userName"),"email_id": defaults.string(forKey: "emailAddress"),"phone_number":defaults.string(forKey: "mobileNumber"),"country":defaults.string(forKey: "countryName"),"language": defaults.string(forKey: "languageName"),"device_id":appdelegate.deviceUDID,"notification": "1","reminder":"1","mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"]
-       
-     
-        
-        getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary)
         
         
-        
-              
         
 }
 }
