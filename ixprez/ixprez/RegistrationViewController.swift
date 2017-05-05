@@ -106,13 +106,18 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         })
     }
     
+    // This textfield method will hide the keyboard when click on done button.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

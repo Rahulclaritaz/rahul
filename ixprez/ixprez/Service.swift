@@ -125,8 +125,11 @@ class WebService
             {
                 do
                 {
-                    let myData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    let myData: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     print(myData)
+                    let  dicData = myData.value(forKey: "data")
+                    print(dicData)
+                    
                 }
                 catch
                 {

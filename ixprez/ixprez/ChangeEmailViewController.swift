@@ -82,6 +82,12 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
 //    
 //    }
     
+    // This textfield method will hide the keyboard when click on done button.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
   
     func keyBoardWillShow(notification : NSNotification)
     {
