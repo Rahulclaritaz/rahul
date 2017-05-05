@@ -93,12 +93,18 @@
             currentview = nextIndex
             print("now on tutorial slide",currentview)
             
+        
             if currentview == 3
             {
+                UIView.animate(withDuration: 2.0, animations: {
                     let  nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "RegistrationViewController") as! RegistrationViewController
                     self.present(nextViewController, animated: false, completion: nil)
+                })
+           
+                
             }
-            
+                
+         
             let orderedViewControllersCount = VCArray.count
             
             
@@ -156,10 +162,7 @@
             return VCArray.count
             
         }
-        
-
-        
-        
+    
      
         func presentationIndex(for pageViewController: UIPageViewController) -> Int
         {
