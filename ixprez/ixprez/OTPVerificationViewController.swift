@@ -16,6 +16,9 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     @IBOutlet var txtOTP: UITextField!
     var userName : String = ""
     var emailId : String = ""
+    var country : String = ""
+    var language : String = ""
+    var mobileNumber : String = ""
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     let getOTPClass = WebService()
@@ -134,7 +137,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         
       
         
-        let dicOtpResend  = [ "email_id" : emailId , "device_id" : appDelegate.deviceUDID]
+        let dicOtpResend  = [ "email_id" : self.emailId , "device_id" : appDelegate.deviceUDID]
         getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: dicOtpResend as NSDictionary)
         
     }
@@ -149,21 +152,23 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         }
         else
         {
-        let dicData : [String:Any] = [ "email_id" : emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
+        let dicData : [String:Any] = [ "email_id" : self.emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
     
             getOTPClass.getOTPWebService(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary, callBack : {(message, error) in
                 
                 let otpMessageStatus: String = message as! String
-                
-                if (otpMessageStatus == "Failed") {
-                    let alertController = UIAlertController(title: "Alert!", message: "Invalid OTP ", preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    alertController.addAction(defaultAction)
-                    self.present(alertController, animated: true, completion: nil)
-                } else {
-                    let welcomeScreen = self.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
-                    self.present(welcomeScreen, animated: true, completion: nil)
+                OperationQueue.main.addOperation {
+                    if (otpMessageStatus == "Failed") {
+                        let alertController = UIAlertController(title: "Alert!", message: "Invalid OTP ", preferredStyle: .alert)
+                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        alertController.addAction(defaultAction)
+                        self.present(alertController, animated: true, completion: nil)
+                    } else {
+                        let welcomeScreen = self.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
+                        self.present(welcomeScreen, animated: true, completion: nil)
+                    }
                 }
+                
                 
             })
             
@@ -186,6 +191,10 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
      
         let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
         
+        gotoChangeEmailPage.userName = userName
+        gotoChangeEmailPage.country = country
+        gotoChangeEmailPage.language = language
+        gotoChangeEmailPage.mobileNumber = mobileNumber
         self.present(gotoChangeEmailPage, animated: true, completion: nil)
         
         
