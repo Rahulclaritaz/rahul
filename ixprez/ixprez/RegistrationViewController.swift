@@ -79,7 +79,12 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         print(countryData)
         self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
         self.countryArrayData = (countryData.value(forKey: "country_name") as! NSArray) as! [String]
-        self.countryPickerView.reloadAllComponents()
+            let delayInSeconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
+                self.countryPickerView.reloadAllComponents()
+            })
+            
+        
       })
         
         
@@ -93,7 +98,11 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         
         getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary, callBack:{(languageData , error) in
            self.languageArrayData = (languageData.value(forKey: "name") as! NSArray) as! [String]
-            self.languagePickerView.reloadAllComponents()
+            let delayInSeconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
+                self.languagePickerView.reloadAllComponents()
+            })
+            
         })
     }
     
@@ -138,12 +147,12 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         var titleColor = NSAttributedString()
         if (pickerView == countryPickerView) {
              titleData = self.countryArrayData[row]
-             titleColor = NSAttributedString(string : titleData, attributes : [NSFontAttributeName: UIFont(name: "Georgia", size: 15.0)!, NSForegroundColorAttributeName: UIColor.white])
+             titleColor = NSAttributedString(string : titleData, attributes : [NSFontAttributeName: UIFont(name: "Georgia", size: 13.0)!, NSForegroundColorAttributeName: UIColor.white])
             return titleColor
         }
         if (pickerView == languagePickerView) {
             titleData = self.languageArrayData[row]
-            titleColor = NSAttributedString(string : titleData, attributes : [NSFontAttributeName: UIFont(name: "Georgia", size: 15.0)!, NSForegroundColorAttributeName: UIColor.white])
+            titleColor = NSAttributedString(string : titleData, attributes : [NSFontAttributeName: UIFont(name: "Georgia", size: 13.0)!, NSForegroundColorAttributeName: UIColor.white])
             return titleColor
         }
         
@@ -191,7 +200,11 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
             getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary)
             
             let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+            otpValidation.userName = defaults.string(forKey: "userName")!
             otpValidation.emailId = defaults.string(forKey: "emailAddress")!
+            otpValidation.country = defaults.string(forKey: "countryName")!
+            otpValidation.language = defaults.string(forKey: "languageName")!
+            otpValidation.mobileNumber = defaults.string(forKey: "mobileNumber")!
             self.present(otpValidation, animated: true, completion: nil)
         }
         
