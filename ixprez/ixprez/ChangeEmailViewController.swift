@@ -9,12 +9,13 @@
 import UIKit
 
 
-
-
 class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
 
     
-    
+    var userName : String = ""
+    var mobileNumber : String = ""
+    var country : String = ""
+    var language : String = ""
     @IBOutlet var txtReEnterEmail: UITextField!
     
     @IBOutlet var designView: UIView!
@@ -124,7 +125,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         else
             {
                 
-        let dicData : NSDictionary = ["user_name" : "mathan" , "email_id" : txtReEnterEmail.text, "phone_number" : "9994029677" ,"country" : "india" , "language":"english","device_id":appdelegate.deviceUDID,
+        let dicData : NSDictionary = ["user_name" : userName , "email_id" : txtReEnterEmail.text, "phone_number" : mobileNumber ,"country" : country , "language":language,"device_id":appdelegate.deviceUDID,
                 "notification":"1","remainder":"1","mobile_os":appdelegate.deviceOS, "mobile_version":appdelegate.deviceName,"mobile_modelname":appdelegate.deviceModel,"gcm_id":"DDD454564" ]
 
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
@@ -171,6 +172,12 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         
         }
         let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+        otpValidation.userName = userName
+        otpValidation.emailId = txtReEnterEmail.text!
+        otpValidation.country = country
+        otpValidation.language = language
+        otpValidation.mobileNumber = mobileNumber
+        
         self.present(otpValidation, animated: true, completion: nil)
         
         
