@@ -8,16 +8,22 @@
 
 import UIKit
 
-class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate {
+class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource{
    
 
     @IBOutlet weak var viewScrollView: UIView!
-    @IBOutlet weak var countryPickerView: UIPickerView!
-    @IBOutlet weak var languagePickerView: UIPickerView!
+//    @IBOutlet weak var countryPickerView: UIPickerView!
+//    @IBOutlet weak var languagePickerView: UIPickerView!
     @IBOutlet weak var nameTextField : UITextField?
     @IBOutlet weak var emailTextField : UITextField?
     @IBOutlet weak var mobileNumberTextField : UITextField?
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var countryTextField : UITextField!
+    @IBOutlet weak var languageTextField : UITextField!
+    @IBOutlet weak var countryTableView : UITableView!
+    @IBOutlet weak var languageTableView : UITableView!
+    var autoCompletePossibilities : [String] = []
+    var autoComplete : [String] = []
     
     var defaults = UserDefaults.standard
     var countrySelectedValue = UILabel()
@@ -42,22 +48,97 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         self.view.backgroundColor = UIColor(patternImage: UIImage(named:"bg_reg.png")!)
         self.viewScrollView.backgroundColor = UIColor(patternImage: UIImage(named:"bg_reg.png")!)
         getCountryDataFromTheWebService()
-        getLanguageNameFromWebService()
+//        getLanguageNameFromWebService()
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard(rec:)))
             
         view.addGestureRecognizer(tap)
         nameTextField?.delegate = self
         saveButton.layer.cornerRadius = 20.0
-        self.countryPickerView.delegate = self
-        self.countryPickerView.dataSource = self
-        self.countryPickerView.reloadAllComponents()
+        countryTextField.delegate = self
+        languageTextField.delegate = self
+        countryTableView.delegate = self
+        languageTableView.delegate = self
+//        self.countryPickerView.delegate = self
+//        self.countryPickerView.dataSource = self
+//        self.countryPickerView.reloadAllComponents()
+//        countryTableView.reloadData()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let subString = (countryTextField.text! as NSString).replacingCharacters(in: range, with: string)
+        searchAutocompleteEntriesWithSubstring(substring: subString)
+        return true
+    }
+    
+    func searchAutocompleteEntriesWithSubstring (substring : String) {
+        autoComplete.removeAll(keepingCapacity: false)
+        
+        for curString in autoCompletePossibilities
+        {
+            var myString:NSString! = curString as NSString
+            
+            var substringRange :NSRange! = myString.range(of: substring)
+            
+            if (substringRange.location  == 0)
+            {
+                autoComplete.append(curString)
+            }
+        }
+        countryTableView.reloadData()
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cellIdentifier = "XPCountryTableViewCell"
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? XPCountryTableViewCell  else {
+            fatalError("The dequeued cell is not an instance of MealTableViewCell.")
+        }
+        //        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "countryCell", for: indexPath) as UITableViewCell
+        
+        let index = indexPath.row as Int
+        cell.textLabel?.text = autoComplete[index]
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return autoComplete.count
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
+        
+        countryTextField.text = selectedCell.textLabel!.text!
+        
+        
+    }
+    
+    func addToArray(textField: UITextField) {
+        
+        if textField == textField {
+            let textToAdd = textField.text ?? ""
+            
+            autoCompletePossibilities.append(textToAdd)
+            print("it worked")
+        }
+        
+    }
+    
+    func clearTextFieldAfterAddingToArray() {
+        countryTextField.text = ""
+    }
+    
     
     // This method will dismiss the keyboard
     func dismissKeyboard(rec: UIGestureRecognizer)
@@ -79,10 +160,12 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         print(countryData)
         self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
         self.countryArrayData = (countryData.value(forKey: "country_name") as! NSArray) as! [String]
-            let delayInSeconds = 1.0
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
-                self.countryPickerView.reloadAllComponents()
-            })
+//            let delayInSeconds = 1.0
+            self.autoCompletePossibilities = self.countryArrayData
+            self.countryTableView.reloadData()
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
+//                self.countryPickerView.reloadAllComponents()
+//            })
             
         
       })
@@ -99,9 +182,9 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary, callBack:{(languageData , error) in
            self.languageArrayData = (languageData.value(forKey: "name") as! NSArray) as! [String]
             let delayInSeconds = 1.0
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
-                self.languagePickerView.reloadAllComponents()
-            })
+//            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
+//                self.languagePickerView.reloadAllComponents()
+//            })
             
         })
     }
@@ -117,7 +200,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+   /*
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -180,6 +263,7 @@ class RegistrationViewController: UIViewController,UIPickerViewDataSource,UIPick
         }
         
     }
+ */
     // This method will store the data into the NSUSerDefaults.
     @IBAction func saveButtonAction(_ sender: Any)
     {

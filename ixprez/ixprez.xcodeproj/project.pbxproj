@@ -32,6 +32,7 @@
 		856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */; };
 		856AD66C1EC0402B00FCBBEC /* XPSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD66B1EC0402B00FCBBEC /* XPSettingViewController.swift */; };
 		856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */; };
+		856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */; };
 		859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */; };
 		859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F21EB1ADDB008DD7F7 /* ViewController.swift */; };
 		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
@@ -73,6 +74,7 @@
 		856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchViewController.swift; sourceTree = "<group>"; };
 		856AD66B1EC0402B00FCBBEC /* XPSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingViewController.swift; sourceTree = "<group>"; };
 		856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPNotificationViewController.swift; sourceTree = "<group>"; };
+		856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCountryTableViewCell.swift; sourceTree = "<group>"; };
 		859A22ED1EB1ADDB008DD7F7 /* ixprez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ixprez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		859A22F21EB1ADDB008DD7F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +163,7 @@
 				856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */,
 				856AD66B1EC0402B00FCBBEC /* XPSettingViewController.swift */,
 				856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */,
+				856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
 				13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */,
 				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
+				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
 				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
