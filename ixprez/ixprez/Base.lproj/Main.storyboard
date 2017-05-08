@@ -78,7 +78,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oed-Ku-ygh">
                                 <rect key="frame" x="132" y="268" width="150" height="200"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-heart.png" translatesAutoresizingMaskIntoConstraints="NO" id="a1w-pP-22a">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WelcomeHeartImage" translatesAutoresizingMaskIntoConstraints="NO" id="a1w-pP-22a">
                                         <rect key="frame" x="20" y="0.0" width="110" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="PSH-uL-XlN"/>
@@ -182,7 +182,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WJS-LI-8mK">
                                 <rect key="frame" x="132" y="268" width="150" height="200"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-video.png" translatesAutoresizingMaskIntoConstraints="NO" id="dPV-iT-Gwl">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WelcomeVideoImage" translatesAutoresizingMaskIntoConstraints="NO" id="dPV-iT-Gwl">
                                         <rect key="frame" x="20" y="0.0" width="110" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="110" id="WNu-ny-4pi"/>
@@ -249,7 +249,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro_bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Yf0-94-OuI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WelcomeBG" translatesAutoresizingMaskIntoConstraints="NO" id="Yf0-94-OuI">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ixprez-logo" translatesAutoresizingMaskIntoConstraints="NO" id="3hF-YZ-LHc">
@@ -262,7 +262,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pBx-oL-sLP">
                                 <rect key="frame" x="132" y="268" width="150" height="200"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="intro-audio.png" translatesAutoresizingMaskIntoConstraints="NO" id="9ix-Pg-Jlh">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WelcomeAudioImage" translatesAutoresizingMaskIntoConstraints="NO" id="9ix-Pg-Jlh">
                                         <rect key="frame" x="25" y="0.0" width="100" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="100" id="YRv-Of-KAL"/>
@@ -979,9 +979,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="intro-audio.png" width="220" height="200"/>
-        <image name="intro-heart.png" width="220" height="200"/>
-        <image name="intro-video.png" width="220" height="200"/>
+        <image name="WelcomeAudioImage" width="110" height="100"/>
+        <image name="WelcomeBG" width="240" height="426"/>
+        <image name="WelcomeHeartImage" width="110" height="100"/>
+        <image name="WelcomeVideoImage" width="110" height="100"/>
         <image name="intro_bg.png" width="720" height="1280"/>
         <image name="ixprez-logo" width="150" height="40"/>
     </resources>

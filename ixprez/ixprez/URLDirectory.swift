@@ -8,6 +8,8 @@
 
 import Foundation
 
+//var url = "http://183.82.33.232:3000"   New
+//var url = "http://103.235.104.118:3000"  Old
 
 struct URLDirectory
 {
@@ -38,7 +40,7 @@ struct URLDirectory
         func url() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/addDevice"
+            return "http://183.82.33.232:3000/commandService/addDevice"
     
         }
     }
@@ -48,7 +50,7 @@ struct URLDirectory
         func url() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/OTPVerification"
+            return "http://183.82.33.232:3000/commandService/OTPVerification"
         }
         
     }
@@ -59,7 +61,7 @@ struct URLDirectory
         
         func url() -> String
         {
-            return "http://103.235.104.118:3000/commandService/resendOTP"
+            return "http://183.82.33.232:3000/commandService/resendOTP"
             
         }
         
