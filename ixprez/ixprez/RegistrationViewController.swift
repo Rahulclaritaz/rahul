@@ -22,8 +22,11 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     @IBOutlet weak var languageTextField : UITextField!
     @IBOutlet weak var countryTableView : UITableView!
     @IBOutlet weak var languageTableView : UITableView!
-    var autoCompletePossibilities : [String] = []
-    var autoComplete : [String] = []
+    var autoCompleteCountryPossibilities : [String] = []
+    var autoCompleteLanguagePossibilities : [String] = []
+    var autoCountryComplete : [String] = []
+    var autoLanguageComplete : [String] = []
+    var isCountryTextField : Bool = false
     
     var defaults = UserDefaults.standard
     var countrySelectedValue = UILabel()
@@ -45,10 +48,22 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let languages = NSLocale.preferredLanguages
+        for lang in languages {
+            let locale = NSLocale(localeIdentifier: lang)
+            let translated = locale.displayName(forKey: NSLocale.Key.identifier, value: lang)!
+            print("\(lang), \(translated)")
+        }
+        let countryLocale : NSLocale =  NSLocale.current as NSLocale
+        let countryCode  = countryLocale.object(forKey: NSLocale.Key.countryCode)// as! String
+        let country = countryLocale.displayName(forKey: NSLocale.Key.countryCode, value: countryCode!)
+        print("Country Locale:\(countryLocale)  Code:\(countryCode) Name:\(country)")
+        countryTableView.layer.cornerRadius = 10
+        languageTableView.layer.cornerRadius = 10
         self.view.backgroundColor = UIColor(patternImage: UIImage(named:"bg_reg.png")!)
         self.viewScrollView.backgroundColor = UIColor(patternImage: UIImage(named:"bg_reg.png")!)
         getCountryDataFromTheWebService()
-//        getLanguageNameFromWebService()
+        getLanguageNameFromWebService()
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard(rec:)))
             
@@ -59,6 +74,8 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         languageTextField.delegate = self
         countryTableView.delegate = self
         languageTableView.delegate = self
+        mobileNumberTextField?.delegate = self
+        emailTextField?.delegate = self
 //        self.countryPickerView.delegate = self
 //        self.countryPickerView.dataSource = self
 //        self.countryPickerView.reloadAllComponents()
@@ -67,77 +84,163 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        countryTableView.isHidden = true
+        languageTableView.isHidden = true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+    if (textField.tag == 1){
+            countryTableView.isHidden = false
+        isCountryTextField = true
+        } else if (textField.tag == 2){
+            languageTableView.isHidden = false
+        isCountryTextField = false
+        }
         
     }
     
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        if (textField.tag == 1){
+//            countryTableView.isHidden = true
+//        } else {
+//            languageTableView.isHidden = true
+//        }
+//    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let subString = (countryTextField.text! as NSString).replacingCharacters(in: range, with: string)
-        searchAutocompleteEntriesWithSubstring(substring: subString)
+        var subString = String()
+        if (textField.tag == 1) {
+          subString   = (countryTextField.text! as NSString).replacingCharacters(in: range, with: string)
+            searchAutocompleteCountryEntriesWithSubstring(substring: subString)
+        } else if (textField.tag == 2){
+           subString = (languageTextField.text! as NSString).replacingCharacters(in: range, with: string)
+            searchAutocompleteLanguageEntriesWithSubstring(substring: subString)
+        }
+        
         return true
     }
     
-    func searchAutocompleteEntriesWithSubstring (substring : String) {
-        autoComplete.removeAll(keepingCapacity: false)
+    func searchAutocompleteCountryEntriesWithSubstring (substring : String) {
+        autoCountryComplete.removeAll(keepingCapacity: false)
         
-        for curString in autoCompletePossibilities
+        for countryString in autoCompleteCountryPossibilities
         {
-            var myString:NSString! = curString as NSString
+            var myString:NSString! = countryString as NSString
             
-            var substringRange :NSRange! = myString.range(of: substring)
+            let substringRange :NSRange! = myString.range(of: substring)
             
             if (substringRange.location  == 0)
             {
-                autoComplete.append(curString)
+                autoCountryComplete.append(countryString)
             }
         }
         countryTableView.reloadData()
     }
     
+    func searchAutocompleteLanguageEntriesWithSubstring(substring: String) {
+        autoLanguageComplete.removeAll(keepingCapacity: false)
+        
+        for languageString in autoCompleteLanguagePossibilities {
+            var myString:NSString! = languageString as NSString
+            
+            let substringRange :NSRange! = myString.range(of: substring)
+            
+            if (substringRange.location  == 0)
+            {
+                autoLanguageComplete.append(languageString)
+            }
+        }
+        languageTableView.reloadData()
+        
+    }
+    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell : UITableViewCell
         
-        let cellIdentifier = "XPCountryTableViewCell"
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? XPCountryTableViewCell  else {
-            fatalError("The dequeued cell is not an instance of MealTableViewCell.")
+        if (isCountryTextField == true) {
+            countryTableView.isHidden = false
+            let cellIdentifier = "XPCountryTableViewCell"
+            
+             cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? XPCountryTableViewCell)!
+//            isCountryTextField = false
+            let index = indexPath.row as Int
+            cell.textLabel?.text = autoCountryComplete[index]
+            return cell
+            /*else {
+                fatalError("The dequeued cell is not an instance of MealTableViewCell.")
+            }*/
+        } else {
+            languageTableView.isHidden = false
+            let cellIdentifier = "XPLanguageTableViewCell"
+            
+            cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? XPLanguageTableViewCell)!
+            let index = indexPath.row as Int
+            cell.textLabel?.text = autoLanguageComplete[index]
+            return cell
+            /* else {
+                fatalError("The dequeued cell is not an instance of MealTableViewCell.")
+            }*/
         }
-        //        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "countryCell", for: indexPath) as UITableViewCell
-        
-        let index = indexPath.row as Int
-        cell.textLabel?.text = autoComplete[index]
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return autoComplete.count
-        
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
-        
-        countryTextField.text = selectedCell.textLabel!.text!
-        
-        
-    }
-    
-    func addToArray(textField: UITextField) {
-        
-        if textField == textField {
-            let textToAdd = textField.text ?? ""
-            
-            autoCompletePossibilities.append(textToAdd)
-            print("it worked")
+        if isCountryTextField == true {
+            return autoCountryComplete.count
+        } else {
+            return autoLanguageComplete.count
         }
         
     }
     
-    func clearTextFieldAfterAddingToArray() {
-        countryTextField.text = ""
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if (isCountryTextField == true) {
+                        let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
+            
+                        countryTextField.text = selectedCell.textLabel!.text!
+            
+                    } else {
+                        let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
+            
+                        languageTextField.text = selectedCell.textLabel!.text!
+                    }
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        
+//        if (isCountryTextField == true) {
+//            let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
+//            
+//            countryTextField.text = selectedCell.textLabel!.text!
+//            
+//        } else {
+//            let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
+//            
+//            languageTextField.text = selectedCell.textLabel!.text!
+//        }
+//        
+//        
+//        
+//        
+//    }
+    
+//    func addToArray(textField: UITextField) {
+//        
+//        if textField == textField {
+//            let textToAdd = textField.text ?? ""
+//            
+//            autoCompletePossibilities.append(textToAdd)
+//            print("it worked")
+//        }
+//        
+//    }
+//    
+//    func clearTextFieldAfterAddingToArray() {
+//        countryTextField.text = ""
+//    }
     
     
     // This method will dismiss the keyboard
@@ -161,7 +264,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
         self.countryArrayData = (countryData.value(forKey: "country_name") as! NSArray) as! [String]
 //            let delayInSeconds = 1.0
-            self.autoCompletePossibilities = self.countryArrayData
+            self.autoCompleteCountryPossibilities = self.countryArrayData
             self.countryTableView.reloadData()
 //            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
 //                self.countryPickerView.reloadAllComponents()
@@ -181,7 +284,9 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         
         getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary, callBack:{(languageData , error) in
            self.languageArrayData = (languageData.value(forKey: "name") as! NSArray) as! [String]
-            let delayInSeconds = 1.0
+            self.autoCompleteLanguagePossibilities = self.languageArrayData
+            self.languageTableView.reloadData()
+//            let delayInSeconds = 1.0
 //            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delayInSeconds, execute: {
 //                self.languagePickerView.reloadAllComponents()
 //            })

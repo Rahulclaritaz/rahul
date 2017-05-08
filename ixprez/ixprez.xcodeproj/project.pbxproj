@@ -38,6 +38,7 @@
 		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
 		859A22F81EB1ADDB008DD7F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */; };
 		859A22FB1EB1ADDB008DD7F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */; };
+		C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +83,7 @@
 		859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		859A22FA1EB1ADDB008DD7F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		859A22FC1EB1ADDB008DD7F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPLanguageTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				856AD66B1EC0402B00FCBBEC /* XPSettingViewController.swift */,
 				856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */,
 				856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */,
+				C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* Service.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
+				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
 				856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */,
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
