@@ -44,7 +44,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     var listData = [String: AnyObject]()
     let appdelegate = UIApplication.shared.delegate as! AppDelegate
     
-    let getOTPClass = WebService()
+    let getOTPClass = XPWebService()
        let getOTPUrl = URLDirectory.RegistrationData()
        let getCountryUrl = URLDirectory.Country()
         let getLanguageUrl = URLDirectory.Language()

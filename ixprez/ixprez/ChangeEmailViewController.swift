@@ -22,7 +22,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet var changeEmailScrollView: UIScrollView!
     
-    let getAddData = WebService()
+    let getAddData = XPWebService()
     
     let getAddDataUrl = URLDirectory.RegistrationData()
     let appdelegate = UIApplication.shared.delegate as! AppDelegate
