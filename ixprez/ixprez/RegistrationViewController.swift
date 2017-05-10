@@ -109,29 +109,45 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     }
     
     // TextField Delegate
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-    tap.cancelsTouchesInView = false
-    if (textField.tag == 1){
-            countryTableView.isHidden = false
-        languageTableView.isHidden = true
-        isCountryTextField = true
-        } else if (textField.tag == 2){
-            languageTableView.isHidden = false
-        countryTableView.isHidden = true
-        isCountryTextField = false
-        }
-        
-    }
+//    func textFieldDidBeginEditing(_ textField: UITextField) {
+//    tap.cancelsTouchesInView = false
+//    if (textField.tag == 1){
+//        countryTableView.isHidden = false
+//        languageTableView.isHidden = true
+//        isCountryTextField = true
+//        } else if (textField.tag == 2){
+//            languageTableView.isHidden = false
+//        countryTableView.isHidden = true
+//        isCountryTextField = false
+//        }
+//        
+//    }
     
      // TextField Delegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        tap.cancelsTouchesInView = false
         var subString = String()
         if (textField.tag == 1) {
           subString   = (countryTextField.text! as NSString).replacingCharacters(in: range, with: string)
             searchAutocompleteCountryEntriesWithSubstring(substring: subString)
+            if (subString.isEmpty) {
+                countryTableView.isHidden = true
+            }else {
+                countryTableView.isHidden = false
+                languageTableView.isHidden = true
+                isCountryTextField = true
+            }
+            
         } else if (textField.tag == 2){
            subString = (languageTextField.text! as NSString).replacingCharacters(in: range, with: string)
             searchAutocompleteLanguageEntriesWithSubstring(substring: subString)
+            if (subString.isEmpty) {
+                languageTableView.isHidden = true
+            }else {
+                languageTableView.isHidden = false
+                countryTableView.isHidden = true
+                isCountryTextField = false
+            }
         }
         
         return true
@@ -188,10 +204,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             let index = indexPath.row as Int
             cell.textLabel?.font = UIFont(name: "Mosk", size: 20)
             cell.textLabel?.text = autoCountryComplete[index]
-            return cell
-            /*else {
-                fatalError("The dequeued cell is not an instance of MealTableViewCell.")
-            }*/
+            
         } else {
             languageTableView.isHidden = false
             let cellIdentifier = "XPLanguageTableViewCell"
@@ -200,11 +213,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             let index = indexPath.row as Int
             cell.textLabel?.font = UIFont(name: "Mosk", size: 20)
             cell.textLabel?.text = autoLanguageComplete[index]
-//            cell.textLabel?.font = UIFont(name : "mosksemibold600", size:20)
-            return cell
-            /* else {
-                fatalError("The dequeued cell is not an instance of MealTableViewCell.")
-            }*/
+//            return cell
         }
         
         return cell
