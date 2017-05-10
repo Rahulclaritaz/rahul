@@ -21,7 +21,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     var mobileNumber : String = ""
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
-    let getOTPClass = WebService()
+    let getOTPClass = XPWebService()
     let getOTPUrl = URLDirectory.OTPVerification()
     let getOTPResendUrl = URLDirectory.ResendOTP()
     

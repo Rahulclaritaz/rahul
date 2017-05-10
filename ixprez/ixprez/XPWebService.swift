@@ -8,7 +8,7 @@
 
 import Foundation
 
-class WebService
+class XPWebService
 {
     
     func getCountryDataWebService(urlString : String ,dicData : NSDictionary, callback : @escaping(_ countData : NSArray , _ error : NSError? ) -> Void)
@@ -275,4 +275,41 @@ class WebService
         
         dataTask.resume()
     }
+    
+    func getUserProfileWebService(urlString : String, dicData : NSDictionary, callback : @escaping (_ message : NSDictionary , _ error : Error?) -> Void) {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        let urlString = URL(string : urlString)
+        var requestUrl = URLRequest(url: urlString! as URL)
+//        var requestUrl = URLRequest(url : urlString as! URL)
+        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestUrl.httpBody = jsonData
+        requestUrl.httpMethod = "POST"
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: requestUrl , completionHandler:
+        {
+            
+            (data,response,error) -> Void in
+            
+            if (data != nil && error == nil) {
+                
+                do {
+                    
+                    let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
+                    print(jsonData)
+                    let responseUserImage = jsonData.value(forKey: "data")
+                    
+                     callback(responseUserImage as! NSDictionary, nil)
+                } catch {
+                    
+                }
+                
+            }
+        })
+        dataTask.resume()
+        
+    }
+    
+    
 }
