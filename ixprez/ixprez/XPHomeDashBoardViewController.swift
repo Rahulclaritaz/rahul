@@ -15,20 +15,47 @@ class XPHomeDashBoardViewController: UIViewController {
     let userPrifileURL = URLDirectory.UserProfile()
     let userReplacingURL = URLDirectory.BaseRequestResponseURl()
     @IBOutlet weak var userProfileImage = UIImageView()
+    @IBOutlet weak var userProfileBorder = UIImageView()
+    @IBOutlet weak var userProfileAnimationOne = UIImageView()
+    @IBOutlet weak var userProfileAnimationTwo = UIImageView()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        userEmail = "mathan6@gmail.com"
+        
         self.title = "iXprez"
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        userEmail = "mathan6@gmail.com" //UserDefaults.value(forKey: "emailAddress") as! String
-        userProfileImage?.layer.borderWidth = 1.0
+//        userProfileImage?.isHidden = true
+//        userProfileBorder?.isHidden = true
         userProfileImage?.layer.masksToBounds = false
         userProfileImage?.layer.borderColor = UIColor.white.cgColor
         userProfileImage?.layer.cornerRadius = (userProfileImage?.frame.size.height)!/2
         userProfileImage?.clipsToBounds = true
-        getUserProfile()
+        userProfileBorder?.layer.borderWidth = 5.0
+        userProfileBorder?.layer.masksToBounds = false
+        userProfileBorder?.layer.borderColor = UIColor.white.cgColor
+        userProfileBorder?.layer.cornerRadius = (userProfileBorder?.layer.frame.size.height)!/2
+        userProfileBorder?.clipsToBounds = true
+        userProfileBorder?.alpha = 0.1
+//        userProfileAnimationOne?.isHidden = true
+        userProfileAnimationOne?.layer.borderWidth = 20.0
+        userProfileAnimationOne?.layer.masksToBounds = false
+        userProfileAnimationOne?.layer.borderColor = UIColor.white.cgColor
+        userProfileAnimationOne?.layer.cornerRadius = (userProfileBorder?.layer.frame.size.width)!
+        userProfileAnimationOne?.clipsToBounds = false
+        userProfileAnimationOne?.alpha = 0.1
+//        userProfileAnimationTwo?.isHidden = true
+//        userProfileAnimationTwo?.layer.borderWidth = 25.0
+        userProfileAnimationTwo?.layer.masksToBounds = false
+        userProfileAnimationTwo?.layer.borderColor = UIColor.white.cgColor
+        userProfileAnimationTwo?.layer.cornerRadius = (userProfileBorder?.layer.frame.size.width)!
+        
+        userProfileAnimationTwo?.clipsToBounds = true
+//        userProfileAnimationTwo?.alpha = 0.5
+        
+       getUserProfile()
         
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
