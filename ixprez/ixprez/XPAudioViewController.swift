@@ -8,23 +8,45 @@
 
 import UIKit
 
-class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate{
+class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate {
 
+    @IBOutlet weak var shareButton: UIButton!
+    
     @IBOutlet weak var moodTitleTextField: UITextField!
-    @IBOutlet weak var shareTitleTextField: UITextField!
     @IBOutlet weak var expressTitleTextField: UITextField!
     @IBOutlet weak var captionTitleTextField: UITextField!
     @IBOutlet weak var audioTableView: UITableView!
     @IBOutlet weak var audioPickerView: UIPickerView!
+    @IBOutlet weak var audioBGImage = UIImageView()
+    @IBOutlet weak var audioBGBorderImage = UIImageView()
+    @IBOutlet weak var audioBGAnimationOne = UIImageView()
+    @IBOutlet weak var audioBGAnimationTwo = UIImageView()
+    
     var tap = UITapGestureRecognizer()
+    var cell = UITableViewCell()
 
     var shareTitle  = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Voice your Thoughts"
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         shareTitle = ["Private","Public","Both"]
         audioPickerView.isHidden = true
         tap = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard(rec:)))
         view.addGestureRecognizer(tap)
+        audioBGImage?.clipsToBounds = true
+        audioBGImage?.layer.cornerRadius = (self.audioBGImage?.frame.size.width)!/2
+        audioBGImage?.layer.masksToBounds = false
+        audioBGBorderImage?.isHidden = true
+        audioBGBorderImage?.clipsToBounds = true
+        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
+        audioBGBorderImage?.layer.masksToBounds = false
+        audioBGAnimationOne?.clipsToBounds = true
+        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
+        audioBGAnimationOne?.layer.masksToBounds = false
+        audioBGAnimationTwo?.clipsToBounds = true
+        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
+        audioBGAnimationTwo?.clipsToBounds = true
 
         // Do any additional setup after loading the view.
     }
@@ -33,6 +55,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+        audioPickerView.isHidden = true
     
     }
 
@@ -43,27 +66,39 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     // Tableview Datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        if (shareButton.titleLabel?.text == "Both") {
+//            return 4
+//        } else {
+//           return 3
+//        }
+        
+        guard (shareButton.titleLabel?.text == "Both") else {
+            return 3
+        }
         return 4
+        
     }
     
     // Tableview Datasource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         var cell = UITableViewCell()
+        
          var cellIdentifier = NSString()
         switch indexPath.row {
         case 0:
-            cellIdentifier = "XPAudioShareTableViewCell"
-            cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioShareTableViewCell)!
+            if (shareButton.titleLabel?.text == "Public" || shareButton.titleLabel?.text == "Both"){
+                cellIdentifier = "XPAudioMoodTableViewCell"
+                cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
+            }
+           
             
         case 1:
-            cellIdentifier = "XPAudioMoodTableViewCell"
-            cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
-            
-        case 2:
+            if (shareButton.titleLabel?.text == "Private" || shareButton.titleLabel?.text == "Both"){
             cellIdentifier = "XPAudioXpressTableViewCell"
             cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+            }
+            
     
-        case 3:
+        case 2:
             cellIdentifier = "XPAudioCaptionTableViewCell"
             cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
         default:
@@ -73,13 +108,15 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     }
     // Tableview Delegate
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (indexPath.row != 0) {
-            audioPickerView.isHidden = true
-        }
-        
-        return
-    }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if (indexPath.row == 0) {
+//            audioPickerView.isHidden = false
+//        } else {
+//            audioPickerView.isHidden = true
+//        }
+//        
+//        return
+//    }
     
     // Pickerview DataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -108,8 +145,10 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     // Pickerview Delegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        shareButton.titleLabel?.text = shareTitle[row]
+        let indexPath = NSIndexPath(item: row, section: 0)
+        audioTableView.reloadInputViews()
         
-//        shareTitleTextField.text = shareTitle[row]
         
     }
     
@@ -126,6 +165,11 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         return true
     }
     
+    
+    @IBAction func shareButtonAction(_ sender: Any) {
+        audioPickerView.isHidden = false
+        
+    }
     
     
     /*
