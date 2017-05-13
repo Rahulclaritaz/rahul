@@ -27,6 +27,10 @@
 		13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */; };
 		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
 		13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */; };
+		8547795C1EC5B36E00103162 /* XPAudioShareTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547795B1EC5B36E00103162 /* XPAudioShareTableViewCell.swift */; };
+		8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */; };
+		854779601EC5B3BB00103162 /* XPAudioMoodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547795F1EC5B3BB00103162 /* XPAudioMoodTableViewCell.swift */; };
+		854779621EC5B3CF00103162 /* XPAudioCaptionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854779611EC5B3CF00103162 /* XPAudioCaptionTableViewCell.swift */; };
 		856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6651EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift */; };
 		856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */; };
 		856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */; };
@@ -34,11 +38,13 @@
 		856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */; };
 		856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */; };
 		8573CE9A1EC18CB900E42CD6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8573CE991EC18CB900E42CD6 /* CoreTelephony.framework */; };
+		85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879EC41EC57B2800337011 /* XPAudioViewController.swift */; };
 		859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */; };
 		859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F21EB1ADDB008DD7F7 /* ViewController.swift */; };
 		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
 		859A22F81EB1ADDB008DD7F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */; };
 		859A22FB1EB1ADDB008DD7F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */; };
+		85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */; };
 		C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +77,10 @@
 		13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
 		13B06F341EB30AE500BD439C /* intro_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_bg.png; sourceTree = "<group>"; };
 		13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
+		8547795B1EC5B36E00103162 /* XPAudioShareTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioShareTableViewCell.swift; sourceTree = "<group>"; };
+		8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioXpressTableViewCell.swift; sourceTree = "<group>"; };
+		8547795F1EC5B3BB00103162 /* XPAudioMoodTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioMoodTableViewCell.swift; sourceTree = "<group>"; };
+		854779611EC5B3CF00103162 /* XPAudioCaptionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioCaptionTableViewCell.swift; sourceTree = "<group>"; };
 		856AD6651EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHomeDashBoardViewController.swift; sourceTree = "<group>"; };
 		856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPrivateVideoViewController.swift; sourceTree = "<group>"; };
 		856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchViewController.swift; sourceTree = "<group>"; };
@@ -78,6 +88,8 @@
 		856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPNotificationViewController.swift; sourceTree = "<group>"; };
 		856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCountryTableViewCell.swift; sourceTree = "<group>"; };
 		8573CE991EC18CB900E42CD6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		85879EC41EC57B2800337011 /* XPAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioViewController.swift; sourceTree = "<group>"; };
+		85879EC61EC5988400337011 /* ixprez.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ixprez.entitlements; sourceTree = "<group>"; };
 		859A22ED1EB1ADDB008DD7F7 /* ixprez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ixprez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		859A22F21EB1ADDB008DD7F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +97,7 @@
 		859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		859A22FA1EB1ADDB008DD7F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		859A22FC1EB1ADDB008DD7F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioRecordingViewController.swift; sourceTree = "<group>"; };
 		C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPLanguageTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -171,6 +184,12 @@
 				856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */,
 				856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */,
 				C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */,
+				85879EC41EC57B2800337011 /* XPAudioViewController.swift */,
+				8547795B1EC5B36E00103162 /* XPAudioShareTableViewCell.swift */,
+				8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */,
+				8547795F1EC5B3BB00103162 /* XPAudioMoodTableViewCell.swift */,
+				854779611EC5B3CF00103162 /* XPAudioCaptionTableViewCell.swift */,
+				85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -195,6 +214,7 @@
 		859A22EF1EB1ADDB008DD7F7 /* ixprez */ = {
 			isa = PBXGroup;
 			children = (
+				85879EC61EC5988400337011 /* ixprez.entitlements */,
 				130FD8E81EB887A900026975 /* Model */,
 				130FD8E51EB8816600026975 /* Base */,
 				13111E7C1EB20ACD003661C2 /* Controllers */,
@@ -246,8 +266,13 @@
 				TargetAttributes = {
 					859A22EC1EB1ADDB008DD7F7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = L2X7P453MQ;
+						DevelopmentTeam = 2RSE6PT96Q;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -298,10 +323,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
+				854779601EC5B3BB00103162 /* XPAudioMoodTableViewCell.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
+				854779621EC5B3CF00103162 /* XPAudioCaptionTableViewCell.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
+				8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */,
 				856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */,
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
 				856AD66C1EC0402B00FCBBEC /* XPSettingViewController.swift in Sources */,
@@ -309,11 +337,14 @@
 				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
 				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
 				856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */,
+				85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */,
 				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
 				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
 				13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */,
 				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
 				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
+				85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */,
+				8547795C1EC5B36E00103162 /* XPAudioShareTableViewCell.swift in Sources */,
 				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -361,9 +392,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = L2X7P453MQ;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -411,9 +444,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = L2X7P453MQ;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -437,11 +472,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = L2X7P453MQ;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Claritaz-Techlabs.ixprez";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -450,11 +488,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = L2X7P453MQ;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Claritaz-Techlabs.ixprez";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
