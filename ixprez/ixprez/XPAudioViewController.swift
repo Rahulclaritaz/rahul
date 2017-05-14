@@ -9,6 +9,13 @@
 import UIKit
 
 class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate {
+    
+    enum shareButtonTitle {
+        case Private
+        case Public
+        case Both
+    }
+    @IBOutlet weak var shareTitleLabel: UILabel!
 
     @IBOutlet weak var shareButton: UIButton!
     
@@ -51,6 +58,14 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func backButtonAction(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     func dismissKeyboard(rec: UIGestureRecognizer)
     {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
@@ -66,16 +81,13 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     // Tableview Datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if (shareButton.titleLabel?.text == "Both") {
-//            return 4
-//        } else {
-//           return 3
-//        }
         
-        guard (shareButton.titleLabel?.text == "Both") else {
-            return 3
+        if (shareTitleLabel.text == "Both"){
+           return 3
+        }else {
+            return 2
         }
-        return 4
+        
         
     }
     
@@ -83,26 +95,43 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
          var cellIdentifier = NSString()
-        switch indexPath.row {
-        case 0:
-            if (shareButton.titleLabel?.text == "Public" || shareButton.titleLabel?.text == "Both"){
-                cellIdentifier = "XPAudioMoodTableViewCell"
-                cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
-            }
-           
-            
-        case 1:
-            if (shareButton.titleLabel?.text == "Private" || shareButton.titleLabel?.text == "Both"){
-            cellIdentifier = "XPAudioXpressTableViewCell"
-            cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+        if shareTitleLabel.text == "Private" {
+            shareTitleLabel.text = "Private"
+            if (indexPath.row == 0) {
+                cellIdentifier = "XPAudioXpressTableViewCell"
+                cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+            } else if (indexPath.row == 1) {
+                cellIdentifier = "XPAudioCaptionTableViewCell"
+                cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
             }
             
-    
-        case 2:
-            cellIdentifier = "XPAudioCaptionTableViewCell"
-            cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
-        default:
-            return cell
+            
+        } else {
+            if (shareTitleLabel.text == "Public") {
+                shareTitleLabel.text = "Public"
+                if (indexPath.row == 0) {
+                    cellIdentifier = "XPAudioMoodTableViewCell"
+                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
+                } else if (indexPath.row == 1) {
+                    cellIdentifier = "XPAudioCaptionTableViewCell"
+                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+                }
+                
+            } else {
+                shareTitleLabel.text = "Both"
+                if (indexPath.row == 0) {
+                    cellIdentifier = "XPAudioMoodTableViewCell"
+                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
+                } else if (indexPath.row == 1) {
+                    cellIdentifier = "XPAudioXpressTableViewCell"
+                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+                } else if (indexPath.row == 2) {
+                    cellIdentifier = "XPAudioCaptionTableViewCell"
+                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+                }
+                
+                
+            }
         }
         return cell
     
@@ -138,6 +167,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         var titleData =  String()
         var titleColor = NSAttributedString()
             titleData = self.shareTitle[row]
+            shareTitleLabel.text = titleData
             titleColor = NSAttributedString(string : titleData, attributes : [NSFontAttributeName: UIFont(name: "Mosk", size: 20.0)!, NSForegroundColorAttributeName: UIColor.black])
             return titleColor
         
@@ -145,25 +175,24 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     // Pickerview Delegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        shareButton.titleLabel?.text = shareTitle[row]
-        let indexPath = NSIndexPath(item: row, section: 0)
-        audioTableView.reloadInputViews()
+        shareTitleLabel.text = shareTitle[row]
+        audioTableView.reloadData()
         
         
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if (textField.tag == 1) {
-//            shareTitleTextField .text = ""
-            audioPickerView.isHidden = false
-            textField.endEditing(true)
-        } else {
-            audioPickerView.isHidden = true
-        }
-        
-       
-        return true
-    }
+//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//        if (textField.tag == 1) {
+//            moodTitleTextField .text = ""
+//        } else if (textField.tag == 2) {
+//            expressTitleTextField.text = ""
+//        } else if (textField.tag == 3) {
+//            captionTitleTextField.text = ""
+//        }
+//        
+//       
+//        return true
+//    }
     
     
     @IBAction func shareButtonAction(_ sender: Any) {

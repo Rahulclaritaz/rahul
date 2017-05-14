@@ -36,6 +36,12 @@ class XPAudioRecordingViewController: UIViewController {
         
     }
     
+    @IBAction func BackButtonAction(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func Back(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
    @IBAction func backButtonAction() -> Void {
         let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
         self.present(otpValidation, animated: true, completion: nil)
