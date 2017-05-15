@@ -9,13 +9,17 @@
 import UIKit
 
 class XPAudioRecordingViewController: UIViewController {
+    
+    var isAudioButtonSelected : Bool = false
     @IBOutlet weak var audioBGImage = UIImageView()
     @IBOutlet weak var audioBGBorderImage = UIImageView()
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
+    @IBOutlet weak var audioButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Cool"
+        audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         audioBGImage?.clipsToBounds = true
         audioBGImage?.layer.cornerRadius = (self.audioBGImage?.frame.size.width)!/2
@@ -36,21 +40,35 @@ class XPAudioRecordingViewController: UIViewController {
         
     }
     
+   override func viewWillAppear(_ animated: Bool) {
+    isAudioButtonSelected = false
+    }
+    
     @IBAction func BackButtonAction(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
-    @IBAction func Back(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
+    
+    @IBAction func audioButtonAction(_ sender: Any) {
+        
+        guard (isAudioButtonSelected) else {
+            isAudioButtonSelected = true
+            audioBGImage?.backgroundColor = UIColor.orange
+            audioButton.setImage(UIImage(named: "MicrophonePlayingImage"), for: UIControlState.normal)
+            isAudioButtonSelected = true
+            return
+        }
+        isAudioButtonSelected = false
+        audioBGImage?.backgroundColor = UIColor.init(colorLiteralRed: 84.0/255.0, green: 198.0/255.0, blue: 231/255.0, alpha: 1.0)
+        audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController")
+        self.navigationController?.pushViewController(storyBoard!, animated: true)
     }
-   @IBAction func backButtonAction() -> Void {
-        let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
-        self.present(otpValidation, animated: true, completion: nil)
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
 
     /*

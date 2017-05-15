@@ -10,6 +10,8 @@ import UIKit
 
 class XPAudioMoodTableViewCell: UITableViewCell {
 
+    
+    @IBOutlet weak var moodTitleTextField: UITextField!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

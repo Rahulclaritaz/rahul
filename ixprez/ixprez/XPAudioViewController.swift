@@ -19,9 +19,9 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 
     @IBOutlet weak var shareButton: UIButton!
     
-    @IBOutlet weak var moodTitleTextField: UITextField!
-    @IBOutlet weak var expressTitleTextField: UITextField!
-    @IBOutlet weak var captionTitleTextField: UITextField!
+//    @IBOutlet weak var moodTitleTextField: UITextField!
+//    @IBOutlet weak var expressTitleTextField: UITextField!
+//    @IBOutlet weak var captionTitleTextField: UITextField!
     @IBOutlet weak var audioTableView: UITableView!
     @IBOutlet weak var audioPickerView: UIPickerView!
     @IBOutlet weak var audioBGImage = UIImageView()
@@ -159,7 +159,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     // Pickerview DataSource
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return shareTitle[row]
+        
+            return shareTitle[row]
     }
     
     // This method will changed the Title text color of the picker view
