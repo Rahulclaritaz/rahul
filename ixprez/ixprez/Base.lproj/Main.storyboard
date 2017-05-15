@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cUk-yf-vz3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cUk-yf-vz3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -927,7 +927,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xUk-GX-s0A" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4698" y="-1843"/>
+            <point key="canvasLocation" x="5169" y="-1809"/>
         </scene>
         <!--Registration View Controller-->
         <scene sceneID="lXF-oh-C74">
@@ -1347,7 +1347,7 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Private" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMO-ix-RSF">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Public" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wMO-ix-RSF">
                                 <rect key="frame" x="124" y="87" width="120" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="20"/>
@@ -1413,6 +1413,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.090196078430000007" green="0.078431372550000003" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="moodTitleTextField" destination="GgN-2W-k6I" id="dL0-By-yCJ"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="XPAudioXpressTableViewCell" rowHeight="70" id="t5C-3f-Rs1" customClass="XPAudioXpressTableViewCell" customModule="ixprez" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="98" width="375" height="70"/>
@@ -1451,6 +1454,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.090196078430000007" green="0.078431372550000003" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="expressTitleTextField" destination="arZ-vk-LSr" id="thn-sw-JCG"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="XPAudioCaptionTableViewCell" rowHeight="70" id="Vly-Zt-wcv" customClass="XPAudioCaptionTableViewCell" customModule="ixprez" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="168" width="375" height="70"/>
@@ -1484,6 +1490,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.090196078430000007" green="0.078431372550000003" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        <connections>
+                                            <outlet property="captionTitleTextField" destination="4a1-aq-wav" id="LEt-SQ-116"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -1511,7 +1520,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.3294117647" green="0.77647058820000003" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w1X-eR-Ehv">
+                            <button opaque="NO" contentMode="scaleAspectFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w1X-eR-Ehv">
                                 <rect key="frame" x="167" y="596" width="40" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="AudioRightImage"/>
@@ -1533,7 +1542,8 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Title" id="CZr-2M-yDQ">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="5zk-bC-bh7">
+                        <barButtonItem key="leftBarButtonItem" image="LeftButtonArrow" id="5zk-bC-bh7">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="10" maxY="5"/>
                             <connections>
                                 <action selector="backButtonAction:" destination="0qU-11-b6V" id="50Z-mx-OpO"/>
                             </connections>
@@ -1594,6 +1604,10 @@
                                 <rect key="frame" x="164" y="595" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="MicrophoneImage"/>
+                                <state key="selected" image="MicrophonePlayingImage"/>
+                                <connections>
+                                    <action selector="audioButtonAction:" destination="5aU-tO-mds" eventType="touchUpInside" id="au9-aZ-WuV"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:40" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jb6-Ue-apz">
                                 <rect key="frame" x="87" y="185" width="200" height="21"/>
@@ -1629,7 +1643,8 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="17E-rX-FGC">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="6yN-f7-sIt">
+                        <barButtonItem key="leftBarButtonItem" image="LeftButtonArrow" id="6yN-f7-sIt">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="10" maxY="5"/>
                             <connections>
                                 <action selector="BackButtonAction:" destination="5aU-tO-mds" id="26c-Mn-bL0"/>
                             </connections>
@@ -1639,20 +1654,123 @@
                         <outlet property="audioBGAnimationTwo" destination="rSc-nj-UBb" id="3Ry-ci-OhD"/>
                         <outlet property="audioBGBorderImage" destination="0fy-oR-QGi" id="H5T-2g-vLf"/>
                         <outlet property="audioBGImage" destination="foc-dP-O3p" id="u8h-3w-AbB"/>
+                        <outlet property="audioButton" destination="uBk-pd-Wa8" id="YZd-kX-sI3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PJ9-Ya-ftY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3557.5999999999999" y="-1758.1709145427287"/>
+            <point key="canvasLocation" x="3521" y="-1845"/>
+        </scene>
+        <!--Audio Stop View Controller-->
+        <scene sceneID="p9U-RB-O84">
+            <objects>
+                <viewController storyboardIdentifier="XPAudioStopViewController" id="gZk-9b-moY" customClass="XPAudioStopViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="RCi-sh-UP9"/>
+                        <viewControllerLayoutGuide type="bottom" id="bu1-QY-hX8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PEl-of-xTM">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wME-VW-qyW">
+                                <rect key="frame" x="118" y="545" width="140" height="140"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.72549019609999998" green="0.69019607839999997" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view alpha="0.75" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BpE-jo-Yia">
+                                <rect key="frame" x="148" y="576" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zoK-Rp-Eh8">
+                                <rect key="frame" x="157" y="585" width="62" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.3294117647" green="0.77647058820000003" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Apt-GA-ZAB">
+                                <rect key="frame" x="164" y="595" width="44" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="MicrophoneImageStop"/>
+                                <state key="selected" image="MicrophonePlayingImage"/>
+                                <connections>
+                                    <action selector="audioButtonAction:" destination="5aU-tO-mds" eventType="touchUpInside" id="MXj-1G-xD1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Xprez it!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7kr-At-tQE">
+                                <rect key="frame" x="87" y="146" width="200" height="23.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="MoskSemi-Bold600" family="Mosk" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSa-wb-8nv">
+                                <rect key="frame" x="87" y="185" width="200" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Don't hold back" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hHD-65-mER">
+                                <rect key="frame" x="68" y="104" width="238" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="19"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="34b-rD-m33">
+                                <rect key="frame" x="16" y="595" width="100" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.090196078430000007" green="0.078431372550000003" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="20"/>
+                                <state key="normal" title="RETRY">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="retryButtonActionWithSender:" destination="gZk-9b-moY" eventType="touchUpInside" id="JBC-4W-6Ty"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2f-5h-4IT">
+                                <rect key="frame" x="259" y="595" width="100" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.99607843139999996" green="0.42352941179999998" blue="0.1529411765" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="20"/>
+                                <state key="normal" title="XPRESS!">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="xpressButtonActionWithSender:" destination="gZk-9b-moY" eventType="touchUpInside" id="V28-cx-2GJ"/>
+                                    <segue destination="Via-Id-10J" kind="show" id="XKu-gj-Nwv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.4039215686" green="0.2666666667" blue="0.93725490199999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="audioBGAnimationTwo" destination="wME-VW-qyW" id="Jt0-u1-Ekg"/>
+                        <outlet property="audioBGBorderImage" destination="BpE-jo-Yia" id="crX-hB-V9I"/>
+                        <outlet property="audioBGImage" destination="zoK-Rp-Eh8" id="oAJ-Qh-scy"/>
+                        <outlet property="retryButton" destination="34b-rD-m33" id="97e-9y-pqb"/>
+                        <outlet property="xpressButton" destination="k2f-5h-4IT" id="DGT-H6-YII"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oGi-Gb-yhn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4362" y="-2135"/>
         </scene>
     </scenes>
     <resources>
-        <image name="AudioRightImage" width="22" height="22"/>
+        <image name="AudioRightImage" width="40" height="40"/>
         <image name="DashboardAudio" width="214" height="104"/>
         <image name="DashboardHeartButton" width="25" height="25"/>
         <image name="DashboardMenu" width="25" height="25"/>
         <image name="DashboardVideo" width="214" height="104"/>
-        <image name="MicrophoneImage" width="22" height="22"/>
+        <image name="LeftButtonArrow" width="25" height="42"/>
+        <image name="MicrophoneImage" width="44" height="44"/>
+        <image name="MicrophoneImageStop" width="44" height="44"/>
+        <image name="MicrophonePlayingImage" width="25" height="25"/>
         <image name="ToolBarNotification" width="25" height="25"/>
         <image name="ToolBarPrivateVideo" width="25" height="25"/>
         <image name="ToolBarSerch" width="25" height="25"/>
@@ -1664,4 +1782,7 @@
         <image name="intro_bg.png" width="720" height="1280"/>
         <image name="ixprez-logo" width="150" height="40"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="XKu-gj-Nwv"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -10,6 +10,8 @@ import UIKit
 
 class XPAudioCaptionTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var captionTitleTextField: UITextField!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
