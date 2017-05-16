@@ -9,32 +9,29 @@
 import UIKit
 
 
-class XPAudioXpressTableViewCell: UITableViewCell {
+class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     
-    @IBOutlet weak var expressTitleTextField: UITextField!
+    @IBOutlet weak var expressTitleTextField = UITextField()
+    @IBOutlet weak var addContactButon = UIButton()
+    @IBOutlet weak var labelCell = UILabel()
     
 
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        expressTitleTextField.delegate = self as? UITextFieldDelegate
+        addContactButon?.isHidden = true
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
         
         print("u click on the express cell")
         
-        expressTitleTextField.becomeFirstResponder()
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
         
     }
     
-    func reloadTable() {
-        expressTitleTextField.text = "Rahul"
-    }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
