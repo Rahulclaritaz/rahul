@@ -30,7 +30,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     
     var tap = UITapGestureRecognizer()
-    var cell = UITableViewCell()
+//    var cell = UITableViewCell()
 
     var shareTitle  = [String]()
     override func viewDidLoad() {
@@ -94,47 +94,87 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     // Tableview Datasource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-         var cellIdentifier = NSString()
-        if shareTitleLabel.text == "Private" {
-            shareTitleLabel.text = "Private"
+         let cellIdentifier = "XPAudioXpressTableViewCell"
+        let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+        if (shareTitleLabel.text == "Private") {
+//            shareTitleLabel.text = "Private"
             if (indexPath.row == 0) {
-                cellIdentifier = "XPAudioXpressTableViewCell"
-                cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+                cell.addContactButon?.isHidden = false
+                cell.labelCell?.text = "Express your feelings with"
+                cell.expressTitleTextField?.text = "Email"
+                return cell
+                
+//             let cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+//                return cell
             } else if (indexPath.row == 1) {
-                cellIdentifier = "XPAudioCaptionTableViewCell"
-                cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+                cell.addContactButon?.isHidden = true
+                cell.labelCell?.text = "Caption your feeling"
+                cell.expressTitleTextField?.text = "Feelings!"
+                 cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                return cell
+//                cellIdentifier = "XPAudioCaptionTableViewCell"
+//             let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+//                return cell
             }
             
             
-        } else {
+        } //else {
             if (shareTitleLabel.text == "Public") {
-                shareTitleLabel.text = "Public"
+//                shareTitleLabel.text = "Public"
                 if (indexPath.row == 0) {
-                    cellIdentifier = "XPAudioMoodTableViewCell"
-                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
+                    cell.addContactButon?.isHidden = true
+                    cell.labelCell?.text = "What's your mood?"
+                    cell.expressTitleTextField?.text = "Enter Tags"
+                    return cell
+                    
+//                    cellIdentifier = "XPAudioMoodTableViewCell"
+//               let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
+//                    return cell
                 } else if (indexPath.row == 1) {
-                    cellIdentifier = "XPAudioCaptionTableViewCell"
-                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+                    cell.addContactButon?.isHidden = true
+                    cell.labelCell?.text = "Caption your feeling"
+                    cell.expressTitleTextField?.text = "Feelings!"
+                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                    return cell
+//                    cellIdentifier = "XPAudioCaptionTableViewCell"
+//                 let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+//                    return cell
                 }
                 
-            } else {
-                shareTitleLabel.text = "Both"
+            } //else {
+        if ( shareTitleLabel.text == "Both") {
                 if (indexPath.row == 0) {
-                    cellIdentifier = "XPAudioMoodTableViewCell"
-                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
+                    cell.addContactButon?.isHidden = true
+                    cell.labelCell?.text = "What's your mood?"
+                    cell.expressTitleTextField?.text = "Enter Tags"
+                    return cell
+//                    cellIdentifier = "XPAudioMoodTableViewCell"
+//                let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
+//                    return cell
                 } else if (indexPath.row == 1) {
-                    cellIdentifier = "XPAudioXpressTableViewCell"
-                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+                    cell.addContactButon?.isHidden = false
+                    cell.labelCell?.text = "Express your feelings with"
+                    cell.expressTitleTextField?.text = "Email"
+                    cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
+                    return cell
+//                    cellIdentifier = "XPAudioXpressTableViewCell"
+//                 let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+//                    return cell
                 } else if (indexPath.row == 2) {
-                    cellIdentifier = "XPAudioCaptionTableViewCell"
-                    cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+                    cell.addContactButon?.isHidden = true
+                    cell.labelCell?.text = "Caption your feeling"
+                    cell.expressTitleTextField?.text = "Feelings!"
+                    cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                    return cell
+//                    cellIdentifier = "XPAudioCaptionTableViewCell"
+//                 let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
+//                    return cell
                 }
                 
                 
             }
-        }
-        return cell
-    
+       // }
+    return cell
     }
     // Tableview Delegate
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -164,15 +204,15 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     }
     
     // This method will changed the Title text color of the picker view
-    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
-        var titleData =  String()
-        var titleColor = NSAttributedString()
-            titleData = self.shareTitle[row]
-            shareTitleLabel.text = titleData
-            titleColor = NSAttributedString(string : titleData, attributes : [NSFontAttributeName: UIFont(name: "Mosk", size: 20.0)!, NSForegroundColorAttributeName: UIColor.black])
-            return titleColor
-        
-    }
+//    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
+//        var titleData =  String()
+//        var titleColor = NSAttributedString()
+//            titleData = self.shareTitle[row]
+//            shareTitleLabel.text = titleData
+//            titleColor = NSAttributedString(string : titleData, attributes : [NSFontAttributeName: UIFont(name: "Mosk", size: 20.0)!, NSForegroundColorAttributeName: UIColor.black])
+//            return titleColor
+//        
+//    }
     
     // Pickerview Delegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {

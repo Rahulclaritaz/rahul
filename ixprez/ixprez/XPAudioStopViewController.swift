@@ -18,6 +18,7 @@ class XPAudioStopViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.title = "Cool"
         retryButton?.layer.cornerRadius = 20.0
         xpressButton?.layer.cornerRadius = 20.0
         audioBGImage?.clipsToBounds = true

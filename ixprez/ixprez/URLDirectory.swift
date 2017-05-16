@@ -81,7 +81,12 @@ struct URLDirectory
     }
     
     
-
+    struct audioDataUpload {
+        func url() -> String
+        {
+           return "http://103.235.104.118:3000/commandService/audioFileUpload"
+        }
+    }
     
     
     

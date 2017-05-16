@@ -57,5 +57,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>The audio recorded by this app is stored securely and is not shared</string>
 </dict>
 </plist>

@@ -1315,7 +1315,7 @@
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="eh4-tG-y05">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eh4-tG-y05">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1455,7 +1455,9 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.090196078430000007" green="0.078431372550000003" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
+                                            <outlet property="addContactButon" destination="QKW-fE-Veg" id="Rie-xh-ItP"/>
                                             <outlet property="expressTitleTextField" destination="arZ-vk-LSr" id="thn-sw-JCG"/>
+                                            <outlet property="labelCell" destination="QiW-IU-HSm" id="2pH-17-C4l"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="XPAudioCaptionTableViewCell" rowHeight="70" id="Vly-Zt-wcv" customClass="XPAudioCaptionTableViewCell" customModule="ixprez" customModuleProvider="target">
@@ -1601,7 +1603,7 @@
                                 <color key="backgroundColor" red="0.3294117647" green="0.77647058820000003" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uBk-pd-Wa8">
-                                <rect key="frame" x="164" y="595" width="44" height="44"/>
+                                <rect key="frame" x="166" y="595" width="44" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="MicrophoneImage"/>
                                 <state key="selected" image="MicrophonePlayingImage"/>
@@ -1655,13 +1657,14 @@
                         <outlet property="audioBGBorderImage" destination="0fy-oR-QGi" id="H5T-2g-vLf"/>
                         <outlet property="audioBGImage" destination="foc-dP-O3p" id="u8h-3w-AbB"/>
                         <outlet property="audioButton" destination="uBk-pd-Wa8" id="YZd-kX-sI3"/>
+                        <outlet property="countLabel" destination="jb6-Ue-apz" id="mcV-6E-diJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PJ9-Ya-ftY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3521" y="-1845"/>
         </scene>
-        <!--Audio Stop View Controller-->
+        <!--Title-->
         <scene sceneID="p9U-RB-O84">
             <objects>
                 <viewController storyboardIdentifier="XPAudioStopViewController" id="gZk-9b-moY" customClass="XPAudioStopViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
@@ -1746,6 +1749,11 @@
                         </subviews>
                         <color key="backgroundColor" red="0.4039215686" green="0.2666666667" blue="0.93725490199999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="2Po-Ah-Een">
+                        <barButtonItem key="leftBarButtonItem" image="LeftButtonArrow" id="FBo-Uy-1GW">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="10" maxY="5"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
