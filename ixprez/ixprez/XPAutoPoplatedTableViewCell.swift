@@ -1,17 +1,15 @@
 //
-//  XPAudioCaptionTableViewCell.swift
+//  XPAutoPoplatedTableViewCell.swift
 //  ixprez
 //
-//  Created by Claritaz Techlabs on 12/05/17.
+//  Created by Claritaz Techlabs on 17/05/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
 //
 
 import UIKit
 
-class XPAudioCaptionTableViewCell: UITableViewCell {
+class XPAutoPoplatedTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var captionTitleTextField: UITextField!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
