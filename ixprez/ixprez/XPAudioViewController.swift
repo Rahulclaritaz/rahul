@@ -7,17 +7,21 @@
 //
 
 import UIKit
+import ContactsUI
 
-class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate {
+class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate {
     
     enum shareButtonTitle {
         case Private
         case Public
         case Both
     }
+    @IBOutlet weak var  audioMailTableView : UITableView!
     @IBOutlet weak var shareTitleLabel: UILabel!
 
     @IBOutlet weak var shareButton: UIButton!
+    
+    var textField = XPAudioXpressTableViewCell()
     
 //    @IBOutlet weak var moodTitleTextField: UITextField!
 //    @IBOutlet weak var expressTitleTextField: UITextField!
@@ -28,15 +32,18 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     @IBOutlet weak var audioBGBorderImage = UIImageView()
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
+    var isAutoPoplatedContact : Bool = false
     
     var tap = UITapGestureRecognizer()
-//    var cell = UITableViewCell()
+    var cell = XPAudioXpressTableViewCell()
 
     var shareTitle  = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
+//        cell.delegate? = self
         self.navigationItem.title = "Voice your thoughts"
         self.navigationController?.navigationBar.tintColor = UIColor.white
+        audioMailTableView.isHidden  = true
         shareTitle = ["Private","Public","Both"]
         audioPickerView.isHidden = true
         tap = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard(rec:)))
@@ -81,12 +88,14 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     // Tableview Datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        guard isAutoPoplatedContact else {
+            if (shareTitleLabel.text == "Both"){
+                return 3
+            }else {
+                return 2
+            }
+//        }
         
-        if (shareTitleLabel.text == "Both"){
-           return 3
-        }else {
-            return 2
-        }
         
         
     }
@@ -96,12 +105,14 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         
          let cellIdentifier = "XPAudioXpressTableViewCell"
         let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
+//        cell.delegate = self
         if (shareTitleLabel.text == "Private") {
 //            shareTitleLabel.text = "Private"
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
                 cell.expressTitleTextField?.text = "Email"
+//                cell.delegate = self
                 return cell
                 
 //             let cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
@@ -241,6 +252,22 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         
     }
     
+    // This method will open the contact page
+    @IBAction func addContactButtonAction(_ sender: Any) {
+       let cnPicker = CNContactPickerViewController()
+        cnPicker.delegate = self as? CNContactPickerDelegate
+        self.present(cnPicker, animated: true, completion: nil)
+    }
+    // MARK: CNContactPicker delegate Method
+   
+    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
+        for email in contact.emailAddresses {
+            let emailAddress = email.value
+            print("The email address is :\(emailAddress)")
+        }
+    }
+    
+    
     
     /*
     // MARK: - Navigation
@@ -253,3 +280,13 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     */
 
 }
+
+//extension  XPAudioViewController : AudioTextFieldDelegate {
+//    
+//    func textFieldValueChanged() {
+//        print("You can changed the value of the textfield")
+//    }
+//}
+
+
+
