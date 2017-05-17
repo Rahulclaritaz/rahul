@@ -35,7 +35,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var shareTitle  = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Voice your Thoughts"
+        self.navigationItem.title = "Voice your thoughts"
         self.navigationController?.navigationBar.tintColor = UIColor.white
         shareTitle = ["Private","Public","Both"]
         audioPickerView.isHidden = true
