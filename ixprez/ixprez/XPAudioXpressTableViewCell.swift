@@ -22,35 +22,27 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     @IBOutlet weak var labelCell = UILabel()
     var delegate : AudioTextFieldDelegate?
     
-    // The block to call when the value of the textfield changes
-//    var textFieldValueChanged : (() -> ())?
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        expressTitleTextField?.delegate = self
         addContactButon?.isHidden = true
     }
     
     // MARK: UITextFieldDelegate
     
     /// Handle the event when user start changing the field
-    func textFieldDidBeginEditing(textField: UITextField) {
-        
-//        delegate?.textFieldValueChanged()
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         print("u click on the express cell")
-        
+        expressTitleTextField?.text = ""
     }
     
     /// Handle the event when user finishing changing the value of the text field
-    
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         print("You finish to write the textfield'")
-//        textFieldValueChanged?()
+        expressTitleTextField?.text = textField.text
     }
     
-    func textFieldValueChanged (sender : XPAudioXpressTableViewCell) {
-//        expressTitleTextField?.text = "Jay Mata di"
-    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -58,6 +50,7 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
         // Configure the view for the selected state
     }
     
+    //This the delegate method for the add contact method.
     @IBAction func addContactButtonTapped (sender: Any) {
         delegate?.addContact(cell: self)
     }

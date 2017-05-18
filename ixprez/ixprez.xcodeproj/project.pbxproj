@@ -40,6 +40,7 @@
 		8573CE9A1EC18CB900E42CD6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8573CE991EC18CB900E42CD6 /* CoreTelephony.framework */; };
 		857CE0471EC9D85E00F151AF /* XPAudioStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */; };
 		85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879EC41EC57B2800337011 /* XPAudioViewController.swift */; };
+		8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859234091ECD9F17003C70E4 /* Pulsator.swift */; };
 		859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */; };
 		859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F21EB1ADDB008DD7F7 /* ViewController.swift */; };
 		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
@@ -92,6 +93,7 @@
 		857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioStopViewController.swift; sourceTree = "<group>"; };
 		85879EC41EC57B2800337011 /* XPAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioViewController.swift; sourceTree = "<group>"; };
 		85879EC61EC5988400337011 /* ixprez.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ixprez.entitlements; sourceTree = "<group>"; };
+		859234091ECD9F17003C70E4 /* Pulsator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulsator.swift; sourceTree = "<group>"; };
 		859A22ED1EB1ADDB008DD7F7 /* ixprez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ixprez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		859A22F21EB1ADDB008DD7F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		13111E7C1EB20ACD003661C2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				859234091ECD9F17003C70E4 /* Pulsator.swift */,
 				13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */,
 				13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */,
 				13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */,
@@ -345,6 +348,7 @@
 				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
 				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
 				13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */,
+				8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */,
 				8558BF5B1ECC958400270E1F /* XPCircleAnimationView.swift in Sources */,
 				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
 				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
@@ -476,7 +480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;
@@ -492,7 +496,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;

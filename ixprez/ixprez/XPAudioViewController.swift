@@ -16,6 +16,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         case Public
         case Both
     }
+    
+    let pulsrator = Pulsator ()
     @IBOutlet weak var  audioMailTableView : UITableView!
     @IBOutlet weak var shareTitleLabel: UILabel!
 
@@ -26,12 +28,16 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 //    @IBOutlet weak var moodTitleTextField: UITextField!
 //    @IBOutlet weak var expressTitleTextField: UITextField!
 //    @IBOutlet weak var captionTitleTextField: UITextField!
+    @IBOutlet weak var pulsatorAnimationView: UIView!
     @IBOutlet weak var audioTableView: UITableView!
     @IBOutlet weak var audioPickerView: UIPickerView!
     @IBOutlet weak var audioBGImage = UIImageView()
     @IBOutlet weak var audioBGBorderImage = UIImageView()
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
+    var emailAddressLabel = UILabel ()
+    var moodLabel = UILabel()
+    var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
     var cellIndexPath = XPAudioXpressTableViewCell()
     
@@ -53,15 +59,18 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         audioBGImage?.layer.cornerRadius = (self.audioBGImage?.frame.size.width)!/2
         audioBGImage?.layer.masksToBounds = false
         audioBGBorderImage?.isHidden = true
-        audioBGBorderImage?.clipsToBounds = true
-        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
-        audioBGBorderImage?.layer.masksToBounds = false
-        audioBGAnimationOne?.clipsToBounds = true
-        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
-        audioBGAnimationOne?.layer.masksToBounds = false
-        audioBGAnimationTwo?.clipsToBounds = true
-        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
-        audioBGAnimationTwo?.clipsToBounds = true
+        audioBGAnimationOne?.isHidden = true
+        audioBGAnimationTwo?.isHidden = true
+//        audioBGBorderImage?.clipsToBounds = true
+//        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
+//        audioBGBorderImage?.layer.masksToBounds = false
+//        audioBGAnimationOne?.clipsToBounds = true
+//        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
+//        audioBGAnimationOne?.layer.masksToBounds = false
+//        audioBGAnimationTwo?.clipsToBounds = true
+//        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
+//        audioBGAnimationTwo?.clipsToBounds = true
+        self.pulsatorAnimationView.layer.addSublayer(pulsrator)
 
         // Do any additional setup after loading the view.
     }
@@ -71,7 +80,15 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        
+        pulsrator.numPulse = 5
+        pulsrator.radius = 120
+        pulsrator.animationDuration = 5
+        pulsrator.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6).cgColor
+        pulsrator.start()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        pulsrator.stop()
     }
     
     func dismissKeyboard(rec: UIGestureRecognizer)
@@ -101,106 +118,84 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         
     }
     
-    // Tableview Datasource
+    // MARK: Tableview Datasource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
          let cellIdentifier = "XPAudioXpressTableViewCell"
         let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
-//        cell.delegate = self
+
         if (shareTitleLabel.text == "Private") {
-//            shareTitleLabel.text = "Private"
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
                 cell.expressTitleTextField?.text = "Email"
                 cell.delegate = self
-//            cellIndexPath  = (audioTableView.cellForRow(at: indexPath) as? c)!
                 return cell
                 
-//             let cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
-//                return cell
-            } else if (indexPath.row == 1) {
+             }
+            else if (indexPath.row == 1) {
                 cell.addContactButon?.isHidden = true
                 cell.labelCell?.text = "Caption your feeling"
                 cell.expressTitleTextField?.text = "Feelings!"
                  cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
                 return cell
-//                cellIdentifier = "XPAudioCaptionTableViewCell"
-//             let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
-//                return cell
+
             }
-            
-            
-        } //else {
+        }
             if (shareTitleLabel.text == "Public") {
-//                shareTitleLabel.text = "Public"
                 if (indexPath.row == 0) {
                     cell.addContactButon?.isHidden = true
                     cell.labelCell?.text = "What's your mood?"
                     cell.expressTitleTextField?.text = "Enter Tags"
                     return cell
                     
-//                    cellIdentifier = "XPAudioMoodTableViewCell"
-//               let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
-//                    return cell
-                } else if (indexPath.row == 1) {
+                }
+                else if (indexPath.row == 1) {
                     cell.addContactButon?.isHidden = true
                     cell.labelCell?.text = "Caption your feeling"
                     cell.expressTitleTextField?.text = "Feelings!"
                      cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
                     return cell
-//                    cellIdentifier = "XPAudioCaptionTableViewCell"
-//                 let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
-//                    return cell
                 }
                 
-            } //else {
+            }
         if ( shareTitleLabel.text == "Both") {
                 if (indexPath.row == 0) {
                     cell.addContactButon?.isHidden = true
                     cell.labelCell?.text = "What's your mood?"
                     cell.expressTitleTextField?.text = "Enter Tags"
                     return cell
-//                    cellIdentifier = "XPAudioMoodTableViewCell"
-//                let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioMoodTableViewCell)!
-//                    return cell
-                } else if (indexPath.row == 1) {
+                }
+                else if (indexPath.row == 1) {
                     cell.addContactButon?.isHidden = false
                     cell.labelCell?.text = "Express your feelings with"
                     cell.expressTitleTextField?.text = "Email"
                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
                     return cell
-//                    cellIdentifier = "XPAudioXpressTableViewCell"
-//                 let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
-//                    return cell
-                } else if (indexPath.row == 2) {
+                }
+                else if (indexPath.row == 2) {
                     cell.addContactButon?.isHidden = true
                     cell.labelCell?.text = "Caption your feeling"
                     cell.expressTitleTextField?.text = "Feelings!"
+                    cell.delegate = self
                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
                     return cell
-//                    cellIdentifier = "XPAudioCaptionTableViewCell"
-//                 let   cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioCaptionTableViewCell)!
-//                    return cell
                 }
-                
-                
             }
-       // }
-    return cell
-    }
-    // Tableview Delegate
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+          return cell
+       }
+    // MARK: Tableview Delegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        if (indexPath.row == 0) {
-//            audioPickerView.isHidden = false
-//        } else {
-//            audioPickerView.isHidden = true
+//          self.emailAddressLabel.text = cell.expressTitleTextField?.text
+//        } else if () {
+//            se
 //        }
-//        
-//        return
-//    }
+        
+        return
+    }
     
-    // Pickerview DataSource
+    //MARK: Pickerview DataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -227,7 +222,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 //        
 //    }
     
-    // Pickerview Delegate
+    //MARK: Pickerview Delegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         shareTitleLabel.text = shareTitle[row]
         audioTableView.reloadData()
@@ -283,6 +278,11 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     }
     
     @IBAction func NextViewScreenButtonAvtion (sender: Any) {
+        
+        let indexPath = self.audioTableView.indexPath(for: cell)
+        
+        
+        
        
     }
     
