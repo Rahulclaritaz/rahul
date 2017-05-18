@@ -8,9 +8,9 @@
 
 import UIKit
 
-//protocol AudioTextFieldDelegate : class {
-//    func textFieldValueChanged ()
-//}
+protocol AudioTextFieldDelegate {
+    func addContact (cell: XPAudioXpressTableViewCell)
+}
 
 class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     
@@ -20,10 +20,10 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     @IBOutlet weak var expressTitleTextField = UITextField()
     @IBOutlet weak var addContactButon = UIButton()
     @IBOutlet weak var labelCell = UILabel()
-//    weak var delegate : AudioTextFieldDelegate?
+    var delegate : AudioTextFieldDelegate?
     
     // The block to call when the value of the textfield changes
-    var textFieldValueChanged : (() -> ())?
+//    var textFieldValueChanged : (() -> ())?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -56,6 +56,10 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func addContactButtonTapped (sender: Any) {
+        delegate?.addContact(cell: self)
     }
     
     

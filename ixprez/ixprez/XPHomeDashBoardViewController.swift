@@ -9,7 +9,7 @@
 import UIKit
 
 class XPHomeDashBoardViewController: UIViewController {
-
+   var circle = XPCircleAnimationView()
     var userEmail = String()
     let userProfile = XPWebService()
     let userPrifileURL = URLDirectory.UserProfile()
@@ -23,7 +23,17 @@ class XPHomeDashBoardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         userEmail = "mathan6@gmail.com"
+        circle = XPCircleAnimationView(frame: CGRect(x: 170, y: 135, width: 40, height: 60))
+        circle.backgroundColor = UIColor.clear
+        view.addSubview(circle)
+        circle.resizeCircleWithPulseAinmation(30, duration: 1.5)
         
+        let button = UIButton(frame: CGRect(x: 170, y: 240, width: 80, height: 40))
+        button.setTitle("Animate", for: UIControlState())
+        button.setTitleColor(UIColor.blue, for: UIControlState())
+        button.setTitleColor(UIColor.blue.withAlphaComponent(0.3), for: .highlighted)
+        button.addTarget(self, action: #selector(animateCircle), for: .touchUpInside)
+        view.addSubview(button)
         self.title = "iXprez"
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
@@ -61,6 +71,10 @@ class XPHomeDashBoardViewController: UIViewController {
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
         // Do any additional setup after loading the view.
+    }
+    
+    func animateCircle() {
+        circle.resizeCircleWithPulseAinmation(30, duration: 1.5)
     }
 
     override func didReceiveMemoryWarning() {

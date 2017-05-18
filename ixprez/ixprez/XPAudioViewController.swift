@@ -9,7 +9,7 @@
 import UIKit
 import ContactsUI
 
-class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate {
+class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,AudioTextFieldDelegate {
     
     enum shareButtonTitle {
         case Private
@@ -33,6 +33,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     var isAutoPoplatedContact : Bool = false
+    var cellIndexPath = XPAudioXpressTableViewCell()
     
     var tap = UITapGestureRecognizer()
     var cell = XPAudioXpressTableViewCell()
@@ -112,7 +113,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
                 cell.expressTitleTextField?.text = "Email"
-//                cell.delegate = self
+                cell.delegate = self
+//            cellIndexPath  = (audioTableView.cellForRow(at: indexPath) as? c)!
                 return cell
                 
 //             let cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
@@ -253,21 +255,36 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     }
     
     // This method will open the contact page
-    @IBAction func addContactButtonAction(_ sender: Any) {
-       let cnPicker = CNContactPickerViewController()
-        cnPicker.delegate = self as? CNContactPickerDelegate
+//    @IBAction func addContactButtonAction(_ sender: Any) {
+//       let cnPicker = CNContactPickerViewController()
+//        cnPicker.delegate = self as? CNContactPickerDelegate
+//        self.present(cnPicker, animated: true, completion: nil)
+//    }
+    
+    private var selectedItems = [String]()
+    func addContact (cell: XPAudioXpressTableViewCell) {
+        let cnPicker = CNContactPickerViewController()
+        cnPicker.delegate = self as CNContactPickerDelegate
         self.present(cnPicker, animated: true, completion: nil)
     }
+
     // MARK: CNContactPicker delegate Method
    
     func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
-        for email in contact.emailAddresses {
-            let emailAddress = email.value
-            print("The email address is :\(emailAddress)")
+        for emailAddress in contact.emailAddresses {
+            let selectedContactEmail  = emailAddress.value
+            if  (selectedContactEmail == nil) {
+                print("Contact Don't have mail id")
+            } else {
+                print("selecte mail is : \(selectedContactEmail)")
+            }
+            
         }
     }
     
-    
+    @IBAction func NextViewScreenButtonAvtion (sender: Any) {
+       
+    }
     
     /*
     // MARK: - Navigation
@@ -281,12 +298,6 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 
 }
 
-//extension  XPAudioViewController : AudioTextFieldDelegate {
-//    
-//    func textFieldValueChanged() {
-//        print("You can changed the value of the textfield")
-//    }
-//}
 
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cUk-yf-vz3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cUk-yf-vz3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -1401,7 +1401,7 @@
                                                     <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
-                                                        <outlet property="delegate" destination="0qU-11-b6V" id="GXp-21-LJO"/>
+                                                        <outlet property="delegate" destination="0qU-11-b6V" id="dbc-50-DZh"/>
                                                     </connections>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKW-fE-Veg">
@@ -1409,7 +1409,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <connections>
-                                                        <action selector="addContactButtonAction:" destination="0qU-11-b6V" eventType="touchUpInside" id="uUI-kX-g2Y"/>
+                                                        <action selector="addContactButtonTappedWithSender:" destination="t5C-3f-Rs1" eventType="touchUpInside" id="toE-Dx-rbX"/>
                                                     </connections>
                                                 </button>
                                                 <view alpha="0.20000000298023224" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uUN-FV-FVo">
@@ -1457,6 +1457,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="AudioRightImage"/>
                                 <connections>
+                                    <action selector="NextViewScreenButtonAvtionWithSender:" destination="0qU-11-b6V" eventType="touchUpInside" id="7hI-N7-Sha"/>
                                     <segue destination="5aU-tO-mds" kind="show" id="A94-rj-XIy"/>
                                 </connections>
                             </button>
