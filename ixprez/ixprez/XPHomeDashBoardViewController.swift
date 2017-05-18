@@ -14,27 +14,22 @@ class XPHomeDashBoardViewController: UIViewController {
     let userProfile = XPWebService()
     let userPrifileURL = URLDirectory.UserProfile()
     let userReplacingURL = URLDirectory.BaseRequestResponseURl()
+    let pulsrator = Pulsator()
     @IBOutlet weak var userProfileImage = UIImageView()
     @IBOutlet weak var userProfileBorder = UIImageView()
     @IBOutlet weak var userProfileAnimationOne = UIImageView()
     @IBOutlet weak var userProfileAnimationTwo = UIImageView()
     
+    @IBOutlet weak var pulseAnimationView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // It will set the image in the navigation bar.
+        let imageLogo = UIImage (named: "DashboardTitleImage")
+        let imageView = UIImageView(image : imageLogo)
+        self.navigationItem.titleView = imageView
         userEmail = "mathan6@gmail.com"
-        circle = XPCircleAnimationView(frame: CGRect(x: 170, y: 135, width: 40, height: 60))
-        circle.backgroundColor = UIColor.clear
-        view.addSubview(circle)
-        circle.resizeCircleWithPulseAinmation(30, duration: 1.5)
         
-        let button = UIButton(frame: CGRect(x: 170, y: 240, width: 80, height: 40))
-        button.setTitle("Animate", for: UIControlState())
-        button.setTitleColor(UIColor.blue, for: UIControlState())
-        button.setTitleColor(UIColor.blue.withAlphaComponent(0.3), for: .highlighted)
-        button.addTarget(self, action: #selector(animateCircle), for: .touchUpInside)
-        view.addSubview(button)
-        self.title = "iXprez"
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
 //        userProfileImage?.isHidden = true
@@ -49,21 +44,23 @@ class XPHomeDashBoardViewController: UIViewController {
         userProfileBorder?.layer.cornerRadius = (userProfileBorder?.layer.frame.size.height)!/2
         userProfileBorder?.clipsToBounds = true
         userProfileBorder?.alpha = 0.1
-//        userProfileAnimationOne?.isHidden = true
+        userProfileAnimationOne?.isHidden = true
         userProfileAnimationOne?.layer.borderWidth = 20.0
         userProfileAnimationOne?.layer.masksToBounds = false
         userProfileAnimationOne?.layer.borderColor = UIColor.white.cgColor
-        userProfileAnimationOne?.layer.cornerRadius = (userProfileBorder?.layer.frame.size.width)!
+        userProfileAnimationOne?.layer.cornerRadius = (userProfileAnimationOne?.layer.frame.size.width)!/2
         userProfileAnimationOne?.clipsToBounds = false
         userProfileAnimationOne?.alpha = 0.1
-//        userProfileAnimationTwo?.isHidden = true
+        userProfileAnimationTwo?.isHidden = true
 //        userProfileAnimationTwo?.layer.borderWidth = 25.0
         userProfileAnimationTwo?.layer.masksToBounds = false
         userProfileAnimationTwo?.layer.borderColor = UIColor.white.cgColor
-        userProfileAnimationTwo?.layer.cornerRadius = (userProfileBorder?.layer.frame.size.width)!
+        userProfileAnimationTwo?.layer.cornerRadius = (userProfileAnimationTwo?.layer.frame.size.width)!/2
         
         userProfileAnimationTwo?.clipsToBounds = true
 //        userProfileAnimationTwo?.alpha = 0.5
+        pulseAnimationView?.layer.addSublayer(pulsrator)
+        
         
        getUserProfile()
         
@@ -73,9 +70,20 @@ class XPHomeDashBoardViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    func animateCircle() {
-        circle.resizeCircleWithPulseAinmation(30, duration: 1.5)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // This will create the number of circle animation and radius
+        pulsrator.numPulse = 5
+        pulsrator.radius = 120
+        pulsrator.animationDuration = 5
+        pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
+       pulsrator.start()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        pulsrator.stop()
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -92,8 +100,8 @@ class XPHomeDashBoardViewController: UIViewController {
             let newString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://183.82.33.232:3000", options: .literal, range: nil)
             print(newString)
             let url = NSURL(string : newString)
-//            let imageData = NSData(contentsOf: url as! URL)
-//            self.userProfileImage?.image = UIImage(data: imageData as! Data)
+            let imageData = NSData(contentsOf: url as! URL)
+            self.userProfileImage?.image = UIImage(data: imageData as! Data)
             
 //            if let url = NSURL(string: "http://183.82.33.232:3000/uploads/profileImage/1487756666037s.jpg") {
 //                if let imageData = NSData(contentsOf: url as URL) {
