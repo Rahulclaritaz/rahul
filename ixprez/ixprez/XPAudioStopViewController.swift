@@ -9,31 +9,53 @@
 import UIKit
 
 class XPAudioStopViewController: UIViewController {
+    
+    
+    let pulsrator = Pulsator()
    @IBOutlet weak var retryButton = UIButton()
    @IBOutlet weak var xpressButton = UIButton()
     @IBOutlet weak var audioBGImage = UIImageView()
     @IBOutlet weak var audioBGBorderImage = UIImageView()
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
+    @IBOutlet weak var pulseAnimationView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.title = "Cool"
-        retryButton?.layer.cornerRadius = 20.0
-        xpressButton?.layer.cornerRadius = 20.0
+        retryButton?.layer.cornerRadius = 25.0
+        xpressButton?.layer.cornerRadius = 25.0
         audioBGImage?.clipsToBounds = true
         audioBGImage?.layer.cornerRadius = (self.audioBGImage?.frame.size.width)!/2
         audioBGImage?.layer.masksToBounds = false
-        audioBGBorderImage?.clipsToBounds = true
-        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
-        audioBGBorderImage?.clipsToBounds = true
+        audioBGBorderImage?.isHidden = true
+        audioBGAnimationOne?.isHidden = true
+        audioBGAnimationTwo?.isHidden = true
+//        audioBGBorderImage?.clipsToBounds = true
+//        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
+//        audioBGBorderImage?.clipsToBounds = true
         //        audioBGAnimationOne?.clipsToBounds = true
         //        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
         //        audioBGAnimationOne?.clipsToBounds = true
-        audioBGAnimationTwo?.clipsToBounds = true
-        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
-        audioBGAnimationTwo?.clipsToBounds = true
+//        audioBGAnimationTwo?.isHidden = true
+//        audioBGAnimationTwo?.clipsToBounds = true
+//        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
+//        audioBGAnimationTwo?.clipsToBounds = true
+        pulseAnimationView?.layer.addSublayer(pulsrator)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // This will create the number of circle animation and radius
+        pulsrator.numPulse = 5
+        pulsrator.radius = 120
+        pulsrator.animationDuration = 5
+        pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
+        pulsrator.start()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        pulsrator.stop()
     }
     
     @IBAction func retryButtonAction (sender : Any) {

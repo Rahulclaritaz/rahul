@@ -11,6 +11,7 @@ import AVFoundation
 
 class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,AVAudioPlayerDelegate {
     
+    let pulsrator = Pulsator()
     var isAudioButtonSelected : Bool = false
     let commomWebService = XPWebService()
     let commonWebURL = URLDirectory.audioDataUpload()
@@ -21,6 +22,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     @IBOutlet weak var audioButton: UIButton!
     @IBOutlet weak var countLabel = UILabel ()
     @IBOutlet weak var audioRecordButton: UIButton!
+    @IBOutlet weak var pulseAnimationView: UIView!
     var countTime = 40
     var audioTimer = Timer ()
     var audioPlayer : AVAudioPlayer!
@@ -36,15 +38,20 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         audioBGImage?.clipsToBounds = true
         audioBGImage?.layer.cornerRadius = (self.audioBGImage?.frame.size.width)!/2
         audioBGImage?.layer.masksToBounds = false
-        audioBGBorderImage?.clipsToBounds = true
-        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
-        audioBGBorderImage?.clipsToBounds = true
+        audioBGBorderImage?.isHidden = true
+        audioBGAnimationOne?.isHidden = true
+        audioBGAnimationTwo?.isHidden = true
+//        audioBGBorderImage?.clipsToBounds = true
+//        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
+//        audioBGBorderImage?.clipsToBounds = true
 //        audioBGAnimationOne?.clipsToBounds = true
 //        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
 //        audioBGAnimationOne?.clipsToBounds = true
-        audioBGAnimationTwo?.clipsToBounds = true
-        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
-        audioBGAnimationTwo?.clipsToBounds = true
+//        audioBGAnimationTwo?.isHidden = true
+//        audioBGAnimationTwo?.clipsToBounds = true
+//        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
+//        audioBGAnimationTwo?.clipsToBounds = true
+        pulseAnimationView?.layer.addSublayer(pulsrator)
        
         // Audio recording Setup
         recordingSession = AVAudioSession.sharedInstance()
@@ -74,13 +81,22 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         
     }
     
+    
    override func viewWillAppear(_ animated: Bool) {
     isAudioButtonSelected = false
     audioTimer.invalidate()
     countTime = 40
     countLabel?.text = "00:40"
     
+    // This will create the number of circle animation and radius
+    pulsrator.numPulse = 5
+    pulsrator.radius = 120
+    pulsrator.animationDuration = 5
+    pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
+    pulsrator.start()
+    
     }
+
     
     // This method will pass the audio path in NSURL
     func directoryURL() -> NSURL? {
@@ -168,6 +184,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         finishRecording(success: true)
         audioTimer.invalidate()
         }
+    pulsrator.stop()
     
     }
     
