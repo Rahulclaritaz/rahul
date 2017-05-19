@@ -12,7 +12,7 @@ protocol AudioTextFieldDelegate {
     func addContact (cell: XPAudioXpressTableViewCell)
 }
 
-class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
+class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate,cellTextValidateDelegate {
     
     // MARK: Properties
     
@@ -20,7 +20,12 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     @IBOutlet weak var expressTitleTextField = UITextField()
     @IBOutlet weak var addContactButon = UIButton()
     @IBOutlet weak var labelCell = UILabel()
+    var cellLabelExpress = UILabel ()
+    var cellLabelMood = UILabel()
+    var cellLabelFeeling = UILabel()
     var delegate : AudioTextFieldDelegate?
+    var pickerStatusType = UILabel()
+    var indexPathRow = Int ()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,6 +46,33 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("You finish to write the textfield'")
         expressTitleTextField?.text = textField.text
+        if (pickerStatusType.text == "Private" ){
+            guard (indexPathRow == 0) else {
+                cellLabelFeeling.text = textField.text
+                return
+            }
+            cellLabelExpress.text = textField.text
+            print("The picker status type is :\(pickerStatusType.text)")
+        } else if (pickerStatusType.text == "Public") {
+            guard (indexPathRow == 0) else {
+                cellLabelMood.text = textField.text
+                return
+            }
+            cellLabelExpress.text = textField.text
+           print("The picker status type is :\(pickerStatusType.text)")
+        } else if  (pickerStatusType.text == "Both") {
+            if (indexPathRow == 0) {
+                cellLabelMood.text = textField.text
+            } else if (indexPathRow == 1) {
+               cellLabelExpress.text = textField.text
+                
+            } else if (indexPathRow == 2) {
+                cellLabelFeeling.text = textField.text
+                
+            }
+
+            print("The picker status type is :\(pickerStatusType.text)")
+        }
     }
     
     
@@ -53,6 +85,37 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     //This the delegate method for the add contact method.
     @IBAction func addContactButtonTapped (sender: Any) {
         delegate?.addContact(cell: self)
+    }
+    
+    
+   // This is delegate method that will return the textfield value according to picker type.
+    func cellTextData(vc: XPAudioViewController) {
+        vc.delegateCell = self
+        if (pickerStatusType.text == "Private" ){
+            if (indexPathRow == 0) {
+                vc.emailAddressLabel.text =  cellLabelExpress.text
+            } else if (indexPathRow == 1) {
+                vc.feelingsLabel.text =  cellLabelFeeling.text
+                
+            }
+        } else if (pickerStatusType.text == "Public") {
+            if (indexPathRow == 0) {
+                vc.moodLabel.text =   cellLabelMood.text
+            } else if (indexPathRow == 1) {
+                vc.feelingsLabel.text =  cellLabelFeeling.text
+                
+            }
+        } else if  (pickerStatusType.text == "Both") {
+            if (indexPathRow == 0) {
+              vc.moodLabel.text =   cellLabelMood.text
+            } else if (indexPathRow == 1) {
+              vc.emailAddressLabel.text =  cellLabelExpress.text
+                
+            } else if (indexPathRow == 2) {
+               vc.feelingsLabel.text =  cellLabelFeeling.text
+                
+            }
+        }
     }
     
     

@@ -9,7 +9,11 @@
 import UIKit
 import ContactsUI
 
-class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,AudioTextFieldDelegate {
+protocol cellTextValidateDelegate {
+    func cellTextData (vc : XPAudioViewController)
+}
+
+class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,AudioTextFieldDelegate, UIPopoverPresentationControllerDelegate {
     
     enum shareButtonTitle {
         case Private
@@ -18,6 +22,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     }
     
     let pulsrator = Pulsator ()
+  
     @IBOutlet weak var  audioMailTableView : UITableView!
     @IBOutlet weak var shareTitleLabel: UILabel!
 
@@ -40,6 +45,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
     var cellIndexPath = XPAudioXpressTableViewCell()
+    var delegateCell : cellTextValidateDelegate?
+    
     
     var tap = UITapGestureRecognizer()
     var cell = XPAudioXpressTableViewCell()
@@ -47,7 +54,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var shareTitle  = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-//        cell.delegate? = self
+        self.delegateCell = self as? cellTextValidateDelegate
         self.navigationItem.title = "Voice your thoughts"
         self.navigationController?.navigationBar.tintColor = UIColor.white
         audioMailTableView.isHidden  = true
@@ -125,10 +132,12 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPAudioXpressTableViewCell)!
 
         if (shareTitleLabel.text == "Private") {
+            cell.pickerStatusType.text = shareTitleLabel.text
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
                 cell.expressTitleTextField?.text = "Email"
+                cell.indexPathRow = indexPath.row
                 cell.delegate = self
                 return cell
                 
@@ -138,15 +147,18 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                 cell.labelCell?.text = "Caption your feeling"
                 cell.expressTitleTextField?.text = "Feelings!"
                  cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                cell.indexPathRow = indexPath.row
                 return cell
 
             }
         }
             if (shareTitleLabel.text == "Public") {
+                cell.pickerStatusType.text = shareTitleLabel.text
                 if (indexPath.row == 0) {
                     cell.addContactButon?.isHidden = true
                     cell.labelCell?.text = "What's your mood?"
                     cell.expressTitleTextField?.text = "Enter Tags"
+                    cell.indexPathRow = indexPath.row
                     return cell
                     
                 }
@@ -155,15 +167,17 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     cell.labelCell?.text = "Caption your feeling"
                     cell.expressTitleTextField?.text = "Feelings!"
                      cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                    cell.indexPathRow = indexPath.row
                     return cell
                 }
-                
             }
         if ( shareTitleLabel.text == "Both") {
+            cell.pickerStatusType.text = shareTitleLabel.text
                 if (indexPath.row == 0) {
                     cell.addContactButon?.isHidden = true
                     cell.labelCell?.text = "What's your mood?"
                     cell.expressTitleTextField?.text = "Enter Tags"
+                    cell.indexPathRow = indexPath.row
                     return cell
                 }
                 else if (indexPath.row == 1) {
@@ -171,28 +185,37 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     cell.labelCell?.text = "Express your feelings with"
                     cell.expressTitleTextField?.text = "Email"
                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
+                    cell.indexPathRow = indexPath.row
+                    cell.delegate = self
                     return cell
                 }
                 else if (indexPath.row == 2) {
                     cell.addContactButon?.isHidden = true
                     cell.labelCell?.text = "Caption your feeling"
                     cell.expressTitleTextField?.text = "Feelings!"
-                    cell.delegate = self
                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                    cell.indexPathRow = indexPath.row
                     return cell
                 }
             }
           return cell
        }
     // MARK: Tableview Delegate
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if (indexPath.row == 0) {
-//          self.emailAddressLabel.text = cell.expressTitleTextField?.text
-//        } else if () {
-//            se
-//        }
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+////        if (indexPath.row == 0) {
+////          self.emailAddressLabel.text = cell.expressTitleTextField?.text
+////        } else if () {
+////            se
+////        }
+//        
+//        return
+//    }
+    
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        var selecteCellIndexPath = tableView.indexPathForSelectedRow
+        print(selecteCellIndexPath)
         
-        return
+        print("You select the : \(indexPath.row)")
     }
     
     //MARK: Pickerview DataSource
@@ -277,12 +300,25 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         }
     }
     
+    // This method will display the descrition of type in audio
+    @IBAction func showModal(_ sender : UIButton) {
+    // get a reference to the view controller for the popover
+    let popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPPopOverViewController") as! XPPopOverViewController
+        
+        self.addChildViewController(popController)
+        popController.view.frame = self.view.frame
+        self.view.addSubview(popController.view)
+        popController.didMove(toParentViewController: self)
+
+    }
+    
+    
     @IBAction func NextViewScreenButtonAvtion (sender: Any) {
         
-        let indexPath = self.audioTableView.indexPath(for: cell)
-        
-        
-        
+        delegateCell?.cellTextData(vc: self)
+       print(emailAddressLabel.text)
+        print(moodLabel.text)
+        print(feelingsLabel.text)
        
     }
     

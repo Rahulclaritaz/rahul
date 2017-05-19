@@ -298,13 +298,23 @@ class XPWebService
                     let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     
                     print(jsonData)
-                    let responseUserImage = jsonData.value(forKey: "data")
+                    var jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
                     
-                     callback(responseUserImage as! NSDictionary, nil)
+                    if (jsonResponseStatus == "Failed") {
+                        return
+                    } else {
+                        let responseUserImage = jsonData.value(forKey: "data")
+                        
+                        callback(responseUserImage as! NSDictionary, nil)
+                    }
+                    
+                    
                 } catch {
                     
                 }
                 
+            } else {
+                return
             }
         })
         dataTask.resume()

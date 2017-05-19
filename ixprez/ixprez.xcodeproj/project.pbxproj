@@ -41,6 +41,9 @@
 		857CE0471EC9D85E00F151AF /* XPAudioStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */; };
 		85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879EC41EC57B2800337011 /* XPAudioViewController.swift */; };
 		8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859234091ECD9F17003C70E4 /* Pulsator.swift */; };
+		859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */; };
+		859407C41ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */; };
+		859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C71ECEF14C000A6A80 /* XPPopOverViewController.swift */; };
 		859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */; };
 		859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A22F21EB1ADDB008DD7F7 /* ViewController.swift */; };
 		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
@@ -94,6 +97,9 @@
 		85879EC41EC57B2800337011 /* XPAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioViewController.swift; sourceTree = "<group>"; };
 		85879EC61EC5988400337011 /* ixprez.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ixprez.entitlements; sourceTree = "<group>"; };
 		859234091ECD9F17003C70E4 /* Pulsator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulsator.swift; sourceTree = "<group>"; };
+		859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoViewController.swift; sourceTree = "<group>"; };
+		859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoExpressTableViewCell.swift; sourceTree = "<group>"; };
+		859407C71ECEF14C000A6A80 /* XPPopOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPopOverViewController.swift; sourceTree = "<group>"; };
 		859A22ED1EB1ADDB008DD7F7 /* ixprez.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ixprez.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		859A22F01EB1ADDB008DD7F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		859A22F21EB1ADDB008DD7F7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -195,8 +201,11 @@
 				8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */,
 				85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */,
 				857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */,
+				859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */,
+				859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */,
 				8558BF581ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift */,
 				8558BF5A1ECC958400270E1F /* XPCircleAnimationView.swift */,
+				859407C71ECEF14C000A6A80 /* XPPopOverViewController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -331,6 +340,7 @@
 			files = (
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
+				859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
@@ -343,6 +353,7 @@
 				856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */,
 				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
 				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
+				859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */,
 				856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */,
 				85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */,
 				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
@@ -353,6 +364,7 @@
 				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
 				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
 				85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */,
+				859407C41ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift in Sources */,
 				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,11 +412,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: rahul2338.sharma@rediffmail.com (2VT9Z2DZZ8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: rahul2338.sharma@rediffmail.com (2VT9Z2DZZ8)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = L2X7P453MQ;
+				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -452,11 +464,11 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raju Packiam (Z5442ZKW9H)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: rahul2338.sharma@rediffmail.com (2VT9Z2DZZ8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: rahul2338.sharma@rediffmail.com (2VT9Z2DZZ8)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = L2X7P453MQ;
+				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -480,8 +492,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -496,8 +508,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
