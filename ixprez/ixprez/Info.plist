@@ -59,5 +59,7 @@
 	</dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>The audio recorded by this app is stored securely and is not shared</string>
+	<key>NSCameraUsageDescription</key>
+	<string>camera use</string>
 </dict>
 </plist>

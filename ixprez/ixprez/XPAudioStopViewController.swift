@@ -23,6 +23,11 @@ class XPAudioStopViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.title = "Cool"
+        
+        // this will remove the back button from the navigation bar
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
+        navigationItem.leftBarButtonItem = backButton
+        
         retryButton?.layer.cornerRadius = 25.0
         xpressButton?.layer.cornerRadius = 25.0
         audioBGImage?.clipsToBounds = true
