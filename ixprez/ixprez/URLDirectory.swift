@@ -90,4 +90,57 @@ struct URLDirectory
     
     
     
+    
+    struct PrivateData
+    {
+        func privateDataUrl() -> String
+        {
+            return "http://103.235.104.118:3000/queryService/myVideosToPlay"
+            
+            //  return "http://192.168.1.20:3000/queryService/myVideosToPlay"
+            
+        }
+        func privateAcceptRejectAudioVideo() -> String
+        {
+            return "http://103.235.104.118:3000/commandService/feedbackAboutFile"
+            
+            //      return "http://192.168.1.20:3000/commandService/feedbackAboutFile"
+            
+        }
+        
+        func privateBlockAudioVideo() -> String
+        {
+            return "http://103.235.104.118:3000/commandService/blockUser"
+            
+            //  return "http://192.168.1.20:3000/commandService/blockUser"
+        }
+        
+    }
+    
+    struct MyUpload
+    {
+        func publicMyUpload() -> String
+        {
+            
+            return "http://103.235.104.118:3000/queryService/myUploads"
+            
+        }
+        func privateMyUpload() -> String
+        {
+            
+            return "http://103.235.104.118:3000/queryService/ownuploads"
+            
+        }
+        
+        func deleteMyUpload() -> String
+        {
+            
+            return "http://103.235.104.118:3000/commandService/del_status"
+            
+            
+        }
+        
+    }
+    
+    
 }
