@@ -19,6 +19,22 @@
 		13111E7B1EB1FC09003661C2 /* mosklight300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5A1EB1EF87003661C2 /* mosklight300.ttf */; };
 		13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */; };
 		13111E821EB20C42003661C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13111E811EB20C42003661C2 /* UIKit.framework */; };
+		1313C5C71ECEB8FF005A2165 /* IXPrivateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5C31ECEB8FF005A2165 /* IXPrivateViewController.swift */; };
+		1313C5C81ECEB8FF005A2165 /* XPPriavtePlayVideoAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5C41ECEB8FF005A2165 /* XPPriavtePlayVideoAudioViewController.swift */; };
+		1313C5C91ECEB8FF005A2165 /* XPSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5C51ECEB8FF005A2165 /* XPSettingsViewController.swift */; };
+		1313C5CA1ECEB8FF005A2165 /* XPMyUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5C61ECEB8FF005A2165 /* XPMyUploadViewController.swift */; };
+		1313C5CE1ECEB934005A2165 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5CB1ECEB934005A2165 /* DateExtension.swift */; };
+		1313C5CF1ECEB934005A2165 /* StringURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5CC1ECEB934005A2165 /* StringURLExtension.swift */; };
+		1313C5D01ECEB934005A2165 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5CD1ECEB934005A2165 /* ImageExtension.swift */; };
+		1313C5D21ECEB96F005A2165 /* DOAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5D11ECEB96F005A2165 /* DOAlertController.swift */; };
+		1313C5DB1ECEB9E9005A2165 /* PrivateAudioVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5D81ECEB9E9005A2165 /* PrivateAudioVideoTableViewCell.swift */; };
+		1313C5DC1ECEB9E9005A2165 /* MyUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5D91ECEB9E9005A2165 /* MyUploadCollectionViewCell.swift */; };
+		1313C5DD1ECEB9E9005A2165 /* HeaderMyuploadCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5DA1ECEB9E9005A2165 /* HeaderMyuploadCollectionReusableView.swift */; };
+		1313C5E01ECEBB4B005A2165 /* PrivateWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5DE1ECEBB4B005A2165 /* PrivateWebService.swift */; };
+		1313C5E11ECEBB4B005A2165 /* MyUploadWebServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5DF1ECEBB4B005A2165 /* MyUploadWebServices.swift */; };
+		1313C5ED1ECEF22F005A2165 /* XPMyUploadPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1313C5EC1ECEF22F005A2165 /* XPMyUploadPlayViewController.swift */; };
+		1313C5F01ECEF491005A2165 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1313C5EE1ECEF491005A2165 /* AVFoundation.framework */; };
+		1313C5F11ECEF491005A2165 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1313C5EF1ECEF491005A2165 /* AVKit.framework */; };
 		132131991EB46F6F008709DC /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132131981EB46F6F008709DC /* ColorExtension.swift */; };
 		132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */; };
 		13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */; };
@@ -71,6 +87,22 @@
 		13111E6A1EB1F0C5003661C2 /* ProximaNova-Light_0.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Light_0.otf"; path = "../Approved Templates/Fonts/ProximaNova-Light_0.otf"; sourceTree = "<group>"; };
 		13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerificationViewController.swift; sourceTree = "<group>"; };
 		13111E811EB20C42003661C2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1313C5C31ECEB8FF005A2165 /* IXPrivateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IXPrivateViewController.swift; sourceTree = "<group>"; };
+		1313C5C41ECEB8FF005A2165 /* XPPriavtePlayVideoAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPriavtePlayVideoAudioViewController.swift; sourceTree = "<group>"; };
+		1313C5C51ECEB8FF005A2165 /* XPSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingsViewController.swift; sourceTree = "<group>"; };
+		1313C5C61ECEB8FF005A2165 /* XPMyUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPMyUploadViewController.swift; sourceTree = "<group>"; };
+		1313C5CB1ECEB934005A2165 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		1313C5CC1ECEB934005A2165 /* StringURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringURLExtension.swift; sourceTree = "<group>"; };
+		1313C5CD1ECEB934005A2165 /* ImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
+		1313C5D11ECEB96F005A2165 /* DOAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOAlertController.swift; sourceTree = "<group>"; };
+		1313C5D81ECEB9E9005A2165 /* PrivateAudioVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateAudioVideoTableViewCell.swift; sourceTree = "<group>"; };
+		1313C5D91ECEB9E9005A2165 /* MyUploadCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUploadCollectionViewCell.swift; sourceTree = "<group>"; };
+		1313C5DA1ECEB9E9005A2165 /* HeaderMyuploadCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderMyuploadCollectionReusableView.swift; sourceTree = "<group>"; };
+		1313C5DE1ECEBB4B005A2165 /* PrivateWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateWebService.swift; sourceTree = "<group>"; };
+		1313C5DF1ECEBB4B005A2165 /* MyUploadWebServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUploadWebServices.swift; sourceTree = "<group>"; };
+		1313C5EC1ECEF22F005A2165 /* XPMyUploadPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPMyUploadPlayViewController.swift; sourceTree = "<group>"; };
+		1313C5EE1ECEF491005A2165 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		1313C5EF1ECEF491005A2165 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		132131981EB46F6F008709DC /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextfieldExtension.swift; sourceTree = "<group>"; };
@@ -110,6 +142,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1313C5F01ECEF491005A2165 /* AVFoundation.framework in Frameworks */,
+				1313C5F11ECEF491005A2165 /* AVKit.framework in Frameworks */,
 				8558BF571ECC7FCD00270E1F /* ContactsUI.framework in Frameworks */,
 				8573CE9A1EC18CB900E42CD6 /* CoreTelephony.framework in Frameworks */,
 				13111E821EB20C42003661C2 /* UIKit.framework in Frameworks */,
@@ -123,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				130FD8E61EB8819F00026975 /* URLDirectory.swift */,
+				1313C5D11ECEB96F005A2165 /* DOAlertController.swift */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -131,6 +166,8 @@
 			isa = PBXGroup;
 			children = (
 				130FD8E91EB887CB00026975 /* XPWebService.swift */,
+				1313C5DE1ECEBB4B005A2165 /* PrivateWebService.swift */,
+				1313C5DF1ECEBB4B005A2165 /* MyUploadWebServices.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -161,6 +198,8 @@
 		13111E621EB1F0C4003661C2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1313C5EE1ECEF491005A2165 /* AVFoundation.framework */,
+				1313C5EF1ECEF491005A2165 /* AVKit.framework */,
 				8558BF561ECC7FCD00270E1F /* ContactsUI.framework */,
 				8573CE991EC18CB900E42CD6 /* CoreTelephony.framework */,
 				13111E811EB20C42003661C2 /* UIKit.framework */,
@@ -179,6 +218,7 @@
 		13111E7C1EB20ACD003661C2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				1313C5C21ECEB8EA005A2165 /* New Group */,
 				859234091ECD9F17003C70E4 /* Pulsator.swift */,
 				13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */,
 				13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */,
@@ -201,6 +241,28 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		1313C5C21ECEB8EA005A2165 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				1313C5C31ECEB8FF005A2165 /* IXPrivateViewController.swift */,
+				1313C5C41ECEB8FF005A2165 /* XPPriavtePlayVideoAudioViewController.swift */,
+				1313C5C51ECEB8FF005A2165 /* XPSettingsViewController.swift */,
+				1313C5C61ECEB8FF005A2165 /* XPMyUploadViewController.swift */,
+				1313C5EC1ECEF22F005A2165 /* XPMyUploadPlayViewController.swift */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
+		1313C5D71ECEB9DE005A2165 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				1313C5D81ECEB9E9005A2165 /* PrivateAudioVideoTableViewCell.swift */,
+				1313C5D91ECEB9E9005A2165 /* MyUploadCollectionViewCell.swift */,
+				1313C5DA1ECEB9E9005A2165 /* HeaderMyuploadCollectionReusableView.swift */,
+			);
+			name = cell;
+			sourceTree = "<group>";
+		};
 		859A22E41EB1ADDB008DD7F7 = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +283,7 @@
 		859A22EF1EB1ADDB008DD7F7 /* ixprez */ = {
 			isa = PBXGroup;
 			children = (
+				1313C5D71ECEB9DE005A2165 /* cell */,
 				85879EC61EC5988400337011 /* ixprez.entitlements */,
 				130FD8E81EB887A900026975 /* Model */,
 				130FD8E51EB8816600026975 /* Base */,
@@ -237,6 +300,9 @@
 				132131981EB46F6F008709DC /* ColorExtension.swift */,
 				13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */,
 				13A0F1681EB9E03A0069ABDD /* IXValidation.swift */,
+				1313C5CB1ECEB934005A2165 /* DateExtension.swift */,
+				1313C5CC1ECEB934005A2165 /* StringURLExtension.swift */,
+				1313C5CD1ECEB934005A2165 /* ImageExtension.swift */,
 			);
 			path = ixprez;
 			sourceTree = "<group>";
@@ -273,7 +339,6 @@
 				TargetAttributes = {
 					859A22EC1EB1ADDB008DD7F7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 2RSE6PT96Q;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -330,30 +395,44 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
+				1313C5CE1ECEB934005A2165 /* DateExtension.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
+				1313C5E01ECEBB4B005A2165 /* PrivateWebService.swift in Sources */,
+				1313C5CF1ECEB934005A2165 /* StringURLExtension.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
+				1313C5D21ECEB96F005A2165 /* DOAlertController.swift in Sources */,
 				857CE0471EC9D85E00F151AF /* XPAudioStopViewController.swift in Sources */,
 				8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */,
 				856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */,
 				8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */,
+				1313C5CA1ECEB8FF005A2165 /* XPMyUploadViewController.swift in Sources */,
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
+				1313C5E11ECEBB4B005A2165 /* MyUploadWebServices.swift in Sources */,
 				856AD66C1EC0402B00FCBBEC /* XPSettingViewController.swift in Sources */,
+				1313C5C71ECEB8FF005A2165 /* IXPrivateViewController.swift in Sources */,
+				1313C5D01ECEB934005A2165 /* ImageExtension.swift in Sources */,
 				856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */,
 				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
 				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
 				856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */,
 				85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */,
+				1313C5ED1ECEF22F005A2165 /* XPMyUploadPlayViewController.swift in Sources */,
+				1313C5DB1ECEB9E9005A2165 /* PrivateAudioVideoTableViewCell.swift in Sources */,
 				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
 				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
+				1313C5DC1ECEB9E9005A2165 /* MyUploadCollectionViewCell.swift in Sources */,
 				13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */,
 				8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */,
 				8558BF5B1ECC958400270E1F /* XPCircleAnimationView.swift in Sources */,
 				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
 				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
 				85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */,
+				1313C5C91ECEB8FF005A2165 /* XPSettingsViewController.swift in Sources */,
 				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
+				1313C5C81ECEB8FF005A2165 /* XPPriavtePlayVideoAudioViewController.swift in Sources */,
+				1313C5DD1ECEB9E9005A2165 /* HeaderMyuploadCollectionReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +484,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = L2X7P453MQ;
+				DEb = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -423,6 +503,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
+				NEW_SETTING = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -457,6 +538,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = L2X7P453MQ;
+				DEb = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -469,6 +551,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				NEW_SETTING = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -482,8 +565,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2RSE6PT96Q;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ixprez/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Claritaz-Techlabs.ixprez";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -498,8 +582,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2RSE6PT96Q;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ixprez/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Claritaz-Techlabs.ixprez";
 				PRODUCT_NAME = "$(TARGET_NAME)";
