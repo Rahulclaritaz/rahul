@@ -12,7 +12,7 @@ protocol AudioTextFieldDelegate {
     func addContact (cell: XPAudioXpressTableViewCell)
 }
 
-class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate,cellTextValidateDelegate {
+class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     
     // MARK: Properties
     
@@ -26,12 +26,14 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate,cellTextVa
     var delegate : AudioTextFieldDelegate?
     var pickerStatusType = UILabel()
     var indexPathRow = Int ()
+//    var audioDelegate = XPAudioViewController ()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         expressTitleTextField?.delegate = self
         addContactButon?.isHidden = true
+//        audioDelegate.delegateCell = self
     }
     
     // MARK: UITextFieldDelegate
@@ -89,34 +91,34 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate,cellTextVa
     
     
    // This is delegate method that will return the textfield value according to picker type.
-    func cellTextData(vc: XPAudioViewController) {
-        vc.delegateCell = self
-        if (pickerStatusType.text == "Private" ){
-            if (indexPathRow == 0) {
-                vc.emailAddressLabel.text =  cellLabelExpress.text
-            } else if (indexPathRow == 1) {
-                vc.feelingsLabel.text =  cellLabelFeeling.text
-                
-            }
-        } else if (pickerStatusType.text == "Public") {
-            if (indexPathRow == 0) {
-                vc.moodLabel.text =   cellLabelMood.text
-            } else if (indexPathRow == 1) {
-                vc.feelingsLabel.text =  cellLabelFeeling.text
-                
-            }
-        } else if  (pickerStatusType.text == "Both") {
-            if (indexPathRow == 0) {
-              vc.moodLabel.text =   cellLabelMood.text
-            } else if (indexPathRow == 1) {
-              vc.emailAddressLabel.text =  cellLabelExpress.text
-                
-            } else if (indexPathRow == 2) {
-               vc.feelingsLabel.text =  cellLabelFeeling.text
-                
-            }
-        }
-    }
+//    func cellTextData(vc: XPAudioViewController) {
+//        vc.delegateCell = self
+//        if (pickerStatusType.text == "Private" ){
+//            if (indexPathRow == 0) {
+//                vc.emailAddressLabel.text =  cellLabelExpress.text
+//            } else if (indexPathRow == 1) {
+//                vc.feelingsLabel.text =  cellLabelFeeling.text
+//                
+//            }
+//        } else if (pickerStatusType.text == "Public") {
+//            if (indexPathRow == 0) {
+//                vc.moodLabel.text =   cellLabelMood.text
+//            } else if (indexPathRow == 1) {
+//                vc.feelingsLabel.text =  cellLabelFeeling.text
+//                
+//            }
+//        } else if  (pickerStatusType.text == "Both") {
+//            if (indexPathRow == 0) {
+//              vc.moodLabel.text =   cellLabelMood.text
+//            } else if (indexPathRow == 1) {
+//              vc.emailAddressLabel.text =  cellLabelExpress.text
+//                
+//            } else if (indexPathRow == 2) {
+//               vc.feelingsLabel.text =  cellLabelFeeling.text
+//                
+//            }
+//        }
+//    }
     
     
 }

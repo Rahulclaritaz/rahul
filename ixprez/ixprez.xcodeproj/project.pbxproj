@@ -49,6 +49,8 @@
 		859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F41EB1ADDB008DD7F7 /* Main.storyboard */; };
 		859A22F81EB1ADDB008DD7F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */; };
 		859A22FB1EB1ADDB008DD7F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */; };
+		859A5E111ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */; };
+		859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */; };
 		85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */; };
 		C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -107,6 +109,8 @@
 		859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		859A22FA1EB1ADDB008DD7F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		859A22FC1EB1ADDB008DD7F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoRecordingPlayViewController.swift; sourceTree = "<group>"; };
+		859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoRecordingStopViewController.swift; sourceTree = "<group>"; };
 		85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioRecordingViewController.swift; sourceTree = "<group>"; };
 		C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPLanguageTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +206,8 @@
 				85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */,
 				857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */,
 				859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */,
+				859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */,
+				859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */,
 				859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */,
 				8558BF581ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift */,
 				8558BF5A1ECC958400270E1F /* XPCircleAnimationView.swift */,
@@ -338,6 +344,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */,
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
 				859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */,
@@ -361,6 +368,7 @@
 				13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */,
 				8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */,
 				8558BF5B1ECC958400270E1F /* XPCircleAnimationView.swift in Sources */,
+				859A5E111ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift in Sources */,
 				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
 				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
 				85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */,
@@ -493,7 +501,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -509,7 +517,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 2RSE6PT96Q;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -9,9 +9,9 @@
 import UIKit
 import ContactsUI
 
-protocol cellTextValidateDelegate {
-    func cellTextData (vc : XPAudioViewController)
-}
+//protocol cellTextValidateDelegate {
+//    func cellTextData (vc : XPAudioViewController)
+//}
 
 class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,AudioTextFieldDelegate, UIPopoverPresentationControllerDelegate {
     
@@ -28,7 +28,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 
     @IBOutlet weak var shareButton: UIButton!
     
-    var textField = XPAudioXpressTableViewCell()
+//    var textField = XPAudioXpressTableViewCell()
     
 //    @IBOutlet weak var moodTitleTextField: UITextField!
 //    @IBOutlet weak var expressTitleTextField: UITextField!
@@ -45,7 +45,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
     var cellIndexPath = XPAudioXpressTableViewCell()
-    var delegateCell : cellTextValidateDelegate?
+//    var delegateCell : cellTextValidateDelegate?
     
     
     var tap = UITapGestureRecognizer()
@@ -54,7 +54,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var shareTitle  = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.delegateCell = self as? cellTextValidateDelegate
+//        self.delegateCell = self as? cellTextValidateDelegate
         self.navigationItem.title = "Voice your thoughts"
         self.navigationController?.navigationBar.tintColor = UIColor.white
         audioMailTableView.isHidden  = true
@@ -315,7 +315,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     @IBAction func NextViewScreenButtonAvtion (sender: Any) {
         
-        delegateCell?.cellTextData(vc: self)
+//        delegateCell?.cellTextData(vc: self)
        print(emailAddressLabel.text)
         print(moodLabel.text)
         print(feelingsLabel.text)

@@ -9,7 +9,7 @@
 import UIKit
 import ContactsUI
 
-class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,videoAddContactDelegate {
+class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,videoAddContactDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
 
     
@@ -231,9 +231,24 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     @IBAction func NextViewScreenButtonAction (_ sender: Any) {
+//        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
+//            var imagePicker = UIImagePickerController ()
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+//            imagePicker.cameraDevice = UIImagePickerController.isCameraDeviceAvailable(.front) ? .front : .rear
+//            self.present(imagePicker, animated: true, completion: { _ in
+//            })
+//            
+//        } else {
+//            print("Device don't have camera")
+//        }
+        
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingPlayViewController") as! XPVideoRecordingPlayViewController
+        
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+
         
     }
-    
 
     /*
     // MARK: - Navigation
