@@ -170,7 +170,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     func countDownTimer () {
         if (countTime > 0) {
             countTime -= 1
-            countLabel?.text = String(countTime)
+            countLabel?.text = "00:" + String(countTime)
         } else {
             finishRecording(success: false)
         }

@@ -8,34 +8,54 @@
 
 import UIKit
 import AVFoundation
+import ReplayKit
 
-class XPVideoRecordingPlayViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDelegate {
-// let cameraSession = AVCaptureSession()
+class XPVideoRecordingPlayViewController: UIViewController,UINavigationControllerDelegate ,AVCaptureVideoDataOutputSampleBufferDelegate,RPPreviewViewControllerDelegate {
+    @IBOutlet weak var videoButton = UIButton ()
+   @IBOutlet weak var videoBGImage = UIImageView ()
+    @IBOutlet weak var timerLabel = UILabel ()
+    var count : Int = 40
+    var videoTimer = Timer ()
+    var isVideoButtonSelected: Bool = false
+    let cameraSession = AVCaptureSession()
+    var imagePicker = UIImagePickerController ()
+//    var previewLayer : AVCaptureVideoPreviewLayer?
+    
+    // If we find a device we'll store it here for later use
+    var captureDevice : AVCaptureDevice?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.title = "Cool"
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
+        videoBGImage?.clipsToBounds = true
+        videoBGImage?.layer.cornerRadius = (videoBGImage?.frame.size.height)!/2
+        videoBGImage?.layer.masksToBounds = true
         setupCameraSession()
         
+        // Do any additional setup after loading the view, typically from a nib.
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    override func viewWillAppear(_ animated: Bool) {
         view.layer.addSublayer(previewLayer)
-        
+        count = 40
+        timerLabel?.text = "00:40"
         cameraSession.startRunning()
     }
     
-    lazy var cameraSession: AVCaptureSession = {
-        let s = AVCaptureSession()
-        s.sessionPreset = AVCaptureSessionPresetLow
-        return s
-    }()
+    override func viewWillDisappear(_ animated: Bool) {
+        cameraSession.stopRunning()
+    }
+    
+//    lazy var cameraSession: AVCaptureSession = {
+//        let s = AVCaptureSession()
+//        s.sessionPreset = AVCaptureSessionPresetHigh
+//        return s
+//    }()
     
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let preview =  AVCaptureVideoPreviewLayer(session: self.cameraSession)
-        preview?.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        preview?.bounds = CGRect(x: 0, y: 64, width: self.view.bounds.width, height: self.view.bounds.height - 250)
         preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
         preview?.videoGravity = AVLayerVideoGravityResize
         return preview!
@@ -72,20 +92,65 @@ class XPVideoRecordingPlayViewController: UIViewController,AVCaptureVideoDataOut
         }
     }
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didOutputSampleBuffer sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        // Here you collect each frame and process it
+    @IBAction func recordVideo(sender: AnyObject) {
+        guard isVideoButtonSelected else {
+            
+            videoBGImage?.backgroundColor = UIColor.orange
+            videoButton?.setImage(UIImage(named: "MicrophonePlayingImage"), for: UIControlState.normal)
+            isVideoButtonSelected = true
+            videoTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
+            self.startRecording()
+            return
+        }
+        videoTimer.invalidate()
+         isVideoButtonSelected = false
+        videoBGImage?.backgroundColor = UIColor.init(colorLiteralRed: 84.0/255.0, green: 198.0/255.0, blue: 231/255.0, alpha: 1.0)
+        videoButton?.setImage(UIImage(named: "VideoCameraIcon"), for: UIControlState.normal)
+        self.stopRecording()
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingStopViewController") as! XPVideoRecordingStopViewController
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+
     }
     
-    func captureOutput(_ captureOutput: AVCaptureOutput!, didDrop sampleBuffer: CMSampleBuffer!, from connection: AVCaptureConnection!) {
-        // Here you can count how many frames are dopped
-    }
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // This will count the Time
+    func countDownTimer () {
+        if (count > 0) {
+            count -= 1
+          timerLabel?.text = "00:" + String(count)
+        } else  {
+//            timerLabel?.text = String(timer)
+            stopRecording()
+        }
     }
     
+    func startRecording() {
+        
+        let recorder = RPScreenRecorder.shared()
+//        isVideoPlaying = false
+        
+        recorder.startRecording(withMicrophoneEnabled: false) { [unowned self] (error) in
+            if let unwrappedError = error {
+                print(unwrappedError.localizedDescription)
+            } else {
+                
+//                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(XPVideoRecordingPlayViewController.stopRecording))
+            }
+        }
+    }
+    
+    func stopRecording() {
+        let recorder = RPScreenRecorder.shared()
+        
+        recorder.stopRecording { [unowned self] (preview, error) in
+//            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: "startRecording")
+            
+            if let unwrappedPreview = preview {
+//                unwrappedPreview.previewControllerDelegate = self as! RPPreviewViewControllerDelegate
+//                self.present(unwrappedPreview, animated: true, completion: nil)
+            }
+        }
+    }
+
 
     /*
     // MARK: - Navigation

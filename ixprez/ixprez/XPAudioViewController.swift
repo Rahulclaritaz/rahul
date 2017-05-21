@@ -9,11 +9,11 @@
 import UIKit
 import ContactsUI
 
-//protocol cellTextValidateDelegate {
-//    func cellTextData (vc : XPAudioViewController)
-//}
+protocol cellTextValidateDelegate {
+    func cellTextData (vc : XPAudioViewController)
+}
 
-class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,AudioTextFieldDelegate, UIPopoverPresentationControllerDelegate {
+class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate, UIPopoverPresentationControllerDelegate {
     
     enum shareButtonTitle {
         case Private
@@ -44,8 +44,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var moodLabel = UILabel()
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
-    var cellIndexPath = XPAudioXpressTableViewCell()
-//    var delegateCell : cellTextValidateDelegate?
+//    var cellIndexPath = XPAudioXpressTableViewCell()
+    var delegateCell : cellTextValidateDelegate?
     
     
     var tap = UITapGestureRecognizer()
@@ -211,12 +211,12 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 //        return
 //    }
     
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var selecteCellIndexPath = tableView.indexPathForSelectedRow
-        print(selecteCellIndexPath)
-        
-        print("You select the : \(indexPath.row)")
-    }
+//    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        var selecteCellIndexPath = tableView.indexPathForSelectedRow
+//        print(selecteCellIndexPath)
+//        
+//        print("You select the : \(indexPath.row)")
+//    }
     
     //MARK: Pickerview DataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -316,11 +316,15 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     @IBAction func NextViewScreenButtonAvtion (sender: Any) {
         
 //        delegateCell?.cellTextData(vc: self)
-       print(emailAddressLabel.text)
-        print(moodLabel.text)
-        print(feelingsLabel.text)
+//        if (moodLabel.text == nil){
+//            let alert = UIAlertController(title: "Alert", message: "My Alert for test", preferredStyle: UIAlertControllerStyle.alert)
+//            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+//          self.present(alert, animated: true, completion: nil)
+//        }
        
     }
+    
+    
     
     /*
     // MARK: - Navigation
@@ -331,6 +335,15 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         // Pass the selected object to the new view controller.
     }
     */
+
+}
+
+
+extension XPAudioViewController : AudioTextFieldDelegate {
+//    func textFieldValidate(textFieldName: String) {
+//        moodLabel.text = textFieldName
+//        print(moodLabel.text)
+//    }
 
 }
 

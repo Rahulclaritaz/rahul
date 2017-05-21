@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cUk-yf-vz3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cUk-yf-vz3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -341,7 +341,7 @@
             </objects>
             <point key="canvasLocation" x="1353" y="-2577"/>
         </scene>
-        <!--Video Recording Play View Controller-->
+        <!--Title-->
         <scene sceneID="oiS-uV-wuy">
             <objects>
                 <viewController storyboardIdentifier="XPVideoRecordingPlayViewController" id="bu9-gb-Cac" customClass="XPVideoRecordingPlayViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
@@ -375,7 +375,7 @@
                                         <state key="normal" image="VideoCameraIcon"/>
                                         <state key="selected" image="MicrophonePlayingImage"/>
                                         <connections>
-                                            <action selector="audioButtonAction:" destination="5aU-tO-mds" eventType="touchUpInside" id="14m-kf-CZV"/>
+                                            <action selector="recordVideoWithSender:" destination="bu9-gb-Cac" eventType="touchUpInside" id="cjK-zc-bfl"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lSX-Fm-slO">
@@ -418,8 +418,14 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="Phr-Fa-ZVk"/>
+                    <connections>
+                        <outlet property="timerLabel" destination="lXm-3c-FvM" id="CVO-oi-Khw"/>
+                        <outlet property="videoBGImage" destination="nqe-M0-ugO" id="aml-H3-DA2"/>
+                        <outlet property="videoButton" destination="x2W-nZ-3PQ" id="qab-Fp-hdo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8M-H1-u3I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -449,11 +455,8 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rn3-Es-txz">
                                         <rect key="frame" x="165" y="68" width="44" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" image="MicrophoneImageStop"/>
+                                        <state key="normal" image="VideoCameraIcon"/>
                                         <state key="selected" image="MicrophonePlayingImage"/>
-                                        <connections>
-                                            <action selector="audioButtonAction:" destination="5aU-tO-mds" eventType="touchUpInside" id="rvP-Vx-8h3"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aCW-TB-ecx">
                                         <rect key="frame" x="19" y="65" width="95" height="51"/>
@@ -464,7 +467,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="retryButtonActionWithSender:" destination="gZk-9b-moY" eventType="touchUpInside" id="zOW-M9-YlI"/>
+                                            <action selector="retryButtonActionWithSender:" destination="xYp-ae-cXn" eventType="touchUpInside" id="JgB-XF-ihO"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VpH-Uf-eSo">
@@ -476,21 +479,27 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="xpressButtonActionWithSender:" destination="gZk-9b-moY" eventType="touchUpInside" id="Dv6-Yx-Fcl"/>
+                                            <action selector="xpressButtonActionWithSender:" destination="xYp-ae-cXn" eventType="touchUpInside" id="VLL-oO-rWr"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6no-96-vpI">
-                                        <rect key="frame" x="87" y="0.0" width="200" height="28"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stop" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6no-96-vpI">
+                                        <rect key="frame" x="87" y="12" width="200" height="28"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="20"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="retryButton" destination="aCW-TB-ecx" id="cKs-yd-eGU"/>
+                        <outlet property="videoBGImage" destination="Lei-bN-REr" id="OSS-cn-kiV"/>
+                        <outlet property="xpressButton" destination="VpH-Uf-eSo" id="H9a-hP-lYh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yaM-6t-71H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

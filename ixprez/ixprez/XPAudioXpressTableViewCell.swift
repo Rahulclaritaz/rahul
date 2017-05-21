@@ -10,6 +10,7 @@ import UIKit
 
 protocol AudioTextFieldDelegate {
     func addContact (cell: XPAudioXpressTableViewCell)
+//    func textFieldValidate(textFieldName : String)
 }
 
 class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
@@ -26,7 +27,7 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     var delegate : AudioTextFieldDelegate?
     var pickerStatusType = UILabel()
     var indexPathRow = Int ()
-//    var audioDelegate = XPAudioViewController ()
+//    var audio = XPAudioViewController ()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,6 +41,7 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     
     /// Handle the event when user start changing the field
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        
         print("u click on the express cell")
         expressTitleTextField?.text = ""
     }
@@ -50,9 +52,11 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
         expressTitleTextField?.text = textField.text
         if (pickerStatusType.text == "Private" ){
             guard (indexPathRow == 0) else {
+//            delegate?.textFieldValidate(textFieldName: cellLabelFeeling.text!)
                 cellLabelFeeling.text = textField.text
                 return
             }
+//            delegate?.textFieldValidate(textFieldName: cellLabelExpress.text!)
             cellLabelExpress.text = textField.text
             print("The picker status type is :\(pickerStatusType.text)")
         } else if (pickerStatusType.text == "Public") {
