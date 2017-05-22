@@ -10,7 +10,8 @@ import UIKit
 
 class XPAudioStopViewController: UIViewController {
     
-    
+    var commonRequestWebService = XPWebService ()
+    var commonWebUrl = URLDirectory.audioDataUpload ()
     let pulsrator = Pulsator()
    @IBOutlet weak var retryButton = UIButton()
    @IBOutlet weak var xpressButton = UIButton()
@@ -69,6 +70,7 @@ class XPAudioStopViewController: UIViewController {
     }
     
     @IBAction func xpressButtonAction (sender : Any) {
+        sendRequestToWebService()
 //        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController")
 //        self.present(storyBoard!, animated: true, completion: nil)
     }
@@ -76,6 +78,18 @@ class XPAudioStopViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func sendRequestToWebService () {
+        
+        var parameter = ["fileupload": "","from_email" : "","to_email" : "","title":"","tags":"","privacy":"","country":"","language":""]
+        
+        commonRequestWebService.getVideoResponse(urlString: commonWebUrl.url(), dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+        print(audioResponseData)
+            print(error)
+        
+        })
+        
     }
     
 
