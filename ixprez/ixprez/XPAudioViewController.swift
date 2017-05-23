@@ -9,9 +9,9 @@
 import UIKit
 import ContactsUI
 
-protocol cellTextValidateDelegate {
-    func cellTextData (vc : XPAudioViewController)
-}
+//protocol cellTextValidateDelegate {
+//    func cellTextData (vc : XPAudioViewController)
+//}
 
 class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate, UIPopoverPresentationControllerDelegate {
     
@@ -44,8 +44,9 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var moodLabel = UILabel()
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
+    var rowInCell = Int ()
 //    var cellIndexPath = XPAudioXpressTableViewCell()
-    var delegateCell : cellTextValidateDelegate?
+//    var delegateCell : cellTextValidateDelegate?
     
     
     var tap = UITapGestureRecognizer()
@@ -148,6 +149,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                 cell.expressTitleTextField?.text = "Feelings!"
                  cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
                 cell.indexPathRow = indexPath.row
+                cell.delegate = self
                 return cell
 
             }
@@ -159,6 +161,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     cell.labelCell?.text = "What's your mood?"
                     cell.expressTitleTextField?.text = "Enter Tags"
                     cell.indexPathRow = indexPath.row
+                    cell.delegate = self
                     return cell
                     
                 }
@@ -168,6 +171,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     cell.expressTitleTextField?.text = "Feelings!"
                      cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
                     cell.indexPathRow = indexPath.row
+                    cell.delegate = self
                     return cell
                 }
             }
@@ -178,6 +182,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     cell.labelCell?.text = "What's your mood?"
                     cell.expressTitleTextField?.text = "Enter Tags"
                     cell.indexPathRow = indexPath.row
+                    cell.delegate = self
                     return cell
                 }
                 else if (indexPath.row == 1) {
@@ -195,6 +200,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     cell.expressTitleTextField?.text = "Feelings!"
                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
                     cell.indexPathRow = indexPath.row
+                    cell.delegate = self
                     return cell
                 }
             }
@@ -312,15 +318,53 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 
     }
     
-    
+    // This method will check the textfield validation and move to next Controller. 
     @IBAction func NextViewScreenButtonAvtion (sender: Any) {
-        
-//        delegateCell?.cellTextData(vc: self)
-//        if (moodLabel.text == nil){
-//            let alert = UIAlertController(title: "Alert", message: "My Alert for test", preferredStyle: UIAlertControllerStyle.alert)
-//            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-//          self.present(alert, animated: true, completion: nil)
-//        }
+        let alert = UIAlertController(title: "Alert", message: "Email and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioRecordingViewController") as! XPAudioRecordingViewController
+        if (shareTitleLabel.text == "Private") {
+            if ((emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                if (feelingsLabel.text == nil) {
+                  feelingsLabel.text! = "Awesome"
+                    storyBoard.titleString = feelingsLabel.text!
+                }else {
+                    storyBoard.titleString = feelingsLabel.text!
+                }
+                
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            }
+            
+        } else if (shareTitleLabel.text == "Public") {
+            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                if (feelingsLabel.text == nil) {
+                    feelingsLabel.text! = "Awesome"
+                    storyBoard.titleString = feelingsLabel.text!
+                }else {
+                    storyBoard.titleString = feelingsLabel.text!
+                }
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            }
+            
+            
+        } else if (shareTitleLabel.text == "Both") {
+            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true)) {
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                if (feelingsLabel.text == nil) {
+                    feelingsLabel.text! = "Awesome"
+                    storyBoard.titleString = feelingsLabel.text!
+                }else {
+                    storyBoard.titleString = feelingsLabel.text!
+                }
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            }
+            
+        }
        
     }
     
@@ -338,13 +382,41 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 
 }
 
-
 extension XPAudioViewController : AudioTextFieldDelegate {
-//    func textFieldValidate(textFieldName: String) {
-//        moodLabel.text = textFieldName
-//        print(moodLabel.text)
-//    }
-
+    func textFieldValidate(textFieldName: String, row: Int) {
+        
+        rowInCell = row
+        if (shareTitleLabel.text == "Private") {
+            guard (rowInCell == 0) else {
+                feelingsLabel.text = textFieldName
+                return
+            }
+            emailAddressLabel.text = textFieldName
+            
+        } else if (shareTitleLabel.text == "Public") {
+            
+            guard (rowInCell == 0) else {
+                feelingsLabel.text = textFieldName
+                return
+            }
+            moodLabel.text = textFieldName
+            return
+            
+        } else if (shareTitleLabel.text == "Both") {
+            
+            if (rowInCell == 0) {
+                moodLabel.text = textFieldName
+                return
+            } else if  (rowInCell == 1) {
+                emailAddressLabel.text = textFieldName
+                return
+            } else if (rowInCell == 2){
+                feelingsLabel.text = textFieldName
+                return
+            }
+            
+        }
+    }
 }
 
 

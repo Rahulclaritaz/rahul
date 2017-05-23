@@ -20,10 +20,13 @@ class XPAudioStopViewController: UIViewController {
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     @IBOutlet weak var pulseAnimationView: UIView!
+    var titleLabel = String ()
+    var audioRecordURLString = String ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.title = "Cool"
+        self.title = titleLabel
         
         // this will remove the back button from the navigation bar
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
@@ -82,13 +85,20 @@ class XPAudioStopViewController: UIViewController {
     
     func sendRequestToWebService () {
         
-        var parameter = ["fileupload": "","from_email" : "","to_email" : "","title":"","tags":"","privacy":"","country":"","language":""]
+        var parameter = ["fileupload": audioRecordURLString,"from_email" : "rahul2338.sharma@rediffmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"]
         
-        commonRequestWebService.getVideoResponse(urlString: commonWebUrl.url(), dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
-        print(audioResponseData)
+        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+        
+            print(audioResponseData)
             print(error)
         
         })
+        
+//        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url(), dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+//        print(audioResponseData)
+//            print(error)
+//        
+//        })
         
     }
     

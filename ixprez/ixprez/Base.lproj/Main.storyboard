@@ -1720,7 +1720,7 @@
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eh4-tG-y05">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="eh4-tG-y05">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1871,7 +1871,6 @@
                                 <state key="normal" image="AudioRightImage"/>
                                 <connections>
                                     <action selector="NextViewScreenButtonAvtionWithSender:" destination="0qU-11-b6V" eventType="touchUpInside" id="7hI-N7-Sha"/>
-                                    <segue destination="5aU-tO-mds" kind="show" id="A94-rj-XIy"/>
                                 </connections>
                             </button>
                             <pickerView hidden="YES" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tkU-SM-Zr4">
@@ -2029,7 +2028,7 @@
         <!--Title-->
         <scene sceneID="IKQ-U2-LX1">
             <objects>
-                <viewController storyboardIdentifier="audiorecord" id="5aU-tO-mds" customClass="XPAudioRecordingViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="XPAudioRecordingViewController" id="5aU-tO-mds" customClass="XPAudioRecordingViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TUK-uQ-htf"/>
                         <viewControllerLayoutGuide type="bottom" id="oBd-3J-V8Y"/>

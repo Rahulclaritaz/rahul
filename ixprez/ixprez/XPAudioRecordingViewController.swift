@@ -34,13 +34,15 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     var lowPassResults1:Double! = 0.0
     var lowPassResult: Double! = 0.0
     var audioVisualizer: ATAudioVisualizer!
+    var titleString = String ()
     @IBOutlet weak var visualizerView: UIView!
    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.navigationItem.title = "Cool"
+        visualizerView.isHidden = true
+        self.navigationItem.title = titleString
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         audioBGImage?.clipsToBounds = true
@@ -60,27 +62,27 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
 //        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
 //        audioBGAnimationTwo?.clipsToBounds = true
         pulseAnimationView?.layer.addSublayer(pulsrator)
-        self.initObservers()
+//        self.initObservers()
 //        self.initAudioPlayer()
-        self.initAudioVisualizer()
+//        self.initAudioVisualizer()
        
         // Audio recording Setup
-        recordingSession = AVAudioSession.sharedInstance()
-        do {
-            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-            try recordingSession.setActive(true)
-            recordingSession.requestRecordPermission() { [unowned self] allowed in
-                DispatchQueue.main.async {
-                    if allowed {
-                        print("Allow")
-                    } else {
-                        print("Dont Allow")
-                    }
-                }
-            }
-        } catch {
-            print("failed to record!")
-        }
+//        recordingSession = AVAudioSession.sharedInstance()
+//        do {
+//            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+//            try recordingSession.setActive(true)
+//            recordingSession.requestRecordPermission() { [unowned self] allowed in
+//                DispatchQueue.main.async {
+//                    if allowed {
+//                        print("Allow")
+//                    } else {
+//                        print("Dont Allow")
+//                    }
+//                }
+//            }
+//        } catch {
+//            print("failed to record!")
+//        }
         
         // Audio Settings
         settings = [
@@ -92,15 +94,15 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         
     }
     
-    func initObservers()
-    {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
-        
-        
-    }
+//    func initObservers()
+//    {
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+//        
+//        
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
+//        
+//        
+//    }
     
     func initAudioPlayer() {
         let url = URL(fileURLWithPath: Bundle.main.path(forResource: "Boys Edit Final", ofType: "mp3")!)
@@ -126,30 +128,30 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         visualizerView.addSubview(audioVisualizer)
     }
     
-    func didEnterBackground()
-    {
-        self.stopAudioVisualizer()
-    }
+//    func didEnterBackground()
+//    {
+//        self.stopAudioVisualizer()
+//    }
+//    
+//    func didEnterForeground()
+//    {
+//        if (isAudioButtonSelected)
+//        {
+//            self.startAudioVisualizer()
+//        }
+//    }
     
-    func didEnterForeground()
-    {
-        if (isAudioButtonSelected)
-        {
-            self.startAudioVisualizer()
-        }
-    }
-    
-    func startAudioVisualizer() {
-        
-        if visualizerTimer != nil
-        {
-            visualizerTimer.invalidate()
-            visualizerTimer = nil
-            
-        }
-        visualizerTimer = Timer.scheduledTimer(timeInterval: visualizerAnimationDuration, target: self, selector: #selector(visualizerTimerChanged), userInfo: nil, repeats: true)
-        
-    }
+//    func startAudioVisualizer() {
+//        
+//        if visualizerTimer != nil
+//        {
+//            visualizerTimer.invalidate()
+//            visualizerTimer = nil
+//            
+//        }
+//        visualizerTimer = Timer.scheduledTimer(timeInterval: visualizerAnimationDuration, target: self, selector: #selector(visualizerTimerChanged), userInfo: nil, repeats: true)
+//        
+//    }
     
     
     func visualizerTimerChanged(_ timer:CADisplayLink)
@@ -205,7 +207,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             visualizerTimer = nil
             
         }
-        audioVisualizer.stop()
+//        audioVisualizer.stop()
         
     }
     
@@ -243,7 +245,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     pulsrator.animationDuration = 5
     pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
     pulsrator.start()
-    self.stopAudioVisualizer()
+//    self.stopAudioVisualizer()
     
     }
 
@@ -300,7 +302,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             audioButton.setImage(UIImage(named: "MicrophonePlayingImage"), for: UIControlState.normal)
 //            isAudioButtonSelected = true
             audioTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
-             self.startAudioVisualizer()
+//             self.startAudioVisualizer()
             self.startRecording()
             return
         }
@@ -308,10 +310,15 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         isAudioButtonSelected = false
         audioBGImage?.backgroundColor = UIColor.init(colorLiteralRed: 84.0/255.0, green: 198.0/255.0, blue: 231/255.0, alpha: 1.0)
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
-        self.stopAudioVisualizer()
+//        self.stopAudioVisualizer()
         self.finishRecording(success: true)
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController")
-        self.navigationController?.pushViewController(storyBoard!, animated: true)
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController") as! XPAudioStopViewController
+        storyBoard.titleLabel = titleString
+        storyBoard.audioRecordURLString = (self.directoryURL()?.absoluteString)!
+        print("the audio output url as string is \(storyBoard.audioRecordURLString)")
+        
+        
+        self.navigationController?.pushViewController(storyBoard, animated: true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -332,10 +339,10 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     
     // This method will check before moving to next controller audio recording is stop or not if not then will stop and move.
    override func viewWillDisappear(_ animated: Bool) {
-    if (audioRecorder.isRecording) {
-        finishRecording(success: true)
-        audioTimer.invalidate()
-        }
+//    if (audioRecorder.isRecording) {
+//        finishRecording(success: true)
+//        audioTimer.invalidate()
+//        }
     pulsrator.stop()
     
     }
