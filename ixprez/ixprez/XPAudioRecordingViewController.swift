@@ -11,6 +11,7 @@ import AVFoundation
 
 class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,AVAudioPlayerDelegate {
     
+    let visualizerAnimationDuration = 0.01
     let pulsrator = Pulsator()
     var isAudioButtonSelected : Bool = false
     let commomWebService = XPWebService()
@@ -29,10 +30,19 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     var recordingSession : AVAudioSession!
     var audioRecorder    :AVAudioRecorder!
     var settings         = [String : Int]()
+    var visualizerTimer: Timer! = Timer ()
+    var lowPassResults1:Double! = 0.0
+    var lowPassResult: Double! = 0.0
+    var audioVisualizer: ATAudioVisualizer!
+    var titleString = String ()
+    @IBOutlet weak var visualizerView: UIView!
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.navigationItem.title = "Cool"
+        visualizerView.isHidden = true
+        self.navigationItem.title = titleString
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         audioBGImage?.clipsToBounds = true
@@ -52,24 +62,27 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
 //        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
 //        audioBGAnimationTwo?.clipsToBounds = true
         pulseAnimationView?.layer.addSublayer(pulsrator)
+//        self.initObservers()
+//        self.initAudioPlayer()
+//        self.initAudioVisualizer()
        
         // Audio recording Setup
-        recordingSession = AVAudioSession.sharedInstance()
-        do {
-            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-            try recordingSession.setActive(true)
-            recordingSession.requestRecordPermission() { [unowned self] allowed in
-                DispatchQueue.main.async {
-                    if allowed {
-                        print("Allow")
-                    } else {
-                        print("Dont Allow")
-                    }
-                }
-            }
-        } catch {
-            print("failed to record!")
-        }
+//        recordingSession = AVAudioSession.sharedInstance()
+//        do {
+//            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+//            try recordingSession.setActive(true)
+//            recordingSession.requestRecordPermission() { [unowned self] allowed in
+//                DispatchQueue.main.async {
+//                    if allowed {
+//                        print("Allow")
+//                    } else {
+//                        print("Dont Allow")
+//                    }
+//                }
+//            }
+//        } catch {
+//            print("failed to record!")
+//        }
         
         // Audio Settings
         settings = [
@@ -80,6 +93,144 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         ]
         
     }
+    
+//    func initObservers()
+//    {
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterBackground), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+//        
+//        
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.didEnterForeground), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
+//        
+//        
+//    }
+    
+    func initAudioPlayer() {
+        let url = URL(fileURLWithPath: Bundle.main.path(forResource: "Boys Edit Final", ofType: "mp3")!)
+        let error: NSError?
+        do {
+            self.audioPlayer = try AVAudioPlayer(contentsOf: url)
+        }
+        catch let error {
+            print(error)
+        }
+        audioPlayer.isMeteringEnabled = true
+        self.audioPlayer.delegate = self
+        audioPlayer.prepareToPlay()
+    }
+    
+    
+    func initAudioVisualizer() {
+        var frame = visualizerView.frame
+        frame.origin.x = 0
+        frame.origin.y = 0
+        let visualizerColor = UIColor(red: 255.0 / 255.0, green: 84.0 / 255.0, blue: 116.0 / 255.0, alpha: 1.0)
+        self.audioVisualizer = ATAudioVisualizer(barsNumber: 11, frame: frame, andColor: visualizerColor)
+        visualizerView.addSubview(audioVisualizer)
+    }
+    
+//    func didEnterBackground()
+//    {
+//        self.stopAudioVisualizer()
+//    }
+//    
+//    func didEnterForeground()
+//    {
+//        if (isAudioButtonSelected)
+//        {
+//            self.startAudioVisualizer()
+//        }
+//    }
+    
+//    func startAudioVisualizer() {
+//        
+//        if visualizerTimer != nil
+//        {
+//            visualizerTimer.invalidate()
+//            visualizerTimer = nil
+//            
+//        }
+//        visualizerTimer = Timer.scheduledTimer(timeInterval: visualizerAnimationDuration, target: self, selector: #selector(visualizerTimerChanged), userInfo: nil, repeats: true)
+//        
+//    }
+    
+    
+    func visualizerTimerChanged(_ timer:CADisplayLink)
+    {
+        audioRecorder.updateMeters()
+        let ALPHA: Double = 1.05
+        let averagePower: Double =  Double(audioRecorder.averagePower(forChannel: 0))
+        let averagePowerForChannel: Double = pow(10, (0.05 * averagePower))
+        lowPassResult = ALPHA * averagePowerForChannel + (1.0 - ALPHA) * lowPassResult
+        let averagePowerForChannel1: Double = pow(10, (0.05 * Double(audioRecorder.averagePower(forChannel: 1))))
+        lowPassResults1 = ALPHA * averagePowerForChannel1 + (1.0 - ALPHA) * lowPassResults1
+        audioVisualizer.animate(withChannel0Level: self._normalizedPowerLevelFromDecibels(audioRecorder.averagePower(forChannel: 0)), andChannel1Level: self._normalizedPowerLevelFromDecibels(audioRecorder.averagePower(forChannel: 1)))
+//        self.updateLabels()
+        
+    }
+    
+//    func updateLabels() {
+//        self.currentTimeLabel.text! = self.convertSeconds(Float(audioPlayer.currentTime))
+//        self.remainingTimeLabel.text! = self.convertSeconds(Float(audioPlayer.duration) - Float(audioPlayer.currentTime))
+//    }
+    
+    
+//    func convertSeconds(_ secs: Float) -> String {
+//        var currentSecs = secs
+//        if currentSecs < 0.1 {
+//            currentSecs = 0
+//        }
+//        var totalSeconds = Int(secs)
+//        if currentSecs > 0.45 {
+//            totalSeconds += 1
+//        }
+//        let seconds = totalSeconds % 60
+//        let minutes = (totalSeconds / 60) % 60
+//        let hours = totalSeconds / 3600
+//        if hours > 0 {
+//            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+//        }
+//        return String(format: "%02d:%02d", minutes, seconds)
+//    }
+    
+    func _normalizedPowerLevelFromDecibels(_ decibels: Float) -> Float {
+        if decibels < -60.0 || decibels == 0.0 {
+            return 0.0
+        }
+        return powf((powf(10.0, 0.05 * decibels) - powf(10.0, 0.05 * -60.0)) * (1.0 / (1.0 - powf(10.0, 0.05 * -60.0))), 1.0 / 2.0)
+    }
+    
+    func stopAudioVisualizer()
+    {
+        if visualizerTimer != nil
+        {
+            visualizerTimer.invalidate()
+            visualizerTimer = nil
+            
+        }
+//        audioVisualizer.stop()
+        
+    }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        print("audioPlayerDidFinishPlaying")
+//        playPauseButton.setImage(UIImage(named: "play_")!, for: UIControlState())
+//        playPauseButton.setImage(UIImage(named: "play")!, for: .highlighted)
+//        playPauseButton.isSelected = false
+//        self.currentTimeLabel.text! = "00:00"
+//        self.remainingTimeLabel.text! = self.convertSeconds(Float(audioPlayer.duration))
+//        self.stopAudioVisualizer()
+    }
+    
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
+        print("audioPlayerDecodeErrorDidOccur")
+//        playPauseButton.setImage(UIImage(named: "play_")!, for: UIControlState())
+//        playPauseButton.setImage(UIImage(named: "play")!, for: .highlighted)
+//        playPauseButton.isSelected = false
+//        self.currentTimeLabel.text! = "00:00"
+//        self.remainingTimeLabel.text! = "00:00"
+//        self.stopAudioVisualizer()
+    }
+
     
     
    override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +245,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     pulsrator.animationDuration = 5
     pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
     pulsrator.start()
+//    self.stopAudioVisualizer()
     
     }
 
@@ -148,8 +300,9 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             isAudioButtonSelected = true
             audioBGImage?.backgroundColor = UIColor.orange
             audioButton.setImage(UIImage(named: "MicrophonePlayingImage"), for: UIControlState.normal)
-            isAudioButtonSelected = true
+//            isAudioButtonSelected = true
             audioTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
+//             self.startAudioVisualizer()
             self.startRecording()
             return
         }
@@ -157,9 +310,15 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         isAudioButtonSelected = false
         audioBGImage?.backgroundColor = UIColor.init(colorLiteralRed: 84.0/255.0, green: 198.0/255.0, blue: 231/255.0, alpha: 1.0)
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
+//        self.stopAudioVisualizer()
         self.finishRecording(success: true)
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController")
-        self.navigationController?.pushViewController(storyBoard!, animated: true)
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController") as! XPAudioStopViewController
+        storyBoard.titleLabel = titleString
+        storyBoard.audioRecordURLString = (self.directoryURL()?.absoluteString)!
+        print("the audio output url as string is \(storyBoard.audioRecordURLString)")
+        
+        
+        self.navigationController?.pushViewController(storyBoard, animated: true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -180,10 +339,10 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     
     // This method will check before moving to next controller audio recording is stop or not if not then will stop and move.
    override func viewWillDisappear(_ animated: Bool) {
-    if (audioRecorder.isRecording) {
-        finishRecording(success: true)
-        audioTimer.invalidate()
-        }
+//    if (audioRecorder.isRecording) {
+//        finishRecording(success: true)
+//        audioTimer.invalidate()
+//        }
     pulsrator.stop()
     
     }

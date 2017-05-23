@@ -9,7 +9,7 @@
 import UIKit
 
 class XPHomeDashBoardViewController: UIViewController {
-   var circle = XPCircleAnimationView()
+
     var userEmail = String()
     let userProfile = XPWebService()
     let userPrifileURL = URLDirectory.UserProfile()
@@ -99,9 +99,9 @@ class XPHomeDashBoardViewController: UIViewController {
             print(imageURL)
             let newString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://183.82.33.232:3000", options: .literal, range: nil)
             print(newString)
-            let url = NSURL(string : newString)
-            let imageData = NSData(contentsOf: url as! URL)
-            self.userProfileImage?.image = UIImage(data: imageData as! Data)
+//            let url = NSURL(string : newString)
+//            let imageData = NSData(contentsOf: url as! URL)
+//            self.userProfileImage?.image = UIImage(data: imageData as! Data)
             
 //            if let url = NSURL(string: "http://183.82.33.232:3000/uploads/profileImage/1487756666037s.jpg") {
 //                if let imageData = NSData(contentsOf: url as URL) {

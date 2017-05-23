@@ -10,7 +10,7 @@ import UIKit
 
 protocol AudioTextFieldDelegate {
     func addContact (cell: XPAudioXpressTableViewCell)
-//    func textFieldValidate(textFieldName : String)
+    func textFieldValidate(textFieldName : String, row : Int)
 }
 
 class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
@@ -49,30 +49,37 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     /// Handle the event when user finishing changing the value of the text field
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("You finish to write the textfield'")
+//        delegate?.textFieldValidate(textFieldName: textField.text!)
         expressTitleTextField?.text = textField.text
         if (pickerStatusType.text == "Private" ){
             guard (indexPathRow == 0) else {
+                delegate?.textFieldValidate(textFieldName: textField.text! , row: indexPathRow)
 //            delegate?.textFieldValidate(textFieldName: cellLabelFeeling.text!)
                 cellLabelFeeling.text = textField.text
                 return
             }
-//            delegate?.textFieldValidate(textFieldName: cellLabelExpress.text!)
+            delegate?.textFieldValidate(textFieldName: textField.text!, row: indexPathRow)
             cellLabelExpress.text = textField.text
             print("The picker status type is :\(pickerStatusType.text)")
         } else if (pickerStatusType.text == "Public") {
             guard (indexPathRow == 0) else {
+                delegate?.textFieldValidate(textFieldName: textField.text!, row:  indexPathRow)
                 cellLabelMood.text = textField.text
                 return
             }
+            delegate?.textFieldValidate(textFieldName: textField.text!, row: indexPathRow)
             cellLabelExpress.text = textField.text
            print("The picker status type is :\(pickerStatusType.text)")
         } else if  (pickerStatusType.text == "Both") {
             if (indexPathRow == 0) {
+                delegate?.textFieldValidate(textFieldName: textField.text!, row: indexPathRow)
                 cellLabelMood.text = textField.text
             } else if (indexPathRow == 1) {
+                delegate?.textFieldValidate(textFieldName: textField.text! , row:  indexPathRow)
                cellLabelExpress.text = textField.text
                 
             } else if (indexPathRow == 2) {
+                delegate?.textFieldValidate(textFieldName: textField.text! , row: indexPathRow)
                 cellLabelFeeling.text = textField.text
                 
             }

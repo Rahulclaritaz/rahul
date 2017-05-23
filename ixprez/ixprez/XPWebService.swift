@@ -323,40 +323,86 @@ class XPWebService
     
     // This function will upload the audio data with parameter and will return the response.
     
-//    func uploadTheAudioData (urlString : String , dictData : NSDictionary, callBack : @escaping(_ message : NSDictionary, _ error : Error) -> Void) {
-//        
-//        let jsonData = try? JSONSerialization.data(withJSONObject: dictData, options: .prettyPrinted)
-//        let urlString = URL(string : urlString)
-//        var requestUrl = URLRequest(url: urlString! as URL)
-//        //        var requestUrl = URLRequest(url : urlString as! URL)
-//        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        requestUrl.httpBody = jsonData
-//        requestUrl.httpMethod = "POST"
-//        let session = URLSession.shared
-//        let dataTask = session.dataTask(with: requestUrl , completionHandler:
-//        {
-//            
-//            (data,response,error) -> Void in
-//            
-//            if (data != nil && error == nil) {
-//                
-//                do {
-//                    
-//                    let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
-//                    
-//                    print(jsonData)
-//                    let responseUserImage = jsonData.value(forKey: "data")
-//                    
-//                    callback(responseUserImage as! NSDictionary, nil)
-//                } catch {
-//                    
-//                }
-//                
-//            }
-//        })
-//        dataTask.resume()
-//        
-//    }
+    func getAudioResponse(urlString : String , dictData : NSDictionary, callBack : @escaping(_ message : NSDictionary, _ error : Error) -> Void) {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dictData, options: .prettyPrinted)
+        let urlString = URL(string : urlString)
+        var requestUrl = URLRequest(url: urlString! as URL)
+        //        var requestUrl = URLRequest(url : urlString as! URL)
+        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestUrl.httpBody = jsonData
+        requestUrl.httpMethod = "POST"
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: requestUrl , completionHandler:
+        {
+            
+            (data,response,error) -> Void in
+            
+            if (data != nil && error == nil) {
+                
+                do {
+                    
+                    let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
+                    print(jsonData)
+                    let responseUserImage = jsonData.value(forKey: "data")
+                    
+                    callBack(responseUserImage as! NSDictionary, error!)
+                } catch {
+                    
+                }
+                
+            }
+        })
+        dataTask.resume()
+        
+    }
+    
+    
+  // This func will upload the data and get the response from the server
+    func getVideoResponse (urlString : String , dictData : NSDictionary, callBack : @escaping (_ message : NSDictionary , _ error : Error) -> Void) {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dictData, options: .prettyPrinted)
+        let urlString = URL(string : urlString)
+        var requestUrl = URLRequest(url: urlString! as URL)
+        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestUrl.httpBody = jsonData
+        requestUrl.httpMethod = "POST"
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: requestUrl) { (data, response, error) in
+            if (data != nil && error == nil)  {
+                
+                do {
+                    
+                    let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
+                    print(jsonData)
+                    var jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
+                    
+                    if (jsonResponseStatus == "Failed") {
+                        return
+                    } else {
+                        let responseData = jsonData.value(forKey: "data")
+                        
+                        callBack(responseData as! NSDictionary, error!)
+                    }
+                    
+                    
+                } catch {
+                    
+                }
+
+                
+            } else {
+                return
+            }
+            
+        }
+        dataTask.resume()
+    }
+    
+    
+    
     
     
 }

@@ -108,7 +108,13 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
         videoButton?.setImage(UIImage(named: "VideoCameraIcon"), for: UIControlState.normal)
         self.stopRecording()
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingStopViewController") as! XPVideoRecordingStopViewController
+        let countStopValue : String = (timerLabel?.text)!
+        storyBoard.countLabelString = countStopValue as String
         self.navigationController?.pushViewController(storyBoard, animated: true)
+//        self.addChildViewController(storyBoard)
+//        self.view.frame = self.view.frame
+//        self.view.addSubview(storyBoard.view)
+//        self.didMove(toParentViewController: storyBoard)
 
     }
     
@@ -126,9 +132,8 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
     func startRecording() {
         
         let recorder = RPScreenRecorder.shared()
-//        isVideoPlaying = false
         
-        recorder.startRecording(withMicrophoneEnabled: false) { [unowned self] (error) in
+        recorder.startRecording { [unowned self] (error) in
             if let unwrappedError = error {
                 print(unwrappedError.localizedDescription)
             } else {

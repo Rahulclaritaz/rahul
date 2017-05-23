@@ -10,7 +10,8 @@ import UIKit
 
 class XPAudioStopViewController: UIViewController {
     
-    
+    var commonRequestWebService = XPWebService ()
+    var commonWebUrl = URLDirectory.audioDataUpload ()
     let pulsrator = Pulsator()
    @IBOutlet weak var retryButton = UIButton()
    @IBOutlet weak var xpressButton = UIButton()
@@ -19,10 +20,13 @@ class XPAudioStopViewController: UIViewController {
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     @IBOutlet weak var pulseAnimationView: UIView!
+    var titleLabel = String ()
+    var audioRecordURLString = String ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.title = "Cool"
+        self.title = titleLabel
         
         // this will remove the back button from the navigation bar
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
@@ -69,6 +73,7 @@ class XPAudioStopViewController: UIViewController {
     }
     
     @IBAction func xpressButtonAction (sender : Any) {
+        sendRequestToWebService()
 //        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController")
 //        self.present(storyBoard!, animated: true, completion: nil)
     }
@@ -76,6 +81,25 @@ class XPAudioStopViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func sendRequestToWebService () {
+        
+        var parameter = ["fileupload": audioRecordURLString,"from_email" : "rahul2338.sharma@rediffmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"]
+        
+        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+        
+            print(audioResponseData)
+            print(error)
+        
+        })
+        
+//        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url(), dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+//        print(audioResponseData)
+//            print(error)
+//        
+//        })
+        
     }
     
 

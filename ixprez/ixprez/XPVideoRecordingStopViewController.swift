@@ -9,14 +9,18 @@
 import UIKit
 
 class XPVideoRecordingStopViewController: UIViewController {
-
+    var commonRequsetResponseService = XPWebService ()
+    var commonWebURL = URLDirectory.videoDataUpload()
     @IBOutlet weak var retryButton = UIButton()
     @IBOutlet weak var xpressButton = UIButton()
     @IBOutlet weak var videoBGImage = UIImageView()
+    @IBOutlet weak var countLabel = UILabel ()
+    var countLabelString = String ()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.title = "Cool"
+        self.countLabel?.text = countLabelString
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         retryButton?.layer.cornerRadius = 25.0
@@ -37,8 +41,25 @@ class XPVideoRecordingStopViewController: UIViewController {
     }
     
     @IBAction func xpressButtonAction (sender : Any) {
-        //        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController")
-        //        self.present(storyBoard!, animated: true, completion: nil)
+        uploadVideoToWebService()
+//                let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController")
+//                self.present(storyBoard!, animated: true, completion: nil)
+    }
+    
+    func uploadVideoToWebService () {
+        
+        var parameter = ["fileupload": "","from_email" : "","to_email" : "","title":"","tags":"","privacy":"","country":"","language":"","thumbnail":""]
+        commonRequsetResponseService.getVideoResponse(urlString: commonWebURL.url(), dictData: parameter as NSDictionary, callBack: {(videoResponseData , error) in
+        
+            
+            print(videoResponseData)
+            print(error)
+        
+        
+        })
+        
+        
+        
     }
     
 
