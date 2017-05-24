@@ -314,7 +314,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         self.finishRecording(success: true)
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController") as! XPAudioStopViewController
         storyBoard.titleLabel = titleString
-        storyBoard.audioRecordURLString = (self.directoryURL()?.absoluteString)!
+//        storyBoard.audioRecordURLString = (self.directoryURL()?.absoluteString)!
         print("the audio output url as string is \(storyBoard.audioRecordURLString)")
         
         
