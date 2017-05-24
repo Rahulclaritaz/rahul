@@ -325,12 +325,16 @@ class XPWebService
     
     func getAudioResponse(urlString : String , dictData : NSDictionary, callBack : @escaping(_ message : NSDictionary, _ error : Error) -> Void) {
         
+        
         let jsonData = try? JSONSerialization.data(withJSONObject: dictData, options: .prettyPrinted)
         let urlString = URL(string : urlString)
         var requestUrl = URLRequest(url: urlString! as URL)
         //        var requestUrl = URLRequest(url : urlString as! URL)
-        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        requestUrl.httpBody = jsonData
+//        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//        requestUrl.httpBody = jsonData
+        let boundary = "--------14737809831466499882746641449----"
+//        let contentType = "multipart/form-data;boundary=\(boundary)"
+       requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         requestUrl.httpMethod = "POST"
         let session = URLSession.shared
         let dataTask = session.dataTask(with: requestUrl , completionHandler:

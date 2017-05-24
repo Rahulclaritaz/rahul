@@ -21,7 +21,7 @@ class XPAudioStopViewController: UIViewController {
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     @IBOutlet weak var pulseAnimationView: UIView!
     var titleLabel = String ()
-    var audioRecordURLString = String ()
+    var audioRecordURLString = Data ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,20 +85,79 @@ class XPAudioStopViewController: UIViewController {
     
     func sendRequestToWebService () {
         
-        var parameter = ["fileupload": audioRecordURLString,"from_email" : "rahul2338.sharma@rediffmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"]
+        var parameter = ["fileupload": audioRecordURLString,"from_email" : "jnjaga24@gmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"] as [String : Any]
         
-        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+        let myUrl = NSURL(string : commonWebUrl.url())
+        var requestUrl = URLRequest(url: myUrl! as URL)
+        requestUrl.httpMethod = "POST";
+        let boundary = generateBoundaryString()
         
-            print(audioResponseData)
-            print(error)
-        
+        requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        requestUrl.httpBody = createBodyWithParameters(parameters: parameter as! [String : Any], boundary: boundary) as Data
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: requestUrl , completionHandler:
+        {
+            
+            (data,response,error) -> Void in
+            
+            if (data != nil && error == nil) {
+                
+                do {
+                    
+                    let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
+                    print(jsonData)
+                    var jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
+                    
+                    if (jsonResponseStatus == "Failed") {
+                        return
+                    } else {
+
+                    }
+                    
+                    
+                } catch {
+                    
+                }
+                
+            } else {
+                return
+            }
         })
         
+        dataTask.resume()
+//        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+//        
+//            print(audioResponseData)
+//            print(error)
+//        
+//        })
+    
 //        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url(), dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
 //        print(audioResponseData)
 //            print(error)
 //        
 //        })
+        
+    }
+    
+    func generateBoundaryString() -> String {
+        return "Boundary-\(NSUUID().uuidString)"
+    }
+    
+    func createBodyWithParameters(parameters : [String: Any]?, boundary: String) ->
+       NSData{
+        let body = NSMutableData ()
+        
+        if parameters != nil {
+            for (key, value) in parameters! {
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                body.appendString("\(value)\r\n")
+            }
+        }
+        
+        return body
         
     }
     
@@ -113,4 +172,11 @@ class XPAudioStopViewController: UIViewController {
     }
     */
 
+}
+
+extension NSMutableData {
+    func appendString(_ string: String) {
+        let data = string.data(using: String.Encoding.utf8, allowLossyConversion: false)
+        append(data!)
+    }
 }
