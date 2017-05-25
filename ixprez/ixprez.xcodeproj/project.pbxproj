@@ -19,26 +19,6 @@
 		13111E7B1EB1FC09003661C2 /* mosklight300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5A1EB1EF87003661C2 /* mosklight300.ttf */; };
 		13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */; };
 		13111E821EB20C42003661C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13111E811EB20C42003661C2 /* UIKit.framework */; };
-		131BA5271ED7190400BE50B7 /* IXPrivateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA51F1ED7190400BE50B7 /* IXPrivateViewController.swift */; };
-		131BA5281ED7190400BE50B7 /* XPHelpDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5201ED7190400BE50B7 /* XPHelpDetailsViewController.swift */; };
-		131BA5291ED7190400BE50B7 /* XPHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5211ED7190400BE50B7 /* XPHelpViewController.swift */; };
-		131BA52A1ED7190400BE50B7 /* XPMyUploadPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5221ED7190400BE50B7 /* XPMyUploadPlayViewController.swift */; };
-		131BA52B1ED7190400BE50B7 /* XPMyUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5231ED7190400BE50B7 /* XPMyUploadViewController.swift */; };
-		131BA52C1ED7190400BE50B7 /* XPPriavtePlayVideoAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5241ED7190400BE50B7 /* XPPriavtePlayVideoAudioViewController.swift */; };
-		131BA52D1ED7190400BE50B7 /* XPSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5251ED7190400BE50B7 /* XPSettingsViewController.swift */; };
-		131BA52E1ED7190400BE50B7 /* XPUploadsEmotionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5261ED7190400BE50B7 /* XPUploadsEmotionsViewController.swift */; };
-		131BA5321ED719BB00BE50B7 /* MyUploadWebServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5301ED719BB00BE50B7 /* MyUploadWebServices.swift */; };
-		131BA5331ED719BB00BE50B7 /* PrivateWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5311ED719BB00BE50B7 /* PrivateWebService.swift */; };
-		131BA5351ED71A4600BE50B7 /* DOAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5341ED71A4600BE50B7 /* DOAlertController.swift */; };
-		131BA5391ED71AA700BE50B7 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5361ED71AA700BE50B7 /* DateExtension.swift */; };
-		131BA53A1ED71AA700BE50B7 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5371ED71AA700BE50B7 /* ImageExtension.swift */; };
-		131BA53B1ED71AA700BE50B7 /* StringURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5381ED71AA700BE50B7 /* StringURLExtension.swift */; };
-		131BA5411ED71CFC00BE50B7 /* MyUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA53D1ED71CFC00BE50B7 /* MyUploadCollectionViewCell.swift */; };
-		131BA5421ED71CFC00BE50B7 /* MyUploadReportAbuseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA53E1ED71CFC00BE50B7 /* MyUploadReportAbuseTableViewCell.swift */; };
-		131BA5431ED71CFC00BE50B7 /* PrivateAudioVideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA53F1ED71CFC00BE50B7 /* PrivateAudioVideoTableViewCell.swift */; };
-		131BA5441ED71CFC00BE50B7 /* UploadsEmotionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5401ED71CFC00BE50B7 /* UploadsEmotionsTableViewCell.swift */; };
-		131BA5461ED71D3C00BE50B7 /* HeaderMyuploadCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131BA5451ED71D3C00BE50B7 /* HeaderMyuploadCollectionReusableView.swift */; };
-		131BA5481ED71F1600BE50B7 /* check-mark-red-11.png in Resources */ = {isa = PBXBuildFile; fileRef = 131BA5471ED71F1600BE50B7 /* check-mark-red-11.png */; };
 		132131991EB46F6F008709DC /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132131981EB46F6F008709DC /* ColorExtension.swift */; };
 		132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */; };
 		13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */; };
@@ -96,26 +76,6 @@
 		13111E6A1EB1F0C5003661C2 /* ProximaNova-Light_0.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Light_0.otf"; path = "../Approved Templates/Fonts/ProximaNova-Light_0.otf"; sourceTree = "<group>"; };
 		13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerificationViewController.swift; sourceTree = "<group>"; };
 		13111E811EB20C42003661C2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		131BA51F1ED7190400BE50B7 /* IXPrivateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IXPrivateViewController.swift; sourceTree = "<group>"; };
-		131BA5201ED7190400BE50B7 /* XPHelpDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHelpDetailsViewController.swift; sourceTree = "<group>"; };
-		131BA5211ED7190400BE50B7 /* XPHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHelpViewController.swift; sourceTree = "<group>"; };
-		131BA5221ED7190400BE50B7 /* XPMyUploadPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPMyUploadPlayViewController.swift; sourceTree = "<group>"; };
-		131BA5231ED7190400BE50B7 /* XPMyUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPMyUploadViewController.swift; sourceTree = "<group>"; };
-		131BA5241ED7190400BE50B7 /* XPPriavtePlayVideoAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPriavtePlayVideoAudioViewController.swift; sourceTree = "<group>"; };
-		131BA5251ED7190400BE50B7 /* XPSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingsViewController.swift; sourceTree = "<group>"; };
-		131BA5261ED7190400BE50B7 /* XPUploadsEmotionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPUploadsEmotionsViewController.swift; sourceTree = "<group>"; };
-		131BA5301ED719BB00BE50B7 /* MyUploadWebServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUploadWebServices.swift; sourceTree = "<group>"; };
-		131BA5311ED719BB00BE50B7 /* PrivateWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateWebService.swift; sourceTree = "<group>"; };
-		131BA5341ED71A4600BE50B7 /* DOAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOAlertController.swift; sourceTree = "<group>"; };
-		131BA5361ED71AA700BE50B7 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
-		131BA5371ED71AA700BE50B7 /* ImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
-		131BA5381ED71AA700BE50B7 /* StringURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringURLExtension.swift; sourceTree = "<group>"; };
-		131BA53D1ED71CFC00BE50B7 /* MyUploadCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUploadCollectionViewCell.swift; sourceTree = "<group>"; };
-		131BA53E1ED71CFC00BE50B7 /* MyUploadReportAbuseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUploadReportAbuseTableViewCell.swift; sourceTree = "<group>"; };
-		131BA53F1ED71CFC00BE50B7 /* PrivateAudioVideoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateAudioVideoTableViewCell.swift; sourceTree = "<group>"; };
-		131BA5401ED71CFC00BE50B7 /* UploadsEmotionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadsEmotionsTableViewCell.swift; sourceTree = "<group>"; };
-		131BA5451ED71D3C00BE50B7 /* HeaderMyuploadCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderMyuploadCollectionReusableView.swift; sourceTree = "<group>"; };
-		131BA5471ED71F1600BE50B7 /* check-mark-red-11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-mark-red-11.png"; sourceTree = "<group>"; };
 		132131981EB46F6F008709DC /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextfieldExtension.swift; sourceTree = "<group>"; };
@@ -175,7 +135,6 @@
 			isa = PBXGroup;
 			children = (
 				130FD8E61EB8819F00026975 /* URLDirectory.swift */,
-				131BA5341ED71A4600BE50B7 /* DOAlertController.swift */,
 			);
 			name = Base;
 			sourceTree = "<group>";
@@ -183,8 +142,6 @@
 		130FD8E81EB887A900026975 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				131BA5301ED719BB00BE50B7 /* MyUploadWebServices.swift */,
-				131BA5311ED719BB00BE50B7 /* PrivateWebService.swift */,
 				130FD8E91EB887CB00026975 /* XPWebService.swift */,
 			);
 			name = Model;
@@ -234,7 +191,6 @@
 		13111E7C1EB20ACD003661C2 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				131BA52F1ED7192700BE50B7 /* MenuBar */,
 				859234091ECD9F17003C70E4 /* Pulsator.swift */,
 				13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */,
 				13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */,
@@ -264,33 +220,6 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		131BA52F1ED7192700BE50B7 /* MenuBar */ = {
-			isa = PBXGroup;
-			children = (
-				131BA51F1ED7190400BE50B7 /* IXPrivateViewController.swift */,
-				131BA5201ED7190400BE50B7 /* XPHelpDetailsViewController.swift */,
-				131BA5211ED7190400BE50B7 /* XPHelpViewController.swift */,
-				131BA5221ED7190400BE50B7 /* XPMyUploadPlayViewController.swift */,
-				131BA5231ED7190400BE50B7 /* XPMyUploadViewController.swift */,
-				131BA5241ED7190400BE50B7 /* XPPriavtePlayVideoAudioViewController.swift */,
-				131BA5251ED7190400BE50B7 /* XPSettingsViewController.swift */,
-				131BA5261ED7190400BE50B7 /* XPUploadsEmotionsViewController.swift */,
-			);
-			name = MenuBar;
-			sourceTree = "<group>";
-		};
-		131BA53C1ED71C7300BE50B7 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-				131BA53D1ED71CFC00BE50B7 /* MyUploadCollectionViewCell.swift */,
-				131BA53E1ED71CFC00BE50B7 /* MyUploadReportAbuseTableViewCell.swift */,
-				131BA53F1ED71CFC00BE50B7 /* PrivateAudioVideoTableViewCell.swift */,
-				131BA5401ED71CFC00BE50B7 /* UploadsEmotionsTableViewCell.swift */,
-				131BA5451ED71D3C00BE50B7 /* HeaderMyuploadCollectionReusableView.swift */,
-			);
-			name = "New Group";
-			sourceTree = "<group>";
-		};
 		859A22E41EB1ADDB008DD7F7 = {
 			isa = PBXGroup;
 			children = (
@@ -311,7 +240,6 @@
 		859A22EF1EB1ADDB008DD7F7 /* ixprez */ = {
 			isa = PBXGroup;
 			children = (
-				131BA53C1ED71C7300BE50B7 /* New Group */,
 				85879EC61EC5988400337011 /* ixprez.entitlements */,
 				130FD8E81EB887A900026975 /* Model */,
 				130FD8E51EB8816600026975 /* Base */,
@@ -322,14 +250,10 @@
 				859A22F41EB1ADDB008DD7F7 /* Main.storyboard */,
 				859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */,
 				13B06F2E1EB212F000BD439C /* bg_reg.png */,
-				131BA5471ED71F1600BE50B7 /* check-mark-red-11.png */,
 				13B06F341EB30AE500BD439C /* intro_bg.png */,
 				859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */,
 				859A22FC1EB1ADDB008DD7F7 /* Info.plist */,
 				132131981EB46F6F008709DC /* ColorExtension.swift */,
-				131BA5361ED71AA700BE50B7 /* DateExtension.swift */,
-				131BA5371ED71AA700BE50B7 /* ImageExtension.swift */,
-				131BA5381ED71AA700BE50B7 /* StringURLExtension.swift */,
 				13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */,
 				13A0F1681EB9E03A0069ABDD /* IXValidation.swift */,
 			);
@@ -403,7 +327,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13111E7A1EB1F101003661C2 /* ProximaNovaSoft-Bold.otf in Resources */,
-				131BA5481ED71F1600BE50B7 /* check-mark-red-11.png in Resources */,
 				13B06F351EB30AE500BD439C /* intro_bg.png in Resources */,
 				13111E791EB1F0FE003661C2 /* proximanova-regular-webfont_0.ttf in Resources */,
 				13111E771EB1F0F6003661C2 /* proximanova-extrabold-webfont_0.ttf in Resources */,
@@ -427,41 +350,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */,
-				131BA5391ED71AA700BE50B7 /* DateExtension.swift in Sources */,
-				131BA52A1ED7190400BE50B7 /* XPMyUploadPlayViewController.swift in Sources */,
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
-				131BA5291ED7190400BE50B7 /* XPHelpViewController.swift in Sources */,
-				131BA5411ED71CFC00BE50B7 /* MyUploadCollectionViewCell.swift in Sources */,
-				131BA5461ED71D3C00BE50B7 /* HeaderMyuploadCollectionReusableView.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
 				859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
-				131BA53A1ED71AA700BE50B7 /* ImageExtension.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
 				855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */,
 				857CE0471EC9D85E00F151AF /* XPAudioStopViewController.swift in Sources */,
-				131BA5441ED71CFC00BE50B7 /* UploadsEmotionsTableViewCell.swift in Sources */,
 				8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */,
-				131BA53B1ED71AA700BE50B7 /* StringURLExtension.swift in Sources */,
-				131BA5331ED719BB00BE50B7 /* PrivateWebService.swift in Sources */,
 				856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */,
 				8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */,
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
 				856AD66C1EC0402B00FCBBEC /* XPSettingViewController.swift in Sources */,
-				131BA52D1ED7190400BE50B7 /* XPSettingsViewController.swift in Sources */,
-				131BA5351ED71A4600BE50B7 /* DOAlertController.swift in Sources */,
 				856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */,
-				131BA52B1ED7190400BE50B7 /* XPMyUploadViewController.swift in Sources */,
-				131BA5421ED71CFC00BE50B7 /* MyUploadReportAbuseTableViewCell.swift in Sources */,
 				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
-				131BA5271ED7190400BE50B7 /* IXPrivateViewController.swift in Sources */,
 				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
 				859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */,
 				856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */,
 				85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */,
 				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
-				131BA5281ED7190400BE50B7 /* XPHelpDetailsViewController.swift in Sources */,
 				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
 				13A0F1691EB9E03A0069ABDD /* IXValidation.swift in Sources */,
 				8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */,
@@ -471,10 +379,6 @@
 				85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */,
 				859407C41ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift in Sources */,
 				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
-				131BA52C1ED7190400BE50B7 /* XPPriavtePlayVideoAudioViewController.swift in Sources */,
-				131BA5321ED719BB00BE50B7 /* MyUploadWebServices.swift in Sources */,
-				131BA52E1ED7190400BE50B7 /* XPUploadsEmotionsViewController.swift in Sources */,
-				131BA5431ED71CFC00BE50B7 /* PrivateAudioVideoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

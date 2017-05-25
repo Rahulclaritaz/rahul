@@ -16,10 +16,12 @@ class XPVideoRecordingStopViewController: UIViewController {
     @IBOutlet weak var videoBGImage = UIImageView()
     @IBOutlet weak var countLabel = UILabel ()
     var countLabelString = String ()
+    var titleLabel = String ()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.title = "Cool"
+        self.title = titleLabel
         self.countLabel?.text = countLabelString
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton

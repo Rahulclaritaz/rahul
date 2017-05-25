@@ -75,7 +75,7 @@ class XPHomeDashBoardViewController: UIViewController {
         // This will create the number of circle animation and radius
         pulsrator.numPulse = 5
         pulsrator.radius = 120
-        pulsrator.animationDuration = 5
+        pulsrator.animationDuration = 6
         pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
        pulsrator.start()
     }

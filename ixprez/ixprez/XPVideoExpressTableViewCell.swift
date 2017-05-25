@@ -8,8 +8,9 @@
 
 import UIKit
 
-protocol videoAddContactDelegate {
-    func addContactButtonTapped (cell : XPVideoExpressTableViewCell)
+protocol VideoTextFieldDelegate {
+    func addContact (cell: XPVideoExpressTableViewCell)
+    func textFieldValidate(textFieldName : String, row : Int)
 }
 
 class XPVideoExpressTableViewCell: UITableViewCell,UITextFieldDelegate {
@@ -20,7 +21,12 @@ class XPVideoExpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     @IBOutlet weak var expressTitleTextField = UITextField()
     @IBOutlet weak var addContactButon = UIButton()
     @IBOutlet weak var labelCell = UILabel()
-    var delegate : videoAddContactDelegate?
+    var delegate : VideoTextFieldDelegate?
+    var cellLabelExpress = UILabel ()
+    var cellLabelMood = UILabel()
+    var cellLabelFeeling = UILabel()
+    var pickerStatusType = UILabel()
+    var indexPathRow = Int ()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,7 +46,43 @@ class XPVideoExpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     /// Handle the event when user finishing changing the value of the text field
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("You finish to write the textfield'")
+        //        delegate?.textFieldValidate(textFieldName: textField.text!)
         expressTitleTextField?.text = textField.text
+        if (pickerStatusType.text == "Private" ){
+            guard (indexPathRow == 0) else {
+                delegate?.textFieldValidate(textFieldName: textField.text! , row: indexPathRow)
+                //            delegate?.textFieldValidate(textFieldName: cellLabelFeeling.text!)
+                cellLabelFeeling.text = textField.text
+                return
+            }
+            delegate?.textFieldValidate(textFieldName: textField.text!, row: indexPathRow)
+            cellLabelExpress.text = textField.text
+            print("The picker status type is :\(pickerStatusType.text)")
+        } else if (pickerStatusType.text == "Public") {
+            guard (indexPathRow == 0) else {
+                delegate?.textFieldValidate(textFieldName: textField.text!, row:  indexPathRow)
+                cellLabelMood.text = textField.text
+                return
+            }
+            delegate?.textFieldValidate(textFieldName: textField.text!, row: indexPathRow)
+            cellLabelExpress.text = textField.text
+            print("The picker status type is :\(pickerStatusType.text)")
+        } else if  (pickerStatusType.text == "Both") {
+            if (indexPathRow == 0) {
+                delegate?.textFieldValidate(textFieldName: textField.text!, row: indexPathRow)
+                cellLabelMood.text = textField.text
+            } else if (indexPathRow == 1) {
+                delegate?.textFieldValidate(textFieldName: textField.text! , row:  indexPathRow)
+                cellLabelExpress.text = textField.text
+                
+            } else if (indexPathRow == 2) {
+                delegate?.textFieldValidate(textFieldName: textField.text! , row: indexPathRow)
+                cellLabelFeeling.text = textField.text
+                
+            }
+            
+            print("The picker status type is :\(pickerStatusType.text)")
+        }
     }
     
     
@@ -52,7 +94,7 @@ class XPVideoExpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     
     //This the delegate method for the add contact method.
     @IBAction func addContactButtonTapped (sender: Any) {
-        delegate?.addContactButtonTapped(cell: self)
+        delegate?.addContact(cell: self)
     }
 
 }

@@ -96,7 +96,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
        
         
-        let privateDic : NSDictionary = [ "user_email" : "mathan6@gmail.com"]
+        let privateDic : NSDictionary = [ "user_email" : "mathankavin@gmail.com"]
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {
@@ -515,7 +515,7 @@ func getRefersh( action : UIRefreshControl)
             
             
             
-            let dicValue = [ "user_email" : "mathan6@gmail.com" , "blocked_email": self.privatefromEmail ]
+            let dicValue = [ "user_email" : "mathankavin@gmail.com" , "blocked_email": self.privatefromEmail ]
             
             
             self.getPrivateWebData.getPrivateAcceptRejectWebService(urlString: self.getPrivateURL.privateBlockAudioVideo(), dicData: dicValue as NSDictionary, callback: {
@@ -752,7 +752,10 @@ func getRefersh( action : UIRefreshControl)
     customAlertController.buttonFont[.default] = UIFont(name: "Mosk", size: 15.0)
     
     customAlertController.buttonBgColor[.default] = UIColor.getOrangeColor()
- 
+    
+
+    
+    
     }
     
     override func didReceiveMemoryWarning() {

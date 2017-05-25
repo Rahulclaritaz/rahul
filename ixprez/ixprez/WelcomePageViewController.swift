@@ -96,10 +96,10 @@
         
             if currentview == 3
             {
-                UIView.animate(withDuration: 3.0, animations: {
+               /* UIView.animate(withDuration: 3.0, animations: {
                     let  nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController") as! XPHomeDashBoardViewController
                     self.present(nextViewController, animated: false, completion: nil)
-                })
+                }) */
            
                 
             }

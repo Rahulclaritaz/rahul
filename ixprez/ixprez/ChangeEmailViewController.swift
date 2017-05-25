@@ -22,6 +22,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
     
     @IBOutlet var changeEmailScrollView: UIScrollView!
     
+    @IBOutlet weak var changeButton: UIButton!
     let getAddData = XPWebService()
     
     let getAddDataUrl = URLDirectory.RegistrationData()
@@ -36,7 +37,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         
         designView.backgroundColor = UIColor(patternImage: UIImage(named: "bg_reg.png")!)
         
-      
+         changeButton.layer.cornerRadius = 20.0
         let  gesture : UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyBoard(notification:)))
         
         self.view.addGestureRecognizer(gesture)
