@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="cUk-yf-vz3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="dir-pW-tUP">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -319,6 +319,14 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="baR-fh-V0q">
+                                <rect key="frame" x="315" y="612" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="AudioRightImage"/>
+                                <connections>
+                                    <segue destination="cUk-yf-vz3" kind="show" id="v6S-rB-U0z"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -646,7 +654,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Express your feelings with" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5n-m6-QX1">
                                                     <rect key="frame" x="24" y="3" width="278" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="20"/>
+                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="19"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -654,7 +662,7 @@
                                                     <rect key="frame" x="24" y="34" width="312" height="36"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="textColor" red="0.99607843139999996" green="0.42352941179999998" blue="0.1529411765" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="SWv-Cf-gEC" id="DGD-tF-AA0"/>
@@ -1130,6 +1138,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="changeButton" destination="p79-w3-LRt" id="Tno-k5-9Hl"/>
                         <outlet property="changeEmailScrollView" destination="8cl-PE-aoO" id="mu8-fM-Llz"/>
                         <outlet property="designView" destination="Y9Q-Wf-wmq" id="t0O-fm-tR8"/>
                         <outlet property="txtReEnterEmail" destination="uSb-As-ocr" id="9Zh-vr-MHR"/>
@@ -1571,7 +1580,7 @@
                                                 </connections>
                                             </tableView>
                                             <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XyP-fq-QPM">
-                                                <rect key="frame" x="207" y="238" width="154" height="30"/>
+                                                <rect key="frame" x="207" y="238" width="163" height="30"/>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="2fB-Aq-VEw"/>
@@ -1611,7 +1620,7 @@
                                             <constraint firstItem="jwn-sv-57g" firstAttribute="top" secondItem="O9I-t5-UgS" secondAttribute="bottom" constant="-34" id="0wE-r7-aF5"/>
                                             <constraint firstItem="O9I-t5-UgS" firstAttribute="leading" relation="lessThanOrEqual" secondItem="ukU-Uf-Puj" secondAttribute="trailing" constant="72" id="1QS-vJ-v8X"/>
                                             <constraint firstAttribute="trailing" secondItem="87c-Ai-PBE" secondAttribute="trailing" constant="27" id="1Ru-pa-I14"/>
-                                            <constraint firstAttribute="trailing" secondItem="XyP-fq-QPM" secondAttribute="trailing" constant="14" id="38D-yn-gR8"/>
+                                            <constraint firstAttribute="trailing" secondItem="XyP-fq-QPM" secondAttribute="trailing" constant="5" id="38D-yn-gR8"/>
                                             <constraint firstItem="Zp1-Dy-1r6" firstAttribute="top" secondItem="jwn-sv-57g" secondAttribute="bottom" constant="8" id="3BO-Ts-qHl"/>
                                             <constraint firstItem="dCs-Jb-gX0" firstAttribute="leading" secondItem="DbS-LE-nxg" secondAttribute="trailing" constant="14" id="4WY-eQ-ItX"/>
                                             <constraint firstItem="izR-eq-5LB" firstAttribute="top" secondItem="r4P-Y2-cHd" secondAttribute="bottom" constant="19" id="7je-uc-gjP"/>
@@ -1731,7 +1740,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yBm-YL-rNM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="297" y="-1619"/>
+            <point key="canvasLocation" x="505" y="-1620"/>
         </scene>
         <!--Title-->
         <scene sceneID="ru6-l7-yLH">
@@ -1798,7 +1807,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Express your feelings with" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QiW-IU-HSm">
                                                     <rect key="frame" x="24" y="3" width="278" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="20"/>
+                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="19"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1806,7 +1815,7 @@
                                                     <rect key="frame" x="24" y="34" width="312" height="36"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="textColor" red="0.99607843139999996" green="0.42352941179999998" blue="0.1529411765" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="15"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="0qU-11-b6V" id="dbc-50-DZh"/>
@@ -2057,12 +2066,12 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lbD-8a-uYm">
-                                <rect key="frame" x="188" y="620" width="1" height="1"/>
+                                <rect key="frame" x="188" y="619" width="1" height="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="foc-dP-O3p">
-                                <rect key="frame" x="158" y="585" width="62" height="62"/>
+                                <rect key="frame" x="157" y="585" width="62" height="62"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.3294117647" green="0.77647058820000003" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
@@ -2158,7 +2167,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q5w-VD-Vd5">
-                                <rect key="frame" x="187" y="620" width="1" height="1"/>
+                                <rect key="frame" x="187" y="619" width="1" height="1"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
@@ -2266,6 +2275,6 @@
         <image name="ixprez-logo" width="150" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wwQ-KA-kH6"/>
+        <segue reference="Xc1-xE-G83"/>
     </inferredMetricsTieBreakers>
 </document>

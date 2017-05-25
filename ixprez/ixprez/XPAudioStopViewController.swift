@@ -21,13 +21,21 @@ class XPAudioStopViewController: UIViewController {
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     @IBOutlet weak var pulseAnimationView: UIView!
     var titleLabel = String ()
-    var audioRecordURLString = Data ()
+    var audioRecordURLString : URL?
+    var registrationPage = RegistrationViewController ()
+    var audioPage = XPAudioViewController ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.title = titleLabel
-        
+        print(registrationPage.defaults.string(forKey: "emailAddress"))
+         print(audioPage.defaultValue.string(forKey: "toEmailAddress"))
+         print(audioPage.defaultValue.string(forKey: "feelingsLabelValue"))
+         print(audioPage.defaultValue.string(forKey: "moodLabelValue"))
+        print(audioPage.defaultValue.string(forKey: "pickerStatus"))
+        print(audioPage.defaultValue.string(forKey: "countryName"))
+        print(audioPage.defaultValue.string(forKey: "languageName"))
         // this will remove the back button from the navigation bar
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
@@ -85,15 +93,81 @@ class XPAudioStopViewController: UIViewController {
     
     func sendRequestToWebService () {
         
-        var parameter = ["fileupload": audioRecordURLString,"from_email" : "jnjaga24@gmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"] as [String : Any]
+        
+        var audioData = NSData(contentsOf: audioRecordURLString!)
+        
+        //        var parameter = ["fileupload": audioData,"from_email" : "jnjaga24@gmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"] as [String : Any]
         
         let myUrl = NSURL(string : commonWebUrl.url())
         var requestUrl = URLRequest(url: myUrl! as URL)
-        requestUrl.httpMethod = "POST";
-        let boundary = generateBoundaryString()
         
+        // Setting the Content - type in HTTP header
+        let boundary = generateBoundaryString()
         requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        requestUrl.httpBody = createBodyWithParameters(parameters: parameter as! [String : Any], boundary: boundary) as Data
+        
+        // Add the parameter
+        //        requestUrl.httpBody = createBodyWithParameters(parameters: parameter as! [String : Any], boundary: boundary) as Data
+        var body = NSMutableData()
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"from_email\"\r\n\r\n")
+        body.appendString(registrationPage.defaults.string(forKey: "emailAddress")!)
+        body.appendString("\r\n")
+        
+        
+        if (audioPage.defaultValue.string(forKey: "toEmailAddress") == nil) {
+            print("You don't have email because u select public")
+        } else {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
+            body.appendString(audioPage.defaultValue.string(forKey: "toEmailAddress")!)
+            body.appendString("\r\n")
+        }
+        
+        
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"title\"\r\n\r\n")
+        body.appendString(audioPage.defaultValue.string(forKey: "feelingsLabelValue")!)
+        body.appendString("\r\n")
+        
+        
+        if (audioPage.defaultValue.string(forKey: "moodLabelValue") == nil) {
+            print("You don't have tags because u select private")
+        } else {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"tags\"\r\n\r\n")
+            body.appendString(audioPage.defaultValue.string(forKey: "moodLabelValue")!)
+            body.appendString("\r\n")
+        }
+        
+        
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"privacy\"\r\n\r\n")
+        body.appendString(audioPage.defaultValue.string(forKey: "pickerStatus")!)
+        body.appendString("\r\n")
+        
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"country\"\r\n\r\n")
+        body.appendString(registrationPage.defaults.string(forKey: "countryName")!)
+        body.appendString("\r\n")
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"language\"\r\n\r\n")
+        body.appendString(registrationPage.defaults.string(forKey: "languageName")!)
+        body.appendString("\r\n")
+        
+        body.appendString("--\(boundary)\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sound.wav\"\r\n")
+        body.appendString("Content-Type: audio/wav\r\n\r\n")
+        var urlData = NSData(data: audioData as! Data)
+        body.append(urlData as Data)
+        body.appendString("\r\n")
+        requestUrl.httpBody = body as Data
+        
+        requestUrl.httpMethod = "POST";
+        
         let session = URLSession.shared
         let dataTask = session.dataTask(with: requestUrl , completionHandler:
         {
@@ -108,14 +182,13 @@ class XPAudioStopViewController: UIViewController {
                     
                     print(jsonData)
                     var jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
+                    print(jsonResponseStatus)
                     
                     if (jsonResponseStatus == "Failed") {
                         return
                     } else {
-
+                        
                     }
-                    
-                    
                 } catch {
                     
                 }
@@ -126,18 +199,13 @@ class XPAudioStopViewController: UIViewController {
         })
         
         dataTask.resume()
-//        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
-//        
-//            print(audioResponseData)
-//            print(error)
-//        
-//        })
-    
-//        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url(), dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
-//        print(audioResponseData)
-//            print(error)
-//        
-//        })
+        //        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
+        //
+        //            print(audioResponseData)
+        //            print(error)
+        //
+        //        })
+        
         
     }
     
@@ -146,19 +214,19 @@ class XPAudioStopViewController: UIViewController {
     }
     
     func createBodyWithParameters(parameters : [String: Any]?, boundary: String) ->
-       NSData{
-        let body = NSMutableData ()
-        
-        if parameters != nil {
-            for (key, value) in parameters! {
-                body.appendString("--\(boundary)\r\n")
-                body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
-                body.appendString("\(value)\r\n")
+        NSData{
+            let body = NSMutableData ()
+            
+            if parameters != nil {
+                for (key, value) in parameters! {
+                    body.appendString("--\(boundary)\r\n")
+                    body.appendString("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n")
+                    body.appendString("\(value)\r\n")
+                }
             }
-        }
-        
-        return body
-        
+            
+            return body
+            
     }
     
 

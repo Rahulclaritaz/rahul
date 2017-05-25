@@ -11,6 +11,9 @@ import AVFoundation
 
 class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,AVAudioPlayerDelegate {
     
+    var commonRequestWebService = XPWebService ()
+    var commonWebUrl = URLDirectory.audioDataUpload ()
+    
     let visualizerAnimationDuration = 0.01
     let pulsrator = Pulsator()
     var isAudioButtonSelected : Bool = false
@@ -36,6 +39,9 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     var audioVisualizer: ATAudioVisualizer!
     var titleString = String ()
     @IBOutlet weak var visualizerView: UIView!
+    var soundURL : URL?
+    
+    
    
     
     override func viewDidLoad() {
@@ -86,11 +92,13 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         
         // Audio Settings
         settings = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
-            AVSampleRateKey: 12000,
-            AVNumberOfChannelsKey: 1,
-            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+            AVFormatIDKey: Int(kAudioFormatLinearPCM),
+            AVSampleRateKey: Int(44100.0),
+            AVNumberOfChannelsKey: 2,
+            AVLinearPCMBitDepthKey:16,
+            AVEncoderAudioQualityKey: AVAudioQuality.low.rawValue
         ]
+        self.directoryURL()
         
     }
     
@@ -241,8 +249,8 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     
     // This will create the number of circle animation and radius
     pulsrator.numPulse = 5
-    pulsrator.radius = 120
-    pulsrator.animationDuration = 5
+    pulsrator.radius = 150
+    pulsrator.animationDuration = 6
     pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
     pulsrator.start()
 //    self.stopAudioVisualizer()
@@ -251,20 +259,20 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
 
     
     // This method will pass the audio path in NSURL
-    func directoryURL() -> NSURL? {
+    func directoryURL() -> URL? {
         let fileManager = FileManager.default
         let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
-        let documentDirectory = urls[0] as NSURL
-        let soundURL = documentDirectory.appendingPathComponent("sound.m4a")
+        let documentDirectory = urls[0] as URL
+        soundURL = documentDirectory.appendingPathComponent("sound.wav")
         print(soundURL)
-        return soundURL as NSURL?
+        return soundURL as URL?
     }
     
     // This method will record the voice
     func startRecording() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            audioRecorder = try AVAudioRecorder(url: self.directoryURL()! as URL,
+            audioRecorder = try AVAudioRecorder(url: soundURL! as URL,
                                                 settings: settings)
             audioRecorder.delegate = self
             audioRecorder.prepareToRecord()
@@ -310,11 +318,12 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         isAudioButtonSelected = false
         audioBGImage?.backgroundColor = UIColor.init(colorLiteralRed: 84.0/255.0, green: 198.0/255.0, blue: 231/255.0, alpha: 1.0)
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
+//        self.sendRequestToWebService()
 //        self.stopAudioVisualizer()
         self.finishRecording(success: true)
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController") as! XPAudioStopViewController
         storyBoard.titleLabel = titleString
-//        storyBoard.audioRecordURLString = (self.directoryURL()?.absoluteString)!
+        storyBoard.audioRecordURLString = soundURL
         print("the audio output url as string is \(storyBoard.audioRecordURLString)")
         
         
@@ -337,6 +346,11 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         
     }
     
+    
+    func generateBoundaryString() -> String {
+        return "Boundary-\(NSUUID().uuidString)"
+    }
+    
     // This method will check before moving to next controller audio recording is stop or not if not then will stop and move.
    override func viewWillDisappear(_ animated: Bool) {
 //    if (audioRecorder.isRecording) {
@@ -353,13 +367,6 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             finishRecording(success: false)
         }
     }
-    
-//    func uploadAudioDataToServerWebService() {
-//        let parameter = ["fileupload":"" ,"from_email":"","to_email":"","title":"","tags":"","privacy":"","country":"","language":""]
-//        
-//        commomWebService.uploadTheAudioData(urlString: commonWebURL.url() , dictData: parameter, callBack: {})
-//    }
-    
 
     /*
     // MARK: - Navigation
@@ -372,3 +379,4 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     */
 
 }
+

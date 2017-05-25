@@ -9,7 +9,7 @@
 import UIKit
 import ContactsUI
 
-class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,videoAddContactDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
 
     
@@ -32,7 +32,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var isAutoPoplatedContact : Bool = false
     var tap = UITapGestureRecognizer()
     var shareTitle  = [String]()
-    
+    var defaultValue = UserDefaults.standard
+    var rowInCell = Int ()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,8 +62,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     override func viewWillAppear(_ animated: Bool) {
         pulsrator.numPulse = 5
-        pulsrator.radius = 120
-        pulsrator.animationDuration = 5
+        pulsrator.radius = 150
+        pulsrator.animationDuration = 6
         pulsrator.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6).cgColor
         pulsrator.start()
     }
@@ -106,10 +107,12 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let  cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier as String, for: indexPath) as? XPVideoExpressTableViewCell)!
         
         if (shareTitleLabel.text == "Private") {
+            cell.pickerStatusType.text = shareTitleLabel.text
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
                 cell.expressTitleTextField?.text = "Email"
+                cell.indexPathRow = indexPath.row
                 cell.delegate = self
                 return cell
                 
@@ -119,15 +122,20 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 cell.labelCell?.text = "Caption your feeling"
                 cell.expressTitleTextField?.text = "Feelings!"
                 cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                cell.indexPathRow = indexPath.row
+                cell.delegate = self
                 return cell
                 
             }
         }
         if (shareTitleLabel.text == "Public") {
+            cell.pickerStatusType.text = shareTitleLabel.text
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = true
                 cell.labelCell?.text = "What's your mood?"
                 cell.expressTitleTextField?.text = "Enter Tags"
+                cell.indexPathRow = indexPath.row
+                cell.delegate = self
                 return cell
                 
             }
@@ -136,15 +144,20 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 cell.labelCell?.text = "Caption your feeling"
                 cell.expressTitleTextField?.text = "Feelings!"
                 cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                cell.indexPathRow = indexPath.row
+                cell.delegate = self
                 return cell
             }
             
         }
         if ( shareTitleLabel.text == "Both") {
+            cell.pickerStatusType.text = shareTitleLabel.text
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = true
                 cell.labelCell?.text = "What's your mood?"
                 cell.expressTitleTextField?.text = "Enter Tags"
+                cell.indexPathRow = indexPath.row
+                cell.delegate = self
                 return cell
             }
             else if (indexPath.row == 1) {
@@ -152,14 +165,17 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 cell.labelCell?.text = "Express your feelings with"
                 cell.expressTitleTextField?.text = "Email"
                 cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
+                cell.indexPathRow = indexPath.row
                 cell.delegate = self
                 return cell
             }
             else if (indexPath.row == 2) {
                 cell.addContactButon?.isHidden = true
-                cell.labelCell?.text = "Caption your feeling"
+                cell.labelCell?.text = "Caption Your Feeling"
                 cell.expressTitleTextField?.text = "Feelings!"
                 cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+                cell.indexPathRow = indexPath.row
+                cell.delegate = self
                 return cell
             }
         }
@@ -211,11 +227,18 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
     }
     
-    func addContactButtonTapped(cell: XPVideoExpressTableViewCell) {
+    
+    func addContact(cell: XPVideoExpressTableViewCell) {
         let cnPicker = CNContactPickerViewController()
         cnPicker.delegate = self as CNContactPickerDelegate
         self.present(cnPicker, animated: true, completion: nil)
     }
+    
+//    func addContactButtonTapped(cell: XPVideoExpressTableViewCell) {
+//        let cnPicker = CNContactPickerViewController()
+//        cnPicker.delegate = self as CNContactPickerDelegate
+//        self.present(cnPicker, animated: true, completion: nil)
+//    }
     
     
     // This method will display the descrition of type in audio
@@ -231,23 +254,55 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     @IBAction func NextViewScreenButtonAction (_ sender: Any) {
-//        if (UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
-//            var imagePicker = UIImagePickerController ()
-//            imagePicker.delegate = self
-//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
-//            imagePicker.cameraDevice = UIImagePickerController.isCameraDeviceAvailable(.front) ? .front : .rear
-//            self.present(imagePicker, animated: true, completion: { _ in
-//            })
-//            
-//        } else {
-//            print("Device don't have camera")
-//        }
-        
+        defaultValue.set(shareTitleLabel.text, forKey: "pickerStatus")
+        defaultValue.set(emailAddressLabel.text, forKey: "toEmailAddress")
+        defaultValue.set(moodLabel.text , forKey: "moodLabelValue")
+        defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
+        let alert = UIAlertController(title: "Alert", message: "Email and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingPlayViewController") as! XPVideoRecordingPlayViewController
-        
-        self.navigationController?.pushViewController(storyBoard, animated: true)
-
-        
+        if (shareTitleLabel.text == "Private") {
+            if ((emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                if (feelingsLabel.text == nil) {
+                    feelingsLabel.text! = "Awesome"
+                    storyBoard.titleString = feelingsLabel.text!
+                }else {
+                    storyBoard.titleString = feelingsLabel.text!
+                }
+                
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            }
+            
+        } else if (shareTitleLabel.text == "Public") {
+            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                if (feelingsLabel.text == nil) {
+                    feelingsLabel.text! = "Awesome"
+                    storyBoard.titleString = feelingsLabel.text!
+                }else {
+                    storyBoard.titleString = feelingsLabel.text!
+                }
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            }
+            
+            
+        } else if (shareTitleLabel.text == "Both") {
+            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true)) {
+                self.present(alert, animated: true, completion: nil)
+            } else {
+                if (feelingsLabel.text == nil) {
+                    feelingsLabel.text! = "Awesome"
+                    storyBoard.titleString = feelingsLabel.text!
+                }else {
+                    storyBoard.titleString = feelingsLabel.text!
+                }
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            }
+            
+        }
     }
 
     /*
@@ -261,3 +316,42 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     */
 
 }
+
+extension XPVideoViewController : VideoTextFieldDelegate {
+    func textFieldValidate(textFieldName: String, row: Int) {
+        
+        rowInCell = row
+        if (shareTitleLabel.text == "Private") {
+            guard (rowInCell == 0) else {
+                feelingsLabel.text = textFieldName
+                return
+            }
+            emailAddressLabel.text = textFieldName
+            
+        } else if (shareTitleLabel.text == "Public") {
+            
+            guard (rowInCell == 0) else {
+                feelingsLabel.text = textFieldName
+                return
+            }
+            moodLabel.text = textFieldName
+            return
+            
+        } else if (shareTitleLabel.text == "Both") {
+            
+            if (rowInCell == 0) {
+                moodLabel.text = textFieldName
+                return
+            } else if  (rowInCell == 1) {
+                emailAddressLabel.text = textFieldName
+                return
+            } else if (rowInCell == 2){
+                feelingsLabel.text = textFieldName
+                return
+            }
+            
+        }
+    }
+    
+}
+
