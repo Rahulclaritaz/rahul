@@ -19,6 +19,7 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
     var isVideoButtonSelected: Bool = false
     let cameraSession = AVCaptureSession()
     var imagePicker = UIImagePickerController ()
+    var titleString = String ()
 //    var previewLayer : AVCaptureVideoPreviewLayer?
     
     // If we find a device we'll store it here for later use
@@ -26,7 +27,7 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Cool"
+        self.title = titleString
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         videoBGImage?.clipsToBounds = true
         videoBGImage?.layer.cornerRadius = (videoBGImage?.frame.size.height)!/2
@@ -109,6 +110,7 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
         self.stopRecording()
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingStopViewController") as! XPVideoRecordingStopViewController
         let countStopValue : String = (timerLabel?.text)!
+        storyBoard.titleLabel = titleString
         storyBoard.countLabelString = countStopValue as String
         self.navigationController?.pushViewController(storyBoard, animated: true)
 //        self.addChildViewController(storyBoard)

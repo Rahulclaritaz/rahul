@@ -51,6 +51,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     var tap = UITapGestureRecognizer()
     var cell = XPAudioXpressTableViewCell()
+    var defaultValue = UserDefaults.standard
 
     var shareTitle  = [String]()
     override func viewDidLoad() {
@@ -89,8 +90,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     }
     override func viewWillAppear(_ animated: Bool) {
         pulsrator.numPulse = 5
-        pulsrator.radius = 120
-        pulsrator.animationDuration = 5
+        pulsrator.radius = 150
+        pulsrator.animationDuration = 6
         pulsrator.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6).cgColor
         pulsrator.start()
     }
@@ -145,7 +146,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
              }
             else if (indexPath.row == 1) {
                 cell.addContactButon?.isHidden = true
-                cell.labelCell?.text = "Caption your feeling"
+                cell.labelCell?.text = "Caption Your Feeling"
                 cell.expressTitleTextField?.text = "Feelings!"
                  cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 35.0/255.0, green: 255.0/255.0, blue: 248.0/255.0, alpha: 1.0)
                 cell.indexPathRow = indexPath.row
@@ -320,6 +321,10 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     // This method will check the textfield validation and move to next Controller. 
     @IBAction func NextViewScreenButtonAvtion (sender: Any) {
+        defaultValue.set(shareTitleLabel.text, forKey: "pickerStatus")
+        defaultValue.set(emailAddressLabel.text, forKey: "toEmailAddress")
+        defaultValue.set(moodLabel.text , forKey: "moodLabelValue")
+        defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
         let alert = UIAlertController(title: "Alert", message: "Email and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioRecordingViewController") as! XPAudioRecordingViewController
@@ -417,6 +422,7 @@ extension XPAudioViewController : AudioTextFieldDelegate {
             
         }
     }
+    
 }
 
 
