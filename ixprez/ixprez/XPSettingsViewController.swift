@@ -12,6 +12,7 @@ class XPSettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Your Profile"
 
         // Do any additional setup after loading the view.
     }

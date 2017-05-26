@@ -108,12 +108,22 @@ class XPAudioStopViewController: UIViewController {
         // Add the parameter
         //        requestUrl.httpBody = createBodyWithParameters(parameters: parameter as! [String : Any], boundary: boundary) as Data
         var body = NSMutableData()
-        body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"from_email\"\r\n\r\n")
-        body.appendString(registrationPage.defaults.string(forKey: "emailAddress")!)
-        body.appendString("\r\n")
+        
+        // This is the From email parameter add in the web service.
+        if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"from_email\"\r\n\r\n")
+            body.appendString("mathan6@gmail.com")
+            body.appendString("\r\n")
+        } else {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"from_email\"\r\n\r\n")
+            body.appendString(registrationPage.defaults.string(forKey: "emailAddress")!)
+            body.appendString("\r\n")
+        }
         
         
+        // This is the to email parameter add in the web service.
         if (audioPage.defaultValue.string(forKey: "toEmailAddress") == nil) {
             print("You don't have email because u select public")
         } else {
@@ -141,23 +151,44 @@ class XPAudioStopViewController: UIViewController {
         }
         
         
-        
+        // This is the Picker status value  parameter add in the web service.
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"privacy\"\r\n\r\n")
         body.appendString(audioPage.defaultValue.string(forKey: "pickerStatus")!)
         body.appendString("\r\n")
         
+        // This is the country parameter add in the web service.
+        if (registrationPage.defaults.string(forKey: "countryName") == nil) {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"country\"\r\n\r\n")
+            body.appendString("India")
+            body.appendString("\r\n")
+            
+        } else {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"country\"\r\n\r\n")
+            body.appendString(registrationPage.defaults.string(forKey: "countryName")!)
+            body.appendString("\r\n")
+        }
         
-        body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"country\"\r\n\r\n")
-        body.appendString(registrationPage.defaults.string(forKey: "countryName")!)
-        body.appendString("\r\n")
         
-        body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"language\"\r\n\r\n")
-        body.appendString(registrationPage.defaults.string(forKey: "languageName")!)
-        body.appendString("\r\n")
         
+        // This is the language parameter add in the web service.
+        
+        if (registrationPage.defaults.string(forKey: "languageName") == nil) {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"language\"\r\n\r\n")
+            body.appendString("English")
+            body.appendString("\r\n")
+            
+        } else {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"language\"\r\n\r\n")
+            body.appendString(registrationPage.defaults.string(forKey: "languageName")!)
+            body.appendString("\r\n")
+        }
+        
+        // This is the recorded audio parameter add in the web service.
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sound.wav\"\r\n")
         body.appendString("Content-Type: audio/wav\r\n\r\n")
