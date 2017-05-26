@@ -2,7 +2,7 @@
 //  XPHelpDetailsViewController.swift
 //  ixprez
 //
-//  Created by Quad on 5/25/17.
+//  Created by Claritaz Techlabs on 26/05/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
 //
 
@@ -10,20 +10,9 @@ import UIKit
 
 class XPHelpDetailsViewController: UIViewController {
 
-    
-    @IBOutlet weak var helpWebView: UIWebView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        let url = URL(string: "http://claritaz.com/")
-        
-        let request = URLRequest(url: url!)
-        
-        
-    helpWebView.loadRequest(request)
-        
         // Do any additional setup after loading the view.
     }
 
