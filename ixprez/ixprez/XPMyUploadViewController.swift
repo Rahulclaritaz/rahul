@@ -16,28 +16,17 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
     @IBOutlet weak var myUploadCollectionView: UICollectionView!
     
     var screenSize : CGRect!
-    
     var screenWidth : CGFloat!
-    
     var screenHeight : CGFloat!
-    
     var getUploadData = MyUploadWebServices()
-    
     var getUploadURL = URLDirectory.MyUpload()
     
-    var customAlertController : DOAlertController!
-  
+    
     var recordPublicUpload = [[String : Any]]()
     
     var recordPrivateUpload = [[String : Any]]()
     
     var flag : Bool!
-    
-    var flagDelete : Bool!
-    
-     let imageCatch =  NSCache<NSString,UIImage>()
-    
-    
     
     
     override func viewDidLoad() {
@@ -50,8 +39,6 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         
         
         flag = true
-        
-        flagDelete = true
         
         getMyUploadPublicList()
         
@@ -66,6 +53,7 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         let  dicData = [ "user_email" : "mathan6@gmail.com"  , "index" : 1 , "limit" : "5"] as [String : Any]
         
         
+        
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.publicMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
             
             
@@ -74,8 +62,8 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
               self.recordPublicUpload = dicc
             
             
-            DispatchQueue.main.async
-            {
+            DispatchQueue.main.async {
+           
                 
                 self.myUploadCollectionView.reloadData()
                 
@@ -84,13 +72,36 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
             
             })
         
+        
+        
     }
 
-    override func didReceiveMemoryWarning()
-          {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
+        /*
  
+ NSDictionary *dicData =@{@"user_email":saveEmail,@"index":@1,@"limit":@15};
+ 
+ 
+ NSURL *url = [[NSURL alloc]initWithString:@"http://103.235.104.118:3000/queryService/myUploads"];
+         
+         */
+        
+      /*
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+       // var width = UIScreen.main.bounds.width
+        
+        var width = myUploadCollectionView.frame.size.width
+        
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        width = width - 10
+        layout.itemSize = CGSize(width: width / 2, height: width / 2)
+        layout.minimumInteritemSpacing = 1
+        layout.minimumLineSpacing = 1
+        myUploadCollectionView.collectionViewLayout = layout
+        */
+        
            }
     
    
@@ -101,7 +112,7 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         {
        return  recordPublicUpload.count
         }
-        if (flag == false)
+        if ( flag == false)
         {
             return recordPrivateUpload.count
         }
@@ -114,15 +125,10 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         
          let uploadCell = collectionView.dequeueReusableCell(withReuseIdentifier: "myuploadcell", for: indexPath) as! MyUploadCollectionViewCell
         
-
         
         uploadCell.layer.cornerRadius = 3.0
         
         uploadCell.layer.masksToBounds = true
-        
-        uploadCell.layer.borderWidth = 2.0
-        
-        uploadCell.layer.borderColor = UIColor.getXprezBlueColor().cgColor
         
         
          let noDataLabel: UILabel = UILabel(frame:CGRect(x: 0, y: 0, width: myUploadCollectionView.bounds.size.width, height: myUploadCollectionView.bounds.size.height))
@@ -130,46 +136,38 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         
      if ( flag == true)
       {
-    
-           uploadCell.imgDelete.image = UIImage(named: "uploadUnDelete")
-        
         
           let publicUploadData = recordPublicUpload[indexPath.item]
+       
     
            guard (publicUploadData["msg"] as? String) != nil else
            {
             
+            
             uploadCell.isHidden = false
             
-           myUploadCollectionView.backgroundView?.isHidden = true
+            myUploadCollectionView.backgroundView?.isHidden = true
             
             uploadCell.deleteInfoView.isHidden = true
-            uploadCell.infoViewDetails.isHidden = true
-            
             
             uploadCell.lblUploadTitle.text = publicUploadData["title"] as? String
         
             let publicUploadExe = publicUploadData["filemimeType"] as! String
-          
-
-            uploadCell.imgUpload.image = nil
             
- 
+            
             if publicUploadExe == "video/mp4"
                {
- 
+                
                 let img = UIImage(named: "privatePublicBigPlay")
- 
+                
                uploadCell.btnplayAudioVideo.setImage(img, for: .normal)
- 
- 
+                
+                
                 //thumbnailPath
- 
+                
                 var  publicUploadThum = publicUploadData["thumbnailPath"] as! String
              
                publicUploadThum.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
-                
-             
               
                 uploadCell.imgUpload.getImageFromUrl(publicUploadThum)
             
@@ -179,23 +177,29 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
             
                {
                 let img = UIImage(named: "privateAudio")
-                 uploadCell.imgUpload.image = nil
-                 uploadCell.btnplayAudioVideo.setImage(img, for: .normal)
-                 uploadCell.imgUpload.backgroundColor = UIColor.getLightBlueColor()
+                
+
+              uploadCell.btnplayAudioVideo.setImage(img, for: .normal)
+                
+                
+                uploadCell.imgUpload.backgroundColor = UIColor.getLightBlueColor()
             
                 
                 }
         
             uploadCell.btnplayAudioVideo.tag =  indexPath.item
+        
             uploadCell.btnplayAudioVideo.addTarget(self, action: #selector(myUplaodPlayVideoAudio(sender:)), for: .touchUpInside)
-           uploadCell.btnDeleteVideo.tag = indexPath.item
+     
             
-
-           uploadCell.btnDeleteVideo.addTarget(self, action: #selector(deleteVideo(sender :)), for: .touchUpInside)
-            
+            uploadCell.btnDeleteVideo.tag = indexPath.row
             
             
-
+            
+            uploadCell.btnDeleteVideo.addTarget(self, action: #selector(deleteVideo(sender :)), for: .touchUpInside)
+            
+         //   uploadCell.btnInfoDelete.addTarget(self, action: #selector(infoUpload(sender:)), for: .touchUpInside)
+            
 
         return uploadCell
             
@@ -216,9 +220,7 @@ if ( flag == false)
 {
             
     
-            uploadCell.imgDelete.image = UIImage(named: "uploadUnDelete")
-    
-    
+            
             let privateUploadData = recordPrivateUpload[indexPath.item]
             
           // noDataLabel.removeFromSuperview()
@@ -231,17 +233,14 @@ if ( flag == false)
                myUploadCollectionView.backgroundView?.isHidden = true
                 
                 uploadCell.deleteInfoView.isHidden = true
-                uploadCell.infoViewDetails.isHidden = true
-                
-                
+            
                 
                 
             uploadCell.lblUploadTitle.text = privateUploadData["title"] as? String
             
             let privateUploadExe = privateUploadData["filemimeType"] as! String
             
-              uploadCell.imgUpload.image = nil
-                
+            
             if privateUploadExe == "video/mp4"
                {
                 
@@ -265,8 +264,6 @@ if ( flag == false)
             else
                 
                {
-                uploadCell.imgUpload.image = nil
-                
                 let img = UIImage(named: "privateAudio")
                 
                 
@@ -284,11 +281,12 @@ if ( flag == false)
                 
                 
                 
-             
+                uploadCell.btnDeleteVideo.tag = indexPath.row
                 
-               uploadCell.btnDeleteVideo.tag = indexPath.item
+                uploadCell.btnDeleteVideo.addTarget(self, action: #selector(deleteVideo(sender :)), for: .touchUpInside)
                 
-               uploadCell.btnDeleteVideo.addTarget(self, action: #selector(deleteVideo(sender :)), for: .touchUpInside)
+                
+              
                 
                 
              return uploadCell
@@ -316,22 +314,18 @@ if ( flag == false)
         let indexPathValue = IndexPath(item: sender.tag, section: 0)
         
         
-        //let myCell = myUploadCollectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPathValue) as! MyUploadCollectionViewCell
-        let myCell = myUploadCollectionView.cellForItem(at: indexPathValue) as! MyUploadCollectionViewCell
-        
-        myCell.deleteInfoView.alpha = 1
+        let myCell = myUploadCollectionView.dequeueReusableCell(withReuseIdentifier: "", for: indexPathValue) as! MyUploadCollectionViewCell
         
         
-       // myCell.infoViewDetails.isHidden = false
         
-    
+        
         if flag == true
         {
      
         let myUploadPublicInfo = recordPublicUpload[indexPathValue.item]
         
         
-        let dateInfo = myUploadPublicInfo["updatedAt"] as! String
+        let dateInfo = myUploadPublicInfo["updatedAt "] as! String
             
             
             let dataStringFormatter = DateFormatter()
@@ -396,7 +390,7 @@ if ( flag == false)
             let myUploadPrivateInfo = recordPrivateUpload[indexPathValue.item]
             
             
-            let dateInfo = myUploadPrivateInfo["updatedAt"] as! String
+            let dateInfo = myUploadPrivateInfo["updatedAt "] as! String
             
             let dataStringFormatter = DateFormatter()
             
@@ -454,101 +448,32 @@ if ( flag == false)
         
     }
     
-
-func deleteVideo(sender : UIButton)
-
-{
-
-//uploadDelete
-  
+    
+    
+    
+    
+    func deleteVideo(sender : UIButton)
+    {
+        
         let indexValue = IndexPath(item: sender.tag, section: 0)
     
         
-        let myCell = myUploadCollectionView.cellForItem(at: indexValue) as! MyUploadCollectionViewCell
-    
-         myCell.imgDelete.image = nil
-    
-    
-        if flag == true
-         {
-            
-          
-            if (flagDelete == true)
-            {
-    
-             myCell.imgDelete.image = UIImage(named: "uploadDelete")
-            myCell.deleteInfoView.isHidden = false
-                
-                myCell.deleteInfoView.alpha = 0.5
-                
-            
-            myCell.infoViewDetails.isHidden = true
-                
-  
-            myCell.btnInfoDelete.tag = indexValue.item
-            
-            myCell.btnDeleteMyUpload.tag = indexValue.item
-            
-            myCell.btnDeleteMyUpload.addTarget(self, action: #selector(videoDelete(sender:)), for: .touchUpInside)
-            myCell.btnInfoDelete.addTarget(self, action: #selector(infoUpload(sender:)), for: .touchUpInside)
-                
-                
-                flagDelete = false
-            }
-            else
-            {
-                
-                myCell.deleteInfoView.isHidden = true
-                
-                 myCell.imgDelete.image = UIImage(named: "uploadUnDelete")
-                flagDelete = true
-                
+        let myCell = myUploadCollectionView.dequeueReusableCell(withReuseIdentifier: "myuploadcell", for: indexValue) as! MyUploadCollectionViewCell
+
  
-            }
-        }
-        
-       if flag == false
-       {
-        
-         myCell.imgDelete.image = nil
-      
-        if (flagDelete == true)
-        {
-            
-            
-            
-            flagDelete = false
-            
-            
-            myCell.imgDelete.image = UIImage(named: "uploadDelete")
-            myCell.deleteInfoView.isHidden = false
-            
-            myCell.deleteInfoView.alpha = 0.5
-            
-            
-            myCell.infoViewDetails.isHidden = true
-            
-            
-            myCell.btnInfoDelete.tag = indexValue.item
-            
-            myCell.btnDeleteMyUpload.tag = indexValue.item
-            
-            myCell.btnDeleteMyUpload.addTarget(self, action: #selector(videoDelete(sender:)), for: .touchUpInside)
-            myCell.btnInfoDelete.addTarget(self, action: #selector(infoUpload(sender:)), for: .touchUpInside)
-        }
-        else
-        {
-            
-            myCell.deleteInfoView.isHidden = true
-            
-            myCell.imgDelete.image = UIImage(named: "uploadUnDelete")
-            flagDelete = true
-            
-            
-        }
-        
-        }
+    myCell.deleteInfoView.isHidden = false
     
+    myCell.btnInfoDelete.tag = indexValue.section
+    
+    myCell.btnInfoDelete.addTarget(self, action: #selector(infoUpload(sender:)), for: .touchUpInside)
+    
+        myCell.btnDeleteVideo.addTarget(self, action: #selector(videoDelete(sender:)), for: .touchUpInside)
+    
+
+    
+ 
+        
+        
     }
     
     func videoDelete(sender: UIButton)
@@ -558,32 +483,35 @@ func deleteVideo(sender : UIButton)
      let indexPathValue = NSIndexPath(item: sender.tag, section: 0)
  
 
-         if flag == true
-          {
+    if flag == true
+    {
         
-    let currentData = recordPublicUpload[indexPathValue.item]
+    let currentData = recordPublicUpload[indexPathValue.section]
         
     let infoId  = currentData["_id"] as! String
         
         
-     let fileTypeData = currentData["filemimeType"] as! String
+     let fileType = currentData["filemimeType"] as! String
         
-        let fileType : String!
         
+ 
+
+    let dicData = ["_id":infoId,"file_type": fileType]
+        
+ 
+ 
+   getUploadData.getDeleteMyUploadWebService(urlString: getUploadURL.deleteMyUpload(), dicData: dicData as NSDictionary, callback: { (dicc,error) in
+ 
+ 
+   DispatchQueue.main.async {
     
-        if  (fileTypeData == "video/mp4")
-        {
-            
-            fileType = "video"
-        }
-        else
-        {
-            
-            fileType = "audio"
-        }
-         
-        
-        getDeleteAction(infoId: infoId, fileType: fileType, indexPath: indexPathValue as IndexPath)
+    
+ self.myUploadCollectionView.reloadData()
+     }
+ 
+ 
+ 
+ })
         
         
         }
@@ -593,186 +521,42 @@ func deleteVideo(sender : UIButton)
         
         {
             
-            let currentData = recordPrivateUpload[indexPathValue.item]
+            let currentData = recordPrivateUpload[indexPathValue.section]
         
             
             
             let infoId  = currentData["_id"] as! String
             
-            let fileType : String!
+            let fileType = currentData["filemimeType"] as! String
             
-            
-            let fileTypeData = currentData["filemimeType"] as! String
-       
-            
-            
-            if  (fileTypeData == "video/mp4")
-            {
-                
-                fileType = "video"
-            }
-            else
-            {
-                
-                fileType = "audio"
-            }
+            let dicData = ["_id":infoId,"file_type": fileType]
             
 
-            
-           
-            
-  getDeleteAction(infoId: infoId, fileType: fileType, indexPath: indexPathValue as IndexPath)
-            
-        }
- 
-    }
- 
-    
-    func getDeleteAction(infoId : String ,fileType : String,indexPath : IndexPath)
-    {
-        let message = "Are You Sure You Want tp Delete This?"
-        let cancelButtonTitle = "Cancel"
-        let otherButtonTitle = "Delete"
-        
-        
-        if flag == true
-        {
-        
-        let dicData = ["file_type":fileType,"id": infoId]
-        
-        
-        customAlertController = DOAlertController(title: nil, message: message, preferredStyle: .alert)
-        
-        changecustomAlertController()
-        
-         let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel, handler: {
-            action in
-            
-        })
-        
-        let otherAction = DOAlertAction(title: otherButtonTitle, style: .destructive, handler:{
-            
-            action in
-            
-            self.getUploadData.getDeleteMyUploadWebService(urlString: self.getUploadURL.deleteMyUploadPublic(), dicData: dicData as NSDictionary, callback: { (dicc,error) in
-           
+            getUploadData.getDeleteMyUploadWebService(urlString: getUploadURL.deleteMyUpload(), dicData: dicData as NSDictionary, callback: { (dicc,error) in
                 
                 
-                  self.recordPublicUpload.remove(at: indexPath.item)
-                
-                DispatchQueue.main.async
-                {
-            
-        
+                DispatchQueue.main.async {
                     
-                   self.myUploadCollectionView.deleteItems(at: [indexPath])
-                
+                    
+                    
+                    self.recordPrivateUpload.remove(at: indexPathValue.section)
+                    
+                    self.myUploadCollectionView.deleteItems(at: [indexPathValue as IndexPath])
+                    
+                    
                     self.myUploadCollectionView.reloadData()
                 }
                 
+                
+                
             })
             
-                
-           
+
             
-        })
-        
-        
-        customAlertController.addAction(cancelAction)
-        
-        customAlertController.addAction(otherAction)
-        
-        
-        self.present(customAlertController, animated: true, completion: nil)
-        
         }
-        
-        if flag == false
-        {
-                    let dicData = ["file_type":fileType,"id": infoId]
-            
-            
-            customAlertController = DOAlertController(title: nil, message: message, preferredStyle: .alert)
-            
-            changecustomAlertController()
-            
-            
-            // customAlertController.overlayColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.1)
-            
-            let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel, handler: {
-                action in
-                
-                print("hi")
-            })
-            
-            let otherAction = DOAlertAction(title: otherButtonTitle, style: .default, handler:{
-                
-                action in
-                
-                self.getUploadData.getDeleteMyUploadWebService(urlString: self.getUploadURL.deleteMyUploadPrivate(), dicData: dicData as NSDictionary, callback: { (dicc,error) in
-                    
-                    
-                    
-                 self.recordPrivateUpload.remove(at: indexPath.item)
-                    DispatchQueue.main.async
-                    {
-                    
-                        self.myUploadCollectionView.deleteItems(at: [indexPath])
-                        
-                        self.myUploadCollectionView.reloadData()
-                    }
-                    
-                    
-               
-                })
-                
-                
-                
-                
-                
-            })
-            
-            
-            customAlertController.addAction(cancelAction)
-            
-            customAlertController.addAction(otherAction)
-            
-            
-            self.present(customAlertController, animated: true, completion: nil)
-            
-   
-        }
-        
-        
+ 
     }
-    
-    func changecustomAlertController()
-    {
-        
-        customAlertController.alertView.layer.cornerRadius = 6.0
-        
-        customAlertController.alertViewBgColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.7)
-        
-        customAlertController.titleFont = UIFont(name: "Mosk", size: 17.0)
-        customAlertController.titleTextColor = UIColor.green
-        
-        customAlertController.messageFont = UIFont(name: "Mosk", size: 15.0)
-        
-        customAlertController.messageTextColor = UIColor.black
-        
-        customAlertController.alertView.sizeToFit()
-        
-        customAlertController.buttonFont[.cancel] = UIFont(name: "Mosk", size: 15.0)
-        
-        customAlertController.buttonBgColor[.cancel] = UIColor.getLightBlueColor()
-        
-        customAlertController.buttonFont[.default] = UIFont(name: "Mosk", size: 15.0)
-        
-        customAlertController.buttonBgColor[.default] = UIColor.getOrangeColor()
-        
-    }
-    
-    
+ 
     func myUplaodPlayVideoAudio( sender : UIButton)
  
     {
@@ -789,21 +573,11 @@ func deleteVideo(sender : UIButton)
         let playUploadTitle = myUploadPlayData["title"] as! String
         
         var playUploadVideoPath = myUploadPlayData["fileuploadPath"] as? String
-            
-        let playFilemimeType  = myUploadPlayData["filemimeType"] as! String
-            
-         let playID = myUploadPlayData["_id"] as! String
-            
+        
        playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
         
-            
-            let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
-            let playUploadViewCount = myUploadPlayData["viewed"] as! Int
-            let playUploadSmiley = myUploadPlayData["emotionCount"] as! Int
-            
     
-            
-            
+        
         print(playUploadVideoPath!)
         
     
@@ -814,15 +588,7 @@ func deleteVideo(sender : UIButton)
         
         playViewController.playUrlString = playUploadVideoPath!
         
-        playViewController.playLike = playUploadLikeCount
-        playViewController.playView = playUploadViewCount
-        playViewController.playSmiley = playUploadSmiley
-            
-        playViewController.nextID = playID
-            
-        playViewController.nextFileType = playFilemimeType
-            
-            
+  
         
         self.navigationController?.pushViewController(playViewController, animated: true)
         }
@@ -944,12 +710,6 @@ func deleteVideo(sender : UIButton)
             
             
             
-        }
-        
-        else
-        {
-            
-            print("Video")
         }
         
         

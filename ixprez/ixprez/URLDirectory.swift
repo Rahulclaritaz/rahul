@@ -89,15 +89,7 @@ struct URLDirectory
     }
     
     
-    struct videoDataUpload {
-        
-        func url () -> String {
-            
-            return "http://103.235.104.118:3000/commandService/videoFileUpload"
-            
-        }
-        
-    }
+    
     
     struct PrivateData
     {
@@ -127,9 +119,6 @@ struct URLDirectory
     
     struct MyUpload
     {
-
-   
-        
         func publicMyUpload() -> String
         {
             
@@ -143,44 +132,20 @@ struct URLDirectory
             
         }
         
-        func deleteMyUploadPublic() -> String
+        func deleteMyUpload() -> String
         {
             
-    
-            return "http://103.235.104.118:3000/commandService/deleteAudioVideo"
-            
-            
-        }
-        
-        func deleteMyUploadPrivate() -> String
-        {
-       
             return "http://103.235.104.118:3000/commandService/del_status"
-      
-        }
-        
-        
-        func uploadEmotionCount() -> String
-        
-        {
-          return "http://103.235.104.118:3000/commandService/emotionCount"
-        
-        }
-        
-        func uploadReportAbuse() -> String
-        {
-        
-        return  "http://103.235.104.118:3000/commandService/audioVideoReportAbuse"
-        
-        }
-        
-        func saveEmotionCount() -> String
-        {
-        
-            return "http://103.235.104.118:3000/commandService/likeAudioVideo"
+            
             
         }
         
+    }
+    
+    struct videoDataUpload {
+        func url () -> String {
+            return "http://103.235.104.118:3000/commandService/videoFileUpload"
+        }
     }
     
     
