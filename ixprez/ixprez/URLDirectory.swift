@@ -132,11 +132,41 @@ struct URLDirectory
             
         }
         
-        func deleteMyUpload() -> String
+        func deleteMyUploadPublic() -> String
+        {
+            
+            
+            return "http://103.235.104.118:3000/commandService/deleteAudioVideo"
+            
+            
+        }
+        
+        func deleteMyUploadPrivate() -> String
         {
             
             return "http://103.235.104.118:3000/commandService/del_status"
             
+        }
+        
+        
+        func uploadEmotionCount() -> String
+            
+        {
+            return "http://103.235.104.118:3000/commandService/emotionCount"
+            
+        }
+        
+        func uploadReportAbuse() -> String
+        {
+            
+            return  "http://103.235.104.118:3000/commandService/audioVideoReportAbuse"
+            
+        }
+        
+        func saveEmotionCount() -> String
+        {
+            
+            return "http://103.235.104.118:3000/commandService/likeAudioVideo"
             
         }
         
