@@ -85,6 +85,10 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
             })
         
     }
+    
+    @IBAction func backButtonAction (_ sender : Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
 
     override func didReceiveMemoryWarning()
           {

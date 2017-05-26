@@ -12,6 +12,7 @@ class XPNotificationViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Notification"
 
         // Do any additional setup after loading the view.
     }

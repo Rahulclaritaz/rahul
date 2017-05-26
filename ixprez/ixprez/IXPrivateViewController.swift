@@ -40,7 +40,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     var userEmail : String!
     
     var nsuerDefault = UserDefaults.standard
-    
+    var registrationPage = RegistrationViewController ()
     
     //Outlet Reference
     
@@ -63,7 +63,13 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         super.viewDidLoad()
         
         
-        userEmail = nsuerDefault.string(forKey: "emailAddress")
+        if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
+            userEmail = "mathan6@gmail.com"
+        } else {
+            userEmail = registrationPage.defaults.string(forKey: "emailAddress")
+        }
+            
+        
         
         
         print(userEmail)
@@ -90,13 +96,18 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         self.getPrivateData()
         // Do any additional setup after loading the view.
     }
+    
+    
+    @IBAction func  backButtonAction( _sender : Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
 
     
     func getPrivateData( )
     {
        
         
-        let privateDic : NSDictionary = [ "user_email" : "mathan6@gmail.com"]
+        let privateDic : NSDictionary = [ "user_email" : userEmail]
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {
