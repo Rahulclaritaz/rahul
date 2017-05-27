@@ -350,6 +350,34 @@
             <point key="canvasLocation" x="671" y="-2612"/>
         </scene>
         <!--Title-->
+        <scene sceneID="r8S-9Y-2jX">
+            <objects>
+                <viewController storyboardIdentifier="XPCameraONViewController" id="Us6-O9-Jeb" customClass="XPCameraONViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9dS-wh-uFm"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nt9-EC-MkC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hX4-3v-lHH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="scC-wj-eiQ">
+                        <barButtonItem key="leftBarButtonItem" image="LeftButtonArrow" id="r77-ky-OPy">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="10" maxY="5"/>
+                            <connections>
+                                <action selector="backButtonAction:" destination="Us6-O9-Jeb" id="adu-Ov-cen"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fol-Qf-eN9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3318" y="-1361"/>
+        </scene>
+        <!--Title-->
         <scene sceneID="oiS-uV-wuy">
             <objects>
                 <viewController storyboardIdentifier="XPVideoRecordingPlayViewController" id="bu9-gb-Cac" customClass="XPVideoRecordingPlayViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
@@ -481,7 +509,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x8M-H1-u3I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3245.5999999999999" y="-1349.7751124437782"/>
+            <point key="canvasLocation" x="4102" y="-1361"/>
+        </scene>
+        <!--Camera Stop View Controller-->
+        <scene sceneID="Vjz-96-FC3">
+            <objects>
+                <viewController storyboardIdentifier="XPCameraStopViewController" id="68l-76-9f3" customClass="XPCameraStopViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="kdY-y4-xHl"/>
+                        <viewControllerLayoutGuide type="bottom" id="LPa-vN-ya4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="t8O-3a-3Fy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="746-dc-HGy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4890" y="-1350"/>
         </scene>
         <!--Video Recording Stop View Controller-->
         <scene sceneID="G2D-i5-qUo">
@@ -587,17 +633,17 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yaM-6t-71H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4188" y="-1356.0719640179911"/>
+            <point key="canvasLocation" x="5655" y="-1361"/>
         </scene>
         <!--Title-->
         <scene sceneID="8E3-bl-HL4">
             <objects>
-                <viewController id="SWv-Cf-gEC" customClass="XPVideoViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="XPVideoViewController" id="SWv-Cf-gEC" customClass="XPVideoViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="zyc-9J-Gek"/>
                         <viewControllerLayoutGuide type="bottom" id="Ol7-Si-kmg"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="i85-cV-whr">
+                    <view key="view" alpha="0.84999999999999998" contentMode="scaleToFill" id="i85-cV-whr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -779,7 +825,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yKQ-Dv-sL6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2377" y="-1348"/>
+            <point key="canvasLocation" x="2377" y="-1379"/>
         </scene>
         <!--Verification View Controller-->
         <scene sceneID="nFf-gI-ETw">
@@ -1188,7 +1234,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="DashboardVideo"/>
                                 <connections>
-                                    <segue destination="SWv-Cf-gEC" kind="show" id="BEE-si-WSp"/>
+                                    <segue destination="DFb-NS-Ng7" kind="show" id="MXv-9v-FTR"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F10-vw-OuW">
@@ -1273,7 +1319,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UPG-9r-82f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1425" y="-1619"/>
+            <point key="canvasLocation" x="806" y="-1758"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="AYu-yW-u1N">
@@ -1296,7 +1342,6 @@
         <!--Search View Controller-->
         <scene sceneID="FYA-r1-VxK">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yJI-9y-Avc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="XPSearchViewController" id="s4X-Xq-7cK" customClass="XPSearchViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="N3j-4w-d9N"/>
@@ -1308,8 +1353,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yJI-9y-Avc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2639" y="-392"/>
+            <point key="canvasLocation" x="2322" y="-260"/>
         </scene>
         <!--Notification View Controller-->
         <scene sceneID="Pko-s8-7wV">
@@ -1726,7 +1772,33 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yBm-YL-rNM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="505" y="-1620"/>
+            <point key="canvasLocation" x="-71" y="-1758"/>
+        </scene>
+        <!--Title-->
+        <scene sceneID="6M0-rM-HP2">
+            <objects>
+                <viewController storyboardIdentifier="XPCameraBaseViewController" id="DFb-NS-Ng7" customClass="XPCameraBaseViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BS8-Fo-cvT"/>
+                        <viewControllerLayoutGuide type="bottom" id="o0a-Lx-xdf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uqf-fS-xzX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Title" id="hHw-Sm-mrD">
+                        <barButtonItem key="leftBarButtonItem" image="LeftButtonArrow" id="4xC-gq-TBR">
+                            <inset key="imageInsets" minX="0.0" minY="10" maxX="10" maxY="5"/>
+                            <connections>
+                                <action selector="backButtonAction:" destination="DFb-NS-Ng7" id="YcA-sT-ARB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xgC-R8-8oI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1574" y="-1392"/>
         </scene>
         <!--Title-->
         <scene sceneID="ru6-l7-yLH">
@@ -2395,7 +2467,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nyh-8S-Sna" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1671" y="-371"/>
+            <point key="canvasLocation" x="1478" y="-312"/>
         </scene>
         <!--Priavte Play Video Audio View Controller-->
         <scene sceneID="FzT-I2-zZF">
@@ -3658,11 +3730,11 @@
         <image name="ToolBarPrivateVideo" width="25" height="25"/>
         <image name="ToolBarSerch" width="25" height="25"/>
         <image name="ToolBarSetting" width="25" height="25"/>
-        <image name="UploadHeart" width="16" height="16"/>
-        <image name="UploadPlay" width="16" height="16"/>
-        <image name="UploadSmiley" width="16" height="16"/>
-        <image name="UploadUnHeart" width="16" height="16"/>
-        <image name="UploadViews" width="16" height="16"/>
+        <image name="UploadHeart" width="13" height="13"/>
+        <image name="UploadPlay" width="50" height="50"/>
+        <image name="UploadSmiley" width="13" height="13"/>
+        <image name="UploadUnHeart" width="13" height="13"/>
+        <image name="UploadViews" width="13" height="13"/>
         <image name="VideoCameraIcon" width="44" height="44"/>
         <image name="WelcomeAudioImage" width="110" height="100"/>
         <image name="WelcomeBG" width="360" height="640"/>
@@ -3680,6 +3752,6 @@
         <image name="uploadUnDelete" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Xc1-xE-G83"/>
+        <segue reference="wwQ-KA-kH6"/>
     </inferredMetricsTieBreakers>
 </document>
