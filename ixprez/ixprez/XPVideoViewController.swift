@@ -10,7 +10,7 @@ import UIKit
 import ContactsUI
 import AVFoundation
 
-class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,CNContactPickerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVCaptureVideoDataOutputSampleBufferDelegate {
+class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,CNContactPickerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVCaptureVideoDataOutputSampleBufferDelegate {
     
 
     
@@ -24,8 +24,9 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @IBOutlet weak var pulsatorAnimationView: UIView!
     @IBOutlet weak var videoTableView: UITableView!
-    @IBOutlet weak var videoPickerView: UIPickerView!
+    @IBOutlet weak var videoPickerView: UIPickerView?
     @IBOutlet weak var videoBGImage = UIImageView()
+    @IBOutlet weak var pickerNavBar = UINavigationBar ()
     
     var emailAddressLabel = UILabel ()
     var moodLabel = UILabel()
@@ -37,6 +38,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var rowInCell = Int ()
     let cameraSession = AVCaptureSession()
     var imagePicker = UIImagePickerController ()
+    
+    var picker: UIPickerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +50,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         self.navigationController?.navigationBar.tintColor = UIColor.white
         videoMailTableView.isHidden  = true
         shareTitle = ["Private","Public","Both"]
-        videoPickerView.isHidden = true
+        videoPickerView?.isHidden = true
+        pickerNavBar?.isHidden = true
         tap = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard(rec:)))
         view.addGestureRecognizer(tap)
         videoBGImage?.clipsToBounds = true
@@ -56,9 +60,14 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         self.pulsatorAnimationView.layer.addSublayer(pulsrator)
 //        setupCameraSession()
 //        cameraSession.startRunning()
+        
+
     }
     
-    
+    @IBAction func donePicker (_ sender: Any) {
+      videoPickerView?.isHidden = true
+      pickerNavBar?.isHidden = true
+    }
     
     
     @IBAction func backButtonAction(_ sender: Any) {
@@ -124,7 +133,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
-        videoPickerView.isHidden = true
+        videoPickerView?.isHidden = true
+        pickerNavBar?.isHidden = true
         
     }
 
@@ -256,7 +266,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     }
     
     @IBAction func shareButtonAction(_ sender: Any) {
-        videoPickerView.isHidden = false
+        videoPickerView?.isHidden = false
+        pickerNavBar?.isHidden = false
         
     }
     
