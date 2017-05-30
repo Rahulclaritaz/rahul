@@ -32,16 +32,16 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
         videoBGImage?.clipsToBounds = true
         videoBGImage?.layer.cornerRadius = (videoBGImage?.frame.size.height)!/2
         videoBGImage?.layer.masksToBounds = true
-        setupCameraSession()
+//        setupCameraSession()
         
         // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        view.layer.addSublayer(previewLayer)
+//        view.layer.addSublayer(previewLayer)
         count = 40
         timerLabel?.text = "00:40"
-        cameraSession.startRunning()
+//        cameraSession.startRunning()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -56,7 +56,7 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
     
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let preview =  AVCaptureVideoPreviewLayer(session: self.cameraSession)
-        preview?.bounds = CGRect(x: 0, y: 64, width: self.view.bounds.width, height: self.view.bounds.height - 250)
+        preview?.bounds = CGRect(x: 0, y: 64, width: self.view.bounds.width, height: self.view.bounds.height)
         preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
         preview?.videoGravity = AVLayerVideoGravityResize
         return preview!
@@ -108,10 +108,10 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
         videoBGImage?.backgroundColor = UIColor.init(colorLiteralRed: 84.0/255.0, green: 198.0/255.0, blue: 231/255.0, alpha: 1.0)
         videoButton?.setImage(UIImage(named: "VideoCameraIcon"), for: UIControlState.normal)
         self.stopRecording()
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingStopViewController") as! XPVideoRecordingStopViewController
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraStopViewController") as! XPCameraStopViewController
         let countStopValue : String = (timerLabel?.text)!
-        storyBoard.titleLabel = titleString
-        storyBoard.countLabelString = countStopValue as String
+//        storyBoard.titleLabel = titleString
+//        storyBoard.countLabelString = countStopValue as String
         self.navigationController?.pushViewController(storyBoard, animated: true)
 //        self.addChildViewController(storyBoard)
 //        self.view.frame = self.view.frame
