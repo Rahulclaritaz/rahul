@@ -37,6 +37,7 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
     
      let imageCatch =  NSCache<NSString,UIImage>()
     
+     var activityIndicator = UIActivityIndicatorView()
     
     
     
@@ -49,18 +50,42 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target:nil, action:nil)
         
         
-        flag = true
+                flag = true
         
         flagDelete = true
         
         getMyUploadPublicList()
+        setLoadingScreen()
         
     }
     
     
-    func  getMyUploadPublicList()
+    func setLoadingScreen()
+    {
+        self.activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        
+        self.activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.white
+        
+        
+        self.activityIndicator.center = self.view.center
+        
+        
+        self.myUploadCollectionView.addSubview(self.activityIndicator)
+        
+    //self.activityIndicator.startAnimating()
+        
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int
     {
         
+        return 1
+        
+    }
+    
+    func  getMyUploadPublicList()
+    {
+   
         flag = true
         
         let  dicData = [ "user_email" : "mathan6@gmail.com"  , "index" : 1 , "limit" : "5"] as [String : Any]
@@ -69,9 +94,15 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.publicMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
             
             
+            
+            if err == nil
+            {
             print(dicc)
             
               self.recordPublicUpload = dicc
+            self.activityIndicator.stopAnimating()
+            
+            
             
             
             DispatchQueue.main.async
@@ -81,7 +112,15 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
                 
             }
             
+            }
             
+            else
+            {
+                
+               self.activityIndicator.startAnimating()
+                
+                
+            }
             })
         
     }
@@ -132,6 +171,9 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
          let noDataLabel: UILabel = UILabel(frame:CGRect(x: 0, y: 0, width: myUploadCollectionView.bounds.size.width, height: myUploadCollectionView.bounds.size.height))
         
         
+         uploadCell.imgUpload.image = nil
+        
+        
      if ( flag == true)
       {
     
@@ -156,7 +198,7 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
             let publicUploadExe = publicUploadData["filemimeType"] as! String
           
 
-            uploadCell.imgUpload.image = nil
+           
             
  
             if publicUploadExe == "video/mp4"
@@ -565,14 +607,14 @@ func deleteVideo(sender : UIButton)
          if flag == true
           {
         
-    let currentData = recordPublicUpload[indexPathValue.item]
+               let currentData = recordPublicUpload[indexPathValue.item]
         
-    let infoId  = currentData["_id"] as! String
+               let infoId  = currentData["_id"] as! String
         
         
-     let fileTypeData = currentData["filemimeType"] as! String
+               let fileTypeData = currentData["filemimeType"] as! String
         
-        let fileType : String!
+               let fileType : String!
         
     
         if  (fileTypeData == "video/mp4")
@@ -804,10 +846,7 @@ func deleteVideo(sender : UIButton)
             let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
             let playUploadViewCount = myUploadPlayData["viewed"] as! Int
             let playUploadSmiley = myUploadPlayData["emotionCount"] as! Int
-            
-    
-            
-            
+ 
         print(playUploadVideoPath!)
         
     
@@ -845,7 +884,13 @@ func deleteVideo(sender : UIButton)
             playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
             
             
+            let playFilemimeType  = myUploadPlayData["filemimeType"] as! String
             
+            let playID = myUploadPlayData["_id"] as! String
+            
+            let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
+            let playUploadViewCount = myUploadPlayData["viewed"] as! Int
+            let playUploadSmiley = myUploadPlayData["emotionCount"] as! Int
             print(playUploadVideoPath!)
             
             
@@ -855,6 +900,13 @@ func deleteVideo(sender : UIButton)
             playViewController.playTitle = playUploadTitle
             
             playViewController.playUrlString = playUploadVideoPath!
+            playViewController.playLike = playUploadLikeCount
+            playViewController.playView = playUploadViewCount
+            playViewController.playSmiley = playUploadSmiley
+            
+            playViewController.nextID = playID
+            
+            playViewController.nextFileType = playFilemimeType
             
             
             
@@ -866,6 +918,10 @@ func deleteVideo(sender : UIButton)
    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
+      
+        if indexPath.item % 2 == 0
+        {
+        
         let widthOfCell = UIScreen.main.bounds.width / 2 - 20
         
         
@@ -877,7 +933,23 @@ func deleteVideo(sender : UIButton)
         returnCell.width  += 5
         
         return returnCell
+        }
         
+        else
+        {
+            let widthOfCell = UIScreen.main.bounds.width / 2 - 20
+            
+            
+            let heightOfCell = widthOfCell * 1
+            
+            var returnCell = CGSize(width: widthOfCell, height: heightOfCell)
+            
+          
+            returnCell.height += 5
+            returnCell.width  += 5
+            
+            return returnCell
+        }
       //  CGFloat widthOfCell =(self.view.frame.size.width-30)/2;
        // CGFloat heightOfCell =widthOfCell * 1.33;
         
@@ -969,7 +1041,13 @@ func deleteVideo(sender : UIButton)
         
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.privateMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
             
+            
+            if err == nil
+            {
             print(dicc)
+                
+                self.activityIndicator.stopAnimating()
+                
              self.recordPrivateUpload = dicc
           
             DispatchQueue.main.async {
@@ -979,7 +1057,12 @@ func deleteVideo(sender : UIButton)
                 
                 
             }
-            
+            }
+            else
+            {
+               self.activityIndicator.startAnimating()
+                
+            }
             
             
         })

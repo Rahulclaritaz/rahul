@@ -107,7 +107,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
        
         
-        let privateDic : NSDictionary = [ "user_email" : userEmail]
+        let privateDic : NSDictionary = [ "user_email" : "mathan6@gmail.com"]
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {

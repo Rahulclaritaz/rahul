@@ -16,6 +16,7 @@ class UploadsEmotionsTableViewCell: UITableViewCell
     @IBOutlet weak var imgTick: UIImageView!
     @IBOutlet weak var btnEmotion: UIButton!
     
+    @IBOutlet weak var lblEmotionEmoji: UILabel!
     @IBOutlet weak var lblEmotionCount: UILabel!
     
     

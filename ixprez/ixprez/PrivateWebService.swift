@@ -30,7 +30,7 @@ class  PrivateWebService
 
         let session = URLSession.shared
         
-        let dataTask = session.dataTask(with: request, completionHandler:
+        let dataTaskValue = session.dataTask(with: request, completionHandler:
         { (data,response,error) -> Void in
             
             if( data != nil && error == nil)
@@ -68,7 +68,7 @@ class  PrivateWebService
     
         })
         
-        dataTask.resume()
+        dataTaskValue.resume()
         
     }
     
