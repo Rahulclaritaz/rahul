@@ -11,6 +11,12 @@ import AVFoundation
 
 class XPCameraONViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDelegate {
     
+    @IBOutlet weak var cameraPreview: UIView!
+    var session: AVCaptureSession?
+    var input: AVCaptureDeviceInput?
+    var output: AVCaptureStillImageOutput?
+    var previewLayer: AVCaptureVideoPreviewLayer?
+    
     var  popController = UIViewController()
     var cameraSession =  AVCaptureSession ()
     var imagePicker = UIImagePickerController ()
@@ -19,9 +25,48 @@ class XPCameraONViewController: UIViewController,AVCaptureVideoDataOutputSampleB
         super.viewDidLoad()
      self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target:nil, action:nil)
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        setupCameraSession()
-        cameraSession.startRunning()
-        self.view.layer.addSublayer(previewLayer)
+        
+        //Initialize session an output variables this is necessary
+        session = AVCaptureSession()
+        output = AVCaptureStillImageOutput()
+        let camera = getDevice(position: .front)
+        do {
+            input = try AVCaptureDeviceInput(device: camera)
+        } catch let error as NSError {
+            print(error)
+            input = nil
+        }
+        if(session?.canAddInput(input) == true){
+            session?.addInput(input)
+            output?.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG]
+            if(session?.canAddOutput(output) == true){
+                session?.addOutput(output)
+                previewLayer = AVCaptureVideoPreviewLayer(session: session)
+                previewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.portrait
+                previewLayer?.frame = self.view.bounds
+                self.view.layer.addSublayer(previewLayer!)
+                session?.startRunning()
+            }
+        }
+//        setupCameraSession()
+//        imagePicker.cameraDevice = UIImagePickerControllerCameraDevice.front
+//        AVCaptureDevice.defaultDevice(withDeviceType: .builtInWideAngleCamera , mediaType: AVMediaTypeVideo, position: .front)
+//        cameraSession.startRunning()
+//        self.view.layer.addSublayer(previewLayer)
+        
+    }
+    
+    //Get the device (Front or Back)
+    func getDevice(position: AVCaptureDevicePosition) -> AVCaptureDevice? {
+        let devices: NSArray = AVCaptureDevice.devices() as! NSArray;
+        for de in devices {
+            let deviceConverted = de as! AVCaptureDevice
+            if(deviceConverted.position == position){
+                return deviceConverted
+            }
+        }
+        return nil
     }
     
     @IBAction func backButtonAction (_ sender : Any) {
@@ -36,13 +81,13 @@ class XPCameraONViewController: UIViewController,AVCaptureVideoDataOutputSampleB
         self.didMove(toParentViewController: self)
     }
     
-    lazy var previewLayer: AVCaptureVideoPreviewLayer = {
-        let preview =  AVCaptureVideoPreviewLayer(session: self.cameraSession)
-        preview?.bounds = CGRect(x: 0, y: 64, width: self.view.bounds.width, height: self.view.bounds.height)
-        preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
-        preview?.videoGravity = AVLayerVideoGravityResize
-        return preview!
-    }()
+//    lazy var previewLayer: AVCaptureVideoPreviewLayer = {
+//        let preview =  AVCaptureVideoPreviewLayer(session: self.cameraSession)
+//        preview?.bounds = CGRect(x: 0, y: 64, width: self.view.bounds.width, height: self.view.bounds.height)
+//        preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
+//        preview?.videoGravity = AVLayerVideoGravityResize
+//        return preview!
+//    }()
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
