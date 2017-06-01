@@ -59,6 +59,7 @@
 		8573CE9A1EC18CB900E42CD6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8573CE991EC18CB900E42CD6 /* CoreTelephony.framework */; };
 		857CE0471EC9D85E00F151AF /* XPAudioStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */; };
 		85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879EC41EC57B2800337011 /* XPAudioViewController.swift */; };
+		8590E8AB1EDEE9AD00FB8F78 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */; };
 		8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859234091ECD9F17003C70E4 /* Pulsator.swift */; };
 		859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */; };
 		859407C41ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */; };
@@ -139,6 +140,8 @@
 		857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioStopViewController.swift; sourceTree = "<group>"; };
 		85879EC41EC57B2800337011 /* XPAudioViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioViewController.swift; sourceTree = "<group>"; };
 		85879EC61EC5988400337011 /* ixprez.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ixprez.entitlements; sourceTree = "<group>"; };
+		8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		859234091ECD9F17003C70E4 /* Pulsator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulsator.swift; sourceTree = "<group>"; };
 		859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoViewController.swift; sourceTree = "<group>"; };
 		859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoExpressTableViewCell.swift; sourceTree = "<group>"; };
@@ -304,6 +307,8 @@
 				859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */,
 				856E8C191ED98AAA0081BCF7 /* XPCameraStopViewController.swift */,
 				859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */,
+				8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */,
+				8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -481,6 +486,7 @@
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
 				85A3DFEC1ED7F612006E81ED /* XPHelpDetailsViewController.swift in Sources */,
 				1314C6DD1ED7E6F900FD0A8F /* XPSettingsViewController.swift in Sources */,
+				8590E8AB1EDEE9AD00FB8F78 /* iCarousel.m in Sources */,
 				1314C6E41ED7E7BF00FD0A8F /* DOAlertController.swift in Sources */,
 				856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */,
 				1314C6DB1ED7E6F900FD0A8F /* XPMyUploadViewController.swift in Sources */,

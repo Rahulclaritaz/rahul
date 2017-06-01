@@ -3,4 +3,5 @@
 //
 
 #import "ATAudioVisualizer.h"
+#import "iCarousel.h"
 

@@ -1233,7 +1233,7 @@
             </objects>
             <point key="canvasLocation" x="738" y="-371"/>
         </scene>
-        <!--Home Dash Board View Controller-->
+        <!--Data Source-->
         <scene sceneID="KG8-6m-s1j">
             <objects>
                 <viewController storyboardIdentifier="XPHomeDashBoardViewController" id="Via-Id-10J" customClass="XPHomeDashBoardViewController" customModule="ixprez" customModuleProvider="target" sceneMemberID="viewController">
@@ -1246,7 +1246,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d2n-kX-0oI">
-                                <rect key="frame" x="0.0" y="64" width="375" height="280"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="400"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.40392156862745099" green="0.26666666666666666" blue="0.93725490196078431" alpha="1" colorSpace="calibratedRGB"/>
                             </scrollView>
@@ -1303,6 +1303,15 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cKe-aB-eDc" customClass="iCarousel">
+                                <rect key="frame" x="0.0" y="235" width="375" height="148"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Via-Id-10J" id="9KY-t8-PbI"/>
+                                    <outlet property="delegate" destination="Via-Id-10J" id="lkR-ko-Cyo"/>
+                                </connections>
+                            </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uT7-AE-LKV">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
@@ -1349,6 +1358,7 @@
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
+                        <outlet property="carousel" destination="cKe-aB-eDc" id="JPv-Vu-bmG"/>
                         <outlet property="pulseAnimationView" destination="F10-vw-OuW" id="RlB-N9-rpV"/>
                         <outlet property="userProfileAnimationOne" destination="ZjD-mI-1KT" id="YVS-pf-7au"/>
                         <outlet property="userProfileAnimationTwo" destination="BSe-j9-Fpx" id="8BZ-dr-wmr"/>
@@ -1358,7 +1368,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UPG-9r-82f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="806" y="-1758"/>
+            <point key="canvasLocation" x="805.60000000000002" y="-1758.1709145427287"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="AYu-yW-u1N">
