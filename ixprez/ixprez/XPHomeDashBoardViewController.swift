@@ -17,6 +17,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet var carousel: iCarousel?
     var userEmail = String()
     let userProfile = XPWebService()
+    let icarouselFeatureVideoURL = URLDirectory.getIcarouselFeatureURL()
     let userPrifileURL = URLDirectory.UserProfile()
     let userReplacingURL = URLDirectory.BaseRequestResponseURl()
     let pulsrator = Pulsator()
@@ -37,7 +38,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     override func viewDidLoad() {
         super.viewDidLoad()
         // It will set the image in the navigation bar.
-        carousel?.type = .coverFlow2
+        carousel?.type = .rotary
+        carousel?.autoscroll = 0.2
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
         self.navigationItem.titleView = imageView
@@ -76,6 +78,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         
        getUserProfile()
+       getIcarouselFeaturesVideo()
         
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
@@ -103,10 +106,118 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             //don't do anything specific to the index within
             //this `if ... else` statement because the view will be
             //recycled and used with other index values later
-            itemView = UIImageView(frame: CGRect(x: 0, y: 0, width: 260, height: 150))
-//            itemView.image = UIImage(named: "page.png")
+            itemView = UIImageView(frame: CGRect(x: 0, y: 0, width: 250, height: 160))
             itemView.backgroundColor = UIColor.orange
             itemView.contentMode = .center
+            
+            // This will create the headerview in icarousel.
+            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 260, height: 35))
+            headerView.backgroundColor = UIColor.white
+            let headerUserProfile = UIImageView(frame: CGRect(x: 7, y: 7, width: 23, height: 23))
+            
+            // This will create the user profile  in icarousel.
+            headerUserProfile.layer.cornerRadius = (headerUserProfile.frame.size.height)/2
+            headerUserProfile.backgroundColor = UIColor.orange
+            
+            // This will create the header title in icarousel.
+            let headerTitleName  = UILabel(frame: CGRect(x: 40, y: 10, width: 50, height: 20))
+            headerTitleName.font = UIFont(name: "MOSK", size: 10.0)
+            headerTitleName.text = "Tom Cruse"
+            headerTitleName.textColor = UIColor.lightGray
+            
+            // This will create the upload time image in icarousel.
+            var headerUploadTimeImage = UIImageView(frame: CGRect(x: 220, y: 12, width: 15, height: 15))
+            let uploadTimeImage = UIImage(named: "TimeImage")
+            headerUploadTimeImage.image = uploadTimeImage
+            
+            // This will create the upload time in icarousel.
+            let headerUploadTime  = UILabel(frame: CGRect(x: 240, y: 12, width: 30, height: 15))
+            headerUploadTime.font = UIFont(name: "MOSK", size: 10.0)
+            headerUploadTime.text = "3h"
+            headerUploadTime.textColor = UIColor.lightGray
+            headerView.addSubview(headerUploadTimeImage)
+            headerView.addSubview(headerUploadTime)
+            headerView.addSubview(headerTitleName)
+            headerView.addSubview(headerUserProfile)
+            itemView.addSubview(headerView)
+            
+            // This will create the Video Screen Title in icarousel.
+            let videoScreenTitle = UILabel(frame: CGRect(x: 7, y: 85, width: 140, height: 50))
+            videoScreenTitle.font = UIFont(name: "MOSK", size: 17.0)
+            videoScreenTitle.lineBreakMode = NSLineBreakMode(rawValue: 2)!
+            videoScreenTitle.textColor = UIColor.white
+            videoScreenTitle.text = "Not In a Great Mood!"
+            videoScreenTitle.numberOfLines = 2
+            videoScreenTitle.text = videoScreenTitle.text?.uppercased()
+            itemView.addSubview(videoScreenTitle)
+            
+            // This will create the Footer view in icarousel.
+            let footerView = UIView(frame: CGRect(x: 0, y: 130, width: 200, height: 30))
+//            footerView.backgroundColor = UIColor.lightGray
+            
+            // This will create the Footer like Button in icarousel.
+            let carouselLikeButton = UIButton(type: UIButtonType.custom) as UIButton
+             carouselLikeButton.frame = CGRect(x: 7.0, y: 12.0, width: 12.0, height: 12.0)
+            let likeImage = UIImage(named: "UploadHeart")
+            carouselLikeButton.setBackgroundImage(likeImage, for: UIControlState.normal)
+            carouselLikeButton.addTarget(self, action: "BtnTouched", for: .touchUpInside)
+            
+            
+            // This will create the Footer like title in icarousel.
+            let footerCarouselLike  = UILabel(frame: CGRect(x: 25.0, y: 10.0, width: 25.0, height: 15))
+            footerCarouselLike.font = UIFont(name: "MOSK", size: 10.0)
+            footerCarouselLike.text = "16.3k"
+            footerCarouselLike.textColor = UIColor.white
+            
+            // This will create the Footer View Button in icarousel.
+            let carouselViewButton = UIButton(type: UIButtonType.custom) as UIButton
+            carouselViewButton.frame = CGRect(x: 50.0, y: 12.0, width: 12.0, height: 12.0)
+            let viewImage = UIImage(named: "UploadViews")
+            carouselViewButton.setBackgroundImage(viewImage, for: UIControlState.normal)
+            carouselViewButton.addTarget(self, action: "BtnTouched", for: .touchUpInside)
+            
+            
+            // This will create the Footer View title in icarousel.
+            let footerCarouselView  = UILabel(frame: CGRect(x: 66.0, y: 10.0, width: 25.0, height: 15))
+            footerCarouselView.font = UIFont(name: "MOSK", size: 10.0)
+            footerCarouselView.text = "10.7k"
+            footerCarouselView.textColor = UIColor.white
+            
+            // This will create the Footer View Button in icarousel.
+            let carouselFireButton = UIButton(type: UIButtonType.custom) as UIButton
+            carouselFireButton.frame = CGRect(x: 91.0, y: 12.0, width: 12.0, height: 12.0)
+            let fireImage = UIImage(named: "FireImage")
+            carouselFireButton.setBackgroundImage(fireImage, for: UIControlState.normal)
+            carouselFireButton.addTarget(self, action: "BtnTouched", for: .touchUpInside)
+            
+            
+            // This will create the Footer View title in icarousel.
+            let footerCarouselFire  = UILabel(frame: CGRect(x: 108.0, y: 10.0, width: 25.0, height: 15))
+            footerCarouselFire.font = UIFont(name: "MOSK", size: 10.0)
+            footerCarouselFire.text = "10.7k"
+            footerCarouselFire.textColor = UIColor.white
+            
+            
+            // This will create the play button in icarousel
+            let carouselPlayVideoButton = UIButton(type: UIButtonType.custom)
+            carouselPlayVideoButton.frame = CGRect(x: 212.0, y: 125.0, width: 25.0, height: 25.0)
+            let playButtonImage = UIImage(named: "UploadPlay")
+            carouselPlayVideoButton.setBackgroundImage(playButtonImage, for: UIControlState.normal)
+            carouselPlayVideoButton.addTarget(self, action: "CarouselPlayVideoButtonAction", for: UIControlEvents.touchUpInside)
+            
+            
+            
+            // This will add all the subview in view.
+            footerView.addSubview(carouselFireButton)
+            footerView.addSubview(footerCarouselFire)
+            footerView.addSubview(carouselViewButton)
+            footerView.addSubview(footerCarouselView)
+            footerView.addSubview(footerCarouselLike)
+            footerView.addSubview(carouselLikeButton)
+            itemView.addSubview(footerView)
+            itemView.addSubview(carouselPlayVideoButton)
+            
+            
             
             label = UILabel(frame: itemView.bounds)
             label.backgroundColor = UIColor.clear
@@ -121,7 +232,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         //views outside of the `if (view == nil) {...}` check otherwise
         //you'll get weird issues with carousel item content appearing
         //in the wrong place in the carousel
-        label.text = "\(items[index])"
+//        label.text = "\(items[index])"
         
         return itemView
     }
@@ -162,9 +273,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             print(imageURL)
             let newString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://183.82.33.232:3000", options: .literal, range: nil)
             print(newString)
-            let url = NSURL(string : newString)
-            let imageData = NSData(contentsOf: (url as URL?)!)
-            self.userProfileImage?.image = UIImage(data: (imageData as Data?)!)
+//            let url = NSURL(string : newString)
+//            let imageData = NSData(contentsOf: (url as URL?)!)
+//            self.userProfileImage?.image = UIImage(data: (imageData as Data?)!)
             
 //            if let url = NSURL(string: "http://183.82.33.232:3000/uploads/profileImage/1487756666037s.jpg") {
 //                if let imageData = NSData(contentsOf: url as URL) {
@@ -179,6 +290,29 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         
     
+    }
+    
+    // This will send the request to the web server with parameter
+    func getIcarouselFeaturesVideo () {
+        let parameter = ["video_type" : "video"]
+        userProfile.getIcarouselFeaturesVideo(urlString: icarouselFeatureVideoURL.url() , dicData: parameter as NSDictionary, callBack: {(icarouselVideoData , error) in
+            print("You get the Value from features video data")
+            print(icarouselVideoData)
+            self.items = [icarouselVideoData.count]
+            var icarouselUserName = icarouselVideoData.value(forKey: "username")
+            var icarouselTitle = icarouselVideoData.value(forKey: "title")
+            var icarouselUpdateVideoTime = icarouselVideoData.value(forKey: "createdAt")
+            var icarouselLikeCount = icarouselVideoData.value(forKey: "likeCount")
+            var icarouselViewCount = icarouselVideoData.value(forKey: "view_count")
+            var icarouselFeatureVideo = icarouselVideoData.value(forKey: "featuredVideo")
+            
+            
+            print(icarouselUserName)
+            print(icarouselLikeCount)
+            
+        })
+        
+        
     }
     
 

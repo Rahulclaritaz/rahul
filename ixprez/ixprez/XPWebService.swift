@@ -323,7 +323,7 @@ class XPWebService
     
     // This function will upload the audio data with parameter and will return the response.
     
-    func getAudioResponse(urlString : String , dictData : NSDictionary, callBack : @escaping(_ message : NSDictionary, _ error : Error) -> Void) {
+    func getAudioResponse(urlString : String , dictData : NSDictionary, callBack : @escaping(_ message : NSDictionary, _ error : Error?) -> Void) {
         
         
         let jsonData = try? JSONSerialization.data(withJSONObject: dictData, options: .prettyPrinted)
@@ -398,6 +398,53 @@ class XPWebService
 
                 
             } else {
+                return
+            }
+            
+        }
+        dataTask.resume()
+    }
+    
+    
+    // This function will send the data and get the response from the server.
+    
+    func getIcarouselFeaturesVideo(urlString : String, dicData: NSDictionary, callBack: @escaping (_ message : NSArray, _ error : NSError? ) -> Void) {
+       
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        let urlString = URL(string: urlString)
+        var requestedURL = URLRequest(url: urlString! as URL)
+        requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestedURL.httpBody = jsonData
+        requestedURL.httpMethod = "POST"
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: requestedURL) { (data, response, error) in
+            if (data != nil && error == nil) {
+                print("You will get the Response")
+                do {
+                    let jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(jsonData)
+                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
+                    
+                    if (jsonResponseValue == "Failed") {
+                        return
+                    } else {
+                        let responseData : NSArray = jsonData.value(forKey: "data") as! NSArray
+                        print(responseData)
+                        
+//                        for responseValue in responseData {
+//                            
+//                        }
+                        
+                           callBack(responseData, nil)
+                        
+                    }
+                    
+                } catch {
+                    
+                }
+            }else {
+                print("You will not get the Response any Error Occour")
                 return
             }
             
