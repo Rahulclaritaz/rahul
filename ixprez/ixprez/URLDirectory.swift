@@ -178,5 +178,11 @@ struct URLDirectory
         }
     }
     
+    struct getIcarouselFeatureURL {
+        func url() -> String {
+            return  "http://103.235.104.118:3000/commandService/getFeaturedVideoList"
+        }
+    }
+    
     
 }
