@@ -16,6 +16,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var items: [Int] = []
     var icarouselUserProfile = NSArray ()
     var icarouselUserName = NSArray ()
+    var icarouselCreatedTime = NSArray ()
     var icarouselThumbnailImage = NSArray ()
     var icarouselTitle = NSArray ()
     var icarouselUpdateVideoTime = NSArray ()
@@ -119,7 +120,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             //don't do anything specific to the index within
             //this `if ... else` statement because the view will be
             //recycled and used with other index values later
-            itemView = UIImageView(frame: CGRect(x: 0, y: 0, width: 250, height: 160))
+            itemView = UIImageView(frame: CGRect(x: 0, y: 0, width: 240, height: 160))
             itemView.backgroundColor = UIColor.clear
             itemView.contentMode = .center
             var thumbnailUrl = icarouselThumbnailImage[index] as? String
@@ -131,7 +132,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             itemView.layer.cornerRadius = 0.3
             
             // This will create the headerview in icarousel.
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 250, height: 35))
+            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 240, height: 35))
             headerView.backgroundColor = UIColor.white
             let headerUserProfile = UIImageView(frame: CGRect(x: 7, y: 7, width: 23, height: 23))
             
@@ -157,7 +158,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             // This will create the upload time in icarousel.
             let headerUploadTime  = UILabel(frame: CGRect(x: 215, y: 12, width: 30, height: 15))
             headerUploadTime.font = UIFont(name: "MOSK", size: 10.0)
-            headerUploadTime.text = "3h"
+            let createTime = getTheCarouselCreatedTime(createTime: (icarouselCreatedTime[index] as? String)!)
+            print(createTime)
+            headerUploadTime.text = createTime
+            
             headerUploadTime.textColor = UIColor.lightGray
             
             // This will add the subview in the header of icarousel
@@ -230,7 +234,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             
             // This will create the play button in icarousel
             let carouselPlayVideoButton = UIButton(type: UIButtonType.custom)
-            carouselPlayVideoButton.frame = CGRect(x: 192.0, y: 125.0, width: 25.0, height: 25.0)
+            carouselPlayVideoButton.frame = CGRect(x: 195.0, y: 125.0, width: 30.0, height: 30.0)
             let playButtonImage = UIImage(named: "UploadPlay")
             carouselPlayVideoButton.setBackgroundImage(playButtonImage, for: UIControlState.normal)
             carouselPlayVideoButton.addTarget(self, action: "CarouselPlayVideoButtonAction", for: UIControlEvents.touchUpInside)
@@ -274,6 +278,21 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         return value
     }
     
+    func getTheCarouselCreatedTime(createTime: String) -> String {
+        let dateString = createTime
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        dateFormatter.locale = Locale.init(identifier: "en_GB")
+        
+        let dateObj = dateFormatter.date(from: dateString)
+        
+        dateFormatter.dateFormat = "hh:mm"
+        let newDate = dateFormatter.string(from: dateObj!)
+        print(newDate)
+        return newDate
+        
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         // This will create the number of circle animation and radius
@@ -302,7 +321,31 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
             print(imageURL)
             
-            var newString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://183.82.33.232:3000")
+            var urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://183.82.33.232:3000")
+            
+            let url = NSURL(string: urlString)
+            
+            let session = URLSession.shared
+            
+            let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
+                
+                if (data != nil)
+                {
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.userProfileImage?.image = UIImage(data: data!)
+                        
+                    }
+                    
+                    
+                }
+                
+                
+            })
+            
+            
+            taskData.resume()
 //            self.userProfileImage?.getImageFromUrl(newString)
 //            print(newString)
 //            self.userProfileImage?.getImageFromUrl(newString)
@@ -335,6 +378,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.icarouselUserProfile = icarouselVideoData.value(forKey: "profilePicture") as! NSArray
             
             self.icarouselUserName = icarouselVideoData.value(forKey: "username") as! NSArray
+            self.icarouselCreatedTime = icarouselVideoData.value(forKey: "createdAt") as! NSArray
             self.icarouselThumbnailImage = icarouselVideoData.value(forKey: "thumbnailPath") as! NSArray
              self.icarouselTitle = icarouselVideoData.value(forKey: "title") as! NSArray
             self.icarouselUpdateVideoTime = icarouselVideoData.value(forKey: "createdAt") as! NSArray
@@ -345,6 +389,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             
             print(self.icarouselUserName)
             print(self.icarouselTitle)
+            print(self.icarouselCreatedTime)
             print(self.icarouselLikeCount)
             print(self.icarouselViewCount)
             print(self.icarouselFeatureVideoCount)
