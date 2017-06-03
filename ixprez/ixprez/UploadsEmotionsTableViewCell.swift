@@ -16,13 +16,15 @@ class UploadsEmotionsTableViewCell: UITableViewCell
     @IBOutlet weak var imgTick: UIImageView!
     @IBOutlet weak var btnEmotion: UIButton!
     
+    @IBOutlet weak var lblEmotionEmoji: UILabel!
     @IBOutlet weak var lblEmotionCount: UILabel!
     
     
     override func awakeFromNib()
     {
         
-        lblEmotionCount.layer.cornerRadius = 10.0
+        lblEmotionCount.layer.cornerRadius = lblEmotionCount.frame.size.width/2
+        
         
         super.awakeFromNib()
         // Initialization code

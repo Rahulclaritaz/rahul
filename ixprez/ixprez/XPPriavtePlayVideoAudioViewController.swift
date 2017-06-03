@@ -31,10 +31,8 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
     var fromEmail = String()
     
     var sectionNo = Int()
-    
-    var delegate : sectionData?
-    
-    var customAlertController : DOAlertController!
+        var delegate : sectionData?
+        var customAlertController : DOAlertController!
     
     
     
