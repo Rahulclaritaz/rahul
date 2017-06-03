@@ -39,9 +39,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        for i in 0 ... 99 {
-            items.append(i)
-        }
+        getIcarouselFeaturesVideo()
     }
     
     override func viewDidLoad() {
@@ -87,15 +85,20 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         
        getUserProfile()
-       getIcarouselFeaturesVideo()
+//       getIcarouselFeaturesVideo()
         
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
         // Do any additional setup after loading the view.
     }
+    
+    func numberOfPlaceholders(in carousel: iCarousel) -> Int {
+                return icarouselUserName.count
+    }
+    
 //    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
-//        return items.count
+//        return icarouselUserName.count
 //    }
     
     func numberOfItems(in carousel: iCarousel) -> Int {
@@ -123,6 +126,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             var thumbnailFinalUrl = thumbnailUrl?.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://183.82.33.232:3000")
             itemView.getImageFromUrl(thumbnailFinalUrl!)
             itemView.clipsToBounds = true
+           // itemView.layer.masksToBounds = true
+           itemView.contentMode = .scaleAspectFill
             itemView.layer.cornerRadius = 0.3
             
             // This will create the headerview in icarousel.
@@ -336,7 +341,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.icarouselLikeCount = icarouselVideoData.value(forKey: "likeCount") as! NSArray
              self.icarouselViewCount = icarouselVideoData.value(forKey: "view_count") as! NSArray
             self.icarouselFeatureVideoCount = icarouselVideoData.value(forKey: "featuredVideo") as! NSArray
-            self.items = [Int(icarouselVideoData.count)]
+//            self.items = [Int(icarouselVideoData.count)]
             
             print(self.icarouselUserName)
             print(self.icarouselTitle)
