@@ -1405,7 +1405,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yJI-9y-Avc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3422" y="566"/>
+            <point key="canvasLocation" x="1574" y="447"/>
         </scene>
         <!--Notification View Controller-->
         <scene sceneID="Pko-s8-7wV">
@@ -3345,7 +3345,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UploadSmiley" translatesAutoresizingMaskIntoConstraints="NO" id="uiY-uy-JnA">
-                                                                    <rect key="frame" x="75" y="4" width="13" height="13"/>
+                                                                    <rect key="frame" x="75.5" y="4" width="13" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="13" id="Eo5-0y-QHG"/>
                                                                         <constraint firstAttribute="width" constant="13" id="qIU-KJ-jLh"/>
@@ -3361,7 +3361,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dbf-vr-Zv2">
-                                                                    <rect key="frame" x="90" y="7" width="13.5" height="7"/>
+                                                                    <rect key="frame" x="90.5" y="7" width="13.5" height="7"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="Dbf-vr-Zv2" secondAttribute="height" multiplier="13:7" id="7Bn-Jy-Uki"/>
                                                                     </constraints>
@@ -3370,7 +3370,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RTY-j8-jJp">
-                                                                    <rect key="frame" x="159" y="7" width="14" height="7"/>
+                                                                    <rect key="frame" x="159" y="6.5" width="14" height="7"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="RTY-j8-jJp" secondAttribute="height" multiplier="2:1" id="IsT-vE-tla"/>
                                                                     </constraints>
