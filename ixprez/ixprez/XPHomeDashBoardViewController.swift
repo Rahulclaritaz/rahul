@@ -24,6 +24,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var icarouselViewCount = NSArray ()
     var baseUrl = "http://183.82.33.232:3000/"
     var icarouselFeatureVideoCount = NSArray ()
+    var icarouselFileURLPath = NSArray ()
+    var icarouselFeatureID = NSArray ()
+    var icarouselSmailyCount = NSArray ()
     @IBOutlet var carousel: iCarousel?
     var userEmail = String()
     let userProfile = XPWebService()
@@ -94,19 +97,18 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         // Do any additional setup after loading the view.
     }
     
+    
+    //MARK: icarosusel data source method
     func numberOfPlaceholders(in carousel: iCarousel) -> Int {
                 return icarouselUserName.count
     }
-    
-//    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
-//        return icarouselUserName.count
-//    }
-    
+    //MARK: icarosusel data source method
     func numberOfItems(in carousel: iCarousel) -> Int {
         return icarouselUserName.count
 //        return items.count
     }
     
+    //MARK: icarosusel data source method
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         var label: UILabel
         var itemView: UIImageView
@@ -271,6 +273,29 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         return itemView
     }
     
+    //MARK: icarousel delegate method
+    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
+        print("you click on the \(index) index")
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        let urlPath = icarouselFileURLPath[index] as! String
+        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        storyBoard.playUrlString = finalURlPath
+        storyBoard.nextID = icarouselFeatureID[index] as! String
+        let labelLikeCount: NSInteger = icarouselLikeCount[index] as! NSInteger
+        storyBoard.playLike = labelLikeCount
+        let labelSmileyCount: NSInteger = icarouselSmailyCount[index] as! NSInteger
+        storyBoard.playSmiley = labelSmileyCount
+        let labelPlayView: NSInteger = (Int)((icarouselViewCount[index] as? String)!)!
+        storyBoard.playView = labelPlayView
+        
+        storyBoard.playTitle = icarouselTitle[index] as! String
+        
+        print("the carousel video url path is \(storyBoard.playUrlString)")
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+        
+    }
+    
+    
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         if (option == .spacing) {
             return value * 1.1
@@ -278,6 +303,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         return value
     }
     
+    // This method will convert the resonse service time in hh:mm formet.
     func getTheCarouselCreatedTime(createTime: String) -> String {
         let dateString = createTime
         let dateFormatter = DateFormatter()
@@ -386,6 +412,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
              self.icarouselViewCount = icarouselVideoData.value(forKey: "view_count") as! NSArray
             self.icarouselFeatureVideoCount = icarouselVideoData.value(forKey: "featuredVideo") as! NSArray
 //            self.items = [Int(icarouselVideoData.count)]
+            self.icarouselFileURLPath = icarouselVideoData.value(forKey: "fileuploadPath") as! NSArray
+            self.icarouselFeatureID = icarouselVideoData.value(forKey: "_id") as! NSArray
+            self.icarouselSmailyCount = icarouselVideoData.value(forKey: "smailyCount") as! NSArray
             
             print(self.icarouselUserName)
             print(self.icarouselTitle)
