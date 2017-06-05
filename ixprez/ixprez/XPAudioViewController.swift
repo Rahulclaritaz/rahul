@@ -27,6 +27,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     @IBOutlet weak var shareTitleLabel: UILabel!
 
     @IBOutlet weak var shareButton: UIButton!
+    @IBOutlet weak var audioPickerBar : UINavigationBar!
     
 //    var textField = XPAudioXpressTableViewCell()
     
@@ -61,6 +62,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         self.navigationController?.navigationBar.tintColor = UIColor.white
         audioMailTableView.isHidden  = true
         shareTitle = ["Private","Public","Both"]
+        audioPickerBar.isHidden = true
         audioPickerView.isHidden = true
         tap = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard(rec:)))
         view.addGestureRecognizer(tap)
@@ -88,6 +90,13 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         self.navigationController?.popViewController(animated: true)
         
     }
+    
+    @IBAction func donePickerAction (_sender : Any) {
+        audioPickerView.isHidden = true
+        audioPickerBar.isHidden = true
+    }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         pulsrator.numPulse = 5
         pulsrator.radius = 150
@@ -105,6 +114,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
         audioPickerView.isHidden = true
+        audioPickerBar.isHidden = true
     
     }
 
@@ -276,6 +286,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     @IBAction func shareButtonAction(_ sender: Any) {
         audioPickerView.isHidden = false
+        audioPickerBar.isHidden = false
         
     }
     
