@@ -72,6 +72,8 @@
 		859A5E111ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */; };
 		859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */; };
 		85A3DFEC1ED7F612006E81ED /* XPHelpDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A3DFEB1ED7F612006E81ED /* XPHelpDetailsViewController.swift */; };
+		85A572AC1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */; };
+		85A572AE1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */; };
 		85BCA1EB1EE2B4FD009C4B02 /* ActivityExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BCA1EA1EE2B4FD009C4B02 /* ActivityExtension.swift */; };
 		85BCA1ED1EE2B5CA009C4B02 /* SearchPopularCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BCA1EC1EE2B5CA009C4B02 /* SearchPopularCollectionViewCell.swift */; };
 		85BCA1F11EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BCA1EE1EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift */; };
@@ -161,6 +163,8 @@
 		859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoRecordingPlayViewController.swift; sourceTree = "<group>"; };
 		859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoRecordingStopViewController.swift; sourceTree = "<group>"; };
 		85A3DFEB1ED7F612006E81ED /* XPHelpDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHelpDetailsViewController.swift; sourceTree = "<group>"; };
+		85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashboardTableViewCell.swift; sourceTree = "<group>"; };
+		85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashboardHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		85BCA1EA1EE2B4FD009C4B02 /* ActivityExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityExtension.swift; sourceTree = "<group>"; };
 		85BCA1EC1EE2B5CA009C4B02 /* SearchPopularCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPopularCollectionViewCell.swift; sourceTree = "<group>"; };
 		85BCA1EE1EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPublicDataTableViewCell.swift; sourceTree = "<group>"; };
@@ -350,6 +354,8 @@
 				85BCA1EE1EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift */,
 				85BCA1EF1EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift */,
 				85BCA1F01EE2B5DB009C4B02 /* XPSearchTableViewCell.swift */,
+				85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */,
+				85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -479,6 +485,7 @@
 			files = (
 				859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */,
 				1314C6E81ED7E81300FD0A8F /* DateExtension.swift in Sources */,
+				85A572AC1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift in Sources */,
 				1314C6DA1ED7E6F900FD0A8F /* XPMyUploadPlayViewController.swift in Sources */,
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				85BCA1EB1EE2B4FD009C4B02 /* ActivityExtension.swift in Sources */,
@@ -507,6 +514,7 @@
 				1314C6E41ED7E7BF00FD0A8F /* DOAlertController.swift in Sources */,
 				856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */,
 				1314C6DB1ED7E6F900FD0A8F /* XPMyUploadViewController.swift in Sources */,
+				85A572AE1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift in Sources */,
 				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
 				856E8C1A1ED98AAA0081BCF7 /* XPCameraStopViewController.swift in Sources */,
 				1314C6D71ED7E6F900FD0A8F /* IXPrivateViewController.swift in Sources */,

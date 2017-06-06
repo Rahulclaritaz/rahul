@@ -11,8 +11,6 @@ import UIKit
 class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate {
     
 
-  
-    
     var items: [Int] = []
     var icarouselUserProfile = NSArray ()
     var icarouselUserName = NSArray ()
@@ -28,6 +26,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var icarouselFeatureID = NSArray ()
     var icarouselSmailyCount = NSArray ()
     @IBOutlet var carousel: iCarousel?
+    @IBOutlet weak var xpressScrollView = UIScrollView ()
+    @IBOutlet weak var xpressTableView = UITableView ()
     var userEmail = String()
     let userProfile = XPWebService()
     let icarouselFeatureVideoURL = URLDirectory.getIcarouselFeatureURL()
@@ -49,6 +49,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     override func viewDidLoad() {
         super.viewDidLoad()
         // It will set the image in the navigation bar.
+        xpressScrollView?.contentSize = CGSize(width: self.view.frame.width, height: 890)
         carousel?.type = .rotary
         carousel?.autoscroll = 0.2
         let imageLogo = UIImage (named: "DashboardTitleImage")
@@ -440,4 +441,42 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     }
     */
 
+}
+
+extension XPHomeDashBoardViewController : UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 91
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cellIdentifier = "XPDashboardTableViewCell"
+        var cell : XPDashboardTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardTableViewCell
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cellIdentifier = "XPDashboardHeaderTableViewCell"
+        var cell : XPDashboardHeaderTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardHeaderTableViewCell
+        return cell
+    }
+    
+    
+    
+}
+
+extension XPHomeDashBoardViewController : UITableViewDelegate {
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        
+//    }
+    
 }
