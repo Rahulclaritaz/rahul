@@ -9,6 +9,12 @@
 import UIKit
 
 class XPDashboardTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var thumbNailImage = UIImageView ()
+    @IBOutlet weak var likeCountLabel = UILabel ()
+    @IBOutlet weak var emotionCountLabel = UILabel ()
+    @IBOutlet weak var ViewCountLabel = UILabel ()
+    @IBOutlet weak var titleLabel = UILabel ()
 
     override func awakeFromNib() {
         super.awakeFromNib()
