@@ -15,6 +15,7 @@ class XPDashboardTableViewCell: UITableViewCell {
     @IBOutlet weak var emotionCountLabel = UILabel ()
     @IBOutlet weak var ViewCountLabel = UILabel ()
     @IBOutlet weak var titleLabel = UILabel ()
+    @IBOutlet weak var playButton = UIButton ()
 
     override func awakeFromNib() {
         super.awakeFromNib()

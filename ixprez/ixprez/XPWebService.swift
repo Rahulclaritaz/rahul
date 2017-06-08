@@ -498,6 +498,47 @@ class XPWebService
     }
     
     
+    // This function will get the audio Video response from the server
+    func getRecentAudioVideoResponse(urlString : String, dictParameter : NSDictionary, callBack : @escaping (_ messageResponse : NSArray , _ error : NSError?) -> Void) {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dictParameter, options: .prettyPrinted)
+        let urlString = NSURL(string: urlString)
+        var requestedURl = URLRequest(url: urlString as! URL)
+        requestedURl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestedURl.httpMethod = "POST"
+        requestedURl.httpBody = jsonData
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: requestedURl) { (data, response, error) in
+           
+            if (data != nil && error == nil) {
+               print("You will get the Response")
+                let jsonData: NSDictionary = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                print(jsonData)
+                
+                let  jsonStatusValue : String  = jsonData.value(forKey: "status") as! String
+                if ( jsonStatusValue == "Failed") {
+                    return
+                } else {
+                    let jsonDictResponse : NSDictionary = jsonData.value(forKey: "data") as! NSDictionary
+                    let jsonArrayValue : NSArray = jsonDictResponse.value(forKey: "Records") as! NSArray
+                    print(jsonArrayValue)
+                    callBack(jsonArrayValue, nil)
+                }
+                
+                
+            } else {
+                print("You will not get the Response any Error Occour")
+                return
+                
+            }
+            
+        }
+        dataTask.resume()
+        
+        
+    }
+    
+    
     
     
     
