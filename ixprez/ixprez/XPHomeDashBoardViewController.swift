@@ -29,16 +29,20 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var trendingEmotionCount = NSArray ()
     var trendingViewCount = NSArray ()
     var trendingTitle = NSArray ()
-    var treandingThumbnail = NSArray ()
+    var trendingThumbnail = NSArray ()
+    var trendingFileURLPath = NSArray ()
+    var trendingFeaturesId = NSArray ()
+    var activityIndicator = UIActivityIndicatorView ()
     @IBOutlet var carousel: iCarousel?
     @IBOutlet weak var xpressScrollView = UIScrollView ()
     @IBOutlet weak var xpressTableView = UITableView ()
-    var userEmail = String()
+    var userEmail = String ()
     let dashBoardCommonService = XPWebService()
     let icarouselFeatureVideoURL = URLDirectory.getIcarouselFeatureURL()
     let userPrifileURL = URLDirectory.UserProfile()
     let userReplacingURL = URLDirectory.BaseRequestResponseURl()
     let treandingVideoURL = URLDirectory.treandingURL()
+    let recentAudioVideoURL = URLDirectory.recentURL()
     let pulsrator = Pulsator()
     @IBOutlet weak var userProfileImage = UIImageView()
     @IBOutlet weak var userProfileBorder = UIImageView()
@@ -51,6 +55,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         super.awakeFromNib()
         getIcarouselFeaturesVideo()
         getTrendingResponse()
+        getRecentResponse()
+        
     }
     
     override func viewDidLoad() {
@@ -96,7 +102,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         pulseAnimationView?.layer.addSublayer(pulsrator)
         
         
-       getUserProfile()
+        getUserProfile()
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray, color: .darkGray, placeInTheCenterOf: self.xpressTableView!)
+        self.activityIndicator.startAnimating()
+        self.xpressTableView?.reloadData()
 //       getIcarouselFeaturesVideo()
         
         
@@ -107,11 +116,38 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     // This method will call when clik on the trending button
     func TreandingVideo(sender : UIButton) {
+        self.activityIndicator.startAnimating()
         self.getTrendingResponse()
+        
     }
     
     
     func RecentVideo (sender : UIButton) {
+        self.activityIndicator.startAnimating()
+        self.getRecentResponse()
+    }
+    
+    func TreandingVideoAudioPlayButtonAction (sender: UIButton) {
+        print("you click on the \(index) index")
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        
+        let cellIndexPath = sender.tag
+        
+        let urlPath = trendingFileURLPath[cellIndexPath] as! String
+        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        storyBoard.playUrlString = finalURlPath
+        storyBoard.nextID = trendingFeaturesId[cellIndexPath] as! String
+        let labelLikeCount: NSInteger = trendingLikeCount[cellIndexPath] as! NSInteger
+        storyBoard.playLike = labelLikeCount
+        let labelSmileyCount: NSInteger = trendingEmotionCount[cellIndexPath] as! NSInteger
+        storyBoard.playSmiley = labelSmileyCount
+        let labelPlayView: NSInteger = (Int)((trendingViewCount[cellIndexPath] as? String)!)!
+        storyBoard.playView = labelPlayView
+        
+        storyBoard.playTitle = trendingTitle[cellIndexPath] as! String
+        
+        print("the carousel video url path is \(storyBoard.playUrlString)")
+        self.navigationController?.pushViewController(storyBoard, animated: true)
         
         
     }
@@ -448,20 +484,45 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
     }
     
-    // This method will send the request and will return the Treanding response
+    // This method will send the request and will return the Dashboard Treanding data response
     func getTrendingResponse () {
-        let param = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"10"]
-        dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: param as NSDictionary) { (treandingResponse, error) in
-            self.trendingLikeCount = treandingResponse.value(forKey: "likeCount") as! NSArray
-            self.trendingEmotionCount = treandingResponse.value(forKey: "emotionCount") as! NSArray
-            self.trendingViewCount = treandingResponse.value(forKey: "view_count") as! NSArray
-            self.trendingTitle = treandingResponse.value(forKey: "title") as! NSArray
-            self.treandingThumbnail = treandingResponse.value(forKey: "thumbnailPath") as! NSArray
-            self.xpressTableView?.reloadData()
+        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"10"]
+        dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: requestParameter as NSDictionary) { (treandingResponse, error) in
+            
+            if (error == nil) {
+               self.activityIndicator.stopAnimating()
+                self.trendingLikeCount = treandingResponse.value(forKey: "likeCount") as! NSArray
+                self.trendingEmotionCount = treandingResponse.value(forKey: "emotionCount") as! NSArray
+                self.trendingViewCount = treandingResponse.value(forKey: "view_count") as! NSArray
+                self.trendingTitle = treandingResponse.value(forKey: "title") as! NSArray
+                self.trendingThumbnail = treandingResponse.value(forKey: "thumbnailPath") as! NSArray
+                self.trendingFileURLPath = treandingResponse.value(forKey: "fileuploadPath") as! NSArray
+                self.trendingFeaturesId = treandingResponse.value(forKey: "_id") as! NSArray
+                
+                self.xpressTableView?.reloadData()
+            }
+                
+            
         }
     }
     
-
+    // This method will send the request and will return the Dashboard Recent data response
+    
+    func getRecentResponse () {
+        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"10","language":"English","country":"India"]
+        dashBoardCommonService.getRecentAudioVideoResponse(urlString: recentAudioVideoURL.url(), dictParameter: requestParameter as NSDictionary) { (recentResponse, error) in
+            print(recentResponse)
+            self.trendingLikeCount = recentResponse.value(forKey: "likeCount") as! NSArray
+            self.trendingEmotionCount = recentResponse.value(forKey: "emotionCount") as! NSArray
+            self.trendingViewCount = recentResponse.value(forKey: "view_count") as! NSArray
+            self.trendingTitle = recentResponse.value(forKey: "title") as! NSArray
+            self.trendingThumbnail = recentResponse.value(forKey: "thumbnailPath") as! NSArray
+            self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
+            self.xpressTableView?.reloadData()
+        }
+    
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -481,13 +542,16 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 82
+        return 75
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "XPDashboardTableViewCell"
         let cell : XPDashboardTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardTableViewCell
-        let thumbImageURLString = self.treandingThumbnail[indexPath.row] as! String
+        let thumbImageURLString = self.trendingThumbnail[indexPath.row] as! String
+        cell.thumbNailImage?.clipsToBounds = true
+        cell.thumbNailImage?.layer.masksToBounds = true
+        cell.thumbNailImage?.contentMode = .scaleAspectFit
         let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
         cell.thumbNailImage?.getImageFromUrl(finalThumbNailImageURL)
@@ -495,9 +559,11 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         let likeCount: NSInteger = self.trendingLikeCount[indexPath.row] as! NSInteger
         cell.likeCountLabel?.text = String(likeCount) + " " + "Likes"
         let emotionCount: NSInteger = self.trendingEmotionCount[indexPath.row] as! NSInteger
-        cell.emotionCountLabel?.text = String(emotionCount) + " " + "Rx"
+        cell.emotionCountLabel?.text = String(emotionCount) + " " + "React"
         let viewCountText: String = (trendingViewCount[indexPath.row] as? String)!
         cell.ViewCountLabel?.text = viewCountText + " " + "Views"
+        cell.playButton?.tag = indexPath.row
+        cell.playButton?.addTarget(self, action: #selector(TreandingVideoAudioPlayButtonAction(sender:)), for: UIControlEvents.touchUpInside)
         
         return cell
     }
@@ -512,6 +578,7 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         
         cell.treadingButton?.addTarget(self, action: #selector(TreandingVideo(sender:)), for: UIControlEvents.touchUpInside)
         cell.recentButton?.addTarget(self, action: #selector(RecentVideo(sender:)), for: UIControlEvents.touchUpInside)
+        
         return cell
     }
     

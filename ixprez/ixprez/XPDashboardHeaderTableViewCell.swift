@@ -13,6 +13,8 @@ class XPDashboardHeaderTableViewCell: UITableViewCell {
     
     @IBOutlet weak var treadingButton = UIButton ()
     @IBOutlet weak var recentButton = UIButton ()
+    @IBOutlet weak var treadingViewLine = UIView ()
+    @IBOutlet weak var recentViewLine = UIView ()
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
