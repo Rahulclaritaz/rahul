@@ -454,6 +454,51 @@ class XPWebService
     
     
     
+    // This function will get the treanding video response from server 
+    
+    func getTreandingVideoResponse(urlString : String , parameter : NSDictionary, callBack : @escaping (_ message : NSArray, _ error : NSError?) -> Void) {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: parameter, options: .prettyPrinted)
+        let urlString = URL(string: urlString)
+        var requestedURL = URLRequest(url: urlString! as URL)
+        requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestedURL.httpBody = jsonData
+        requestedURL.httpMethod = "POST"
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: requestedURL) { (data, response, error) in
+            if (data != nil && error == nil) {
+                print("You will get the Response")
+                do {
+                    let jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(jsonData)
+                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
+                    
+                    if (jsonResponseValue == "Failed") {
+                        return
+                    } else {
+                        let responseDataDictValue: NSDictionary = jsonData.value(forKey: "data") as! NSDictionary
+                        let responseDataArrayValue : NSArray = responseDataDictValue.value(forKey: "Records") as! NSArray
+                        callBack(responseDataArrayValue, nil)
+                        print(responseDataArrayValue)
+                        
+                    }
+                    
+                } catch {
+                    
+                }
+            }else {
+                print("You will not get the Response any Error Occour")
+                return
+            }
+            
+        }
+        dataTask.resume()
+        
+    }
+    
+    
+    
     
     
 }

@@ -201,5 +201,11 @@ struct URLDirectory
         }
     }
     
+    struct treandingURL {
+        func url () -> String {
+            return "http://103.235.104.118:3000/queryService/getAudioVideoListByLike"
+        }
+    }
+    
     
 }
