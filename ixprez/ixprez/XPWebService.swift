@@ -538,6 +538,50 @@ class XPWebService
         
     }
     
+    // MARK:TODO
+    func getCountryLanguageDataWebService(urlString : String ,dicData : NSDictionary, callback : @escaping(_ countData : [[String : Any]] , _ error : NSError? ) -> Void)
+        
+    {
+        guard let urlStringData = URL(string: urlString) else
+        {
+            print("Error : can not create the URL")
+            return
+        }
+        
+        let request = NSMutableURLRequest(url: urlStringData)
+        let session = URLSession.shared
+        request.httpMethod = "POST"
+        request.httpBody = try! JSONSerialization.data(withJSONObject: dicData, options: [])
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+            print("Response: \(response)")
+            guard let responseData = data else {
+                print("Error: didn't  get the data")
+                return
+            }
+            // parse the result as JSON, since that's what the API provides
+            do {
+                guard let jsonDictData: NSDictionary = try JSONSerialization.jsonObject(with: responseData, options: []) as? NSDictionary else {
+                    print("Error : didn't get the json Data")
+                    return
+                }
+                let jsonArrayData  = jsonDictData["data"] as! [[String : Any]]
+                
+                print(jsonArrayData)
+                callback(jsonArrayData, nil)
+                
+            } catch {
+                print("Error trying to convert data")
+                return
+            }
+        })
+        
+        task.resume()
+        
+    }
+    
     
     
     

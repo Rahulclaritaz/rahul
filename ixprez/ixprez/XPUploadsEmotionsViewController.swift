@@ -49,6 +49,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         print(FileType)
         print(ID)
         
+        
 
         
      //  getEmotionCount()
@@ -132,6 +133,15 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         
         cell.btnEmotion.tag = indexPath.row
         
+        let lengthOfTitle =  cell.btnEmotion.titleLabel?.text?.lengthOfBytes(using: .utf32)
+        
+        print("length Of Title %d", CGFloat(lengthOfTitle!))
+        
+        cell.emotionWidth.constant  =  CGFloat(lengthOfTitle!)*2
+        
+        
+        
+        
         cell.btnEmotion.addTarget(self, action: #selector(countEmotion(sender:)), for: .touchUpInside)
        
         return cell
@@ -164,7 +174,10 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         
         let myCell = tableView.cellForRow(at: indexPathData) as! UploadsEmotionsTableViewCell
         
+    
+        
         let emotionCount = recordEmotionCount[indexPathData.row]
+        
         
         
         if sender.isSelected == false
@@ -174,7 +187,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
             
             myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
             
-              getSaveEmotionCount(sender: myCell.lblEmotionCount.text!)
+            getSaveEmotionCount(sender: myCell.lblEmotionCount.text!)
             
             
             sender.isSelected = true
@@ -301,10 +314,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     {
         
         customAlertController.alertView.layer.cornerRadius = 6.0
-      
-        
-        
-        
+    
         customAlertController.alertViewBgColor =  UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 0.5)
         
         customAlertController.titleFont = UIFont(name: "Mosk", size: 17.0)

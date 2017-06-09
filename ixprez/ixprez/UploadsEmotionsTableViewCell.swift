@@ -20,6 +20,7 @@ class UploadsEmotionsTableViewCell: UITableViewCell
     @IBOutlet weak var lblEmotionCount: UILabel!
     
     
+    @IBOutlet weak var emotionWidth: NSLayoutConstraint!
     override func awakeFromNib()
     {
         

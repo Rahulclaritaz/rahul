@@ -213,5 +213,20 @@ struct URLDirectory
     }
     }
     
+    struct Setting
+    {
+        func getPrivateData() -> String
+        {
+            
+            return  "http://103.235.104.118:3000/queryService/getPrivateFollowCount"
+            
+        }
+        func uploadProfileImage() -> String
+        {
+            
+            return "http://103.235.104.118:3000/commandService/profileImage"
+        }
+    }
+    
     
 }
