@@ -107,7 +107,6 @@ class  PrivateWebService
                 do
                 {
                   
-                    
                  jsonDic  = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                     
                   
@@ -127,21 +126,58 @@ class  PrivateWebService
                 callback(sendBackDic, error)
                 
             }
-            
-            
-            
-            
         })
         
         taskData.resume()
+    
+    }
+    
+    // This method will will return the fllower and Fllowing user data from the server in [setting page]
+    func  getPrivateData(urlString : String ,dicData : [String:Any] , callback : @escaping (_ dic : [String:Any] , _ error : Error?) -> Void)
+    {
+        
+        let datadic = try! JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        
+        let urlData = URL(string: urlString )
+        
+        var requestData = URLRequest(url: urlData!)
+        
+        requestData.httpBody = datadic
+        
+        requestData.httpMethod = "POST"
+        
+        requestData.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let session1 = URLSession.shared
+        
+        print("mathan mathan")
         
         
-       
+        let taskData1 = session1.dataTask(with: requestData, completionHandler: {
+            (data,response,error ) in
+            
+            if data != nil && error == nil
+                
+            {
+                var  jsonDic = [String:Any]()
+                
+                do
+                {
+                    
+                    jsonDic  = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String:Any]
+                    
+                }
+                    
+                catch
+                {
+                    
+                }
+                callback(jsonDic, error)
+                
+            }
+        })
         
-        
-        
-        
-        
+        taskData1.resume()
     }
     
 }

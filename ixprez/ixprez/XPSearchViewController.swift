@@ -7,9 +7,6 @@
 //
 
 
-//{"user_email":"jnjaga24@gmail.com","emotion":"like","index":1,"limit":200,"language":"English (India)","country":"IN"}
-
-//http://103.235.104.118:3000/queryService/myVideosList
 
 import UIKit
 
@@ -37,10 +34,19 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
      var isFiltered : Bool!
     var isFlag : Bool!
     
+    var Index = 0
+    
+    
+    let imageView = UIImageView()
     
     @IBOutlet weak var searchCollectionView: UICollectionView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+     setBackGroundView()
+        
         getPublicVideo()
         getPopularVideo()
         publicTableView.delegate = self
@@ -65,8 +71,21 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
    
     }
     
-    @IBAction func backButtonAction (_ sender : Any) {
+    @IBAction func BackButtonAction (sender : Any) {
         self.navigationController?.popViewController(animated: true)
+        
+    }
+    
+    func setBackGroundView()
+    {
+     
+        
+        imageView.frame = CGRect(x: self.publicTableView.frame.origin.x-160, y: self.publicTableView.frame.origin.y, width: self.publicTableView.frame.size.width, height: self.publicTableView.frame.size.height - 160)
+        
+        imageView.image = UIImage(named: "SearchCaughtUPBGImage")
+        
+        imageView.contentMode = .scaleAspectFit
+        
     }
  
   /*
@@ -83,9 +102,11 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         uiView.addSubview(actInd)
         actInd.startAnimating()
        
-    }
+    }tes
 */
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
            self.publicTableView.endEditing(true)
     }
     
@@ -93,32 +114,33 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     func getPublicVideo()
     {
         
+      
+        Index += 1
         
-        let dicData = ["user_email":"mathan6@gmail.com","emotion":"like","index":1,"limit":10,"language":"English (India)","country":"IN"] as [String : Any]
+ 
+        let dicData = ["user_email":"mathan6@gmail.com","emotion":"like","index":Index,"limit":500,"language":"English (India)","country":"IN"] as [String : Any]
         
         
         getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic, err ) in
             
-        if err == nil
+    
+            for dicData in dic
+            {
+            self.recordPublicVideo.append(dicData)
+            }
             
-        {
+            print("my mathan my data",self.recordPublicVideo)
+            
+            
             self.recordPublicVideo = dic
            
             DispatchQueue.main.async
             {
-                self.actInd.stopAnimating()
+        
                 self.publicTableView.reloadData()
             }
-        }
-            else
-            {
-                DispatchQueue.main.async
-                {
-                self.actInd.startAnimating()
-                }
-              
-            }
-            
+        
+        
         })
         
         
@@ -184,13 +206,31 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 
                 print(string)
                 
+                
                 string = string.lowercased()
                 
-    
+             if recordisFiltered.count == 0
+             {
+                isFiltered = false
+                
+                print("hai nil")
+                
+                
+                }
+                else
+             {
+                isFiltered = true
+                
+                print("data here")
+                }
+                
+                
                 return string.lowercased().range(of: searchText.lowercased() ) != nil
            
             })
-            
+        
+        
+        
         DispatchQueue.main.async {
             
             self.publicTableView.reloadData()
@@ -230,7 +270,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
         else
         {
-            return recordPublicVideo.count
+            return recordPublicVideo.count + 1
 
             
         }
@@ -255,7 +295,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
       if isFiltered == false
       {
         
-        let publicData = recordPublicVideo[indexPath.row]
+      /*  let publicData = recordPublicVideo[indexPath.row]
         
         cell.lblTitle.text = publicData["title"] as? String
         
@@ -296,6 +336,27 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         cell.imgAudioVideo.getImageFromUrl(thumbString)
  
         
+        
+        if indexPath.row >= 9
+        {
+          getPublicVideo(indexValue : 2)
+        }
+        else if indexPath.row >= 20
+        {
+           getPublicVideo(indexValue : 4)
+        }
+        else if indexPath.row >= 30
+        {
+             getPublicVideo(indexValue : 4)
+        }
+        */
+        cell.isHidden = true
+        publicTableView.backgroundView?.isHidden = false
+        
+        
+        publicTableView.backgroundView = imageView
+        
+        
         return cell
         
         }
@@ -303,11 +364,19 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         else
       {
         
+        cell.isHidden = false
+        
+        publicTableView.backgroundView?.isHidden = true
+        
+        
+        if indexPath.row < recordPublicVideo.count
+        {
         
         
         let publicData = recordisFiltered[indexPath.row]
         
-        cell.lblTitle.text = publicData["title"] as? String
+        cell.lblTitle.text? = (publicData["title"] as? String)!.capitalized
+         
         
       //  cell.lblSubTitle.text = publicData["tags"] as? String
         cell.lblReactionCount.text = String(format: "%d  Likes", publicData["emotionCount"] as! Int)
@@ -322,7 +391,6 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         cell.btnPlayPublicVideo.addTarget(self, action: #selector(playPublicVideo(sender:)), for: .touchUpInside)
         
         
-        
         if  (publicData["filemimeType"] as! String) == "video/mp4"
         {
             cell.imgVA.image = UIImage(named: "SearchVideoOn")
@@ -334,10 +402,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         {
             cell.imgVA.image = UIImage(named: "privateAudio")
         }
-        
-        
-        
-        
+      
          var thumbString = publicData["thumbnailPath"] as! String
          
          thumbString.replace("/root/cpanel3-skel/public_html/Xpress/",with: "http://103.235.104.118:3000/")
@@ -351,11 +416,22 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
        // cell.imgAudioVideo.image = UIImage(named: "good.jpg")
         
+      
+        
+        
+        print("mathan ma",indexPath.row)
         
         return cell
 
-        
         }
+        else
+        {
+            
+            getPublicVideo()
+            
+        }
+        }
+        return cell
         
     }
     
@@ -573,9 +649,9 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
     func playPopularVideo(sender : UIButton)
     {
         
-      let indexPathValue = IndexPath(item: sender.tag, section: 0)
+        let indexPathValue = IndexPath(item: sender.tag, section: 0)
         
-      let popularData = recordPopularVideo[indexPathValue.item]
+        let popularData = recordPopularVideo[indexPathValue.item]
         
         let playTitle = popularData["title"] as! String
         
@@ -595,7 +671,7 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
         
         
- let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
         
         
         playViewController.playTitle = playTitle
@@ -712,9 +788,33 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         DispatchQueue.main.async {
             
             self.publicTableView.reloadData()
-            self.searchCollectionView.reloadData()
+            
             
         }
         
     }
+    
+ 
+/*
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        
+        
+        
+        if (Index <= 4)
+        {
+            print("mathan indexPath.row", indexPath.row)
+          
+            getPublicVideo()
+            
+            
+        }
+        
+    }
+ 
+ */
+    
 }
+
+

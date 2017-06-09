@@ -29,7 +29,7 @@
 		1314C6E21ED7E78000FD0A8F /* PrivateWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6E01ED7E78000FD0A8F /* PrivateWebService.swift */; };
 		1314C6E41ED7E7BF00FD0A8F /* DOAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6E31ED7E7BF00FD0A8F /* DOAlertController.swift */; };
 		1314C6E81ED7E81300FD0A8F /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6E51ED7E81300FD0A8F /* DateExtension.swift */; };
-		1314C6E91ED7E81300FD0A8F /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6E61ED7E81300FD0A8F /* ImageExtension.swift */; };
+		1314C6E91ED7E81300FD0A8F /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6E61ED7E81300FD0A8F /* UIImageViewExtension.swift */; };
 		1314C6EA1ED7E81300FD0A8F /* StringURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6E71ED7E81300FD0A8F /* StringURLExtension.swift */; };
 		1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6EB1ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift */; };
 		1314C6F11ED7EDA100FD0A8F /* MyUploadCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6EC1ED7EDA100FD0A8F /* MyUploadCollectionViewCell.swift */; };
@@ -45,6 +45,15 @@
 		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
 		13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */; };
 		8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */; };
+		85525F091EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */; };
+		85525F0A1EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */; };
+		85525F0B1EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F061EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift */; };
+		85525F0C1EEAC685008C5C9B /* XPSettingLGTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F071EEAC685008C5C9B /* XPSettingLGTableViewCell.swift */; };
+		85525F0D1EEAC685008C5C9B /* XPSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F081EEAC685008C5C9B /* XPSettingTableViewCell.swift */; };
+		85525F111EEACD26008C5C9B /* XPAboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F0E1EEACD26008C5C9B /* XPAboutViewController.swift */; };
+		85525F121EEACD27008C5C9B /* XPHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F0F1EEACD26008C5C9B /* XPHelpViewController.swift */; };
+		85525F131EEACD27008C5C9B /* XPSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F101EEACD26008C5C9B /* XPSupportViewController.swift */; };
+		85525F151EEACDD3008C5C9B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F141EEACDD3008C5C9B /* UIImageExtension.swift */; };
 		8558BF571ECC7FCD00270E1F /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8558BF561ECC7FCD00270E1F /* ContactsUI.framework */; };
 		8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558BF581ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift */; };
 		855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 855CCAD31ED31C1500939576 /* ATAudioVisualizer.m */; };
@@ -114,7 +123,7 @@
 		1314C6E01ED7E78000FD0A8F /* PrivateWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateWebService.swift; sourceTree = "<group>"; };
 		1314C6E31ED7E7BF00FD0A8F /* DOAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DOAlertController.swift; sourceTree = "<group>"; };
 		1314C6E51ED7E81300FD0A8F /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
-		1314C6E61ED7E81300FD0A8F /* ImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
+		1314C6E61ED7E81300FD0A8F /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		1314C6E71ED7E81300FD0A8F /* StringURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringURLExtension.swift; sourceTree = "<group>"; };
 		1314C6EB1ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderMyuploadCollectionReusableView.swift; sourceTree = "<group>"; };
 		1314C6EC1ED7EDA100FD0A8F /* MyUploadCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyUploadCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -130,6 +139,15 @@
 		13B06F341EB30AE500BD439C /* intro_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_bg.png; sourceTree = "<group>"; };
 		13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
 		8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioXpressTableViewCell.swift; sourceTree = "<group>"; };
+		85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingLanConDoneTableViewCell.swift; sourceTree = "<group>"; };
+		85525F061EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingLanguageCountryViewController.swift; sourceTree = "<group>"; };
+		85525F071EEAC685008C5C9B /* XPSettingLGTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingLGTableViewCell.swift; sourceTree = "<group>"; };
+		85525F081EEAC685008C5C9B /* XPSettingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingTableViewCell.swift; sourceTree = "<group>"; };
+		85525F0E1EEACD26008C5C9B /* XPAboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAboutViewController.swift; sourceTree = "<group>"; };
+		85525F0F1EEACD26008C5C9B /* XPHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHelpViewController.swift; sourceTree = "<group>"; };
+		85525F101EEACD26008C5C9B /* XPSupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSupportViewController.swift; sourceTree = "<group>"; };
+		85525F141EEACDD3008C5C9B /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		8558BF561ECC7FCD00270E1F /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		8558BF581ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAutoPoplatedTableViewCell.swift; sourceTree = "<group>"; };
 		855CCAD11ED31C1300939576 /* ixprez-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ixprez-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -253,8 +271,6 @@
 			children = (
 				85A3DFF21ED7F99E006E81ED /* Tabbar */,
 				85A3DFF11ED7F950006E81ED /* Menubar */,
-				1314C6D51ED7E6F900FD0A8F /* XPSettingsViewController.swift */,
-				856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */,
 				856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */,
 				85A3DFEB1ED7F612006E81ED /* XPHelpDetailsViewController.swift */,
 				85A3DFEE1ED7F774006E81ED /* Registration */,
@@ -356,6 +372,10 @@
 				85BCA1F01EE2B5DB009C4B02 /* XPSearchTableViewCell.swift */,
 				85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */,
 				85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */,
+				85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */,
+				85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */,
+				85525F071EEAC685008C5C9B /* XPSettingLGTableViewCell.swift */,
+				85525F081EEAC685008C5C9B /* XPSettingTableViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -367,6 +387,9 @@
 				1314C6D31ED7E6F900FD0A8F /* XPMyUploadViewController.swift */,
 				1314C6D41ED7E6F900FD0A8F /* XPPriavtePlayVideoAudioViewController.swift */,
 				1314C6D61ED7E6F900FD0A8F /* XPUploadsEmotionsViewController.swift */,
+				85525F0E1EEACD26008C5C9B /* XPAboutViewController.swift */,
+				85525F0F1EEACD26008C5C9B /* XPHelpViewController.swift */,
+				85525F101EEACD26008C5C9B /* XPSupportViewController.swift */,
 			);
 			name = Menubar;
 			sourceTree = "<group>";
@@ -376,6 +399,9 @@
 			children = (
 				1314C6CF1ED7E6F900FD0A8F /* IXPrivateViewController.swift */,
 				856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */,
+				85525F061EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift */,
+				856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */,
+				1314C6D51ED7E6F900FD0A8F /* XPSettingsViewController.swift */,
 			);
 			name = Tabbar;
 			sourceTree = "<group>";
@@ -387,9 +413,10 @@
 				13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */,
 				13A0F1681EB9E03A0069ABDD /* IXValidation.swift */,
 				1314C6E51ED7E81300FD0A8F /* DateExtension.swift */,
-				1314C6E61ED7E81300FD0A8F /* ImageExtension.swift */,
+				1314C6E61ED7E81300FD0A8F /* UIImageViewExtension.swift */,
 				1314C6E71ED7E81300FD0A8F /* StringURLExtension.swift */,
 				85BCA1EA1EE2B4FD009C4B02 /* ActivityExtension.swift */,
+				85525F141EEACDD3008C5C9B /* UIImageExtension.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -484,6 +511,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */,
+				85525F121EEACD27008C5C9B /* XPHelpViewController.swift in Sources */,
+				85525F131EEACD27008C5C9B /* XPSupportViewController.swift in Sources */,
 				1314C6E81ED7E81300FD0A8F /* DateExtension.swift in Sources */,
 				85A572AC1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift in Sources */,
 				1314C6DA1ED7E6F900FD0A8F /* XPMyUploadPlayViewController.swift in Sources */,
@@ -497,7 +526,7 @@
 				1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */,
 				1314C6F41ED7EDA100FD0A8F /* UploadsEmotionsTableViewCell.swift in Sources */,
 				85BCA1F21EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift in Sources */,
-				1314C6E91ED7E81300FD0A8F /* ImageExtension.swift in Sources */,
+				1314C6E91ED7E81300FD0A8F /* UIImageViewExtension.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
 				855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */,
@@ -507,8 +536,10 @@
 				1314C6E21ED7E78000FD0A8F /* PrivateWebService.swift in Sources */,
 				856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */,
 				8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */,
+				85525F111EEACD26008C5C9B /* XPAboutViewController.swift in Sources */,
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
 				85A3DFEC1ED7F612006E81ED /* XPHelpDetailsViewController.swift in Sources */,
+				85525F0B1EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift in Sources */,
 				1314C6DD1ED7E6F900FD0A8F /* XPSettingsViewController.swift in Sources */,
 				8590E8AB1EDEE9AD00FB8F78 /* iCarousel.m in Sources */,
 				1314C6E41ED7E7BF00FD0A8F /* DOAlertController.swift in Sources */,
@@ -523,6 +554,7 @@
 				856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */,
 				85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */,
 				85BCA1F11EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift in Sources */,
+				85525F0D1EEAC685008C5C9B /* XPSettingTableViewCell.swift in Sources */,
 				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
 				85BCA1F31EE2B5DB009C4B02 /* XPSearchTableViewCell.swift in Sources */,
 				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
@@ -530,10 +562,13 @@
 				8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */,
 				859A5E111ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift in Sources */,
 				1314C6F31ED7EDA100FD0A8F /* PrivateAudioVideoTableViewCell.swift in Sources */,
+				85525F151EEACDD3008C5C9B /* UIImageExtension.swift in Sources */,
 				130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */,
 				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
 				85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */,
 				1314C6F11ED7EDA100FD0A8F /* MyUploadCollectionViewCell.swift in Sources */,
+				85525F0A1EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift in Sources */,
+				85525F091EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift in Sources */,
 				859407C41ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift in Sources */,
 				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
 				85BCA1ED1EE2B5CA009C4B02 /* SearchPopularCollectionViewCell.swift in Sources */,
@@ -541,6 +576,7 @@
 				1314C6DC1ED7E6F900FD0A8F /* XPPriavtePlayVideoAudioViewController.swift in Sources */,
 				1314C6E11ED7E78000FD0A8F /* MyUploadWebServices.swift in Sources */,
 				1314C6DE1ED7E6F900FD0A8F /* XPUploadsEmotionsViewController.swift in Sources */,
+				85525F0C1EEAC685008C5C9B /* XPSettingLGTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
