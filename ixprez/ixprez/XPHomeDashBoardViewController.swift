@@ -33,6 +33,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var trendingFileURLPath = NSArray ()
     var trendingFeaturesId = NSArray ()
     var activityIndicator = UIActivityIndicatorView ()
+    var buttonTrendingSelected = Bool ()
+    var buttonRecentSelected = Bool ()
     @IBOutlet var carousel: iCarousel?
     @IBOutlet weak var xpressScrollView = UIScrollView ()
     @IBOutlet weak var xpressTableView = UITableView ()
@@ -55,14 +57,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         super.awakeFromNib()
         getIcarouselFeaturesVideo()
         getTrendingResponse()
-        getRecentResponse()
+//        getRecentResponse()
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // It will set the image in the navigation bar.
-        xpressScrollView?.contentSize = CGSize(width: self.view.frame.width, height: 890)
+        xpressScrollView?.contentSize = CGSize(width: self.view.frame.width, height: 870)
         carousel?.type = .rotary
         carousel?.autoscroll = 0.2
         let imageLogo = UIImage (named: "DashboardTitleImage")
@@ -103,8 +105,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         
         getUserProfile()
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray, color: .darkGray, placeInTheCenterOf: self.xpressTableView!)
-        self.activityIndicator.startAnimating()
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge, color: .darkGray, placeInTheCenterOf: self.xpressTableView!)
+//        self.activityIndicator.startAnimating()
         self.xpressTableView?.reloadData()
 //       getIcarouselFeaturesVideo()
         
@@ -116,14 +118,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     // This method will call when clik on the trending button
     func TreandingVideo(sender : UIButton) {
-        self.activityIndicator.startAnimating()
+//        self.activityIndicator.startAnimating()
         self.getTrendingResponse()
         
     }
     
     
     func RecentVideo (sender : UIButton) {
-        self.activityIndicator.startAnimating()
+//        self.activityIndicator.startAnimating()
         self.getRecentResponse()
     }
     
@@ -486,11 +488,11 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     // This method will send the request and will return the Dashboard Treanding data response
     func getTrendingResponse () {
-        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"10"]
+        self.activityIndicator.startAnimating()
+        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"20"]
         dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: requestParameter as NSDictionary) { (treandingResponse, error) in
             
             if (error == nil) {
-               self.activityIndicator.stopAnimating()
                 self.trendingLikeCount = treandingResponse.value(forKey: "likeCount") as! NSArray
                 self.trendingEmotionCount = treandingResponse.value(forKey: "emotionCount") as! NSArray
                 self.trendingViewCount = treandingResponse.value(forKey: "view_count") as! NSArray
@@ -498,7 +500,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.trendingThumbnail = treandingResponse.value(forKey: "thumbnailPath") as! NSArray
                 self.trendingFileURLPath = treandingResponse.value(forKey: "fileuploadPath") as! NSArray
                 self.trendingFeaturesId = treandingResponse.value(forKey: "_id") as! NSArray
-                
+                self.activityIndicator.stopAnimating()
                 self.xpressTableView?.reloadData()
             }
                 
@@ -509,6 +511,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     // This method will send the request and will return the Dashboard Recent data response
     
     func getRecentResponse () {
+        self.activityIndicator.startAnimating()
         let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"10","language":"English","country":"India"]
         dashBoardCommonService.getRecentAudioVideoResponse(urlString: recentAudioVideoURL.url(), dictParameter: requestParameter as NSDictionary) { (recentResponse, error) in
             print(recentResponse)
@@ -518,6 +521,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.trendingTitle = recentResponse.value(forKey: "title") as! NSArray
             self.trendingThumbnail = recentResponse.value(forKey: "thumbnailPath") as! NSArray
             self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
+            self.activityIndicator.stopAnimating()
             self.xpressTableView?.reloadData()
         }
     
@@ -551,6 +555,7 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         let thumbImageURLString = self.trendingThumbnail[indexPath.row] as! String
         cell.thumbNailImage?.clipsToBounds = true
         cell.thumbNailImage?.layer.masksToBounds = true
+        cell.thumbNailImage?.layer.cornerRadius = 1.0
         cell.thumbNailImage?.contentMode = .scaleAspectFit
         let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
@@ -578,6 +583,31 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         
         cell.treadingButton?.addTarget(self, action: #selector(TreandingVideo(sender:)), for: UIControlEvents.touchUpInside)
         cell.recentButton?.addTarget(self, action: #selector(RecentVideo(sender:)), for: UIControlEvents.touchUpInside)
+        cell.treadingButton?.isSelected = buttonTrendingSelected
+        print("The treading state is \(buttonTrendingSelected)")
+        print("The treading state is \(cell.treadingButton?.isSelected)")
+        cell.recentButton?.isSelected = buttonRecentSelected
+        print("The recent state is \(buttonRecentSelected)")
+        print("The recent state is \(cell.recentButton?.isSelected)")
+        
+        if (cell.treadingButton?.isSelected == true) {
+            
+            cell.treadingButton?.setTitleColor(UIColor.white, for: UIControlState.selected)
+//            cell.treadingButton?.titleLabel?.textColor = UIColor.white
+            cell.treadingViewLine?.isHidden = false
+            cell.recentButton?.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
+//            cell.recentButton?.titleLabel?.textColor = UIColor.lightGray
+            cell.recentViewLine?.isHidden = true
+        } else if (cell.recentButton?.isSelected == true) {
+            cell.treadingButton?.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
+//            cell.treadingButton?.titleLabel?.textColor = UIColor.lightGray
+            cell.treadingViewLine?.isHidden = true
+            cell.recentButton?.setTitleColor(UIColor.white, for: UIControlState.selected)
+//            cell.recentButton?.titleLabel?.textColor = UIColor.white
+            cell.recentViewLine?.isHidden = false
+        }
+        
+        cell.delegate = self
         
         return cell
     }
@@ -592,4 +622,14 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
 //        
 //    }
     
+}
+
+extension XPHomeDashBoardViewController : treadingButtonDelegate {
+    func buttonSelectedState(cell: XPDashboardHeaderTableViewCell) {
+         buttonTrendingSelected = (cell.treadingButton?.isSelected)!
+         print(buttonTrendingSelected)
+         buttonRecentSelected = (cell.recentButton?.isSelected)!
+         print(buttonRecentSelected)
+        self.xpressTableView?.reloadData()
+    }
 }
