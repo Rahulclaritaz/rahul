@@ -60,7 +60,7 @@
 
             guard perviouIndex >= 0 else
             {
-                return VCArray.last
+                return nil
             }
             
             
@@ -93,24 +93,14 @@
             currentview = nextIndex
             print("now on tutorial slide",currentview)
             
-        
-            if currentview == 3
-            {
-               /* UIView.animate(withDuration: 3.0, animations: {
-                    let  nextViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController") as! XPHomeDashBoardViewController
-                    self.present(nextViewController, animated: false, completion: nil)
-                }) */
-           
-                
-            }
-                
+    
          
             let orderedViewControllersCount = VCArray.count
             
             
            guard nextIndex < orderedViewControllersCount else
             {
-                return VCArray.first
+                return nil
             }
             
             guard orderedViewControllersCount != nextIndex else {
