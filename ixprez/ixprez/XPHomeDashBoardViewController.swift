@@ -8,7 +8,7 @@
 
 import UIKit
 
-class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate {
+class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate,SWRevealViewControllerDelegate {
     
 
     var items: [Int] = []
@@ -50,6 +50,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet weak var userProfileBorder = UIImageView()
     @IBOutlet weak var userProfileAnimationOne = UIImageView()
     @IBOutlet weak var userProfileAnimationTwo = UIImageView()
+    @IBOutlet weak var humburgerMenuIcon = UIBarButtonItem ()
     
     @IBOutlet weak var pulseAnimationView: UIView!
     
@@ -109,7 +110,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
 //        self.activityIndicator.startAnimating()
         self.xpressTableView?.reloadData()
 //       getIcarouselFeaturesVideo()
-        
+        if revealViewController() != nil {
+            
+            revealViewController().rightViewRevealWidth = 235
+            humburgerMenuIcon?.target = revealViewController()
+            humburgerMenuIcon?.action = #selector(SWRevealViewController.rightRevealToggle(_:))
+            
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
