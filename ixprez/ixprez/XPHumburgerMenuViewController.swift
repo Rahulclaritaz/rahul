@@ -45,6 +45,18 @@ class XPHumburgerMenuViewController: UIViewController {
        
     }
     
+    // This method will logout the application
+    @IBAction func signOutButton (sender : Any) {
+        
+    }
+    // This method will navigate to  the setting page
+    @IBAction func settingButton (sender : Any) {
+        let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPSettingsViewController") as! XPSettingsViewController
+        storyboard.isFromMenu = true
+        let navigation = UINavigationController.init(rootViewController: storyboard)
+        self.navigationController?.present(navigation, animated: true, completion: nil)
+    }
+    
     
     func getUserProfile() {
         
@@ -94,6 +106,7 @@ class XPHumburgerMenuViewController: UIViewController {
 
 }
 
+// MARK: UITableview datasource Method
 extension XPHumburgerMenuViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -133,9 +146,49 @@ extension XPHumburgerMenuViewController : UITableViewDataSource {
         
     }
 }
-
+// MARK: UITableview delegate Method
 extension XPHumburgerMenuViewController : UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        switch (indexPath.row) {
+        case 0:
+            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadViewController") as! XPMyUploadViewController
+            storyboard.isFromMenu = true
+            let navigation = UINavigationController.init(rootViewController: storyboard)
+            self.navigationController?.present(navigation, animated: true, completion: nil)
+                
+//            revealViewController().rightViewRevealWidth = 375
+//            self.present(storyboard, animated: true, completion: nil)
+//            self.navigationController?.pushViewController(storyboard, animated: true)
+            return
+        case 1:
+            return
+        case 2:
+            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "IXPrivateViewController") as! IXPrivateViewController
+            storyboard.isFromMenu = true
+            let navigation = UINavigationController.init(rootViewController: storyboard)
+            self.navigationController?.present(navigation, animated: true, completion: nil)
+//            self.navigationController?.pushViewController(storyboard, animated: true)
+        case 3:
+            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPHelpViewController") as! XPHelpViewController
+            storyboard.isFromMenu = true
+            let navigation = UINavigationController.init(rootViewController: storyboard)
+            self.navigationController?.present(navigation, animated: true, completion: nil)
+//            self.present(storyboard, animated: true, completion: nil)
+//            self.navigationController?.pushViewController(storyboard, animated: true)
+        case 4:
+            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPAboutViewController") as! XPAboutViewController
+            storyboard.isFromMenu = true
+            let navigation = UINavigationController.init(rootViewController: storyboard)
+            self.navigationController?.present(navigation, animated: true, completion: nil)
+//            self.navigationController?.pushViewController(storyboard, animated: true)
+        default:
+            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadViewController") as! XPMyUploadViewController
+            self.navigationController?.pushViewController(storyboard, animated: true)
+        }
+    }
+ 
 }
 
 

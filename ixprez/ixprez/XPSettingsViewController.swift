@@ -10,6 +10,7 @@ import UIKit
 
 class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate, passData,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
+    var isFromMenu = Bool()
     var arrayName = [String]()
     var userName    = String()
     var phoneNumber = String()
@@ -72,6 +73,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
         roundprofilePhoto.layer.cornerRadius = roundprofilePhoto.frame.size.width/2
     
         roundprofilePhoto.clipsToBounds = true
+        navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
     
     arrayName = ["User Name","Mobile Number","Email","Reminders","Notification","Language","Country","","Support","Help" ,"About"]
@@ -81,6 +84,15 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
         getPrivateData()
 
         
+    }
+    
+    @IBAction func  backButtonAction( _sender : Any) {
+        
+        guard (isFromMenu) else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     

@@ -344,9 +344,9 @@
 				859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */,
 				856E8C171ED97FBB0081BCF7 /* XPCameraONViewController.swift */,
 				859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */,
-				856E8C191ED98AAA0081BCF7 /* XPCameraStopViewController.swift */,
 				859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */,
 				857E4C6A1EEE676B00274F8E /* XPHumburgerMenuViewController.swift */,
+				856E8C191ED98AAA0081BCF7 /* XPCameraStopViewController.swift */,
 				8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */,
 				8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */,
 			);
