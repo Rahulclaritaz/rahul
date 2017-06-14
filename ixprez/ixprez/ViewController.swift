@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import ContactsUI
 
 class ViewController: UIViewController {
-
+  let contactStore = CNContactStore()
     override func viewDidLoad() {
         super.viewDidLoad()
     

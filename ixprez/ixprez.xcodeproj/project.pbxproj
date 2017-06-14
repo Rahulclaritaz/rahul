@@ -57,6 +57,9 @@
 		8558BF571ECC7FCD00270E1F /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8558BF561ECC7FCD00270E1F /* ContactsUI.framework */; };
 		8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558BF581ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift */; };
 		855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 855CCAD31ED31C1500939576 /* ATAudioVisualizer.m */; };
+		856574F41EF13B2C0056D97F /* XPContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856574F31EF13B2C0056D97F /* XPContactViewController.swift */; };
+		856574F61EF145010056D97F /* XPContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856574F51EF145010056D97F /* XPContactTableViewCell.swift */; };
+		856574F81EF145520056D97F /* XPContactHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */; };
 		856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6651EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift */; };
 		856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */; };
 		856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */; };
@@ -156,6 +159,9 @@
 		855CCAD11ED31C1300939576 /* ixprez-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ixprez-Bridging-Header.h"; sourceTree = "<group>"; };
 		855CCAD21ED31C1500939576 /* ATAudioVisualizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATAudioVisualizer.h; sourceTree = "<group>"; };
 		855CCAD31ED31C1500939576 /* ATAudioVisualizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATAudioVisualizer.m; sourceTree = "<group>"; };
+		856574F31EF13B2C0056D97F /* XPContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPContactViewController.swift; sourceTree = "<group>"; };
+		856574F51EF145010056D97F /* XPContactTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPContactTableViewCell.swift; sourceTree = "<group>"; };
+		856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPContactHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		856AD6651EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHomeDashBoardViewController.swift; sourceTree = "<group>"; };
 		856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPrivateVideoViewController.swift; sourceTree = "<group>"; };
 		856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchViewController.swift; sourceTree = "<group>"; };
@@ -347,6 +353,9 @@
 				859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */,
 				857E4C6A1EEE676B00274F8E /* XPHumburgerMenuViewController.swift */,
 				856E8C191ED98AAA0081BCF7 /* XPCameraStopViewController.swift */,
+				856574F31EF13B2C0056D97F /* XPContactViewController.swift */,
+				856574F51EF145010056D97F /* XPContactTableViewCell.swift */,
+				856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */,
 				8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */,
 				8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */,
 			);
@@ -533,6 +542,7 @@
 				1314C6F21ED7EDA100FD0A8F /* MyUploadReportAbuseTableViewCell.swift in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
 				857E4C691EEE62D700274F8E /* SWRevealViewController.m in Sources */,
+				856574F81EF145520056D97F /* XPContactHeaderTableViewCell.swift in Sources */,
 				859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
 				1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */,
@@ -566,6 +576,7 @@
 				859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */,
 				856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */,
 				85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */,
+				856574F41EF13B2C0056D97F /* XPContactViewController.swift in Sources */,
 				85BCA1F11EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift in Sources */,
 				85525F0D1EEAC685008C5C9B /* XPSettingTableViewCell.swift in Sources */,
 				132131991EB46F6F008709DC /* ColorExtension.swift in Sources */,
@@ -590,6 +601,7 @@
 				1314C6DC1ED7E6F900FD0A8F /* XPPriavtePlayVideoAudioViewController.swift in Sources */,
 				1314C6E11ED7E78000FD0A8F /* MyUploadWebServices.swift in Sources */,
 				1314C6DE1ED7E6F900FD0A8F /* XPUploadsEmotionsViewController.swift in Sources */,
+				856574F61EF145010056D97F /* XPContactTableViewCell.swift in Sources */,
 				85525F0C1EEAC685008C5C9B /* XPSettingLGTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
