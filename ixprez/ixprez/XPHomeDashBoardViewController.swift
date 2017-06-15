@@ -8,7 +8,7 @@
 
 import UIKit
 
-class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate {
+class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate,SWRevealViewControllerDelegate {
     
 
     var items: [Int] = []
@@ -50,6 +50,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet weak var userProfileBorder = UIImageView()
     @IBOutlet weak var userProfileAnimationOne = UIImageView()
     @IBOutlet weak var userProfileAnimationTwo = UIImageView()
+    @IBOutlet weak var humburgerMenuIcon = UIBarButtonItem ()
     
     @IBOutlet weak var pulseAnimationView: UIView!
     
@@ -109,7 +110,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
 //        self.activityIndicator.startAnimating()
         self.xpressTableView?.reloadData()
 //       getIcarouselFeaturesVideo()
-        
+        if revealViewController() != nil {
+            
+            revealViewController().rightViewRevealWidth = 235
+            humburgerMenuIcon?.target = revealViewController()
+            humburgerMenuIcon?.action = #selector(SWRevealViewController.rightRevealToggle(_:))
+            
+            view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
@@ -451,7 +459,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     }
     
-    // This will send the request to the web server with parameter
+    // This will send the request to the web server with parameter and will return the carousel user data
     func getIcarouselFeaturesVideo () {
         let parameter = ["video_type" : "video"]
         dashBoardCommonService.getIcarouselFeaturesVideo(urlString: icarouselFeatureVideoURL.url() , dicData: parameter as NSDictionary, callBack: {(icarouselVideoData , error) in
@@ -491,7 +499,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         self.activityIndicator.startAnimating()
         let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"20"]
         dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: requestParameter as NSDictionary) { (treandingResponse, error) in
-            
+            print(treandingResponse)
             if (error == nil) {
                 self.trendingLikeCount = treandingResponse.value(forKey: "likeCount") as! NSArray
                 self.trendingEmotionCount = treandingResponse.value(forKey: "emotionCount") as! NSArray
@@ -561,8 +569,14 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         
         cell.thumbNailImage?.getImageFromUrl(finalThumbNailImageURL)
         cell.titleLabel?.text = self.trendingTitle[indexPath.row] as? String
-        let likeCount: NSInteger = self.trendingLikeCount[indexPath.row] as! NSInteger
-        cell.likeCountLabel?.text = String(likeCount) + " " + "Likes"
+//        if (self.trendingLikeCount[indexPath.row] as! NSInteger == nul) {
+//            
+//        } else {
+            let likeCount: NSInteger = self.trendingLikeCount[indexPath.row] as! NSInteger
+            cell.likeCountLabel?.text = String(likeCount) + " " + "Likes"
+//        }
+        
+        
         let emotionCount: NSInteger = self.trendingEmotionCount[indexPath.row] as! NSInteger
         cell.emotionCountLabel?.text = String(emotionCount) + " " + "React"
         let viewCountText: String = (trendingViewCount[indexPath.row] as? String)!

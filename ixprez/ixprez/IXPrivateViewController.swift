@@ -14,7 +14,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
 {
     //Declaration 
-    
+    var isFromMenu = Bool()
     var recordPrivateData = [[String : Any]]()
 
     var getPrivateWebData = PrivateWebService()
@@ -41,7 +41,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     var nsuerDefault = UserDefaults.standard
     var registrationPage = RegistrationViewController ()
-    
+//   @IBOutlet var backButton = UIBarButtonItem ()
     //Outlet Reference
     
     
@@ -61,16 +61,13 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+        print(isFromMenu)
         
         if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
             userEmail = "mathan6@gmail.com"
         } else {
             userEmail = registrationPage.defaults.string(forKey: "emailAddress")
         }
-            
-        
-        
         
         print(userEmail)
         
@@ -81,7 +78,8 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target:nil, action:nil)
         
-        
+        navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         privateTableView.dataSource = self
         privateTableView.delegate = self
         
@@ -99,7 +97,12 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     
     @IBAction func  backButtonAction( _sender : Any) {
-        self.navigationController?.popViewController(animated: true)
+        
+        guard (isFromMenu) else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        self.dismiss(animated: true, completion: nil)
     }
 
     
@@ -107,7 +110,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
        
         
-        let privateDic : NSDictionary = [ "user_email" : "mathan6@gmail.com"]
+        let privateDic : NSDictionary = [ "index":"1","user_email" : "mathan6@gmail.com","limit":"10"]
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {

@@ -299,9 +299,12 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     private var selectedItems = [String]()
     func addContact (cell: XPAudioXpressTableViewCell) {
-        let cnPicker = CNContactPickerViewController()
+    /*    let cnPicker = CNContactPickerViewController()
         cnPicker.delegate = self as CNContactPickerDelegate
-        self.present(cnPicker, animated: true, completion: nil)
+        self.present(cnPicker, animated: true, completion: nil) */
+        
+        let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
+        self.navigationController?.pushViewController(storyboard, animated: true)
     }
 
     // MARK: CNContactPicker delegate Method

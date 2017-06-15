@@ -4,4 +4,5 @@
 
 #import "ATAudioVisualizer.h"
 #import "iCarousel.h"
+#import "SWRevealViewController.h"
 
