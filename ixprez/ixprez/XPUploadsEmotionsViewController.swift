@@ -129,7 +129,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         
         cell.lblEmotionCount.layer.cornerRadius = cell.lblEmotionCount.frame.width/2
         
-        cell.lblEmotionCount.backgroundColor = UIColor.getOrangeColor()
+//        cell.lblEmotionCount.backgroundColor = UIColor.getOrangeColor()
         
         cell.btnEmotion.tag = indexPath.row
         
@@ -155,6 +155,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     let myCell = tableView.dequeueReusableCell(withIdentifier: "reportcell") as! MyUploadReportAbuseTableViewCell
     
     myCell.btnReport.addTarget(self, action: #selector(alertViewReport(sender:)), for: .touchUpInside)
+    myCell.btnReport.layer.cornerRadius = 5.0
    
     return myCell.contentView
     

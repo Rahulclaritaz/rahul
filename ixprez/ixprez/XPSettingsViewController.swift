@@ -40,7 +40,9 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     let imagePickerController = UIImagePickerController()
 
     
+    var isTuch : Bool!
     
+  
     
     @IBOutlet weak var settingTableView: UITableView!
     
@@ -69,12 +71,14 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        isTuch = true
         
+        
+        navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         roundprofilePhoto.layer.cornerRadius = roundprofilePhoto.frame.size.width/2
     
         roundprofilePhoto.clipsToBounds = true
-        navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
     
     arrayName = ["User Name","Mobile Number","Email","Reminders","Notification","Language","Country","","Support","Help" ,"About"]
@@ -125,7 +129,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
             DispatchQueue.main.async(execute: {
                 
                 self.lblfollowers.text = String(format: "%d Followers", self.previousCountData)
-                self.lblFollowing.text = String(format: "%d Foll0wing", self.userFollowersData)
+                self.lblFollowing.text = String(format: "%d Following .", self.userFollowersData)
                 
                 self.profilePhoto.getImageFromUrl(self.orginalUrl)
                 
@@ -158,137 +162,179 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     {
          // print(self.recordProfileData)
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingcell", for: indexPath) as! XPSettingTableViewCell
+   
+        settingTableView.rowHeight = 44
+      
+        cell.isUserInteractionEnabled = true
+     
+        cell.imgRightArrow.isHidden = true
         
         cell.btnSettingSave.isHidden = true
+        
         cell.switchNotify.isHidden = true
         
-    
+        cell.txtEnterSettings.isHidden = true
+        
+        cell.lblSettingName.isHidden = true
+        
+        cell.downArrow.isHidden = true
+        
+        
         switch indexPath.row
         {
             
         case 0:
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
+            
+          
+            cell.txtEnterSettings.isHidden = false
+            cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[0]
             cell.txtEnterSettings.text = "mathan"
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-            
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
+           
             
         case 1:
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
+            
+     
+            cell.txtEnterSettings.isHidden = false
+            cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[1]
             cell.txtEnterSettings.text = "91-9994029677"
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-          
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
+           
             
         case 2:
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
+          
+            
+            cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[2]
+            cell.txtEnterSettings.isHidden = false
             cell.txtEnterSettings.text = "mathan6@gmail.com"
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-         
-            
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
+          
         case 3:
-            cell.txtEnterSettings.isHidden = true
-            cell.btnSettingSave.isHidden = true
+            
             cell.switchNotify.isHidden = false
-            
+            cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[3]
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-         
-            
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
+          
             
         case 4:
-            cell.txtEnterSettings.isHidden = true
-            cell.btnSettingSave.isHidden = true
+          
             cell.switchNotify.isHidden = false
+            cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[4]
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             
             
             
         case 5:
             
+            cell.lblSettingName.isHidden = false
             cell.txtEnterSettings.isHidden = false
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
             cell.lblSettingName.text = arrayName[5]
             cell.txtEnterSettings.text = "English"
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
+            cell.txtEnterSettings.isHidden = false
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(languageData(sender:)), for: .editingDidBegin)
-            
+           
             
         case 6:
+            
+             cell.lblSettingName.isHidden = false
             cell.txtEnterSettings.isHidden = false
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
             cell.lblSettingName.text = arrayName[6]
             cell.txtEnterSettings.text = "India"
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-            
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(countryData(sender:)), for: .editingDidBegin)
-            
+           
             
             
             
             
         case 7:
-            cell.txtEnterSettings.isHidden = true
+            
+            
+          
             cell.btnSettingSave.isHidden = false
-            cell.switchNotify.isHidden = true
-            cell.lblSettingName.isHidden = true
+     
             cell.btnSettingSave.tag = indexPath.row
-            cell.btnSettingSave.layer.cornerRadius = 12.0
+           // cell.btnSettingSave.layer.cornerRadius = 12.0
             cell.btnSettingSave.setTitleColor(UIColor.white, for: .normal)
             cell.btnSettingSave.backgroundColor = UIColor.getOrangeColor()
+            
+            
+            cell.downArrow.isHidden = false
+            
             cell.btnSettingSave.addTarget(self, action: #selector(saveSetting(sender:)), for: .touchUpInside)
             
+            cell.downArrow.addTarget(self, action: #selector(scrollToLastRow), for: .touchUpInside)
             
+            
+            settingTableView.rowHeight = CGFloat(cell.lblWidthSize.constant + 50)
+            
+     
         case 8:
-            cell.txtEnterSettings.isHidden = true
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
+            cell.imgRightArrow.isHidden = false
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[8]
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-            cell.accessoryType = .disclosureIndicator
-            self.settingTableView.allowsSelection = true
-
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
+            
             
         case 9:
-            cell.txtEnterSettings.isHidden = true
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
+            cell.imgRightArrow.isHidden = false
+          
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[9]
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-            cell.accessoryType = .disclosureIndicator
-           
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
+         
         case 10:
             
-            
-            cell.txtEnterSettings.isHidden = true
-            cell.btnSettingSave.isHidden = true
-            cell.switchNotify.isHidden = true
+            cell.imgRightArrow.isHidden = false
+          
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[10]
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*3)
-            cell.accessoryType = .disclosureIndicator
-          
+            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             
             
         default:
             print("No Data")
         }
         
-        
-        cell.lblSettingName.text = arrayName[indexPath.row]
-        
+  
         return cell
    
     }
+    
+    func scrollToLastRow()
+    {
+     
+        
+        if (isTuch == true)
+        {
+        
+        let arrData : Int = arrayName.count - 1
+        
+        let indexPath = IndexPath(row: arrData, section: 0)
+        
+        
+        settingTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        
+        isTuch = false
+        }
+        else
+        {
+ 
+            let indexPath = IndexPath(row: 0, section: 0)
+            
+            
+            settingTableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            
+            isTuch = true
+        }
+    }
+    
     
     func languageData(sender:UITextField)
     {
@@ -514,8 +560,11 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
+      
+        
         switch indexPath.row {
-           
+        
+        
         case 8:
             
             let nextView = self.storyboard?.instantiateViewController(withIdentifier: "XPSupportViewController") as! XPSupportViewController
@@ -543,6 +592,74 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         
     }
  
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        
+     
+        switch indexPath.row {
+         
+            
+        case 0:
+            
+            
+            cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, cell.bounds.size.width)
+            
+        case 1:
+            
+            cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, cell.bounds.size.width)
+            
+        case 2:
+            
+            
+            cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, cell.bounds.size.width)
+        case 3:
+            
+            
+            cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, cell.bounds.size.width)
+            
+        case 4:
+            
+            
+            cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, cell.bounds.size.width)
+            
+        case 5:
+            
+            cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, cell.bounds.size.width)
+            
+        case 6:
+            
+            
+            cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, cell.bounds.size.width)
+  
+        case 7:
+            
+           
+     cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, -cell.bounds.size.width)
+            
+        case 8:
+            
+     cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, -cell.bounds.size.width)
+       
+        case 9:
+            
+            
+    cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, -cell.bounds.size.width)
+        case 10:
+            
+            
+     cell.separatorInset = UIEdgeInsetsMake(0.0, cell.bounds.size.width, 0.0, -cell.bounds.size.width)
+            
+            
+        default:
+            print("Not Inddex")
+        }
+     
+        
+        
+        
+ 
+    }
     @IBAction func selectSouceImage(_ sender: Any)
     {
         

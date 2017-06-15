@@ -16,11 +16,11 @@ extension  UIImageView{
     func getImageFromUrl(_ urlString : String)
     {
         
-        let url = NSURL(string: urlString)
+        let url = URL(string:urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)!
         
         let session = URLSession.shared
         
-        let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
+        let taskData = session.dataTask(with: url , completionHandler: {(data,response,error) -> Void  in
            
          if (data != nil)
          {

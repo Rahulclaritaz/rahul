@@ -34,6 +34,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
      var isFiltered : Bool!
     var isFlag : Bool!
     
+    var lastRecord : Bool!
+    
+    
     var Index = 0
     
     
@@ -67,6 +70,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
    isFiltered = false
     isFlag = false
+    lastRecord = false
         
    
     }
@@ -88,22 +92,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     }
  
-  /*
-    func showActivityIndicatory(uiView : UIView )
-    {
-    
-        
-       // let actInd  = UIActivityIndicatorView()
-        actInd.frame = CGRect(x: 0, y: 0, width:80, height: 80)
-        actInd.center =  CGPoint(x: uiView.frame.size.width/2, y: uiView.frame.size.height/2)
-     
-        actInd.hidesWhenStopped = true
-        actInd.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        uiView.addSubview(actInd)
-        actInd.startAnimating()
-       
-    }tes
-*/
+ 
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
@@ -118,28 +107,39 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         Index += 1
         
  
-        let dicData = ["user_email":"mathan6@gmail.com","emotion":"like","index":Index,"limit":500,"language":"English (India)","country":"IN"] as [String : Any]
+        let dicData = ["user_email":"mathan6@gmail.com","emotion":"like","index":Index,"limit":30,"language":"English (India)","country":"IN"] as [String : Any]
         
         
-        getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic, err ) in
+        getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic,myData, err ) in
             
+            
+            
+            if (myData["last"] as! Int == 0)
+            {
+
     
             for dicData in dic
             {
-            self.recordPublicVideo.append(dicData)
+             self.recordPublicVideo.append(dicData)
+             self.recordisFiltered.append(dicData)
+          
+             }
+        
             }
             
-            print("my mathan my data",self.recordPublicVideo)
-            
-            
-            self.recordPublicVideo = dic
-           
-            DispatchQueue.main.async
+            else
             {
-        
-                self.publicTableView.reloadData()
+                print("Last Record")
+                self.lastRecord = true
             }
-        
+            
+            
+            DispatchQueue.main.async {
+                
+                self.publicTableView.reloadData()
+                
+            }
+            
         
         })
         
@@ -150,7 +150,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     {
         let dicData = ["user_email": "mathan6@gmail.com"]
         
-        getWebService.getPrivateDataWebService(urlString: getSearchURL.searchPopularVideo() , dicData: dicData as NSDictionary, callback: {(dicc, err) in
+        getWebService.getPrivateDataWebService(urlString: getSearchURL.searchPopularVideo() , dicData: dicData as NSDictionary, callback: {(dicc, myData, err) in
           
             if ( err == nil)
             {
@@ -184,7 +184,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
      {
         
         
-        
+      
         if searchText.characters.count == 0
         {
            isFiltered = false
@@ -193,10 +193,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 self.publicTableView.reloadData()
                 
             }
-    }
-       else
-       {
-
+          }
+            else
+              {
 
             isFiltered = true
             
@@ -215,29 +214,26 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 
                 print("hai nil")
                 
-                
-                }
+              }
                 else
-             {
+                {
                 isFiltered = true
                 
                 print("data here")
+              
+               //return string.lowercased().range(of: searchText.lowercased() ) != nil
+             
                 }
-                
-                
+               
                 return string.lowercased().range(of: searchText.lowercased() ) != nil
            
             })
-        
-        
-        
-        DispatchQueue.main.async {
-            
-            self.publicTableView.reloadData()
-            
-        }
-        
-     
+                
+                DispatchQueue.main.async {
+                    
+                    self.publicTableView.reloadData()
+                    
+                }
        }
         
         print("mathan search",recordisFiltered)
@@ -265,14 +261,28 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         if isFiltered == true
         {
-            return recordisFiltered.count
-
+            if lastRecord == false
+            {
+            
+            return recordisFiltered.count + 1
+            }
+            else
+            {
+               return recordisFiltered.count 
+            }
         }
         else
         {
-            return recordPublicVideo.count + 1
-
-            
+            if lastRecord == false
+            {
+                
+                return recordPublicVideo.count + 1
+            }
+            else
+            {
+               return recordPublicVideo.count
+            }
+     
         }
         
     }
@@ -288,14 +298,25 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         cell.imgAudioVideo.layer.borderColor = UIColor.lightGray.cgColor
         
         
-        cell.imgAudioVideo.clipsToBounds = true
+         cell.imgAudioVideo.clipsToBounds = true
         
+         cell.isHidden = true
         
         
       if isFiltered == false
       {
         
-      /*  let publicData = recordPublicVideo[indexPath.row]
+        if indexPath.row < recordPublicVideo.count
+        {
+            
+            
+            publicTableView.backgroundView?.isHidden = false
+            
+            
+            publicTableView.backgroundView = imageView
+            
+        
+        /*let publicData = recordPublicVideo[indexPath.row]
         
         cell.lblTitle.text = publicData["title"] as? String
         
@@ -316,7 +337,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         //filemimeType
         
         
-        if  (publicData["filemimeType"] as! String) == "video/mp4"
+    if  (publicData["filemimeType"] as! String) == "video/mp4"
         {
         cell.imgVA.image = UIImage(named: "SearchVideoOff")
         
@@ -333,31 +354,25 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         print("mathan check thumString",thumbString)
       
-        cell.imgAudioVideo.getImageFromUrl(thumbString)
- 
-        
-        
-        if indexPath.row >= 9
-        {
-          getPublicVideo(indexValue : 2)
+        cell.imgAudioVideo.getImageFromUrl(thumbString)*/
+            
+            
+            return cell
+            
         }
-        else if indexPath.row >= 20
-        {
-           getPublicVideo(indexValue : 4)
+        
+        
+        else
+       {
+            
+           getPublicVideo()
+            
+           return cell
         }
-        else if indexPath.row >= 30
-        {
-             getPublicVideo(indexValue : 4)
-        }
-        */
-        cell.isHidden = true
-        publicTableView.backgroundView?.isHidden = false
         
         
-        publicTableView.backgroundView = imageView
         
         
-        return cell
         
         }
         
@@ -369,16 +384,15 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         publicTableView.backgroundView?.isHidden = true
         
         
-        if indexPath.row < recordPublicVideo.count
+        if indexPath.row < recordisFiltered.count
         {
         
         
-        let publicData = recordisFiltered[indexPath.row]
+         let publicData = recordisFiltered[indexPath.row]
         
         cell.lblTitle.text? = (publicData["title"] as? String)!.capitalized
-         
-        
-      //  cell.lblSubTitle.text = publicData["tags"] as? String
+           
+            
         cell.lblReactionCount.text = String(format: "%d  Likes", publicData["emotionCount"] as! Int)
         
         
@@ -424,15 +438,17 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         return cell
 
         }
-        else
-        {
+         else
+         {
             
-            getPublicVideo()
-            
+           
+        getPublicVideo()
+         
         }
+       
         }
-        return cell
-        
+
+       return cell
     }
     
     
@@ -441,7 +457,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         if isFiltered == false
         {
         
-        let indexPathValue = IndexPath(row: sender.tag, section: 0)
+       /* let indexPathValue = IndexPath(row: sender.tag, section: 0)
         
        // let cell = self.publicTableView.cellForRow(at: indexPathValue) as! XPPublicDataTableViewCell
     
@@ -481,18 +497,17 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         playViewController.nextID = playID
         
-        self.navigationController?.pushViewController(playViewController, animated: true)
+        self.navigationController?.pushViewController(playViewController, animated: true)*/
+            
    
         }
         else
         {
             let indexPathValue = IndexPath(row: sender.tag, section: 0)
+
             
-            // let cell = self.publicTableView.cellForRow(at: indexPathValue) as! XPPublicDataTableViewCell
+            let publicData = recordisFiltered[indexPathValue.row ]
             
-            
-            
-            let publicData = recordisFiltered[indexPathValue.row]
             
             let playTitle = publicData["title"] as! String
             
@@ -614,7 +629,7 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
       
         print(popularData["filemimeType"] as! String)
         
-        if (  (popularData["filemimeType"] as! String) == "video/mp4" )
+        if ( popularData["thumbnailPath"] as? String != nil )
         {
             
  
@@ -622,18 +637,20 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
             
             orginalStringUrl.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
 
-            print(orginalStringUrl)
+            print("Check Image URL video  ",orginalStringUrl)
             cell.imgPopularPhoto.getImageFromUrl(orginalStringUrl)
         }
         
-        else
+      else
         {
             
-       
+            
             cell.imgPopularPhoto.backgroundColor = UIColor.getPrivateCellColor()
             
             
         }
+        
+        
         
         cell.btnPlayPopularVideo.tag = indexPath.item
         

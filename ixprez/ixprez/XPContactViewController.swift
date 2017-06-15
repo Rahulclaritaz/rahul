@@ -10,21 +10,36 @@ import UIKit
 import ContactsUI
 
 class XPContactViewController: UIViewController, CNContactPickerDelegate {
+    
+    
+    var isFromMenu = Bool()
     var cnPicker = CNContactPickerViewController()
     var contact = CNContact ()
     let appDelegate = AppDelegate ()
     @IBOutlet weak var contactTableView = UITableView ()
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Contact"
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         print(contact)
         cnPicker.delegate = self as! CNContactPickerDelegate
-        self.fetchContacts()
+//        self.fetchContacts()
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func backButtonAction (sender : Any) {
+        guard (isFromMenu) else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     func fetchContacts()
@@ -105,10 +120,13 @@ extension XPContactViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "XPContactTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactTableViewCell
-        cell.contactUserName?.text = contact.givenName
+        cell.contactUserProfile?.layer.masksToBounds = true
+        cell.contactUserProfile?.layer.cornerRadius = (cell.contactUserProfile?.frame.size.width)!/2
+//        cell.contactUserProfile?.backgroundColor = UIColor.orange
+        cell.contactUserName?.text = "Mark Bravo"
 //        let emailAddrs = (contact.emailAddresses)
 //        let emailAddrsVaue = emailAddrs.val
-//        cell.contactUserEmail?.text = emailAddrs
+        cell.contactUserEmail?.text = "markbravo@gmail.com"
         return cell
     }
     
