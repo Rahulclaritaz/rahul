@@ -163,7 +163,10 @@ extension XPHumburgerMenuViewController : UITableViewDelegate {
 //            self.navigationController?.pushViewController(storyboard, animated: true)
             return
         case 1:
-            return
+            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
+            storyboard.isFromMenu = true
+            let navigation = UINavigationController.init(rootViewController: storyboard)
+            self.navigationController?.present(navigation, animated: true, completion: nil)
         case 2:
             let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "IXPrivateViewController") as! IXPrivateViewController
             storyboard.isFromMenu = true

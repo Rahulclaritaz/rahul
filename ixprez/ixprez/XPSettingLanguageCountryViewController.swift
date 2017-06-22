@@ -29,6 +29,10 @@ class XPSettingLanguageCountryViewController: UIViewController,UITableViewDelega
     
     var arrLanguage = [[String : Any]]()
     
+    var checkMarkClean = [Int]()
+    
+    
+    
     var customAlertController : DOAlertController!
     
     var flag : Bool!
@@ -135,6 +139,14 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
         cell.lblName.text = coun["country_name"] as? String
         
+            if checkMarkClean.contains(indexPath.row)
+            {
+                cell.accessoryType = .checkmark
+            }
+            else
+            {
+                cell.accessoryType = .none
+            }
         }
         else
         {
@@ -142,6 +154,14 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
             cell.lblName.text = lang["name"] as? String
             
+            if checkMarkClean.contains(indexPath.row)
+            {
+                cell.accessoryType = .checkmark
+            }
+            else
+            {
+                cell.accessoryType = .none
+            }
             
         }
         
@@ -168,7 +188,13 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
                 // delegate.passingCounData(name: (cell?.textLabel?.text!)!)
             
-            cell.accessoryType = .checkmark
+            //cell.accessoryType = .checkmark
+            
+            
+            checkMarkClean.removeAll()
+            
+            checkMarkClean.append(indexPath.row)
+            
             
         }
         else
@@ -182,13 +208,20 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.accessoryType = .checkmark
             //delegate.passingLanData(name: (cell?.textLabel?.text!)!)
             
+            checkMarkClean.removeAll()
+            
+            checkMarkClean.append(indexPath.row)
+            
             
         }
+        
+        tableView.reloadData()
+        
         
         
     }
     
-    
+  /*
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath)
     {
         if flag == true
@@ -199,18 +232,27 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
             cell.accessoryType = .none
             
+          //  checkMarkClean.removeAll()
+            
+         //   checkMarkClean.append(indexPath.row)
+            
+            
         }
         else
         {
             
             let cell = tableview.cellForRow(at: indexPath) as! XPSettingLGTableViewCell
-           self.getLanData = ""
-            cell.accessoryType = .none
+            self.getLanData = ""
+           // cell.accessoryType = .none
+            
+            checkMarkClean.removeAll()
+            
+           // checkMarkClean.append(indexPath.row)
             
         }
  
     }
- 
+ */
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?

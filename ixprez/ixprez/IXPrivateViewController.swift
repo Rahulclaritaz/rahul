@@ -108,18 +108,18 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     func getPrivateData( )
     {
-       
         
-        let privateDic : NSDictionary = [ "index":"1","user_email" : "mathan6@gmail.com","limit":"10"]
+        
+        let privateDic : NSDictionary = ["index":1,"user_email":"mathan6@gmail.com","limit":10 ]
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {
-            (dicc,erro) in
-            
-            
-          self.recordPrivateData = dicc as [[String : Any]]
+                (dicc,myData,erro) in
                 
-            
+                
+                self.recordPrivateData = dicc as [[String : Any]]
+                
+                
                 DispatchQueue.main.async{
                     
                     self.refershController.beginRefreshing()
@@ -129,7 +129,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
                     self.refershController.endRefreshing()
                     
                 }
-            
+                
         })
         
         

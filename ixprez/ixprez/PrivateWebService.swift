@@ -14,7 +14,7 @@ class  PrivateWebService
 
 
     
-    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: [[String :Any]] ,_ error : Error?) -> Void)
+    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: [[String :Any]] ,[String : Any],_ error : Error?) -> Void)
         
     {
         let privateData = try! JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
@@ -59,7 +59,7 @@ class  PrivateWebService
                 
                 print(recordPrivate)
          
-                callback(recordPrivate,error)
+                callback(recordPrivate,dataPrivate,error)
          
                 
             }

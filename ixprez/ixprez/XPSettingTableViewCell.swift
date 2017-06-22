@@ -19,6 +19,9 @@ class XPSettingTableViewCell: UITableViewCell
     
     @IBOutlet weak var txtEnterSettings: UITextField!
     
+    @IBOutlet weak var imgRightArrow: UIImageView!
+    @IBOutlet weak var downArrow: UIButton!
+    @IBOutlet weak var saveWidth: NSLayoutConstraint!
     
     @IBOutlet weak var lblWidthSize: NSLayoutConstraint!
     
@@ -28,6 +31,9 @@ class XPSettingTableViewCell: UITableViewCell
         
         
         switchNotify.onTintColor = UIColor.getOrangeColor()
+        
+        btnSettingSave.layer.cornerRadius = 25.0
+        
     
         // Initialization code
     }
