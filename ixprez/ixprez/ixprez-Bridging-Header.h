@@ -5,4 +5,5 @@
 #import "ATAudioVisualizer.h"
 #import "iCarousel.h"
 #import "SWRevealViewController.h"
+#import "IQAudioRecorderViewController.h"
 
