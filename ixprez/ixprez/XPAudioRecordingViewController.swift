@@ -8,9 +8,10 @@
 
 import UIKit
 import AVFoundation
+import MediaPlayer
 
-class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,AVAudioPlayerDelegate {
-    
+class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,AVAudioPlayerDelegate,IQAudioRecorderViewControllerDelegate {
+    let controller = IQAudioRecorderViewController()
     var commonRequestWebService = XPWebService ()
     var commonWebUrl = URLDirectory.audioDataUpload ()
     
@@ -47,6 +48,11 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        addChildViewController(controller)
+//        self.view.addSubview(controller.view)
+//        controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
+//        controller.didMove(toParentViewController: self)
+//        controller.delegate = self
         visualizerView.isHidden = true
         self.navigationItem.title = titleString
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
@@ -302,15 +308,20 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     }
     
     // This is Audio button action method.
-    @IBAction func audioButtonAction(_ sender: Any) {
+    @IBAction func audioButtonAction(_ sender: UIButton) {
         
         guard (isAudioButtonSelected) else {
             isAudioButtonSelected = true
             audioBGImage?.backgroundColor = UIColor.orange
             audioButton.setImage(UIImage(named: "MicrophonePlayingImage"), for: UIControlState.normal)
-//            isAudioButtonSelected = true
+            isAudioButtonSelected = true
             audioTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
-//             self.startAudioVisualizer()
+ //            self.startAudioVisualizer()
+            addChildViewController(controller)
+            self.view.addSubview(controller.view)
+            controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
+            controller.didMove(toParentViewController: self)
+//            presentBlurredAudioRecorderViewControllerAnimated(controller)
             self.startRecording()
             return
         }

@@ -44,6 +44,9 @@
 		13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */; };
 		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
 		13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */; };
+		8542F2481F03AFA6006FFCE5 /* StretchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */; };
+		8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */; };
+		8542F24D1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */; };
 		8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */; };
 		85525F091EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */; };
 		85525F0A1EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */; };
@@ -76,6 +79,18 @@
 		85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85879EC41EC57B2800337011 /* XPAudioViewController.swift */; };
 		8590E8AB1EDEE9AD00FB8F78 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */; };
 		8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859234091ECD9F17003C70E4 /* Pulsator.swift */; };
+		8592909A1F00FD22006A488D /* IQ_FDWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290851F00FD22006A488D /* IQ_FDWaveformView.m */; };
+		8592909B1F00FD22006A488D /* IQAudioCropperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290871F00FD22006A488D /* IQAudioCropperViewController.m */; };
+		8592909C1F00FD22006A488D /* IQAudioRecorderConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290891F00FD22006A488D /* IQAudioRecorderConstraints.m */; };
+		8592909D1F00FD22006A488D /* IQAudioRecorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8592908B1F00FD22006A488D /* IQAudioRecorderViewController.m */; };
+		8592909E1F00FD22006A488D /* IQCropSelectionBeginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8592908D1F00FD22006A488D /* IQCropSelectionBeginView.m */; };
+		8592909F1F00FD22006A488D /* IQCropSelectionEndView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8592908F1F00FD22006A488D /* IQCropSelectionEndView.m */; };
+		859290A01F00FD22006A488D /* IQCropSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290911F00FD22006A488D /* IQCropSelectionView.m */; };
+		859290A11F00FD22006A488D /* IQMessageDisplayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290931F00FD22006A488D /* IQMessageDisplayView.m */; };
+		859290A21F00FD22006A488D /* IQPlaybackDurationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290951F00FD22006A488D /* IQPlaybackDurationView.m */; };
+		859290A31F00FD22006A488D /* NSString+IQTimeIntervalFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290971F00FD22006A488D /* NSString+IQTimeIntervalFormatter.m */; };
+		859290A41F00FD22006A488D /* IQAudioRecorderController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 859290991F00FD22006A488D /* IQAudioRecorderController.bundle */; };
+		859290A71F00FF5E006A488D /* SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 859290A61F00FF5E006A488D /* SCSiriWaveformView.m */; };
 		859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */; };
 		859407C41ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */; };
 		859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859407C71ECEF14C000A6A80 /* XPPopOverViewController.swift */; };
@@ -144,6 +159,9 @@
 		13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
 		13B06F341EB30AE500BD439C /* intro_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_bg.png; sourceTree = "<group>"; };
 		13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
+		8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeader.swift; sourceTree = "<group>"; };
+		8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeaderOptions.swift; sourceTree = "<group>"; };
+		8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashBoardProfileTableViewCell.swift; sourceTree = "<group>"; };
 		8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioXpressTableViewCell.swift; sourceTree = "<group>"; };
 		85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingLanConDoneTableViewCell.swift; sourceTree = "<group>"; };
@@ -181,6 +199,29 @@
 		8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		859234091ECD9F17003C70E4 /* Pulsator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pulsator.swift; sourceTree = "<group>"; };
+		859290841F00FD22006A488D /* IQ_FDWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQ_FDWaveformView.h; sourceTree = "<group>"; };
+		859290851F00FD22006A488D /* IQ_FDWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQ_FDWaveformView.m; sourceTree = "<group>"; };
+		859290861F00FD22006A488D /* IQAudioCropperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioCropperViewController.h; sourceTree = "<group>"; };
+		859290871F00FD22006A488D /* IQAudioCropperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioCropperViewController.m; sourceTree = "<group>"; };
+		859290881F00FD22006A488D /* IQAudioRecorderConstraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioRecorderConstraints.h; sourceTree = "<group>"; };
+		859290891F00FD22006A488D /* IQAudioRecorderConstraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioRecorderConstraints.m; sourceTree = "<group>"; };
+		8592908A1F00FD22006A488D /* IQAudioRecorderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQAudioRecorderViewController.h; sourceTree = "<group>"; };
+		8592908B1F00FD22006A488D /* IQAudioRecorderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQAudioRecorderViewController.m; sourceTree = "<group>"; };
+		8592908C1F00FD22006A488D /* IQCropSelectionBeginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCropSelectionBeginView.h; sourceTree = "<group>"; };
+		8592908D1F00FD22006A488D /* IQCropSelectionBeginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCropSelectionBeginView.m; sourceTree = "<group>"; };
+		8592908E1F00FD22006A488D /* IQCropSelectionEndView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCropSelectionEndView.h; sourceTree = "<group>"; };
+		8592908F1F00FD22006A488D /* IQCropSelectionEndView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCropSelectionEndView.m; sourceTree = "<group>"; };
+		859290901F00FD22006A488D /* IQCropSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQCropSelectionView.h; sourceTree = "<group>"; };
+		859290911F00FD22006A488D /* IQCropSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQCropSelectionView.m; sourceTree = "<group>"; };
+		859290921F00FD22006A488D /* IQMessageDisplayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMessageDisplayView.h; sourceTree = "<group>"; };
+		859290931F00FD22006A488D /* IQMessageDisplayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMessageDisplayView.m; sourceTree = "<group>"; };
+		859290941F00FD22006A488D /* IQPlaybackDurationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPlaybackDurationView.h; sourceTree = "<group>"; };
+		859290951F00FD22006A488D /* IQPlaybackDurationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPlaybackDurationView.m; sourceTree = "<group>"; };
+		859290961F00FD22006A488D /* NSString+IQTimeIntervalFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+IQTimeIntervalFormatter.h"; sourceTree = "<group>"; };
+		859290971F00FD22006A488D /* NSString+IQTimeIntervalFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+IQTimeIntervalFormatter.m"; sourceTree = "<group>"; };
+		859290991F00FD22006A488D /* IQAudioRecorderController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQAudioRecorderController.bundle; sourceTree = "<group>"; };
+		859290A51F00FF56006A488D /* SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSiriWaveformView.h; sourceTree = "<group>"; };
+		859290A61F00FF5E006A488D /* SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSiriWaveformView.m; sourceTree = "<group>"; };
 		859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoViewController.swift; sourceTree = "<group>"; };
 		859407C31ECEBAC5000A6A80 /* XPVideoExpressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoExpressTableViewCell.swift; sourceTree = "<group>"; };
 		859407C71ECEF14C000A6A80 /* XPPopOverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPopOverViewController.swift; sourceTree = "<group>"; };
@@ -231,8 +272,8 @@
 		130FD8E81EB887A900026975 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				130FD8E91EB887CB00026975 /* XPWebService.swift */,
 				1314C6DF1ED7E78000FD0A8F /* MyUploadWebServices.swift */,
+				130FD8E91EB887CB00026975 /* XPWebService.swift */,
 				1314C6E01ED7E78000FD0A8F /* PrivateWebService.swift */,
 			);
 			name = Model;
@@ -296,8 +337,55 @@
 				855CCAD21ED31C1500939576 /* ATAudioVisualizer.h */,
 				855CCAD31ED31C1500939576 /* ATAudioVisualizer.m */,
 				855CCAD11ED31C1300939576 /* ixprez-Bridging-Header.h */,
+				859290821F00FD21006A488D /* IQAudioRecorderController */,
 			);
 			name = Controllers;
+			sourceTree = "<group>";
+		};
+		859290821F00FD21006A488D /* IQAudioRecorderController */ = {
+			isa = PBXGroup;
+			children = (
+				859290831F00FD22006A488D /* FDWaveformView */,
+				859290861F00FD22006A488D /* IQAudioCropperViewController.h */,
+				859290871F00FD22006A488D /* IQAudioCropperViewController.m */,
+				859290881F00FD22006A488D /* IQAudioRecorderConstraints.h */,
+				859290891F00FD22006A488D /* IQAudioRecorderConstraints.m */,
+				8592908A1F00FD22006A488D /* IQAudioRecorderViewController.h */,
+				8592908B1F00FD22006A488D /* IQAudioRecorderViewController.m */,
+				8592908C1F00FD22006A488D /* IQCropSelectionBeginView.h */,
+				8592908D1F00FD22006A488D /* IQCropSelectionBeginView.m */,
+				8592908E1F00FD22006A488D /* IQCropSelectionEndView.h */,
+				8592908F1F00FD22006A488D /* IQCropSelectionEndView.m */,
+				859290901F00FD22006A488D /* IQCropSelectionView.h */,
+				859290911F00FD22006A488D /* IQCropSelectionView.m */,
+				859290921F00FD22006A488D /* IQMessageDisplayView.h */,
+				859290931F00FD22006A488D /* IQMessageDisplayView.m */,
+				859290941F00FD22006A488D /* IQPlaybackDurationView.h */,
+				859290951F00FD22006A488D /* IQPlaybackDurationView.m */,
+				859290961F00FD22006A488D /* NSString+IQTimeIntervalFormatter.h */,
+				859290971F00FD22006A488D /* NSString+IQTimeIntervalFormatter.m */,
+				859290A51F00FF56006A488D /* SCSiriWaveformView.h */,
+				859290A61F00FF5E006A488D /* SCSiriWaveformView.m */,
+				859290981F00FD22006A488D /* Resources */,
+			);
+			path = IQAudioRecorderController;
+			sourceTree = "<group>";
+		};
+		859290831F00FD22006A488D /* FDWaveformView */ = {
+			isa = PBXGroup;
+			children = (
+				859290841F00FD22006A488D /* IQ_FDWaveformView.h */,
+				859290851F00FD22006A488D /* IQ_FDWaveformView.m */,
+			);
+			path = FDWaveformView;
+			sourceTree = "<group>";
+		};
+		859290981F00FD22006A488D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				859290991F00FD22006A488D /* IQAudioRecorderController.bundle */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		859A22E41EB1ADDB008DD7F7 = {
@@ -358,6 +446,8 @@
 				856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */,
 				8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */,
 				8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */,
+				8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */,
+				8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -391,6 +481,7 @@
 				85BCA1F01EE2B5DB009C4B02 /* XPSearchTableViewCell.swift */,
 				85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */,
 				85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */,
+				8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */,
 				85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */,
 				85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */,
 				85525F071EEAC685008C5C9B /* XPSettingLGTableViewCell.swift */,
@@ -511,6 +602,7 @@
 				13B06F351EB30AE500BD439C /* intro_bg.png in Resources */,
 				13111E791EB1F0FE003661C2 /* proximanova-regular-webfont_0.ttf in Resources */,
 				13111E771EB1F0F6003661C2 /* proximanova-extrabold-webfont_0.ttf in Resources */,
+				859290A41F00FD22006A488D /* IQAudioRecorderController.bundle in Resources */,
 				13111E761EB1F0F2003661C2 /* proximanova-black-webfont_0.ttf in Resources */,
 				13111E7B1EB1FC09003661C2 /* mosklight300.ttf in Resources */,
 				859A22FB1EB1ADDB008DD7F7 /* LaunchScreen.storyboard in Resources */,
@@ -539,26 +631,35 @@
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				85BCA1EB1EE2B4FD009C4B02 /* ActivityExtension.swift in Sources */,
 				856E8C181ED97FBB0081BCF7 /* XPCameraONViewController.swift in Sources */,
+				8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */,
 				1314C6F21ED7EDA100FD0A8F /* MyUploadReportAbuseTableViewCell.swift in Sources */,
+				859290A11F00FD22006A488D /* IQMessageDisplayView.m in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
 				857E4C691EEE62D700274F8E /* SWRevealViewController.m in Sources */,
+				859290A21F00FD22006A488D /* IQPlaybackDurationView.m in Sources */,
 				856574F81EF145520056D97F /* XPContactHeaderTableViewCell.swift in Sources */,
 				859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
 				1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */,
+				8592909F1F00FD22006A488D /* IQCropSelectionEndView.m in Sources */,
 				1314C6F41ED7EDA100FD0A8F /* UploadsEmotionsTableViewCell.swift in Sources */,
 				85BCA1F21EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift in Sources */,
 				1314C6E91ED7E81300FD0A8F /* UIImageViewExtension.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
+				8592909D1F00FD22006A488D /* IQAudioRecorderViewController.m in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
 				855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */,
+				859290A71F00FF5E006A488D /* SCSiriWaveformView.m in Sources */,
 				857CE0471EC9D85E00F151AF /* XPAudioStopViewController.swift in Sources */,
+				859290A31F00FD22006A488D /* NSString+IQTimeIntervalFormatter.m in Sources */,
 				8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */,
 				1314C6EA1ED7E81300FD0A8F /* StringURLExtension.swift in Sources */,
 				1314C6E21ED7E78000FD0A8F /* PrivateWebService.swift in Sources */,
 				856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */,
+				8592909A1F00FD22006A488D /* IQ_FDWaveformView.m in Sources */,
 				8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */,
 				857E4C6B1EEE676B00274F8E /* XPHumburgerMenuViewController.swift in Sources */,
+				8542F2481F03AFA6006FFCE5 /* StretchHeader.swift in Sources */,
 				85525F111EEACD26008C5C9B /* XPAboutViewController.swift in Sources */,
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
 				85A3DFEC1ED7F612006E81ED /* XPHelpDetailsViewController.swift in Sources */,
@@ -571,6 +672,7 @@
 				85A572AE1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift in Sources */,
 				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
 				856E8C1A1ED98AAA0081BCF7 /* XPCameraStopViewController.swift in Sources */,
+				8592909B1F00FD22006A488D /* IQAudioCropperViewController.m in Sources */,
 				1314C6D71ED7E6F900FD0A8F /* IXPrivateViewController.swift in Sources */,
 				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
 				859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */,
@@ -598,11 +700,15 @@
 				13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */,
 				85BCA1ED1EE2B5CA009C4B02 /* SearchPopularCollectionViewCell.swift in Sources */,
 				856E8C161ED9578E0081BCF7 /* XPCameraBaseViewController.swift in Sources */,
+				8592909E1F00FD22006A488D /* IQCropSelectionBeginView.m in Sources */,
 				1314C6DC1ED7E6F900FD0A8F /* XPPriavtePlayVideoAudioViewController.swift in Sources */,
 				1314C6E11ED7E78000FD0A8F /* MyUploadWebServices.swift in Sources */,
 				1314C6DE1ED7E6F900FD0A8F /* XPUploadsEmotionsViewController.swift in Sources */,
+				8592909C1F00FD22006A488D /* IQAudioRecorderConstraints.m in Sources */,
 				856574F61EF145010056D97F /* XPContactTableViewCell.swift in Sources */,
 				85525F0C1EEAC685008C5C9B /* XPSettingLGTableViewCell.swift in Sources */,
+				859290A01F00FD22006A488D /* IQCropSelectionView.m in Sources */,
+				8542F24D1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate,SWRevealViewControllerDelegate {
+class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate,SWRevealViewControllerDelegate,UIScrollViewDelegate {
     
 
     var items: [Int] = []
@@ -35,9 +35,13 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var activityIndicator = UIActivityIndicatorView ()
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
+    @IBOutlet weak var xpressBGView = UIView ()
     @IBOutlet var carousel: iCarousel?
     @IBOutlet weak var xpressScrollView = UIScrollView ()
     @IBOutlet weak var xpressTableView = UITableView ()
+    @IBOutlet weak var scrollView: UIScrollView!
+    let screenHeight = UIScreen.main.bounds.height
+    let scrollViewContentHeight = 800 as CGFloat
     var userEmail = String ()
     let dashBoardCommonService = XPWebService()
     let icarouselFeatureVideoURL = URLDirectory.getIcarouselFeatureURL()
@@ -52,6 +56,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet weak var userProfileAnimationTwo = UIImageView()
     @IBOutlet weak var humburgerMenuIcon = UIBarButtonItem ()
     
+    
     @IBOutlet weak var pulseAnimationView: UIView!
     
     override func awakeFromNib() {
@@ -65,7 +70,13 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     override func viewDidLoad() {
         super.viewDidLoad()
         // It will set the image in the navigation bar.
-        xpressScrollView?.contentSize = CGSize(width: self.view.frame.width, height: 870)
+//        xpressScrollView?.contentSize = CGSize(width: 375, height: scrollViewContentHeight)
+//        xpressScrollView?.delegate = self
+        xpressTableView?.delegate = self
+//        xpressScrollView?.bounces = false
+        xpressTableView?.bounces = false
+//        xpressTableView?.isScrollEnabled = false
+//        xpressScrollView?.contentSize = CGSize(width: self.view.frame.width, height: 870)
         carousel?.type = .rotary
         carousel?.autoscroll = 0.2
         let imageLogo = UIImage (named: "DashboardTitleImage")
@@ -118,11 +129,33 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
+        self.xpressTableView?.reloadData()
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
         // Do any additional setup after loading the view.
     }
+    
+   
+    
+    
+//    func scrollViewDidScroll(scrollView: UIScrollView) {
+//        let yOffset = scrollView.contentOffset.y
+//        
+//        if scrollView == self.scrollView {
+//            if yOffset >= scrollViewContentHeight - screenHeight {
+//                scrollView.isScrollEnabled = false
+//                xpressTableView?.isScrollEnabled = true
+//            }
+//        }
+//        
+//        if scrollView == self.xpressTableView {
+//            if yOffset <= 0 {
+//                self.scrollView.isScrollEnabled = true
+//                self.xpressTableView?.isScrollEnabled = false
+//            }
+//        }
+//    }
     
     // This method will call when clik on the trending button
     func TreandingVideo(sender : UIButton) {
@@ -592,17 +625,22 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cellIdentifierDashboard = "XPDashBoardProfileTableViewCell"
+        let cellDashBoard : XPDashBoardProfileTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierDashboard) as! XPDashBoardProfileTableViewCell
+        cellDashBoard.cellUserProfileImage?.image = self.userProfileImage?.image
+        xpressTableView?.tableHeaderView = cellDashBoard
+        
         let cellIdentifier = "XPDashboardHeaderTableViewCell"
-        var cell : XPDashboardHeaderTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardHeaderTableViewCell
+        let cell : XPDashboardHeaderTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardHeaderTableViewCell
         
         cell.treadingButton?.addTarget(self, action: #selector(TreandingVideo(sender:)), for: UIControlEvents.touchUpInside)
         cell.recentButton?.addTarget(self, action: #selector(RecentVideo(sender:)), for: UIControlEvents.touchUpInside)
         cell.treadingButton?.isSelected = buttonTrendingSelected
         print("The treading state is \(buttonTrendingSelected)")
-        print("The treading state is \(cell.treadingButton?.isSelected)")
+        print("The treading state is \(String(describing: cell.treadingButton?.isSelected))")
         cell.recentButton?.isSelected = buttonRecentSelected
         print("The recent state is \(buttonRecentSelected)")
-        print("The recent state is \(cell.recentButton?.isSelected)")
+        print("The recent state is \(String(describing: cell.recentButton?.isSelected))")
         
         if (cell.treadingButton?.isSelected == true) {
             
@@ -623,7 +661,7 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         
         cell.delegate = self
         
-        return cell
+        return cell.contentView
     }
     
     
@@ -634,6 +672,19 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
     
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        
+//    }
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        self.xpressBGView?.frame = CGRect(x: 0, y: -200, width: 375, height: 500)
+//    }
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        self.xpressBGView?.frame = CGRect(x: 0, y: 0, width: 375, height: 500)
+//    }
+    
+    
+    
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//    
+//        self.xpressBGView?.frame = CGRect(x: 0, y: -200, width: 375, height: 500)
 //    }
     
 }
