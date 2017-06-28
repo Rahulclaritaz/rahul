@@ -49,9 +49,10 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         addChildViewController(controller)
-        self.view.addSubview(controller.view)
-        controller.didMove(toParentViewController: self)
-        controller.delegate = self
+//        self.view.addSubview(controller.view)
+//        controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
+//        controller.didMove(toParentViewController: self)
+//        controller.delegate = self
         visualizerView.isHidden = true
         self.navigationItem.title = titleString
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
@@ -314,11 +315,12 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             audioBGImage?.backgroundColor = UIColor.orange
             audioButton.setImage(UIImage(named: "MicrophonePlayingImage"), for: UIControlState.normal)
             isAudioButtonSelected = true
- //           audioTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
-//             self.startAudioVisualizer()
-//            addChildViewController(controller)
-//            self.view.addSubview(controller.view)
-//            controller.didMove(toParentViewController: self)
+            audioTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
+ //            self.startAudioVisualizer()
+            addChildViewController(controller)
+            self.view.addSubview(controller.view)
+            controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
+            controller.didMove(toParentViewController: self)
 //            presentBlurredAudioRecorderViewControllerAnimated(controller)
             self.startRecording()
             return

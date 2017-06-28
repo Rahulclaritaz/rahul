@@ -44,6 +44,9 @@
 		13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */; };
 		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
 		13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */; };
+		8542F2481F03AFA6006FFCE5 /* StretchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */; };
+		8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */; };
+		8542F24D1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */; };
 		8547795E1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */; };
 		85525F091EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */; };
 		85525F0A1EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */; };
@@ -156,6 +159,9 @@
 		13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
 		13B06F341EB30AE500BD439C /* intro_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_bg.png; sourceTree = "<group>"; };
 		13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
+		8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeader.swift; sourceTree = "<group>"; };
+		8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeaderOptions.swift; sourceTree = "<group>"; };
+		8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashBoardProfileTableViewCell.swift; sourceTree = "<group>"; };
 		8547795D1EC5B3A700103162 /* XPAudioXpressTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioXpressTableViewCell.swift; sourceTree = "<group>"; };
 		85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingLanConDoneTableViewCell.swift; sourceTree = "<group>"; };
@@ -440,6 +446,8 @@
 				856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */,
 				8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */,
 				8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */,
+				8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */,
+				8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";
@@ -473,6 +481,7 @@
 				85BCA1F01EE2B5DB009C4B02 /* XPSearchTableViewCell.swift */,
 				85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */,
 				85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */,
+				8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */,
 				85525F041EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift */,
 				85525F051EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift */,
 				85525F071EEAC685008C5C9B /* XPSettingLGTableViewCell.swift */,
@@ -622,6 +631,7 @@
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				85BCA1EB1EE2B4FD009C4B02 /* ActivityExtension.swift in Sources */,
 				856E8C181ED97FBB0081BCF7 /* XPCameraONViewController.swift in Sources */,
+				8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */,
 				1314C6F21ED7EDA100FD0A8F /* MyUploadReportAbuseTableViewCell.swift in Sources */,
 				859290A11F00FD22006A488D /* IQMessageDisplayView.m in Sources */,
 				130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */,
@@ -649,6 +659,7 @@
 				8592909A1F00FD22006A488D /* IQ_FDWaveformView.m in Sources */,
 				8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */,
 				857E4C6B1EEE676B00274F8E /* XPHumburgerMenuViewController.swift in Sources */,
+				8542F2481F03AFA6006FFCE5 /* StretchHeader.swift in Sources */,
 				85525F111EEACD26008C5C9B /* XPAboutViewController.swift in Sources */,
 				856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */,
 				85A3DFEC1ED7F612006E81ED /* XPHelpDetailsViewController.swift in Sources */,
@@ -697,6 +708,7 @@
 				856574F61EF145010056D97F /* XPContactTableViewCell.swift in Sources */,
 				85525F0C1EEAC685008C5C9B /* XPSettingLGTableViewCell.swift in Sources */,
 				859290A01F00FD22006A488D /* IQCropSelectionView.m in Sources */,
+				8542F24D1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

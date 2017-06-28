@@ -384,7 +384,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     [self startUpdatingMeter];
     
     _wasIdleTimerDisabled = [[UIApplication sharedApplication] isIdleTimerDisabled];
