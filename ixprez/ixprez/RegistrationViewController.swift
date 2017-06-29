@@ -10,11 +10,11 @@ import UIKit
 import CoreTelephony
 
 class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource{
-    
-    
+   
+
     @IBOutlet weak var viewScrollView: UIView!
-    //    @IBOutlet weak var countryPickerView: UIPickerView!
-    //    @IBOutlet weak var languagePickerView: UIPickerView!
+//    @IBOutlet weak var countryPickerView: UIPickerView!
+//    @IBOutlet weak var languagePickerView: UIPickerView!
     @IBOutlet weak var nameTextField : UITextField?
     @IBOutlet weak var emailTextField : UITextField?
     @IBOutlet weak var mobileNumberTextField : UITextField?
@@ -50,35 +50,54 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     var listData = [String: AnyObject]()
     let appdelegate = UIApplication.shared.delegate as! AppDelegate
     
-    let getOTPClass = XPWebService()
-    let getOTPUrl = URLDirectory.RegistrationData()
-    let getCountryUrl = URLDirectory.Country()
-    let getLanguageUrl = URLDirectory.Language()
+    let getOTPClass     = XPWebService()
+    let getOTPUrl       = URLDirectory.RegistrationData()
+    let getCountryUrl   = URLDirectory.Country()
+    let getLanguageUrl  = URLDirectory.Language()
     
+    var myCountry : String!
+    var translated = String()
+    var country : String!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // This will set the device language
+    override func awakeFromNib()
+    {
         
         let languages = NSLocale.preferredLanguages
-        var translated = String()
-        for lang in languages {
+        
+        for lang in languages
+        {
             let locale = NSLocale(localeIdentifier: lang)
             translated = locale.displayName(forKey: NSLocale.Key.identifier, value: lang)!
             print("\(lang), \(translated)")
         }
-        languageTextField.text = translated
-        
+       
         // This will set the device country code
         let countryLocale : NSLocale =  NSLocale.current as NSLocale
         let countryCode  = countryLocale.object(forKey: NSLocale.Key.countryCode)// as! String
-        let country = countryLocale.displayName(forKey: NSLocale.Key.countryCode, value: countryCode!)
+         country = countryLocale.displayName(forKey: NSLocale.Key.countryCode, value: countryCode!)
+        
+        myCountry = String(describing: country!)
+        
+        
+        print("myCountry", myCountry)
+        
+        
         print("Country Locale:\(countryLocale)  Code:\(String(describing: countryCode)) Name:\(String(describing: country))")
-        countryTextField.text = country
+        
+        
+        
+    }
+    
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        
+        // This will set the device language
+        
+        languageTextField.text = translated
         
         // This will set the country Mobile prefix code
-        
+        countryTextField.text = country!
         
         countryTableView.layer.cornerRadius = 10
         languageTableView.layer.cornerRadius = 10
@@ -94,7 +113,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         saveButton.layer.cornerRadius = 20.0
         countryTextField.delegate = self
         languageTextField.delegate = self
-        
+     
         mobileNumberTextField?.delegate = self
         emailTextField?.delegate = self
         
@@ -105,19 +124,19 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         languageTableView.isHidden = true
     }
     
-    
-    
+   
+     
     // TextField Delegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        // tap.cancelsTouchesInView = false
+       // tap.cancelsTouchesInView = false
         
         
         var subString = String()
         
         if (textField.tag == 1)
         {
-            subString   = (countryTextField.text! as NSString).replacingCharacters(in: range, with: string)
-            searchAutocompleteCountryEntriesWithSubstring(substring: subString)
+          subString   = (countryTextField.text! as NSString).replacingCharacters(in: range, with: string)
+           searchAutocompleteCountryEntriesWithSubstring(substring: subString)
             if (subString.isEmpty)
             {
                 countryTableView.isHidden = true
@@ -129,7 +148,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
         } else if (textField.tag == 2)
         {
-            subString = (languageTextField.text! as NSString).replacingCharacters(in: range, with: string)
+           subString = (languageTextField.text! as NSString).replacingCharacters(in: range, with: string)
             searchAutocompleteLanguageEntriesWithSubstring(substring: subString)
             if (subString.isEmpty) {
                 languageTableView.isHidden = true
@@ -142,47 +161,48 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         
         return true
     }
+    //United States
     
     
-    
+
     // This method will serach the autocompleted country name
     
     func searchAutocompleteCountryEntriesWithSubstring (substring : String)
     {
-        
-        filterCountryData.removeAll()
+       
+      filterCountryData.removeAll()
         
         
         filterCountryData = countryData.filter({
             
             
-            let string = $0["country_name"] as! String
+             let string = $0["country_name"] as! String
             
-            
+           
             return string.lowercased().range(of : substring.lowercased()) != nil
             
         })
         
         
-        DispatchQueue.main.async
+                 DispatchQueue.main.async
             {
-                
-                self.countryTableView.reloadData()
-                
-        }
+            
+            self.countryTableView.reloadData()
+  
+             }
         
         
-    }
+       }
     
     
     // This method will serach the autocompleted language name
     
     func searchAutocompleteLanguageEntriesWithSubstring(substring: String)
     {
-        // autoLanguageComplete.removeAll(keepingCapacity: false)
+       // autoLanguageComplete.removeAll(keepingCapacity: false)
         filterLanguageData.removeAll()
         
-        filterLanguageData = languageData.filter({
+         filterLanguageData = languageData.filter({
             
             let string = $0["name"] as! String
             
@@ -190,36 +210,36 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
             
         })
-        
+ 
         
         DispatchQueue.main.async
             {
-                self.languageTableView.reloadData()
-                
-                
+            self.languageTableView.reloadData()
+  
+            
         }
         
         
     }
-    
+
     
     
     // tableview Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if tableView == countryTableView
-        {
+       if tableView == countryTableView
+       {
             return filterCountryData.count
-            
+        
         }
         else
         {
             return filterLanguageData.count
         }
-        
-        
-    }
+     
     
+    }
+
     
     
     // tableview Delegate
@@ -227,15 +247,15 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         var cell : UITableViewCell
         
         if (tableView == countryTableView)
-            
+        
         {
-            // countryTableView.isHidden = false
+           // countryTableView.isHidden = false
             
             let cellIdentifier = "XPCountryTableViewCell"
             
-            let countDic = self.filterCountryData[indexPath.row]
+           let countDic = self.filterCountryData[indexPath.row]
             
-            cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? XPCountryTableViewCell)!
+             cell = (tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? XPCountryTableViewCell)!
             
             
             cell.textLabel?.font = UIFont(name: "Mosk", size: 20)
@@ -247,7 +267,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
             
             
-        else
+      else
         {
             //languageTableView.isHidden = false
             
@@ -261,49 +281,49 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
             
             cell.textLabel?.text = lanDic["name"] as? String
-            
+ 
             
         }
-        
+            
         
         
         return cell
     }
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
-        
+   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    
     {
-        
+       
         if (tableView == countryTableView)
-            
+        
         {
-            
+        
             let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
             
             
             countryTextField.text = selectedCell.textLabel!.text!
-            
-            
-            let autoCountryCompleteDic = filterCountryData[indexPath.row]
+        
+    
+           let autoCountryCompleteDic = filterCountryData[indexPath.row]
             
             
             print("mathan check data",autoCountryCompleteDic)
+           
             
             
-            
-            for i in 0...filterCountryData.count
+           for i in 0...filterCountryData.count
             {
-                
+             
                 if indexPath.row == i
                 {
                     
-                    print( autoCountryCompleteDic["ph_code"] as! String)
+                print( autoCountryCompleteDic["ph_code"] as! String)
                     
-                    self.mobileNumberTextField?.text = String(format: "%@-", (autoCountryCompleteDic["ph_code"] as? String)!)
+              self.mobileNumberTextField?.text = String(format: "%@-", (autoCountryCompleteDic["ph_code"] as? String)!)
                     
-                    
-                    
+                 
+                
                 }
             }
             
@@ -311,20 +331,20 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
         }
         
-        if tableView == languageTableView
+         if tableView == languageTableView
+       
+                   {
+                        let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
             
-        {
-            let selectedCell: UITableViewCell = tableView.cellForRow(at: indexPath)!
-            
-            languageTextField.text = selectedCell.textLabel!.text!
-        }
-        
-        
+                        languageTextField.text = selectedCell.textLabel!.text!
+                    }
+    
+                
         languageTableView.isHidden = true
         
     }
     
-    
+
     // This method will dismiss the keyboard
     func dismissKeyboard(rec: UIGestureRecognizer)
     {
@@ -339,52 +359,90 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     {
         
         /*
-         self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
-         self.countryArrayData = (countryData.value(forKey: "country_name") as! NSArray) as! [String]
-         //            let delayInSeconds = 1.0
-         self.autoCompleteCountryPossibilities = self.countryArrayData
-         */
+ self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
+ self.countryArrayData = (countryData.value(forKey: "country_name") as! NSArray) as! [String]
+ //            let delayInSeconds = 1.0
+ self.autoCompleteCountryPossibilities = self.countryArrayData
+ */
         
         
-        let paramsCountry = ["list":"country"] as Dictionary<String, String>
+      let paramsCountry = ["list":"country"] as Dictionary<String, String>
         
-        getOTPClass.getCountryDataWebService(urlString: getCountryUrl.url(), dicData: paramsCountry as NSDictionary, callback:
-            { ( countryData,needData, error ) in
+      getOTPClass.getCountryDataWebService(urlString: getCountryUrl.url(), dicData: paramsCountry as NSDictionary, callback:
+        { ( countryData,needData, error ) in
+            
+        print("data")
+        print(countryData)
+      //  self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
+    
+            
+            self.countryArrayData = (needData.value(forKey: "country_name") as! NSArray) as! [NSArray]
+            
+            self.autoCompleteCountryPossibilities = self.countryArrayData
+            
+            
+            self.countryData = countryData
+            
+            
+            DispatchQueue.global(qos: .background).async {
                 
-                print("data")
-                print(countryData)
-                //  self.countryPhoneCode = (countryData.value(forKey: "ph_code") as! NSArray) as! [String]
-                
-                
-                self.countryArrayData = (needData.value(forKey: "country_name") as! NSArray) as! [NSArray]
-                
-                self.autoCompleteCountryPossibilities = self.countryArrayData
-                
-                
-                self.countryData = countryData
+            
+            let myData :[[String:Any]] = self.countryData.filter({
                 
                 
                 
-                DispatchQueue.main.async
-                    {
-                        
-                        self.countryTableView.reloadData()
-                        
-                }
+                let string = $0["country_name"] as? String
                 
-        })
+                let subString =  self.myCountry!
+                
+                
+                
+                print ( "my data",string!)
+                
+                
+              
+                return string?.lowercased().range(of: subString.lowercased()) != nil
+                
+         
+            })
+            
+            
+       
+                
+                
+            for arrData in myData
+            {
+                
+                self.mobileNumberTextField?.text = String(format: "%@-", arrData["ph_code"] as! String)
+                
+             
+            }
+            
+            
+            
+            DispatchQueue.main.async
+                {
+                
+                self.countryTableView.reloadData()
+   
+            }
+            }
+            
+      })
+            
+            
         
         
-        
+             
     }
-    // This method Will call the Web Service to get the language and passing parameter
+   // This method Will call the Web Service to get the language and passing parameter
     func getLanguageNameFromWebService() -> Void
     {
-        
+    
         let paramsLanguage = ["list" : "language"] as Dictionary<String,String>
         
         getOTPClass.getLanguageDataWebService(urlString: getLanguageUrl.url(), dicData: paramsLanguage as NSDictionary, callBack:{(languageData ,needData, error) in
-            
+          
             
             self.languageArrayData = (needData.value(forKey: "name") as! NSArray) as! [NSArray]
             
@@ -392,14 +450,14 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
             
             self.languageData = languageData
-            
+
             
             DispatchQueue.main.async
-                {
-                    self.languageTableView.reloadData()
-                    
+            {
+          self.languageTableView.reloadData()
+   
             }
-            
+         
             
         })
     }
@@ -415,11 +473,11 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    // This method will store the data into the NSUSerDefaults.
+      // This method will store the data into the NSUSerDefaults.
     @IBAction func saveButtonAction(_ sender: Any)
     {
         if ((nameTextField?.text == "") || (emailTextField?.text == "") || (mobileNumberTextField?.text == "") || (countryTextField.text == "") || (languageTextField.text == ""))
-            
+        
         {
             let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Name or Email or Mobile Text Field ", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -451,20 +509,20 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             }
             if (self.languageTextField.text == "")
             {
-                self.languageTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
-                
+               self.languageTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+
             }
             else
             {
                 print("Ok")
             }
         }//end if
-            
+        
         else
         {
             defaults.set(nameTextField?.text, forKey: "userName")
             defaults.set(emailTextField?.text, forKey: "emailAddress")
-            
+    
             defaults.set(countryTextField.text, forKey: "countryName")
             defaults.set(languageTextField.text, forKey: "languageName")
             defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
@@ -472,46 +530,45 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
             
             let parameter = ["user_name":self.nameTextField?.text!,"email_id": emailTextField?.text! ,"phone_number":self.mobileNumberTextField?.text!,"country":self.countryTextField.text!,"language": self.languageTextField.text!,"device_id":appdelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"] as [String : Any]
+        
+            
+        getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
+            (dicc ,err) in
             
             
-            getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
-                (dicc ,err) in
+            
+            if ( (dicc["status"] as! String) == "OK" )
+            {
                 
+                DispatchQueue.main.async
+                    {
+                    
                 
+              
+                let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
                 
-                if ( (dicc["status"] as! String) == "OK" )
-                {
-                    
-                    DispatchQueue.main.async
-                        {
-                            
-                            
-                            
-                            let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-                            
-                            self.present(verifyOTPView, animated: true, completion: nil)
-                            
-                    }
-                    
-                    
-                }
-                else
-                {
-                    
-                    print("error")
-                    
+                self.present(verifyOTPView, animated: true, completion: nil)
+                
                 }
                 
                 
-                print(dicc)
+            }
+            else
+            {
                 
+                print("error")
                 
-            })
+            }
             
-        }//end else
-    }// end save function
-    
-    
-}
+            
+            print(dicc)
+            
+            
+        })
+        
+       }//end else
+}// end save function
 
+
+} // end class
 
