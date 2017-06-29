@@ -11,13 +11,13 @@ import Foundation
 class XPWebService
 {
     
-    func getCountryDataWebService(urlString : String ,dicData : NSDictionary, callback : @escaping(_ countData : NSArray , _ error : NSError? ) -> Void)
+    func getCountryDataWebService(urlString : String ,dicData : NSDictionary, callback : @escaping(_ countData : [[String:Any]] ,_ countNeededData : NSArray, _ error : NSError? ) -> Void)
         
     {
-       guard let urlStringData = URL(string: urlString) else
-       {
-        print("Error : can not create the URL")
-        return
+        guard let urlStringData = URL(string: urlString) else
+        {
+            print("Error : can not create the URL")
+            return
         }
         
         let request = NSMutableURLRequest(url: urlStringData)
@@ -28,7 +28,7 @@ class XPWebService
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
-            print("Response: \(response)")
+            print("Response: \(String(describing: response))")
             guard let responseData = data else {
                 print("Error: didn't  get the data")
                 return
@@ -39,10 +39,13 @@ class XPWebService
                     print("Error : didn't get the json Data")
                     return
                 }
-                let jsonArrayData : NSArray = jsonDictData["data"] as! NSArray
-            
+                let jsonArrayData = jsonDictData["data"] as! [[String : Any]]
+                let neededData = jsonDictData["data"] as! NSArray
+                
+                
                 print(jsonArrayData)
-                callback(jsonArrayData, nil)
+                callback(jsonArrayData,neededData, nil)
+                
                 
             } catch {
                 print("Error trying to convert data")
@@ -51,11 +54,11 @@ class XPWebService
         })
         
         task.resume()
-
+        
     }
     
     
-    func getLanguageDataWebService(urlString : String ,dicData : NSDictionary, callBack : @escaping (_ countData: NSArray , _ error : NSError?) -> Void)
+    func getLanguageDataWebService(urlString : String ,dicData : NSDictionary, callBack : @escaping (_ countData: [[String:Any]]  , _ neededData : NSArray ,_ error : NSError?) -> Void)
     {
         
         
@@ -67,7 +70,7 @@ class XPWebService
         let request = NSMutableURLRequest(url: urlStringData as URL)
         let session = URLSession.shared
         request.httpMethod = "POST"
-    
+        
         request.httpBody = try! JSONSerialization.data(withJSONObject: dicData, options: [])
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -85,9 +88,13 @@ class XPWebService
                     print("Error : didn't get the json Data")
                     return
                 }
-                let jsonArrayData : NSArray  = jsonDictData["data"] as! NSArray
+                let jsonArrayData   = jsonDictData["data"] as! [[String:Any]]
+                
+                let needData = jsonDictData["data"] as! NSArray
+                
                 print(jsonArrayData)
-                callBack(jsonArrayData, nil)
+                callBack(jsonArrayData,needData,nil)
+                
             } catch {
                 print("Error trying to convert data")
                 return
@@ -95,20 +102,163 @@ class XPWebService
         })
         
         task.resume()
-
+        
         
         
     }
-
     
-    func getaddDeviceWebService(urlString : String ,dicData : NSDictionary )
+    
+    func getaddDeviceWebService(urlString : String ,dicData : NSDictionary,callBack : @escaping(_ dic : NSDictionary, _ error : NSError?) -> Void)
+        
     {
-    
+        
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         
         let urlString = NSURL(string: urlString )
         
-        var request = URLRequest(url: urlString as! URL)
+        var request = URLRequest(url: urlString! as URL)
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpBody = jsonData
+        
+        request.httpMethod = "POST"
+        
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: request, completionHandler: {
+            (data,response,error) -> Void in
+            
+            
+            var myData =  NSDictionary()
+            
+            
+            if(data != nil && error == nil)
+            {
+                do
+                {
+                    myData  = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
+                    
+                    
+                }
+                catch
+                {
+                    
+                }
+                callBack(myData, nil)
+                
+                
+                
+                
+            }
+        })
+        
+        dataTask.resume()
+    }
+    
+    
+    
+    // This method will send the request to server and will get the response
+    func getOTPWebService(urlString : String , dicData : NSDictionary, callBack : @escaping (_ message : String, _ error : NSError? ) -> Void)
+    {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        
+        let url = URL(string: urlString)
+        var request = URLRequest(url:url!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = jsonData
+        request.httpMethod = "POST"
+        
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: request, completionHandler:
+        {
+            (data,response,error) -> Void in
+            
+            if ( error == nil && data != nil)
+            {
+                do{
+                    let otpArray: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(otpArray)
+                    let otpMessage : String = otpArray.value(forKey: "status") as! String
+                    
+                    print("ccc MMM ", otpMessage)
+                    
+                    callBack(otpMessage,nil)
+                    
+                }
+                    
+                catch
+                {
+                    
+                }
+            }
+        })
+        dataTask.resume()
+        
+    }
+    
+    
+    func getResendOTPWebService(urlString : String , dicData : NSDictionary)
+        
+    {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        
+        let url = NSURL(string: urlString)
+        
+        var request = URLRequest(url: url! as URL)
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        request.httpBody = jsonData
+        
+        request.httpMethod = "POST"
+        
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: request , completionHandler:
+        {
+            
+            (data,response,error) -> Void in
+            
+            
+            if data != nil && error == nil
+            {
+                
+                do
+                {
+                    let getData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    
+                    print(getData)
+                }
+                    
+                catch
+                {
+                    
+                }
+                
+            }
+            
+            
+        })
+        
+        dataTask.resume()
+        
+        
+        
+    }
+    
+    func getAddContact(urlString: String, dicData: NSDictionary,callback: @escaping (_ dic: NSDictionary,_ error: Error?) -> Void)
+        
+    {
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        
+        let urlString = NSURL(string: urlString )
+        var request = URLRequest(url: urlString! as URL)
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -123,153 +273,26 @@ class XPWebService
             
             if(data != nil && error == nil)
             {
+                var myData = NSDictionary()
+                
                 do
                 {
-                    let myData: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
+                    myData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
+                    
                     print(myData)
-                    let  dicData = myData.value(forKey: "data")
-                    print(dicData)
                     
                 }
                 catch
                 {
                     
                 }
-            }
-        })
-        
-        dataTask.resume()
-    }
-
-    
-    
-   // This method will send the request to server and will get the response
-    func getOTPWebService(urlString : String , dicData : NSDictionary, callBack : @escaping (_ message : String, _ error : NSError? ) -> Void)
-    {
-    
-      let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
-    
-        let url = URL(string: urlString)
-        var request = URLRequest(url:url!)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = jsonData
-        request.httpMethod = "POST"
-        
-        let session = URLSession.shared
-        
-       let dataTask = session.dataTask(with: request, completionHandler:
-        {
-            (data,response,error) -> Void in
-            
-            if ( error == nil && data != nil)
-            {
-                do{
-                    let otpArray: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
-                    print(otpArray)
-                    let otpMessage : String = otpArray.value(forKey: "status") as! String
-                    callBack(otpMessage,nil)
-                    
-                    
-//                    callBack (otpArray as! Dictionary,nil)
-                }
                 
-                catch
-                {
-                    
-                }
-            }
-       })
-        dataTask.resume()
-        
-    }
-    
-
-    func getResendOTPWebService(urlString : String , dicData : NSDictionary)
-    
-    {
-        
-       let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
-        
-        let url = NSURL(string: urlString)
-        
-        var request = URLRequest(url: url! as URL)
-        
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        request.httpBody = jsonData
-        
-        request.httpMethod = "POST"
-       
-        let session = URLSession.shared
-        
-        let dataTask = session.dataTask(with: request , completionHandler:
-        {
-            
-            (data,response,error) -> Void in
-            
-        
-            if data != nil && error == nil
-            {
+                callback(myData , nil)
                 
-                do
-                {
-                   let getData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                    
-                    print(getData)
-                }
-        
-                catch
-                {
-                    
-                }
-       
-             }
-   
-            
-        })
-        
-        dataTask.resume()
-        
-        
-        
-    }
- 
-    func getAddContact(urlString: String, dicData: NSDictionary,callback: @escaping (_ dic: NSDictionary,_ error: Error?) -> Void)
-    
-    {
-        
-     let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
-        
-        let urlString = NSURL(string: urlString )
-        var request = URLRequest(url: urlString as! URL)
-        
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        request.httpBody = jsonData
-        
-        request.httpMethod = "POST"
-        
-        let session = URLSession.shared
-        
-        let dataTask = session.dataTask(with: request, completionHandler: {
-            (data,response,error) -> Void in
-            
-          if(data != nil && error == nil)
-          {
-            do
-            {
-                
-                let myData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                
-                print(myData)
-                
-                callback(myData as! NSDictionary, nil)
-            }
-            catch
-            {
                 
             }
-         }
             
         })
         
@@ -281,7 +304,7 @@ class XPWebService
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         let urlString = URL(string : urlString)
         var requestUrl = URLRequest(url: urlString! as URL)
-//        var requestUrl = URLRequest(url : urlString as! URL)
+        //        var requestUrl = URLRequest(url : urlString as! URL)
         requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
         requestUrl.httpBody = jsonData
         requestUrl.httpMethod = "POST"
@@ -330,11 +353,11 @@ class XPWebService
         let urlString = URL(string : urlString)
         var requestUrl = URLRequest(url: urlString! as URL)
         //        var requestUrl = URLRequest(url : urlString as! URL)
-//        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//        requestUrl.httpBody = jsonData
+        //        requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        //        requestUrl.httpBody = jsonData
         let boundary = "--------14737809831466499882746641449----"
-//        let contentType = "multipart/form-data;boundary=\(boundary)"
-       requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        //        let contentType = "multipart/form-data;boundary=\(boundary)"
+        requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         requestUrl.httpMethod = "POST"
         let session = URLSession.shared
         let dataTask = session.dataTask(with: requestUrl , completionHandler:
@@ -363,7 +386,7 @@ class XPWebService
     }
     
     
-  // This func will upload the data and get the response from the server
+    // This func will upload the data and get the response from the server
     func getVideoResponse (urlString : String , dictData : NSDictionary, callBack : @escaping (_ message : NSDictionary , _ error : Error) -> Void) {
         
         let jsonData = try? JSONSerialization.data(withJSONObject: dictData, options: .prettyPrinted)
@@ -395,7 +418,7 @@ class XPWebService
                 } catch {
                     
                 }
-
+                
                 
             } else {
                 return
@@ -409,7 +432,7 @@ class XPWebService
     // This function will send the data and get the response from the server.
     
     func getIcarouselFeaturesVideo(urlString : String, dicData: NSDictionary, callBack: @escaping (_ message : NSArray, _ error : NSError? ) -> Void) {
-       
+        
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         let urlString = URL(string: urlString)
         var requestedURL = URLRequest(url: urlString! as URL)
@@ -432,11 +455,11 @@ class XPWebService
                         let responseData : NSArray = jsonData.value(forKey: "data") as! NSArray
                         print(responseData)
                         
-//                        for responseValue in responseData {
-//                            
-//                        }
+                        //                        for responseValue in responseData {
+                        //
+                        //                        }
                         
-                           callBack(responseData, nil)
+                        callBack(responseData, nil)
                         
                     }
                     
@@ -454,7 +477,7 @@ class XPWebService
     
     
     
-    // This function will get the treanding video response from server 
+    // This function will get the treanding video response from server
     
     func getTreandingVideoResponse(urlString : String , parameter : NSDictionary, callBack : @escaping (_ message : NSArray, _ error : NSError?) -> Void) {
         
@@ -509,9 +532,9 @@ class XPWebService
         requestedURl.httpBody = jsonData
         let session = URLSession.shared
         let dataTask = session.dataTask(with: requestedURl) { (data, response, error) in
-           
+            
             if (data != nil && error == nil) {
-               print("You will get the Response")
+                print("You will get the Response")
                 let jsonData: NSDictionary = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                 print(jsonData)
                 

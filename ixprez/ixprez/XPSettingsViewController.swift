@@ -489,7 +489,10 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
       
         let parameter = ["user_name":userName,"email_id":emailID,"phone_number":phoneNumber,"country":country,"language": language,"device_id":appdelegate.deviceUDID,"notification": notify ,"remainder": remain,"mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"]
         
-        getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary)
+        getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callBack: {(dicc , err) in
+           
+            print(dicc)
+        })
         
 
         
