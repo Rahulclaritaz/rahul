@@ -79,32 +79,45 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
 //        self.initAudioVisualizer()
        
         // Audio recording Setup
-//        recordingSession = AVAudioSession.sharedInstance()
-//        do {
-//            try recordingSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
-//            try recordingSession.setActive(true)
-//            recordingSession.requestRecordPermission() { [unowned self] allowed in
-//                DispatchQueue.main.async {
-//                    if allowed {
-//                        print("Allow")
-//                    } else {
-//                        print("Dont Allow")
-//                    }
-//                }
-//            }
-//        } catch {
-//            print("failed to record!")
-//        }
+        let fileMgr = FileManager.default
         
-        // Audio Settings
-        settings = [
-            AVFormatIDKey: Int(kAudioFormatLinearPCM),
-            AVSampleRateKey: Int(44100.0),
-            AVNumberOfChannelsKey: 2,
-            AVLinearPCMBitDepthKey:16,
-            AVEncoderAudioQualityKey: AVAudioQuality.low.rawValue
-        ]
-        self.directoryURL()
+        let dirPaths = fileMgr.urls(for: .documentDirectory,
+                                    in: .userDomainMask)
+        
+        soundURL = dirPaths[0].appendingPathComponent("sound.wav")
+        
+        let recordSettings =
+            [AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
+             AVEncoderBitRateKey: 16,
+             AVNumberOfChannelsKey: 2,
+             AVSampleRateKey: 44100.0] as [String : Any]
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try audioSession.setCategory(
+                AVAudioSessionCategoryPlayAndRecord)
+        } catch let error as NSError {
+            print("audioSession error: \(error.localizedDescription)")
+        }
+        
+        do {
+            try audioRecorder = AVAudioRecorder(url: soundURL!,
+                                                settings: recordSettings as [String : AnyObject])
+            audioRecorder?.prepareToRecord()
+        } catch let error as NSError {
+            print("audioSession error: \(error.localizedDescription)")
+        }
+        
+//        // Audio Settings
+//        settings = [
+//            AVFormatIDKey: Int(kAudioFormatLinearPCM),
+//            AVSampleRateKey: Int(44100.0),
+//            AVNumberOfChannelsKey: 2,
+//            AVLinearPCMBitDepthKey:16,
+//            AVEncoderAudioQualityKey: AVAudioQuality.low.rawValue
+//        ]
+//        self.directoryURL()
         
     }
     
@@ -275,31 +288,30 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     }
     
     // This method will record the voice
-    func startRecording() {
-        let audioSession = AVAudioSession.sharedInstance()
-        do {
-            audioRecorder = try AVAudioRecorder(url: soundURL! as URL,
-                                                settings: settings)
-            audioRecorder.delegate = self
-            audioRecorder.prepareToRecord()
-        } catch {
-            finishRecording(success: false)
-        }
-        do {
-            try audioSession.setActive(true)
-            audioRecorder.record()
-        } catch {
-        }
-    }
+//    func startRecording() {
+//        let audioSession = AVAudioSession.sharedInstance()
+//        do {
+//            audioRecorder = try AVAudioRecorder(url: soundURL! as URL,
+//                                                settings: settings)
+//            audioRecorder.delegate = self
+//            audioRecorder.prepareToRecord()
+//        } catch {
+//            finishRecording(success: false)
+//        }
+//        do {
+//            try audioSession.setActive(true)
+//            audioRecorder.record()
+//        } catch {
+//        }
+//    }
     
     // This method will stop the recording the voice
-    func finishRecording(success: Bool) {
-        audioRecorder.stop()
-        if success {
-            print(success)
+    func finishRecording() {
+        if (audioRecorder.isRecording == true){
+           audioRecorder.stop()
         } else {
-            audioRecorder = nil
-            print("Somthing Wrong.")
+           // audioRecorder = nil
+            print("Voice recording stoped")
         }
     }
     
@@ -322,7 +334,9 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
             controller.didMove(toParentViewController: self)
 //            presentBlurredAudioRecorderViewControllerAnimated(controller)
-            self.startRecording()
+            if (audioRecorder.isRecording == false) {
+                audioRecorder.record()
+            }
             return
         }
         audioTimer.invalidate()
@@ -331,7 +345,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
 //        self.sendRequestToWebService()
 //        self.stopAudioVisualizer()
-        self.finishRecording(success: true)
+        self.finishRecording()
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioStopViewController") as! XPAudioStopViewController
         storyBoard.titleLabel = titleString
         storyBoard.audioRecordURLString = soundURL
@@ -347,11 +361,11 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     
     // This method will check the timer
     func countDownTimer () {
-        if (countTime > 0) {
+        if (countTime >= 0) {
             countTime -= 1
             countLabel?.text = "00:" + String(countTime)
         } else {
-            finishRecording(success: false)
+            finishRecording()
         }
         
         
@@ -373,11 +387,11 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     }
     
     // Audio recording delegate method
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        if !flag {
-            finishRecording(success: false)
-        }
-    }
+//    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+//        if !flag {
+//            finishRecording(success: false)
+//        }
+//    }
 
     /*
     // MARK: - Navigation
