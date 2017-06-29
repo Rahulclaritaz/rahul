@@ -32,6 +32,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var trendingThumbnail = NSArray ()
     var trendingFileURLPath = NSArray ()
     var trendingFeaturesId = NSArray ()
+    var treadingFileType = NSArray ()
     var activityIndicator = UIActivityIndicatorView ()
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
@@ -541,6 +542,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.trendingThumbnail = treandingResponse.value(forKey: "thumbnailPath") as! NSArray
                 self.trendingFileURLPath = treandingResponse.value(forKey: "fileuploadPath") as! NSArray
                 self.trendingFeaturesId = treandingResponse.value(forKey: "_id") as! NSArray
+                self.treadingFileType = treandingResponse.value(forKey: "filemimeType") as! NSArray
                 self.activityIndicator.stopAnimating()
                 self.xpressTableView?.reloadData()
             }
@@ -562,6 +564,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.trendingTitle = recentResponse.value(forKey: "title") as! NSArray
             self.trendingThumbnail = recentResponse.value(forKey: "thumbnailPath") as! NSArray
             self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
+            self.treadingFileType = recentResponse.value(forKey: "filemimeType") as! NSArray
             self.activityIndicator.stopAnimating()
             self.xpressTableView?.reloadData()
         }
@@ -601,6 +604,12 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
         cell.thumbNailImage?.getImageFromUrl(finalThumbNailImageURL)
+        if (self.treadingFileType[indexPath.row] as! String == "video/mp4") {
+            cell.imgVA.image = UIImage(named: "SearchVideoOn")
+        } else {
+            cell.imgVA.image = UIImage(named: "privateAudio")
+        }
+        
         cell.titleLabel?.text = self.trendingTitle[indexPath.row] as? String
 //        if (self.trendingLikeCount[indexPath.row] as! NSInteger == nul) {
 //            

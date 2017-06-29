@@ -16,6 +16,7 @@ class XPDashboardTableViewCell: UITableViewCell {
     @IBOutlet weak var ViewCountLabel = UILabel ()
     @IBOutlet weak var titleLabel = UILabel ()
     @IBOutlet weak var playButton = UIButton ()
+    @IBOutlet weak var imgVA: UIImageView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
