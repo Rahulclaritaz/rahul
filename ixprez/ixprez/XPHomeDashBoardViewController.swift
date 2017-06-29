@@ -35,6 +35,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var activityIndicator = UIActivityIndicatorView ()
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
+    var userProfileImageResponseURl = String ()
     @IBOutlet weak var xpressBGView = UIView ()
     @IBOutlet var carousel: iCarousel?
     @IBOutlet weak var xpressScrollView = UIScrollView ()
@@ -129,7 +130,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-        self.xpressTableView?.reloadData()
+//        self.xpressTableView?.reloadData()
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
@@ -445,10 +446,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
             print(imageURL)
             
-            var urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+            self.userProfileImageResponseURl = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
 
-            let url = NSURL(string: urlString)
-            
+            let url = NSURL(string: self.userProfileImageResponseURl)
             let session = URLSession.shared
             
             let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
@@ -627,7 +627,13 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cellIdentifierDashboard = "XPDashBoardProfileTableViewCell"
         let cellDashBoard : XPDashBoardProfileTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierDashboard) as! XPDashBoardProfileTableViewCell
-        cellDashBoard.cellUserProfileImage?.image = self.userProfileImage?.image
+        if (userProfileImageResponseURl == "") {
+            cellDashBoard.cellUserProfileImage?.backgroundColor = UIColor.purple
+        } else {
+            cellDashBoard.cellUserProfileImage?.getImageFromUrl(userProfileImageResponseURl)
+        }
+        // This will add the circle animation (pulsrator) in the tableview cell.
+        cellDashBoard.pulseAnimationView.layer.addSublayer(pulsrator)
         xpressTableView?.tableHeaderView = cellDashBoard
         
         let cellIdentifier = "XPDashboardHeaderTableViewCell"
