@@ -118,6 +118,7 @@
 		85BCA1F11EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BCA1EE1EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift */; };
 		85BCA1F21EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BCA1EF1EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift */; };
 		85BCA1F31EE2B5DB009C4B02 /* XPSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BCA1F01EE2B5DB009C4B02 /* XPSearchTableViewCell.swift */; };
+		85C4343E1F0644580046EE25 /* ContactEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C4343D1F0644580046EE25 /* ContactEntry.swift */; };
 		85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */; };
 		C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */; };
 /* End PBXBuildFile section */
@@ -260,6 +261,7 @@
 		85BCA1EE1EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPublicDataTableViewCell.swift; sourceTree = "<group>"; };
 		85BCA1EF1EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchPopularCollectionViewCell.swift; sourceTree = "<group>"; };
 		85BCA1F01EE2B5DB009C4B02 /* XPSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchTableViewCell.swift; sourceTree = "<group>"; };
+		85C4343D1F0644580046EE25 /* ContactEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactEntry.swift; sourceTree = "<group>"; };
 		85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioRecordingViewController.swift; sourceTree = "<group>"; };
 		C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPLanguageTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -355,6 +357,7 @@
 				857E4C681EEE62D700274F8E /* SWRevealViewController.m */,
 				855CCAD21ED31C1500939576 /* ATAudioVisualizer.h */,
 				855CCAD31ED31C1500939576 /* ATAudioVisualizer.m */,
+				85C4343D1F0644580046EE25 /* ContactEntry.swift */,
 				855CCAD11ED31C1300939576 /* ixprez-Bridging-Header.h */,
 				859290821F00FD21006A488D /* IQAudioRecorderController */,
 			);
@@ -673,6 +676,7 @@
 				1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */,
 				8592909F1F00FD22006A488D /* IQCropSelectionEndView.m in Sources */,
 				1314C6F41ED7EDA100FD0A8F /* UploadsEmotionsTableViewCell.swift in Sources */,
+				85C4343E1F0644580046EE25 /* ContactEntry.swift in Sources */,
 				85BCA1F21EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift in Sources */,
 				131703EE1F0629E000101221 /* IXValidation.swift in Sources */,
 				1314C6E91ED7E81300FD0A8F /* UIImageViewExtension.swift in Sources */,

@@ -288,9 +288,11 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     
     func addContact(cell: XPVideoExpressTableViewCell) {
-        let cnPicker = CNContactPickerViewController()
-        cnPicker.delegate = self as CNContactPickerDelegate
-        self.present(cnPicker, animated: true, completion: nil)
+//        let cnPicker = CNContactPickerViewController()
+//        cnPicker.delegate = self as CNContactPickerDelegate
+//        self.present(cnPicker, animated: true, completion: nil)
+        let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
+        self.navigationController?.pushViewController(storyboard, animated: true)
     }
     
 //    func addContactButtonTapped(cell: XPVideoExpressTableViewCell) {

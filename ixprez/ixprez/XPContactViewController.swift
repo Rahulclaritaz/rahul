@@ -9,13 +9,23 @@
 import UIKit
 import ContactsUI
 
-class XPContactViewController: UIViewController, CNContactPickerDelegate {
+protocol contactEmailDelegate {
+    func passEmailToAudioAndVideo (email : String)
+}
+
+class XPContactViewController: UIViewController, CNContactPickerDelegate, UISearchBarDelegate {
     
     
     var isFromMenu = Bool()
     var cnPicker = CNContactPickerViewController()
     var contact = CNContact ()
     let appDelegate = AppDelegate ()
+    // data
+    var contactStore = CNContactStore()
+    var contacts = [ContactEntry]()
+    var isFiltered : Bool!
+    var emailDelegate : contactEmailDelegate?
+    
     @IBOutlet weak var contactTableView = UITableView ()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,41 +52,253 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
-    func fetchContacts()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        requestAccessToContacts { (success) in
+            if success {
+                self.retrieveContacts({ (success, contacts) in
+                    //                    self.tableView.isHidden = !success
+                    //                    self.noContactsLabel.isHidden = success
+                    if success && (contacts?.count)! > 0 {
+                        self.contacts = contacts!
+                        self.contactTableView?.reloadData()
+                    } else {
+                        //self.noContactsLabel.text = "Unable to get contacts..."
+                        print("Unable to get contacts...")
+                    }
+                })
+            }
+        }
+    }
+    
+    
+    func requestAccessToContacts(_ completion: @escaping (_ success: Bool) -> Void) {
+        let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
+        
+        switch authorizationStatus {
+        case .authorized: completion(true) // authorized previously
+        case .denied, .notDetermined: // needs to ask for authorization
+            self.contactStore.requestAccess(for: CNEntityType.contacts, completionHandler: { (accessGranted, error) -> Void in
+                completion(accessGranted)
+            })
+        default: // not authorized.
+            completion(false)
+        }
+    }
+    
+    func retrieveContacts(_ completion: (_ success: Bool, _ contacts: [ContactEntry]?) -> Void) {
+        var contacts = [ContactEntry]()
+        do {
+            let contactsFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactGivenNameKey as CNKeyDescriptor, CNContactFamilyNameKey as CNKeyDescriptor, CNContactImageDataKey as CNKeyDescriptor, CNContactImageDataAvailableKey as CNKeyDescriptor, CNContactPhoneNumbersKey as CNKeyDescriptor, CNContactEmailAddressesKey as CNKeyDescriptor])
+            try contactStore.enumerateContacts(with: contactsFetchRequest, usingBlock: { (cnContact, error) in
+                if let contact = ContactEntry(cnContact: cnContact) { contacts.append(contact) }
+            })
+            completion(true, contacts)
+        } catch {
+            completion(false, nil)
+        }
+    }
+    
+    // This method will search the contact
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
-       var dataArray = NSMutableArray()
+        //    recordisFiltered.removeAll()
         
-        let toFetch = [CNContactGivenNameKey, CNContactImageDataKey, CNContactFamilyNameKey, CNContactImageDataAvailableKey]
-        let request = CNContactFetchRequest(keysToFetch: toFetch as [CNKeyDescriptor])
         
-        do{
-        /*   try appDelegate.conta .enumerateContactsWithFetchRequest(request) {
-                contact, stop in */
-                print(contact.givenName)
-                print(contact.familyName)
-                print(contact.identifier)
+        if (searchBar.text?.characters.count)! <= 2
+        {
+            //        isFiltered = false
+            
+            let alert = UIAlertController(title: nil, message: "please enter minimum three characters", preferredStyle: .alert)
+            
+            
+            let action1 = UIAlertAction(title: "OK", style: .default, handler: nil)
+            
+            alert.addAction(action1)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+            
+            
+        }
+        else
+        {
+            
+            
+            isFiltered = true
+            
+            
+            DispatchQueue.global(qos: .background).async {
                 
-                var userImage : UIImage;
-                // See if we can get image data
-                if let imageData = contact.imageData {
-                    //If so create the image
-                    userImage = UIImage(data: imageData)!
-                }else{
-                    userImage = UIImage(named: "no_contact_image")!
+                
+//                self.recordisFiltered = self.recordPublicVideo.filter({
+                
+                    //   let string1 = $0["tags"] as! String
+                    
+//                    let string2 = $0["title"] as! String
+                
+                    //  let string = string1 + string2
+                    
+                    
+                    
+//                    return string2.lowercased().range(of: searchBar.text!.lowercased() )  != nil
+                
+                    
+                    
+//                })
+                
+                
+//                print("check data filter",self.recordisFiltered)
+                
+//                if self.recordisFiltered.count == 0
+//                {
+//                    self.isFiltered = false
+//                }
+//                else
+//                {
+//                    self.isFiltered = true
+//                }
+                
+                DispatchQueue.main.async {
+                    
+                    self.contactTableView?.reloadData()
+                    
                 }
                 
-//            let data = Data(named: contact.givenName)
-//                self.dataArray?.addObject(data)
+                
+            }
             
-//            }
-        } catch let err{
-            print(err)
-//            self.errorStatus()
         }
         
-        self.contactTableView?.reloadData()
+        
+        self.view.layoutIfNeeded()
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            
+            self.navigationController?.navigationBar.isHidden = false
+//            self.collectionViewWidth.constant = 160
+            
+            self.view.layoutIfNeeded()
+            
+            
+        })
+        
+        
+        
+        
+        searchBar.resignFirstResponder()
+        searchBar.showsCancelButton = false
+        
+        
+        
         
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        
+        /*
+         if searchText.characters.count == 0
+         {
+         isFiltered = false
+         DispatchQueue.main.async
+         {
+         
+         self.publicTableView.reloadData()
+         
+         }
+         
+         }
+         else
+         {
+         
+         isFiltered = true
+         
+         recordisFiltered.removeAll()
+         
+         DispatchQueue.global(qos: .background).async {
+         
+         
+         self.recordisFiltered = self.recordPublicVideo.filter({
+         
+         let string = $0["title"] as! String
+         
+         
+         return string.lowercased().range(of: searchText.lowercased() ) != nil
+         
+         })
+         
+         
+         
+         DispatchQueue.main.async {
+         
+         self.publicTableView.reloadData()
+         
+         }
+         
+         
+         }
+         
+         
+         }
+         
+         
+         */
+        
+        
+        
+//        print("mathan search",recordisFiltered)
+        
+        
+        
+    }
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool
+    {
+        
+        
+        searchBar.resignFirstResponder()
+        
+        return true
+        
+        
+    }
+    
+//    func fetchContacts()
+//    {
+//       var dataArray = NSMutableArray()
+//        
+//        let toFetch = [CNContactGivenNameKey, CNContactImageDataKey, CNContactFamilyNameKey, CNContactImageDataAvailableKey]
+//        let request = CNContactFetchRequest(keysToFetch: toFetch as [CNKeyDescriptor])
+//        
+//        do{
+//        /*   try appDelegate.conta .enumerateContactsWithFetchRequest(request) {
+//                contact, stop in */
+//                print(contact.givenName)
+//                print(contact.familyName)
+//                print(contact.identifier)
+//                
+//                var userImage : UIImage;
+//                // See if we can get image data
+//                if let imageData = contact.imageData {
+//                    //If so create the image
+//                    userImage = UIImage(data: imageData)!
+//                }else{
+//                    userImage = UIImage(named: "no_contact_image")!
+//                }
+//                
+////            let data = Data(named: contact.givenName)
+////                self.dataArray?.addObject(data)
+//            
+////            }
+//        } catch let err{
+//            print(err)
+////            self.errorStatus()
+//        }
+//        
+//        self.contactTableView?.reloadData()
+//        
+//    }
     
 //    func contactPicker(_ picker: CNContactPickerViewController, didSelect contact: CNContact) {
 //        for number in contact.phoneNumbers {
@@ -110,7 +332,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate {
 extension XPContactViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return contacts.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -120,20 +342,25 @@ extension XPContactViewController : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "XPContactTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactTableViewCell
-        cell.contactUserProfile?.layer.masksToBounds = true
-        cell.contactUserProfile?.layer.cornerRadius = (cell.contactUserProfile?.frame.size.width)!/2
-//        cell.contactUserProfile?.backgroundColor = UIColor.orange
-        cell.contactUserName?.text = "Mark Bravo"
-//        let emailAddrs = (contact.emailAddresses)
-//        let emailAddrsVaue = emailAddrs.val
-        cell.contactUserEmail?.text = "markbravo@gmail.com"
+//        cell.contactUserProfile?.layer.masksToBounds = true
+//        cell.contactUserProfile?.layer.cornerRadius = (cell.contactUserProfile?.frame.size.width)!/2
+////        cell.contactUserProfile?.backgroundColor = UIColor.orange
+//        cell.contactUserName?.text = "Mark Bravo"
+////        let emailAddrs = (contact.emailAddresses)
+////        let emailAddrsVaue = emailAddrs.val
+//        cell.contactUserEmail?.text = "markbravo@gmail.com"
+        let entry = contacts[(indexPath as NSIndexPath).row]
+        cell.configureWithContactEntry(entry)
+        cell.layoutIfNeeded()
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cellIdentifier = "XPContactHeaderTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactHeaderTableViewCell
-        return cell
+        cell.searchBar?.delegate = self as! UISearchBarDelegate
+        return cell.contentView
+        
         
     }
     
@@ -144,6 +371,22 @@ extension XPContactViewController : UITableViewDataSource {
 }
 
 extension XPContactViewController : UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let cellIdentifier = "XPContactTableViewCell"
+//        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! XPContactTableViewCell
+//        cell.configureWithContactEntry(ContactEntry)
+        let entry = contacts[(indexPath as NSIndexPath).row]
+        let email = entry.email
+        emailDelegate?.passEmailToAudioAndVideo(email: email!)
+        
+        guard (isFromMenu) else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        self.dismiss(animated: true, completion: nil)
+        
+    }
     
 }
 
