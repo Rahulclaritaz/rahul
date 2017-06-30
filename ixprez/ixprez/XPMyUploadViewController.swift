@@ -12,9 +12,10 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
 
 {
     
-   
     @IBOutlet weak var myUploadCollectionView: UICollectionView!
+    
     var isFromMenu : Bool!
+    
     var screenSize : CGRect!
     
     var screenWidth : CGFloat!
@@ -35,14 +36,44 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
     
     var flagDelete : Bool!
     
-     let imageCatch =  NSCache<NSString,UIImage>()
+    let imageCatch =  NSCache<NSString,UIImage>()
     
-     var activityIndicator = UIActivityIndicatorView()
+    var activityIndicator = UIActivityIndicatorView()
     
     
+    override func awakeFromNib() {
+        
+           getMyUploadPublicList()
+        
+    }
     
-    override func viewDidLoad() {
+    
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+        
+        
+        
+        if Reachability.isConnectedToNetwork() == true
+        {
+            print("Internet connection OK")
+            
+            
+        }
+        else
+        {
+            
+            print("NO Internet Connection")
+            
+            let alertData = UIAlertController(title: "No Internet Connection ", message: "Make sure Your device is connected to the internet", preferredStyle: .alert)
+            
+            alertData.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            self.present(alertData, animated: true, completion: nil)
+            
+            
+        }
+
         
         print(isFromMenu)
         self.navigationController?.navigationBar.tintColor = UIColor.white
@@ -51,12 +82,14 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
         
-                flag = true
-        
+        flag = true
         flagDelete = true
         
-        getMyUploadPublicList()
-        setLoadingScreen()
+     
+        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge, spinColor:.white, bgColor: UIColor.lightGray, placeInTheCenterOf: self.myUploadCollectionView)
+        
+        
+        //setLoadingScreen()
         
     }
     
@@ -73,8 +106,7 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         
         self.myUploadCollectionView.addSubview(self.activityIndicator)
         
-    //self.activityIndicator.startAnimating()
-        
+       
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int
@@ -86,10 +118,12 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
     
     func  getMyUploadPublicList()
     {
-   
+        self.activityIndicator.startAnimating()
+        
+        
         flag = true
         
-        let  dicData = [ "user_email" : "mathan6@gmail.com"  , "index" : 1 , "limit" : "5"] as [String : Any]
+        let  dicData = [ "user_email" : "jnjaga24@gmail.com"  , "index" : 0 , "limit" : 30] as [String : Any]
         
         
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.publicMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
@@ -101,14 +135,11 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
             print(dicc)
             
               self.recordPublicUpload = dicc
-            self.activityIndicator.stopAnimating()
-            
-            
-            
-            
+             
             DispatchQueue.main.async
             {
-                
+                self.activityIndicator.stopAnimating()
+            
                 self.myUploadCollectionView.reloadData()
                 
             }
@@ -117,11 +148,15 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
             
             else
             {
-                
-               self.activityIndicator.startAnimating()
-                
-                
+                DispatchQueue.main.async
+                    {
+                    
+                    self.activityIndicator.startAnimating()
+ 
+                }
+         
             }
+            
             })
         
     }
@@ -711,20 +746,28 @@ func deleteVideo(sender : UIButton)
             action in
             
             self.getUploadData.getDeleteMyUploadWebService(urlString: self.getUploadURL.deleteMyUploadPublic(), dicData: dicData as NSDictionary, callback: { (dicc,error) in
-           
                 
-                
+  
                   self.recordPublicUpload.remove(at: indexPath.item)
+       
                 
-                DispatchQueue.main.async
-                {
-            
-        
+                DispatchQueue.main.async(execute: {
+
+                
+                self.myUploadCollectionView.performBatchUpdates({
+                    self.myUploadCollectionView.deleteItems(at: [indexPath])
                     
-                   self.myUploadCollectionView.deleteItems(at: [indexPath])
+                }, completion: {
+                    (finishd : Bool) in
+                    
+                   // self.myUploadCollectionView.reloadData()
+                    
+                    self.myUploadCollectionView.reloadItems(at: self.myUploadCollectionView.indexPathsForVisibleItems)
+                    
+                    
+                })
+               })
                 
-                    self.myUploadCollectionView.reloadData()
-                }
                 
             })
             
@@ -770,12 +813,24 @@ func deleteVideo(sender : UIButton)
                     
                     
                  self.recordPrivateUpload.remove(at: indexPath.item)
+                    
                     DispatchQueue.main.async
                     {
                     
-                        self.myUploadCollectionView.deleteItems(at: [indexPath])
+                        self.myUploadCollectionView.performBatchUpdates({
+                            
+                            self.myUploadCollectionView.deleteItems(at: [indexPath])
+                            
+                            
+                        }, completion: {
+                            (finish : Bool) in
+                            self.myUploadCollectionView.reloadItems(at: self.myUploadCollectionView.indexPathsForVisibleItems)
+                            
+                        })
                         
-                        self.myUploadCollectionView.reloadData()
+                        
+                        
+                        
                     }
                     
                     
@@ -1042,10 +1097,11 @@ func deleteVideo(sender : UIButton)
 
     func  getMyUploadPrivateList()
     {
+        self.activityIndicator.startAnimating()
         
         flag = false
         
-        let  dicData = [ "user_email" : "mathan6@gmail.com" , "index" : 1 , "limit" : "5"] as [String : Any]
+        let  dicData = [ "user_email" : "jnjaga24@gmail.com" , "index" : 0 , "limit" : 30] as [String : Any]
         
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.privateMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
             
@@ -1054,21 +1110,27 @@ func deleteVideo(sender : UIButton)
             {
             print(dicc)
                 
-                self.activityIndicator.stopAnimating()
+                
                 
              self.recordPrivateUpload = dicc
           
             DispatchQueue.main.async {
         
                 self.myUploadCollectionView.reloadData()
-                
+                self.activityIndicator.stopAnimating()
                 
                 
             }
             }
             else
             {
-               self.activityIndicator.startAnimating()
+                
+                DispatchQueue.main.async {
+                    
+                     self.activityIndicator.startAnimating()
+                    
+                }
+              
                 
             }
             

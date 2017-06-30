@@ -52,7 +52,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     var playSmiley = Int()
     
-        // goto Next View
+    // goto Next View
     
     var nextFileType = String()
     
@@ -68,6 +68,10 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     var naviBar : UINavigationBar = UINavigationBar()
     
     
+    var getKeyValue = UserDefaults.standard
+    
+    var saveEmail = String()
+    
     
     var getEmotionUrl = URLDirectory.MyUpload()
     
@@ -77,21 +81,39 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     var swipeGesture = UISwipeGestureRecognizer()
     
+    var tapGesture = UITapGestureRecognizer()
     
+        let transitionView = CATransition()
+    
+    
+    var isTuch : Bool!
+    
+    
+    
+    
+    override func awakeFromNib() {
+        
+        
+        saveEmail = getKeyValue.string(forKey: "emailAddress")!
+        
+        print("mathan saveEmail",saveEmail)
+        
+    }
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
 
+       isTuch = true
+        
+        
        getEmotionCount()
         print("myPlay")
         print(playUrlString)
         self.navigationItem.title = playTitle
         
         naviBar.tintColor = UIColor.getXprezBlueColor()
-  
-        
-       
+    
         lblLikeCount.text = String(format: "%d Likes",playLike)
         
         lblViewCount.text = String(format: "%d Views", playView)
@@ -100,9 +122,13 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
 
         swipeGesture  = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(sender:)) )
         
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(handeltap(sender:)))
+        
         swipeGesture.direction = .down
         
-      self.view.addGestureRecognizer(swipeGesture)
+      self.view.addGestureRecognizer(tapGesture)
+        
+       self.view.addGestureRecognizer(swipeGesture)
         
     
          playVideoAudio()
@@ -110,32 +136,81 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
 
     }
     
+  
+ 
+    func handeltap(sender: UITapGestureRecognizer)
+    {
+        
+        removeChildView()
+        
+        
+    }
+    
     func handleSwipes(sender : UISwipeGestureRecognizer)
     {
-       
+        
+    removeChildView()
+        
+    }
+    
+    func removeChildView()
+    {
         var emotionView = self.storyboard?.instantiateViewController(withIdentifier: "XPUploadsEmotionsViewController") as! XPUploadsEmotionsViewController
         
         emotionView = childViewControllers.last as! XPUploadsEmotionsViewController
         
-       self.willMove(toParentViewController: nil)
+         transitionView.duration = 5.5
+        
+        transitionView.type = kCATransitionReveal
+        
+        transitionView.subtype = kCATransitionFromBottom
+        
+        emotionView.view.layer.add(transitionView, forKey: nil)
+        
+        
+        self.willMove(toParentViewController: nil)
+        
         emotionView.view.removeFromSuperview()
-       emotionView.removeFromParentViewController()
- 
+        
+        emotionView.removeFromParentViewController()
+        
     }
- 
     
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
          super.touchesBegan(touches, with: event)
         
-         if (touches.first != nil)
+         if (isTuch == true)
          {
-           playerController.showsPlaybackControls = false
             
-          self.view.bringSubview(toFront: bottomView)
             
-        //self.view.sendSubview(toBack: bottomView)
+            playerController.showsPlaybackControls = true
+            
+            DispatchQueue.main.async {
+                
+                self.view.sendSubview(toBack: self.bottomView)
+                
+                
+            }
+            
+            
+            isTuch = false
+          
+         }
+        else
+         {
+            playerController.showsPlaybackControls = false
+            
+            DispatchQueue.main.async {
+                
+                self.view.bringSubview(toFront: self.bottomView)
+                
+            }
+            
+            
+            isTuch = true
+            
             
          }
  
@@ -197,6 +272,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     func playerDidFinishPlaying()
     {
+        
         playerController.showsPlaybackControls = true
         
        self.view.bringSubview(toFront: btnPlay)
@@ -260,7 +336,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         print(sender)
         
         
-        let dicValue = ["id":nextID ,"user_email":"mathan6@gmail.com","emotion":sender,"status":"1"]
+        let dicValue = ["id":nextID ,"user_email":saveEmail,"emotion":sender,"status":"1"]
         
         
         getEmotionWebService.getReportMyUploadWebService(urlString: getEmotionUrl.saveEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
@@ -281,32 +357,44 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     @IBAction func emotionUpload(_ sender: UIButton)
     {
+        
        
-        
-        
+   
         let emotionView = self.storyboard?.instantiateViewController(withIdentifier: "XPUploadsEmotionsViewController") as! XPUploadsEmotionsViewController
         
         emotionView.ID = nextID
+        
         emotionView.FileType = nextFileType
         
         emotionView.recordEmotionCount = recordEmotionCountData
         
+        transitionView.duration = 0.5
+        
+        transitionView.type = kCATransitionPush
+        
+        transitionView.subtype = kCATransitionFromTop
+        
+        
         self.addChildViewController(emotionView)
+       
         emotionView.view.frame = self.view.bounds
+        
+        emotionView.view.layer.add(transitionView, forKey: nil)
         
         self.view.addSubview(emotionView.view)
         
+        
         emotionView.didMove(toParentViewController: self)
         
-       
-    
+ 
+        
     
     
     }
     
 func getEmotionCount()
 {
-    let dicValue = ["user_email":"mathan6@gmail.com","file_id":nextID]
+    let dicValue = ["user_email":saveEmail,"file_id":nextID]
     
     
     

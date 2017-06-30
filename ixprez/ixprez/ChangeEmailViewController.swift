@@ -9,13 +9,18 @@
 import UIKit
 
 
-class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
-
+class ChangeEmailViewController: UIViewController,UITextFieldDelegate
+{
+ 
+    var userName : String!
     
-    var userName : String = ""
-    var mobileNumber : String = ""
-    var country : String = ""
-    var language : String = ""
+    
+    var mobileNumber : String!
+    
+    var country : String!
+    
+    var language : String!
+    
     @IBOutlet var txtReEnterEmail: UITextField!
     
     @IBOutlet var designView: UIView!
@@ -23,9 +28,13 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
     @IBOutlet var changeEmailScrollView: UIScrollView!
     
     @IBOutlet weak var changeButton: UIButton!
+    
     let getAddData = XPWebService()
     
     let getAddDataUrl = URLDirectory.RegistrationData()
+    
+    let getKeyData = UserDefaults.standard
+
     let appdelegate = UIApplication.shared.delegate as! AppDelegate
     
    
@@ -33,6 +42,21 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
     {
         super.viewDidLoad()
 
+        /*
+ defaults.set(nameTextField?.text, forKey: "userName")
+ defaults.set(emailTextField?.text, forKey: "emailAddress")
+ 
+ defaults.set(countryTextField.text, forKey: "countryName")
+ defaults.set(languageTextField.text, forKey: "languageName")
+ defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
+ 
+ */
+        userName = getKeyData.string(forKey: "userName")
+               mobileNumber = getKeyData.string(forKey: "mobileNumber")
+        country = getKeyData.string(forKey: "countryName")
+        language = getKeyData.string(forKey: "languageName")
+        
+        
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "bg_reg.png")!)
         
         designView.backgroundColor = UIColor(patternImage: UIImage(named: "bg_reg.png")!)
@@ -58,36 +82,31 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         
     }
     
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        
-//        
-//        txtReEnterEmail.resignFirstResponder()
-//        
-//        return true
-//    }
+   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     
-//   override func viewWillAppear(_ animated: Bool)
-//    {
-//        
-//        NotificationCenter.default.addObserver(
-//        self,
-//         selector:#selector(keyBoardWillShow(notification:)),
-//        name: NSNotification.Name.UIKeyboardWillShow,
-//         object: nil)
-//        
-//        NotificationCenter.default.addObserver(
-//            self,
-//            selector: #selector(keyBoardWillHide(notification:)),
-//            name: NSNotification.Name.UIKeyboardWillHide ,
-//            object: nil)
-//    
-//    }
     
-    // This textfield method will hide the keyboard when click on done button.
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
+        txtReEnterEmail.resignFirstResponder()
+    
+       return true
+   }
+       override func viewWillAppear(_ animated: Bool)
+    {
+    
+        NotificationCenter.default.addObserver(
+        self,
+         selector:#selector(keyBoardWillShow(notification:)),
+        name: NSNotification.Name.UIKeyboardWillShow,
+         object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyBoardWillHide(notification:)),
+            name: NSNotification.Name.UIKeyboardWillHide ,
+            object: nil)
+    
+   }
+    
+ 
     
   
     func keyBoardWillShow(notification : NSNotification)
@@ -132,62 +151,33 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate {
         else
             {
                 
-        let dicData : NSDictionary = ["user_name" : userName , "email_id" : txtReEnterEmail.text, "phone_number" : mobileNumber ,"country" : country , "language":language,"device_id":appdelegate.deviceUDID,
+        let dicData : NSDictionary = ["user_name" : userName , "email_id" : txtReEnterEmail.text!, "phone_number" : mobileNumber ,"country" : country , "language":language,"device_id":appdelegate.deviceUDID,
                 "notification":"1","remainder":"1","mobile_os":appdelegate.deviceOS, "mobile_version":appdelegate.deviceName,"mobile_modelname":appdelegate.deviceModel,"gcm_id":"DDD454564" ]
 
-        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
-        
-        let urlString = NSURL(string: getAddDataUrl.url() )
-        
-        var request = URLRequest(url: urlString as! URL)
-        
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        request.httpBody = jsonData
-        
-        request.httpMethod = "POST"
-        
-        let session = URLSession.shared
-        
-        let dataTask = session.dataTask(with: request, completionHandler: {
-            (data,response,error) -> Void in
-            
-            if(data != nil && error == nil)
-            {
-                do
-                {
-                    
-                    let myData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
-                    
-                    print(myData)
-                    
-                    
-                }
-                catch
-                {
-                    
-                    
-                }
+    
+                getAddData.getAddContact(urlString: getAddDataUrl.url(), dicData: dicData, callback:
+                    { (dicc ,err) in
+                        
+                    if (dicc["status"] as! String == "OK")
+                    {
+                        DispatchQueue.main.async {
+                         
+                     let otpView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+                        
+                        self.present(otpView, animated: true, completion: nil)
+                        }
+                        
+                        
+                        }
+                        
+                })
+                
+      
                 
                 
-            }
- 
-        })
-        
-        dataTask.resume()
-        
-        
-        }
-        let otpValidation = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-        otpValidation.userName = userName
-        otpValidation.emailId = txtReEnterEmail.text!
-        otpValidation.country = country
-        otpValidation.language = language
-        otpValidation.mobileNumber = mobileNumber
-        
-        self.present(otpValidation, animated: true, completion: nil)
-        
-        
+                
+    }
+    
     }
     
     

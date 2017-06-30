@@ -25,6 +25,9 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     let getOTPUrl = URLDirectory.OTPVerification()
     let getOTPResendUrl = URLDirectory.ResendOTP()
     
+    let userDefaultData = UserDefaults.standard
+
+    
 
     @IBOutlet var otpScrollView: UIScrollView!
     override func viewDidLoad()
@@ -48,12 +51,21 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         
         self.view.addGestureRecognizer(tapKeyBoard)
         
+   /*
+ defaults.set(nameTextField?.text, forKey: "userName")
+ defaults.set(emailTextField?.text, forKey: "emailAddress")
+ 
+ defaults.set(countryTextField.text, forKey: "countryName")
+ defaults.set(languageTextField.text, forKey: "languageName")
+ defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
+ */
         
-//        print("contentoffset",otpScrollView.contentOffset)
-//        print("bounces",otpScrollView.bounces)
+        emailId = userDefaultData.string(forKey: "emailAddress")!
         
         
+        print("emil ",emailId)
         
+ 
         self.focusTextFields()
         // Do any additional setup after loading the view.
     }
@@ -152,26 +164,34 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         }
         else
         {
-        let dicData : [String:Any] = [ "email_id" : self.emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
+        let dicData : [String:Any] = [ "email_id" :emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
     
-            getOTPClass.getOTPWebService(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary, callBack : {(message, error) in
+            getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary, callback: {
+                (dicc , err ) in
                 
-                let otpMessageStatus: String = message as! String
-                OperationQueue.main.addOperation {
-                    if (otpMessageStatus == "Failed") {
-                        let alertController = UIAlertController(title: "Alert!", message: "Invalid OTP ", preferredStyle: .alert)
-                        let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alertController.addAction(defaultAction)
-                        self.present(alertController, animated: true, completion: nil)
-                    } else {
-                        let welcomeScreen = self.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
-                        self.present(welcomeScreen, animated: true, completion: nil)
-                    }
+              if ( (dicc["status"] as! String) == "OK" )
+              {
+                
+                print(dicc)
+                
+                DispatchQueue.main.async {
+                    
+            
+                
+                self.appDelegate.changeInitialViewController()
+                
                 }
                 
+                }
+                else
+                {
+                print("error")
                 
+                }
             })
             
+                
+          
         }
         
         

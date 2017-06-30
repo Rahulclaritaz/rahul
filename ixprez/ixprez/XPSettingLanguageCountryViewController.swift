@@ -31,6 +31,7 @@ class XPSettingLanguageCountryViewController: UIViewController,UITableViewDelega
     
     var checkMarkClean = [Int]()
     
+    var activityView = UIActivityIndicatorView()
     
     
     var customAlertController : DOAlertController!
@@ -42,11 +43,13 @@ class XPSettingLanguageCountryViewController: UIViewController,UITableViewDelega
     var getLanData : String!
     var getConData : String!
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+  
+      activityView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge , spinColor: .gray, bgColor: .clear, placeInTheCenterOf: self.tableview)
         
         
- 
     }
     
     override func awakeFromNib()
@@ -61,6 +64,9 @@ class XPSettingLanguageCountryViewController: UIViewController,UITableViewDelega
     func getCountryData()
     {
         
+        activityView.startAnimating()
+        
+        
         let dicData = ["list" : "country"]
         
         
@@ -68,14 +74,34 @@ class XPSettingLanguageCountryViewController: UIViewController,UITableViewDelega
             
              print(arrData)
             
+            
+
+            if error == nil
+            {
+            
             self.arrCountry = arrData
+            
+            
             
             DispatchQueue.main.async {
                 
+                self.activityView.stopAnimating()
                 
                 self.tableview.reloadData()
                 
             }
+            
+            }
+            else
+            {
+                DispatchQueue.main.async {
+                    
+                    self.activityView.startAnimating()
+                }
+                
+            }
+            
+            
             
         })
         
@@ -85,6 +111,9 @@ class XPSettingLanguageCountryViewController: UIViewController,UITableViewDelega
     
     func getLanguageData()
     {
+        
+        activityView.startAnimating()
+        
         let dicData = ["list" : "language"]
         
         
@@ -93,15 +122,28 @@ class XPSettingLanguageCountryViewController: UIViewController,UITableViewDelega
             
             print(arrData)
             
+            
+            if error == nil
+            {
             self.arrLanguage = arrData
             
             DispatchQueue.main.async {
                 
-                
+                self.activityView.stopAnimating()
                 self.tableview.reloadData()
                 
             }
-            
+            }
+            else
+            {
+                DispatchQueue.main.async
+                    {
+                    
+                    self.activityView.startAnimating()
+                    
+                }
+                
+            }
         })
 
     }
@@ -278,32 +320,61 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     func dismissView(sender : UIButton)
     {
         
-        delegate.passingLanData(name: "")
+        if flag == true
+        {
+            
+            delegate.passingCounData(name: "")
+            
+            self.dismiss(animated: false, completion: nil)
+            
+       
+        }
         
-        delegate.passingCounData(name: "")
-        
-        
+        else
+        {
+            delegate.passingLanData(name: "")
+            
+
+            self.dismiss(animated: false, completion: nil)
+            
+        }
     }
     
     func doneView(sender : UIButton)
     {
-      
+        self.dismiss(animated: false, completion: nil)
+
         
         if flag == true
         {
             
-            
+        if self.getConData != nil
+        {
   
             delegate.passingCounData(name: self.getConData!)
             
+        }
+            else
+        {
             
+            delegate.passingCounData(name: "")
+            
+        }
             
         }
         else
         {
-       
+          if self.getLanData != nil
+          {
             delegate.passingLanData(name: self.getLanData!)
+            }
             
+            else
+            
+          {
+            delegate.passingLanData(name: "")
+            
+            }
         }
         
         

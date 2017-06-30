@@ -12,12 +12,14 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var window: UIWindow?
+    var window     : UIWindow?
     var deviceUDID : String!
     var deviceModel: String!
     var deviceName : String!
     var deviceOS : String!
     var systemName : String!
+    var checkEmail = UserDefaults.standard
+    
     
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -35,12 +37,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         print(deviceOS)
         systemName = UIDevice.current.systemName
         print(systemName)
-
         
+     
 
-        return true
+    if ( checkEmail.string(forKey: "emailAddress")!.isEmpty)
+        {
+            
+            let regPage = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "RegistrationViewController") as! RegistrationViewController
+            
+            self.window?.rootViewController = regPage
+            
+        }
+        else
+        {
+   
+            let dashBoard = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
+            
+            self.window?.rootViewController = dashBoard
+        }
+        
+            
+        
+        
+        
+        
+ 
+        
+        
+        
+              return true
     }
+    func changeInitialViewController()
+    {
+        
+        let dashBoard = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
+        
+        self.window?.rootViewController = dashBoard
+        
+        
+    }
+    
 
+    
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

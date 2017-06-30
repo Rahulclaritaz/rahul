@@ -9,6 +9,7 @@
 import Foundation
 import  UIKit
 
+let imageCache = NSCache<AnyObject, AnyObject>()
 
 extension  UIImageView{
     
@@ -16,39 +17,68 @@ extension  UIImageView{
     func getImageFromUrl(_ urlString : String)
     {
         
-        let url = URL(string:urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)!
+        self.image = nil
         
-        let session = URLSession.shared
+        let catchImage = imageCache.object(forKey: urlString as AnyObject) as? UIImage
         
-        let taskData = session.dataTask(with: url , completionHandler: {(data,response,error) -> Void  in
-           
-         if (data != nil)
-         {
+        if  catchImage != nil
+        {
             
-            DispatchQueue.main.async {
-                
-                self.image = UIImage(data: data!)
-     
-            }
             
+            self.image = catchImage
             
         }
             
- 
-        })
+        else
+        {
             
+            let session = URLSession.shared
+            
+            let url = URL(string:urlString.addingPercentEncoding(withAllowedCharacters: NSCharacterSet.urlQueryAllowed)!)!
+            
+            
+            let taskData = session.dataTask(with:url as URL, completionHandler: {(data,response,error) -> Void  in
+                
+                if (data != nil)
+                {
+                    // Cache to image so it doesn't need to be reloaded every time the user scrolls and table cells are re-used.
+                    
+                    
+                    DispatchQueue.main.async {
+                        
+                        if let downloadedImage = UIImage(data: data!)
+                        {
+                            imageCache.setObject(downloadedImage, forKey: urlString as AnyObject)
+                            self.image = UIImage(data: data!)
+                            
+                        }
+                        
+                    }
+                    
+                    
+                }
+                
+                
+                
+            })
+            
+            
+            
+            taskData.resume()
+            
+        }
         
-        taskData.resume()
-        
-
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
-}
-
-
-
-
-
-
-
-
-

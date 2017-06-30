@@ -7,22 +7,38 @@
 //
 
 import Foundation
+import UIKit
 
 
 
  extension UIActivityIndicatorView
 {
     
-    convenience init(activityIndicatorStyle: UIActivityIndicatorViewStyle, color: UIColor, placeInTheCenterOf parentView: UIView)
+    convenience init(activityIndicatorStyle: UIActivityIndicatorViewStyle, spinColor: UIColor,bgColor : UIColor,placeInTheCenterOf parentView: UIView)
     {
         self.init(activityIndicatorStyle: activityIndicatorStyle)
-        self.color = color
+        self.color = spinColor
+        //self.center = CGPoint(x: parentView.frame.size.width/2, y: parentView.frame.size.height/2)
+     
+        self.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+      
         self.center = CGPoint(x: parentView.frame.size.width/2, y: parentView.frame.size.height/2)
-        parentView.addSubview(self)
         
+      
         self.hidesWhenStopped = true
         
-       
+        self.startAnimating()
+        
+        self.backgroundColor = bgColor
+        
+        self.layer.cornerRadius = 6.0
+        
+        self.clipsToBounds = true
+        
+        
+        parentView.addSubview(self)
+        
+     
     }
     
 }

@@ -119,7 +119,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         
         getUserProfile()
-        activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge, color: .darkGray, placeInTheCenterOf: self.xpressTableView!)
+      //  activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge, color: .darkGray, placeInTheCenterOf: self.xpressTableView!)
 //        self.activityIndicator.startAnimating()
         self.xpressTableView?.reloadData()
 //       getIcarouselFeaturesVideo()

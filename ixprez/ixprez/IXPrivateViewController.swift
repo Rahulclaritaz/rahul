@@ -40,9 +40,14 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     var userEmail : String!
     
     var nsuerDefault = UserDefaults.standard
-    var registrationPage = RegistrationViewController ()
+    
+    let  myImage = UIImageView()
+    
+    
+    
 //   @IBOutlet var backButton = UIBarButtonItem ()
     //Outlet Reference
+    
     
     
     lazy var refershController : UIRefreshControl = {
@@ -57,17 +62,41 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     
     @IBOutlet weak var privateTableView: UITableView!
+    
+    override func awakeFromNib() {
+        
+        
+    }
  
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        print(isFromMenu)
         
-        if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
-            userEmail = "mathan6@gmail.com"
-        } else {
-            userEmail = registrationPage.defaults.string(forKey: "emailAddress")
+        
+        if Reachability.isConnectedToNetwork() == true
+        {
+            print("Internet connection OK")
+            
+            
         }
+        else
+        {
+            
+            print("NO Internet Connection")
+            
+            let alertData = UIAlertController(title: "No Internet Connection ", message: "Make sure Your device is connected to the internet", preferredStyle: .alert)
+            
+            alertData.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            self.present(alertData, animated: true, completion: nil)
+            
+            
+        }
+
+        
+        getBackgroundView()
+
+        userEmail = nsuerDefault.string(forKey: "emailAddress")
         
         print(userEmail)
         
@@ -95,6 +124,17 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         // Do any additional setup after loading the view.
     }
     
+    func getBackgroundView()
+    {
+        
+        myImage.frame = CGRect(x: 0, y: 0, width: privateTableView.frame.size.width, height: privateTableView.frame.size.height)
+        
+        myImage.image = UIImage(named: "SearchCaughtUPBGImage")
+        
+        myImage.contentMode = .scaleAspectFit
+  
+    }
+    
     
     @IBAction func  backButtonAction( _sender : Any) {
         
@@ -110,7 +150,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
         
         
-        let privateDic : NSDictionary = ["index":1,"user_email":"mathan6@gmail.com","limit":10 ]
+        let privateDic : NSDictionary = ["index":0,"user_email": userEmail,"limit":30 ]
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {
@@ -297,13 +337,15 @@ func getRefersh( action : UIRefreshControl)
         {
             privatecell.isHidden = true
             
-            let noDataLabel: UILabel     = UILabel(frame:CGRect(x: 0, y: 0, width: privateTableView.bounds.size.width, height: privateTableView.bounds.size.height))
-            noDataLabel.text             = "No data available"
-            noDataLabel.textColor        = UIColor.black
-            noDataLabel.textAlignment    = .center
-            noDataLabel.textColor  = UIColor.white
-            noDataLabel.font = UIFont(name: "Mosk", size: 20)
-            privateTableView.backgroundView = noDataLabel
+            
+           // let noDataLabel: UILabel     = UILabel(frame:CGRect(x: 0, y: 0, width: privateTableView.bounds.size.width, height: privateTableView.bounds.size.height))
+            //noDataLabel.text             = "No data available"
+          // noDataLabel.textColor        = UIColor.black
+           // noDataLabel.textAlignment    = .center
+           // noDataLabel.textColor  = UIColor.white
+           // noDataLabel.font = UIFont(name: "Mosk", size: 20)
+            privateTableView.backgroundView = myImage
+            
             privateTableView.separatorStyle = .none
             
         }
@@ -529,7 +571,7 @@ func getRefersh( action : UIRefreshControl)
             
             
             
-            let dicValue = [ "user_email" : "mathan6@gmail.com" , "blocked_email": self.privatefromEmail ]
+            let dicValue = [ "user_email" : self.userEmail , "blocked_email": self.privatefromEmail ]
             
             
             self.getPrivateWebData.getPrivateAcceptRejectWebService(urlString: self.getPrivateURL.privateBlockAudioVideo(), dicData: dicValue as NSDictionary, callback: {
@@ -753,6 +795,7 @@ func getRefersh( action : UIRefreshControl)
     customAlertController.alertViewBgColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.7)
     
     customAlertController.titleFont = UIFont(name: "Mosk", size: 17.0)
+        
     customAlertController.titleTextColor = UIColor.green
     
     customAlertController.messageFont = UIFont(name: "Mosk", size: 12.0)

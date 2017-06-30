@@ -48,6 +48,8 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
     
     var privateTitle = String()
     
+  
+    
     @IBOutlet weak var subView: UIView!
     
  
@@ -58,8 +60,7 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
 
         print(sectionNo)
         
-        
-        
+      
         
      subView.isHidden = true
         
@@ -77,6 +78,7 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
     
  
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
         
         
         privatePlayerController.showsPlaybackControls = true

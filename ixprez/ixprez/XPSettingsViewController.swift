@@ -20,16 +20,15 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     var language = String()
     var country = String()
     
+    var saveEmail = String()
+    
     var previousCountData : Int!
     
     var userFollowersData : Int!
     
     var recordProfileData = [String:Any]()
     
-    
- 
     var getSettingWebService = PrivateWebService()
-    
     
     var getSettingUrl = URLDirectory.Setting()
     
@@ -39,16 +38,11 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     
     let imagePickerController = UIImagePickerController()
 
-    
     var isTuch : Bool!
-    
-  
     
     @IBOutlet weak var settingTableView: UITableView!
     
-    
     @IBOutlet weak var roundprofilePhoto: UIImageView!
-    
     
     @IBOutlet weak var profilePhoto: UIImageView!
     
@@ -61,18 +55,61 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     let appdelegate = UIApplication.shared.delegate as! AppDelegate
     
     let getOTPClass = XPWebService()
+    
     let getOTPUrl = URLDirectory.RegistrationData()
+    
+    var tapGesture = UITapGestureRecognizer()
+    
+    var getData = UserDefaults.standard
+    
+    
+    
+    override func awakeFromNib()
+    {
  
+ 
+ 
+    }
     
-    override func awakeFromNib() {
-        
-          }
-    
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
-        isTuch = true
         
+        if Reachability.isConnectedToNetwork() == true
+        {
+            print("Internet connection OK")
+            
+            
+        }
+        else
+        {
+            
+            print("NO Internet Connection")
+            
+            let alertData = UIAlertController(title: "No Internet Connection ", message: "Make sure Your device is connected to the internet", preferredStyle: .alert)
+            
+            alertData.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            self.present(alertData, animated: true, completion: nil)
+            
+            
+        }
+
+        
+        emailID =  getData.string(forKey: "emailAddress")!
+        userName = getData.string(forKey: "userName")!
+        phoneNumber = getData.string(forKey: "mobileNumber")!
+        language = getData.string(forKey: "languageName")!
+        country = getData.string(forKey: "countryName")!
+        
+        
+    
+        isTuch = true
+ 
+        navigationItem.backBarButtonItem =  UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        
+        navigationController?.navigationBar.tintColor = UIColor.white
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
@@ -83,11 +120,33 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     
     arrayName = ["User Name","Mobile Number","Email","Reminders","Notification","Language","Country","","Support","Help" ,"About"]
         
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewPhoto(sender:)))
+
+        roundprofilePhoto.isUserInteractionEnabled = true
+        
+        roundprofilePhoto.addGestureRecognizer(tapGesture)
+            
+        
          imagePickerController.delegate = self
+        
+        
       
         getPrivateData()
 
         
+    }
+    
+    func viewPhoto(sender : UIGestureRecognizer)
+    {
+        
+         let myView = self.storyboard?.instantiateViewController(withIdentifier: "XPSettingPhotoViewController") as! XPSettingPhotoViewController
+        
+               myView.setImage = roundprofilePhoto.image!
+        
+        
+         self.navigationController?.pushViewController(myView, animated: true)
+        
+      
     }
     
     @IBAction func  backButtonAction( _sender : Any) {
@@ -102,7 +161,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     
     func getPrivateData()
     {
-        let dicData = ["PreviousCount":0 ,"user_email":"mathan6@gmail.com"] as [String : Any]
+        let dicData = ["PreviousCount":0 ,"user_email": emailID] as [String : Any]
         
         getSettingWebService.getPrivateData(urlString: getSettingUrl.getPrivateData(), dicData: dicData as [String:Any], callback: {
             (dicc,error) in
@@ -189,7 +248,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[0]
-            cell.txtEnterSettings.text = "mathan"
+            cell.txtEnterSettings.text = userName
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
            
             
@@ -199,7 +258,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[1]
-            cell.txtEnterSettings.text = "91-9994029677"
+            cell.txtEnterSettings.text = phoneNumber
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
            
             
@@ -209,7 +268,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[2]
             cell.txtEnterSettings.isHidden = false
-            cell.txtEnterSettings.text = "mathan6@gmail.com"
+            cell.txtEnterSettings.text = emailID
+            cell.txtEnterSettings.isUserInteractionEnabled = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
           
         case 3:
@@ -234,7 +294,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.lblSettingName.isHidden = false
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.text = arrayName[5]
-            cell.txtEnterSettings.text = "English"
+            cell.txtEnterSettings.text = language
             cell.txtEnterSettings.isHidden = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(languageData(sender:)), for: .editingDidBegin)
@@ -245,8 +305,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
              cell.lblSettingName.isHidden = false
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.text = arrayName[6]
-            cell.txtEnterSettings.text = "India"
-            cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
+            cell.txtEnterSettings.text = country
+             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(countryData(sender:)), for: .editingDidBegin)
            
             
@@ -286,7 +346,9 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.imgRightArrow.isHidden = false
           
             cell.lblSettingName.isHidden = false
+            
             cell.lblSettingName.text = arrayName[9]
+            
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
          
         case 10:
@@ -372,15 +434,15 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         if ( name.isEmpty)
         {
       
-            self.dismiss(animated: false, completion: nil)
+            //self.dismiss(animated: false, completion: nil)
             
-            conCell.txtEnterSettings.text! = "India"
-      
+            conCell.txtEnterSettings.text! = country
+        
         }
         else
         
         {
-            self.dismiss(animated: false, completion: nil)
+           // self.dismiss(animated: false, completion: nil)
          
             conCell.txtEnterSettings.text! = name
           
@@ -399,15 +461,15 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         if ( name.isEmpty)
         {
             
-            langCell.txtEnterSettings.text = "English"
+            langCell.txtEnterSettings.text = language
             
-          self.dismiss(animated: false, completion: nil)
+          //self.dismiss(animated: false, completion: nil)
     
         }
         
         else
         {
-            self.dismiss(animated: false, completion: nil)
+          //  self.dismiss(animated: false, completion: nil)
             
             langCell.txtEnterSettings.text! = name
         }
@@ -486,15 +548,57 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         
        print(userName,"+",phoneNumber,"+",emailID,"+",notify,"+",remain,"+",country,"+", language)
         
-      
+        if (userCell.txtEnterSettings.text == "" || phoneCell.txtEnterSettings.text == "" || emailCell.txtEnterSettings.text?.isValidEmail() == false || conCell.txtEnterSettings.text == "" || langCell.txtEnterSettings.text == "")
+        {
+            if userCell.txtEnterSettings.text == ""
+            {
+            
+                
+                userCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3)
+                
+                
+            }
+            if phoneCell.txtEnterSettings.text == ""
+            {
+                
+                phoneCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.red , txtWidth: 3)
+                
+            }
+            if (emailCell.txtEnterSettings.text?.isValidEmail())! == false
+            {
+                emailCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
+                
+            }
+            if (langCell.txtEnterSettings.text == "")
+            {
+                langCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
+            }
+            
+            if (conCell.txtEnterSettings.text == "" )
+            {
+                conCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
+            }
+            else
+            {
+                print("OK")
+            }
+            
+            
+        }
+        
+     else
+        {
         let parameter = ["user_name":userName,"email_id":emailID,"phone_number":phoneNumber,"country":country,"language": language,"device_id":appdelegate.deviceUDID,"notification": notify ,"remainder": remain,"mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"]
         
-        getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callBack: {(dicc , err) in
-           
+        getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callBack: {
+            (dicc, err) in
+            
             print(dicc)
+            
         })
         
 
+        }
         
         
   
@@ -657,10 +761,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         default:
             print("Not Inddex")
         }
-     
-        
-        
-        
+   
  
     }
     @IBAction func selectSouceImage(_ sender: Any)
@@ -810,8 +911,10 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         
     }
  
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
+      
+/*
+ 
+func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
     {
         
         
@@ -825,18 +928,27 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         
         self.dismiss(animated: true, completion: nil)
          
-        /*
- let cgImage :CGImage! = pickedImage.cgImage
- let croppedCGImage: CGImage! = cgImage.cropping(to: CGRect(x: 0, y: 0, width: 300, height: 100))
+     
  
+    }*/
+    
  
- let cropPickedImage = UIImage(cgImage: croppedCGImage)
- */
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any])
+    {
+
+        if let chosenImage = info[UIImagePickerControllerEditedImage] as? UIImage
+        {
+            
+            profilePhoto.contentMode = .scaleAspectFill
+            profilePhoto.image = chosenImage
+            roundprofilePhoto.image = chosenImage
+            getuploadProfileImage()
+        }
         
- 
+        
+        picker.dismiss(animated: true, completion: nil)
+        
     }
- 
- 
  
  
     func getuploadProfileImage()
@@ -865,7 +977,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
  
         body.appendString("--\("---------------------------14737809831466499882746641449")\r\n")
         body.appendString("Content-Disposition: form-data; name=\"user_email\"\r\n\r\n")
-        body.appendString("mathan6@gmail.com")
+        body.appendString(emailID)
         body.appendString("\r\n")
      
       
