@@ -16,9 +16,14 @@ class XPHumburgerMenuViewController: UIViewController {
     let dashBoardCommonService = XPWebService()
     let userPrifileURL = URLDirectory.UserProfile()
     var userEmail = String ()
+    var imageGesture =  UITapGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        imageGesture = UITapGestureRecognizer(target: self, action: #selector(gotoSettingView(gesture:)))
+        
         userEmail = "mathan6@gmail.com"
         humburgerMenuUserName?.text = "Mathan"
          self.getUserProfile()
@@ -32,10 +37,30 @@ class XPHumburgerMenuViewController: UIViewController {
         humburgerMenuUserProfile?.layer.masksToBounds = true
         humburgerMenuUserProfile?.layer.cornerRadius = (self.humburgerMenuUserProfile?.frame.size.width)!/2
         humburgerMenuUserProfile?.clipsToBounds = true
+        
+        humburgerMenuUserProfile?.isUserInteractionEnabled = true
+        
+        humburgerMenuUserProfile?.addGestureRecognizer(imageGesture)
+        
 
         // Do any additional setup after loading the view.
     }
-
+ func gotoSettingView(gesture:UIGestureRecognizer)
+   {
+    let settingView = storyboard?.instantiateViewController(withIdentifier: "XPSettingsViewController") as! XPSettingsViewController
+    
+    settingView.isFromMenu = true
+    
+    let navigation = UINavigationController.init(rootViewController: settingView)
+    
+    
+    
+    self.navigationController?.present(navigation, animated: true, completion: nil)
+    
+    
+    
+    
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

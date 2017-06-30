@@ -58,8 +58,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet weak var userProfileAnimationTwo = UIImageView()
     @IBOutlet weak var humburgerMenuIcon = UIBarButtonItem ()
     
+    var imageGesture = UITapGestureRecognizer()
+    
+    
+    var setFlag : Bool!
     
     @IBOutlet weak var pulseAnimationView: UIView!
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -71,6 +77,12 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        imageGesture = UITapGestureRecognizer(target: self, action: #selector(gotoSettingView(gesture:)))
+            
+            
+        setFlag = true
+        
         // It will set the image in the navigation bar.
 //        xpressScrollView?.contentSize = CGSize(width: 375, height: scrollViewContentHeight)
 //        xpressScrollView?.delegate = self
@@ -131,11 +143,11 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             
             view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         }
-//        self.xpressTableView?.reloadData()
+     //   self.xpressTableView?.reloadData()
         
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
-        // Do any additional setup after loading the view.
+     //   Do any additional setup after loading the view.
     }
     
    
@@ -160,14 +172,33 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
 //    }
     
     // This method will call when clik on the trending button
-    func TreandingVideo(sender : UIButton) {
-//        self.activityIndicator.startAnimating()
+    
+    
+    
+    func gotoSettingView(gesture: UIGestureRecognizer )
+    {
+        
+        let settingView = storyboard?.instantiateViewController(withIdentifier: "XPSettingsViewController") as! XPSettingsViewController
+       // settingView.checkAccess = "Not OK"
+        //self.navigationController?.present(settingView, animated: true, completion: nil)
+        self.navigationController?.pushViewController(settingView, animated: true)
+        
+        
+    }
+    func TreandingVideo(sender : UIButton)
+    {
+      
+        setFlag = true
+      
         self.getTrendingResponse()
         
     }
     
     
     func RecentVideo (sender : UIButton) {
+        
+        setFlag = false
+        
 //        self.activityIndicator.startAnimating()
         self.getRecentResponse()
     }
@@ -179,7 +210,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let cellIndexPath = sender.tag
         
         let urlPath = trendingFileURLPath[cellIndexPath] as! String
+        
         var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        
         storyBoard.playUrlString = finalURlPath
         storyBoard.nextID = trendingFeaturesId[cellIndexPath] as! String
         let labelLikeCount: NSInteger = trendingLikeCount[cellIndexPath] as! NSInteger
@@ -543,7 +576,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.trendingFileURLPath = treandingResponse.value(forKey: "fileuploadPath") as! NSArray
                 self.trendingFeaturesId = treandingResponse.value(forKey: "_id") as! NSArray
                 self.treadingFileType = treandingResponse.value(forKey: "filemimeType") as! NSArray
+                
+                
                 self.activityIndicator.stopAnimating()
+              
                 self.xpressTableView?.reloadData()
             }
                 
@@ -603,6 +639,8 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         cell.thumbNailImage?.contentMode = .scaleAspectFit
         let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
+        cell.thumbNailImage?.image = nil
+        
         cell.thumbNailImage?.getImageFromUrl(finalThumbNailImageURL)
         if (self.treadingFileType[indexPath.row] as! String == "video/mp4") {
             cell.imgVA.image = UIImage(named: "SearchVideoOn")
@@ -633,7 +671,8 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         return 40
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
         let cellIdentifierDashboard = "XPDashBoardProfileTableViewCell"
         let cellDashBoard : XPDashBoardProfileTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierDashboard) as! XPDashBoardProfileTableViewCell
         if (userProfileImageResponseURl == "") {
@@ -641,38 +680,41 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         } else {
             cellDashBoard.cellUserProfileImage?.getImageFromUrl(userProfileImageResponseURl)
         }
+        
+        
         // This will add the circle animation (pulsrator) in the tableview cell.
         cellDashBoard.pulseAnimationView.layer.addSublayer(pulsrator)
+        cellDashBoard.cellUserProfileImage?.addGestureRecognizer(imageGesture)
+        cellDashBoard.cellUserProfileImage?.isUserInteractionEnabled = true
+        
+        
+        
         xpressTableView?.tableHeaderView = cellDashBoard
         
         let cellIdentifier = "XPDashboardHeaderTableViewCell"
         let cell : XPDashboardHeaderTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardHeaderTableViewCell
         
+        
+        
+        if setFlag == true
+        
+        {
+            
+            cell.recentViewLine?.isHidden = true
+            cell.treadingViewLine?.isHidden = false
+            
+        }
+        else
+        {
+            cell.recentViewLine?.isHidden = false
+            cell.treadingViewLine?.isHidden = true
+            
+            
+        }
+        
+        
         cell.treadingButton?.addTarget(self, action: #selector(TreandingVideo(sender:)), for: UIControlEvents.touchUpInside)
         cell.recentButton?.addTarget(self, action: #selector(RecentVideo(sender:)), for: UIControlEvents.touchUpInside)
-        cell.treadingButton?.isSelected = buttonTrendingSelected
-        print("The treading state is \(buttonTrendingSelected)")
-        print("The treading state is \(String(describing: cell.treadingButton?.isSelected))")
-        cell.recentButton?.isSelected = buttonRecentSelected
-        print("The recent state is \(buttonRecentSelected)")
-        print("The recent state is \(String(describing: cell.recentButton?.isSelected))")
-        
-        if (cell.treadingButton?.isSelected == true) {
-            
-            cell.treadingButton?.setTitleColor(UIColor.white, for: UIControlState.selected)
-//            cell.treadingButton?.titleLabel?.textColor = UIColor.white
-            cell.treadingViewLine?.isHidden = false
-            cell.recentButton?.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
-//            cell.recentButton?.titleLabel?.textColor = UIColor.lightGray
-            cell.recentViewLine?.isHidden = true
-        } else if (cell.recentButton?.isSelected == true) {
-            cell.treadingButton?.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
-//            cell.treadingButton?.titleLabel?.textColor = UIColor.lightGray
-            cell.treadingViewLine?.isHidden = true
-            cell.recentButton?.setTitleColor(UIColor.white, for: UIControlState.selected)
-//            cell.recentButton?.titleLabel?.textColor = UIColor.white
-            cell.recentViewLine?.isHidden = false
-        }
         
         cell.delegate = self
         
@@ -704,7 +746,8 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
     
 }
 
-extension XPHomeDashBoardViewController : treadingButtonDelegate {
+extension XPHomeDashBoardViewController : treadingButtonDelegate
+{
     func buttonSelectedState(cell: XPDashboardHeaderTableViewCell) {
          buttonTrendingSelected = (cell.treadingButton?.isSelected)!
          print(buttonTrendingSelected)

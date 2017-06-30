@@ -20,6 +20,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     var language = String()
     var country = String()
     
+    
+    
     var saveEmail = String()
     
     var previousCountData : Int!
@@ -64,6 +66,24 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     
     
     
+    @IBAction func settingBackButton(_ sender: Any)
+    {
+        
+        guard (isFromMenu) else
+        {
+            self.navigationController?.popViewController(animated: true)
+            
+            return
+            
+            
+          }
+        
+        self.dismiss(animated: true, completion: nil)
+        
+        
+    }
+    
+    
     override func awakeFromNib()
     {
  
@@ -75,6 +95,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     {
         super.viewDidLoad()
         
+        
+        print("hai da mathan",isFromMenu)
         
         if Reachability.isConnectedToNetwork() == true
         {
