@@ -91,8 +91,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         xpressTableView?.bounces = false
 //        xpressTableView?.isScrollEnabled = false
 //        xpressScrollView?.contentSize = CGSize(width: self.view.frame.width, height: 870)
-        carousel?.type = .rotary
-        carousel?.autoscroll = 0.2
+//        carousel?.type = .rotary
+//        carousel?.autoscroll = 0.2
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
         self.navigationItem.titleView = imageView
@@ -191,6 +191,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         setFlag = true
       
         self.getTrendingResponse()
+        self.xpressTableView?.reloadData()
         
     }
     
@@ -201,6 +202,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
 //        self.activityIndicator.startAnimating()
         self.getRecentResponse()
+        self.xpressTableView?.reloadData()
     }
     
     func TreandingVideoAudioPlayButtonAction (sender: UIButton) {
@@ -591,7 +593,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     func getRecentResponse () {
         self.activityIndicator.startAnimating()
-        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"10","language":"English","country":"India"]
+        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"20","language":"English","country":"India"]
         dashBoardCommonService.getRecentAudioVideoResponse(urlString: recentAudioVideoURL.url(), dictParameter: requestParameter as NSDictionary) { (recentResponse, error) in
             print(recentResponse)
             self.trendingLikeCount = recentResponse.value(forKey: "likeCount") as! NSArray
@@ -687,6 +689,9 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         cellDashBoard.cellUserProfileImage?.addGestureRecognizer(imageGesture)
         cellDashBoard.cellUserProfileImage?.isUserInteractionEnabled = true
         
+        // This will add the icarousel in tableviewcell.
+        cellDashBoard.cellCarousel?.type = .rotary
+        cellDashBoard.cellCarousel?.autoscroll = 0.4
         
         
         xpressTableView?.tableHeaderView = cellDashBoard

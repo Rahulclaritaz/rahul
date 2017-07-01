@@ -14,6 +14,7 @@ class XPDashBoardProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var cellUserProfileImage = UIImageView()
     @IBOutlet weak var userProfileBorder = UIImageView()
     @IBOutlet weak var pulseAnimationView: UIView!
+     @IBOutlet var cellCarousel: iCarousel?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
