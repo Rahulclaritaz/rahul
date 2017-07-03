@@ -10,12 +10,13 @@
 
 import UIKit
 
-class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate
+class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,passFollow
+    
 {
     
-     @IBOutlet weak var publicTableView: UITableView!
+   @IBOutlet weak var publicTableView: UITableView!
     
-     var getSearchURL = URLDirectory.Search()
+    var getSearchURL = URLDirectory.Search()
     
     var recordPopularVideo = [[String:Any]]()
     
@@ -42,13 +43,20 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     var Index = 0
     
+    var userEmail : String!
+    var nsuerDefault = UserDefaults.standard
     
-    let imageView = UIImageView()
+    //let imageView = UIImageView()
     
     @IBOutlet weak var searchCollectionView: UICollectionView!
     
+     var imageView = UIImageView()
     
     var mySearchText  = String()
+    
+    var isFollowICon : Bool!
+    
+    
     
     override func awakeFromNib() {
         
@@ -57,14 +65,40 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         getPopularVideo()
         
     }
+    
+    func followCount(value : Int)
+     
+    {
+        
+        if value == 1
+        {
+            
+            isFollowICon = true
+            
+            
+        }
+        else
+        {
+            isFollowICon = false
+
+        }
+        
+        
+    }
   
     override func viewDidLoad() {
         super.viewDidLoad()
         
-     setBackGroundView()
         
-        addSubView()
+        
+        print(isFollowICon)
+        
       
+       setBackGroundView()
+        
+      
+        userEmail = nsuerDefault.string(forKey: "emailAddress")
+       
         if Reachability.isConnectedToNetwork() == true
         {
             print("Internet connection OK")
@@ -95,7 +129,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target:nil, action:nil)
         
     isFiltered = false
-    isFlag = false
+    isFlag     = false
     lastRecord = false
         
    
@@ -108,34 +142,20 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     func setBackGroundView()
     {
-  
-        imageView.frame = CGRect(x: self.publicTableView.frame.origin.x-160, y: self.publicTableView.frame.origin.y, width: self.publicTableView.frame.size.width, height: self.publicTableView.frame.size.height - 160)
+        self.imageView.frame = CGRect(x: self.publicTableView.frame.origin.x-160, y: self.publicTableView.frame.origin.y, width: self.publicTableView.frame.size.width, height: self.publicTableView.frame.size.height - 160)
         
-        imageView.image = UIImage(named: "WelcomeHeartImage")
+        self.imageView.image = UIImage(named: "WelcomeHeartImage")
         
-        imageView.alpha = 0.5
-
+        self.imageView.alpha = 0.5
         
-        imageView.contentMode = .scaleAspectFit
+        
+        self.imageView.contentMode = .scaleAspectFit
+     
         
     }
  
  
-    func addSubView()
-    {
-        
-       
-        
-        mylabel.frame = CGRect(x: 20, y: self.publicTableView.frame.size.height - 100, width: self.publicTableView.frame.size.width - 40 , height: 50)
-        
-        mylabel.text = "minimum 3 letter requried"
-        
-        mylabel.backgroundColor = UIColor.gray
-        
-        mylabel.textColor = UIColor.red
-        
-        
-    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
            self.publicTableView.endEditing(true)
@@ -147,14 +167,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
       
         Index += 1
       
-        let dicData = ["user_email":"mathan6@gmail.com","emotion":"like","index":Index - 1,"limit":30,"language":"English (India)","country":"IN"] as [String : Any]
+        let dicData = ["user_email": "mathan6@gmail.com","emotion":"like","index":Index - 1,"limit":30,"language":"English (India)","country":"IN"] as [String : Any]
         
         
         getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic,myData, err ) in
-            
-            
-           
-
             
             if (myData["last"] as! Int == 0)
             {
@@ -163,10 +179,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 for dicData in dic
                  {
                  self.recordPublicVideo.append(dicData)
-               
-                    
-                    
-                    
+             
                  }
               
 
@@ -223,13 +236,12 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         })
      
     }
-//getPrivateDataWebService
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
-       recordisFiltered.removeAll()
-        
-        
+      
+     /*
+     
         if (searchBar.text?.characters.count)! <= 2
         {
             isFiltered = false
@@ -250,7 +262,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
         else
         {
-            
+           //  recordisFiltered.removeAll()
             
             isFiltered = true
     
@@ -262,20 +274,23 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                     
                  //   let string1 = $0["tags"] as! String
                     
-                    let string2 = $0["title"] as! String
+                    let string = $0["title"] as! String
                     
                   //  let string = string1 + string2
                     
                     
                     
-                    return string2.lowercased().range(of: searchBar.text!.lowercased() )  != nil
+                    return string.lowercased().range(of: searchBar.text!.lowercased() )  != nil
                     
 
                     
                 })
-                
+ 
                 
                 print("check data filter",self.recordisFiltered)
+ 
+ 
+        
                 
                 if self.recordisFiltered.count == 0
                 {
@@ -285,6 +300,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 {
                     self.isFiltered = true
                 }
+                
                 
                 DispatchQueue.main.async {
                     
@@ -296,7 +312,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             }
             
             }
-            
+ 
+        
+        */
         
         self.view.layoutIfNeeded()
         
@@ -321,21 +339,22 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     }
 
-     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
      {
       
-      /*
+      
         if searchText.characters.count == 0
         {
            isFiltered = false
+            
             DispatchQueue.main.async
                 {
                     
                     self.publicTableView.reloadData()
                     
-            }
+                }
             
-          }
+        }
             else
               {
 
@@ -370,7 +389,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
            }
         
         
-        */
+        
         
      
       
@@ -379,6 +398,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     
     }
+ 
+ 
+   
+    
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool
     {
         
@@ -405,12 +428,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             {
                 return recordisFiltered.count + 1
             }
-            
-            else if recordisFiltered.count == 0
-            {
-                return 0
-            }
-            
+                
             else
             {
                 return recordisFiltered.count
@@ -447,8 +465,6 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
          cell.imgAudioVideo.clipsToBounds = true
         
         
-        
-        
       if isFiltered == false
       {
         
@@ -457,10 +473,14 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
           cell.isHidden = true
             
-          publicTableView.backgroundView?.isHidden = false
-            
+        
             
            publicTableView.backgroundView = imageView
+        
+        
+        publicTableView.backgroundView?.isHidden = false
+        
+        
         /*
         
         let publicData = recordPublicVideo[indexPath.row]
@@ -557,6 +577,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         cell.btnPlayPublicVideo.addTarget(self, action: #selector(playPublicVideo(sender:)), for: .touchUpInside)
         
+         
             cell.btnPress.tag = indexPath.row
             
         cell.btnPress.addTarget(self, action: #selector(callFollowProfile(sender :)), for: .touchUpInside)
@@ -577,7 +598,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
          
          thumbString.replace("/root/cpanel3-skel/public_html/Xpress/",with: "http://103.235.104.118:3000/")
          
-         
+            
          
          print("mathan check thumString",thumbString)
          
@@ -653,6 +674,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
          followView.userPhoto = myImage.image!
         
         followView.userName = userName1
+        
+        followView.dele = self
+        
         
         self.navigationController?.pushViewController(followView, animated: true)
         
@@ -843,10 +867,12 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
             
  
             var orginalStringUrl = popularData["thumbnailPath"] as! String
+        
             
             orginalStringUrl.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
 
             print("Check Image URL video  ",orginalStringUrl)
+            
             cell.imgPopularPhoto.getImageFromUrl(orginalStringUrl)
         }
         
@@ -971,7 +997,7 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
  func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool
  {
    
-        isFiltered = true
+       // isFiltered = true
     
         searchBar.showsCancelButton = true
     
@@ -985,32 +1011,27 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         self.view.layoutIfNeeded()
     })
     
-       // self.navigationController?.navigationBar.isHidden = true
     
-       recordisFiltered.removeAll()
-   
- 
-    
-    
-    return true
+               return true
     
     }
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar)
     {
+    
+       // isFiltered = false
         
-        isFiltered = true
         
         self.navigationController?.navigationBar.isHidden = false
         
         
 
     }
+
     
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
     {
    
-        isFiltered = false
-        searchBar.text = nil
+     searchBar.text = nil
         
         self.view.layoutIfNeeded()
         
@@ -1040,25 +1061,6 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
     return true
     
     }
-/*
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
-    {
-        
-        
-        
-        if (Index <= 4)
-        {
-            print("mathan indexPath.row", indexPath.row)
-          
-            getPublicVideo()
-            
-            
-        }
-        
-    }
- 
- */
     
 }
 

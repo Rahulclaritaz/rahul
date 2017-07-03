@@ -11,7 +11,7 @@ import AVKit
 import AVFoundation
 
 
-class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDelegate,UINavigationControllerDelegate
+class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDelegate,UINavigationControllerDelegate,updateEmotionCount
     
 {
     
@@ -34,7 +34,8 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     @IBOutlet weak var lblSmiley: UILabel!
     
     
- 
+    var setImage : Bool!
+    
     
     var nextCountArray = [Int]()
     var nextEmotionArray = [String]()
@@ -100,11 +101,30 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
     }
     
+    func passEmotionCount( value : Int)
+
+    {
+        if value == 1
+        {
+            imgEmotion.image = UIImage(named: "UploadSmileyOrange")
+        }
+        else
+        {
+             imgEmotion.image = UIImage(named: "UploadSmiley")
+        }
+        
+        
+    }
     override func viewDidLoad()
     {
+        
+        
         super.viewDidLoad()
 
        isTuch = true
+        
+       setImage = false
+        
         
         
        getEmotionCount()
@@ -304,8 +324,10 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
        imgHeart.contentMode = .scaleAspectFit
         
         sender.isSelected = true
+        
+        setImage = true
   
-        lblLikeCount.text =  String(format: "%d Likes",nextCountArray[1]+1 )
+        lblLikeCount.text =  String(format: "%d Likes",playLike + 1 )
         
         getSaveEmotionCount(sender: lblLikeCount.text!)
       
@@ -317,7 +339,9 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
         
         {
-            lblLikeCount.text =  String(format: "%d Likes",self.nextCountArray[1])
+            setImage = false
+            
+            lblLikeCount.text =  String(format: "%d Likes",playLike)
             
             
             imgHeart.image = UIImage(named: "UploadHeart")
@@ -362,11 +386,14 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
    
         let emotionView = self.storyboard?.instantiateViewController(withIdentifier: "XPUploadsEmotionsViewController") as! XPUploadsEmotionsViewController
         
+        emotionView.del = self
+        
         emotionView.ID = nextID
         
         emotionView.FileType = nextFileType
         
         emotionView.recordEmotionCount = recordEmotionCountData
+        
         
         transitionView.duration = 0.5
         
@@ -401,6 +428,9 @@ func getEmotionCount()
     getEmotionWebService.getPublicPrivateMyUploadWebService(urlString: getEmotionUrl.uploadEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
         
         self.recordEmotionCountData = dicc
+        
+        
+        print("mathan check dataooooooo",dicc)
         
         for details in self.recordEmotionCountData
         {
