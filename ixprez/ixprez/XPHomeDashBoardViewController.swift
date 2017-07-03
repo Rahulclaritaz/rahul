@@ -33,6 +33,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var trendingFileURLPath = NSArray ()
     var trendingFeaturesId = NSArray ()
     var treadingFileType = NSArray ()
+    var treadingUserEmail = NSArray ()
+    var treadingUserName = NSArray ()
     var activityIndicator = UIActivityIndicatorView ()
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
@@ -232,6 +234,26 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
     }
     
+    func CarouselPlayVideoButtonAction(_ sender : UIButton) {
+        print("you click on the \(sender.tag) index")
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        let urlPath = icarouselFileURLPath[sender.tag] as! String
+        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        storyBoard.playUrlString = finalURlPath
+        storyBoard.nextID = icarouselFeatureID[sender.tag] as! String
+        let labelLikeCount: NSInteger = icarouselLikeCount[sender.tag] as! NSInteger
+        storyBoard.playLike = labelLikeCount
+        let labelSmileyCount: NSInteger = icarouselSmailyCount[sender.tag] as! NSInteger
+        storyBoard.playSmiley = labelSmileyCount
+        let labelPlayView: NSInteger = (Int)((icarouselViewCount[sender.tag] as? String)!)!
+        storyBoard.playView = labelPlayView
+        
+        storyBoard.playTitle = icarouselTitle[sender.tag] as! String
+        
+        print("the carousel video url path is \(storyBoard.playUrlString)")
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+    }
+    
     
     //MARK: icarosusel data source method
     func numberOfPlaceholders(in carousel: iCarousel) -> Int {
@@ -261,7 +283,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             itemView.backgroundColor = UIColor.clear
             itemView.contentMode = .center
             var thumbnailUrl = icarouselThumbnailImage[index] as? String
-            var thumbnailFinalUrl = thumbnailUrl?.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://183.82.33.232:3000")
+            var thumbnailFinalUrl = thumbnailUrl?.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
             itemView.getImageFromUrl(thumbnailFinalUrl!)
             itemView.clipsToBounds = true
            // itemView.layer.masksToBounds = true
@@ -372,9 +394,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             // This will create the play button in icarousel
             let carouselPlayVideoButton = UIButton(type: UIButtonType.custom)
             carouselPlayVideoButton.frame = CGRect(x: 195.0, y: 115.0, width: 30.0, height: 30.0)
+            carouselPlayVideoButton.viewWithTag(index)
             let playButtonImage = UIImage(named: "UploadPlay")
             carouselPlayVideoButton.setBackgroundImage(playButtonImage, for: UIControlState.normal)
-            carouselPlayVideoButton.addTarget(self, action: "CarouselPlayVideoButtonAction", for: UIControlEvents.touchUpInside)
+            carouselPlayVideoButton.addTarget(self, action: #selector (CarouselPlayVideoButtonAction(_:)), for: UIControlEvents.touchUpInside)
             
             
             
@@ -387,6 +410,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             footerView.addSubview(carouselLikeButton)
             itemView.addSubview(footerView)
             itemView.addSubview(carouselPlayVideoButton)
+            itemView.bringSubview(toFront: carouselPlayVideoButton)
             
             
             
@@ -408,27 +432,31 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         return itemView
     }
     
+    
+    
+    
+    
     //MARK: icarousel delegate method
-    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
-        print("you click on the \(index) index")
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
-        let urlPath = icarouselFileURLPath[index] as! String
-        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
-        storyBoard.playUrlString = finalURlPath
-        storyBoard.nextID = icarouselFeatureID[index] as! String
-        let labelLikeCount: NSInteger = icarouselLikeCount[index] as! NSInteger
-        storyBoard.playLike = labelLikeCount
-        let labelSmileyCount: NSInteger = icarouselSmailyCount[index] as! NSInteger
-        storyBoard.playSmiley = labelSmileyCount
-        let labelPlayView: NSInteger = (Int)((icarouselViewCount[index] as? String)!)!
-        storyBoard.playView = labelPlayView
-        
-        storyBoard.playTitle = icarouselTitle[index] as! String
-        
-        print("the carousel video url path is \(storyBoard.playUrlString)")
-        self.navigationController?.pushViewController(storyBoard, animated: true)
-        
-    }
+//    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
+//        print("you click on the \(index) index")
+//        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+//        let urlPath = icarouselFileURLPath[index] as! String
+//        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//        storyBoard.playUrlString = finalURlPath
+//        storyBoard.nextID = icarouselFeatureID[index] as! String
+//        let labelLikeCount: NSInteger = icarouselLikeCount[index] as! NSInteger
+//        storyBoard.playLike = labelLikeCount
+//        let labelSmileyCount: NSInteger = icarouselSmailyCount[index] as! NSInteger
+//        storyBoard.playSmiley = labelSmileyCount
+//        let labelPlayView: NSInteger = (Int)((icarouselViewCount[index] as? String)!)!
+//        storyBoard.playView = labelPlayView
+//        
+//        storyBoard.playTitle = icarouselTitle[index] as! String
+//        
+//        print("the carousel video url path is \(storyBoard.playUrlString)")
+//        self.navigationController?.pushViewController(storyBoard, animated: true)
+//        
+//    }
     
     
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
@@ -566,7 +594,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     // This method will send the request and will return the Dashboard Treanding data response
     func getTrendingResponse () {
         self.activityIndicator.startAnimating()
-        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"20"]
+        let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress") ,"emotion":"like","index":"1","limit":"20"]
         dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: requestParameter as NSDictionary) { (treandingResponse, error) in
             print(treandingResponse)
             if (error == nil) {
@@ -578,7 +606,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.trendingFileURLPath = treandingResponse.value(forKey: "fileuploadPath") as! NSArray
                 self.trendingFeaturesId = treandingResponse.value(forKey: "_id") as! NSArray
                 self.treadingFileType = treandingResponse.value(forKey: "filemimeType") as! NSArray
-                
+                self.treadingUserEmail = treandingResponse.value(forKey: "from_email") as! NSArray
+                self.treadingUserName = treandingResponse.value(forKey: "from_user") as! NSArray
                 
                 self.activityIndicator.stopAnimating()
               
@@ -607,6 +636,27 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.xpressTableView?.reloadData()
         }
     
+    }
+    
+    func followUserAction (sender : UIButton) {
+        
+        let followView = self.storyboard?.instantiateViewController(withIdentifier: "XPFolllowsViewController") as! XPFolllowsViewController
+        // to whom going to follow that user email id
+        followView.myEmail = treadingUserEmail[sender.tag] as! String
+        // to whom going to follow that user user name
+        followView.userName = treadingUserName[sender.tag] as! String
+        // to whom going to follow that user thumbnail Image 
+        let thumbImageURLString = self.trendingThumbnail[sender.tag] as! String
+        let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+        
+        let userThumbNailImage = UIImageView()
+        userThumbNailImage.getImageFromUrl(finalThumbNailImageURL)
+        followView.userPhoto = userThumbNailImage.image!
+        print(followView.myEmail)
+        print(followView.userName)
+        
+        self.navigationController?.pushViewController(followView, animated: true)
+        
     }
     
     /*
@@ -665,6 +715,8 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         cell.ViewCountLabel?.text = viewCountText + " " + "Views"
         cell.playButton?.tag = indexPath.row
         cell.playButton?.addTarget(self, action: #selector(TreandingVideoAudioPlayButtonAction(sender:)), for: UIControlEvents.touchUpInside)
+        cell.followUserButton?.tag = indexPath.row
+        cell.followUserButton?.addTarget(self, action: #selector (followUserAction(sender:)), for: UIControlEvents.touchUpInside)
         
         return cell
     }
@@ -732,9 +784,30 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
 
 extension XPHomeDashBoardViewController : UITableViewDelegate {
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        
+//        let cellIndexPath = sender.tag
+        
+        let urlPath = trendingFileURLPath[indexPath.row] as! String
+        
+        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        
+        storyBoard.playUrlString = finalURlPath
+        storyBoard.nextID = trendingFeaturesId[indexPath.row] as! String
+        let labelLikeCount: NSInteger = trendingLikeCount[indexPath.row] as! NSInteger
+        storyBoard.playLike = labelLikeCount
+        let labelSmileyCount: NSInteger = trendingEmotionCount[indexPath.row] as! NSInteger
+        storyBoard.playSmiley = labelSmileyCount
+        let labelPlayView: NSInteger = (Int)((trendingViewCount[indexPath.row] as? String)!)!
+        storyBoard.playView = labelPlayView
+        
+        storyBoard.playTitle = trendingTitle[indexPath.row] as! String
+        
+        print("the carousel video url path is \(storyBoard.playUrlString)")
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+        
+    }
 //    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
 //        self.xpressBGView?.frame = CGRect(x: 0, y: -200, width: 375, height: 500)
 //    }
