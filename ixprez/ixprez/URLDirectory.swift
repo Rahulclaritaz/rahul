@@ -228,5 +228,22 @@ struct URLDirectory
         }
     }
     
+    struct follow {
+        
+        func follower() -> String
+        {
+            return "http://103.235.104.118:3000/commandService/followers"
+        }
+        
+        func unFollower() -> String
+        {
+            return "http://103.235.104.118:3000/commandService/unfollowers"
+            
+        }
+        
+    }
+
+    
+    
     
 }

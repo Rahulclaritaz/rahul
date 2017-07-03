@@ -7,13 +7,25 @@
 //
 
 import UIKit
+protocol passFollow
+{
+    func followCount(value : Int)
+    
+    
+}
+
 
 class XPFolllowsViewController: UIViewController
 {
     
+    var setFollowIcon : Bool!
+    
+    
     var getUploadData = MyUploadWebServices()
     
     var getUploadURL = URLDirectory.MyUpload()
+    var followURL = URLDirectory.follow()
+    
     
        var recordFollow = [[String : Any]]()
    
@@ -21,6 +33,10 @@ class XPFolllowsViewController: UIViewController
     var userPhoto = UIImage()
     
     var userName = String()
+    
+    var isPress : Bool!
+    
+    var dele : passFollow!
     
     @IBOutlet weak var followTableView: UITableView!
 
@@ -31,8 +47,11 @@ class XPFolllowsViewController: UIViewController
     
     var activityIndicator = UIActivityIndicatorView()
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
+    
+        setFollowIcon = false
         
         self.title = userName
         
@@ -43,34 +62,8 @@ class XPFolllowsViewController: UIViewController
         getMyUploadPublicListData()
         
         followTableView.addScalableCover(with: userPhoto)
-        
-/*http://103.235.104.118:3000/commandService/followers
- "{
- ""orignator"":""venkat.r@quadrupleindia.com"",
- ""followers"":""sadam.k@quadrupleindia.com""
- }
- "
- */
-
-        
-        /*
- 
- "{
-         
-         http://103.235.104.118:3000/commandService/unfollowers
- 
-         
- ""orignator"":""sugandhi.d@quadrupleindia.com"",
- ""followers"":""venkat.r@quadrupleindia.com""
- }
- "
- */
-        
- 
-
- 
-        
-        // Do any additional setup after loading the view.
+   
+       
     }
 
  
@@ -202,9 +195,116 @@ extension XPFolllowsViewController : UITableViewDelegate
         
         cell.lblProfileName.text = userName
         
+        if setFollowIcon == false
+        {
+            
+            cell.imgFollow.image = UIImage(named: "FollowsIcon")
+            
+           
+            
+        }
+            
+        else
+        {
+            
+            cell.imgFollow.image = UIImage(named: "DashboardUnFollowIcon")
+            
+            
+        }
+
+       
         
-        return cell.contentView
+        
+        cell.btnFollow.addTarget(self, action: #selector(followAction(Sender:)), for: .touchUpInside)
+        
+        return cell
+        }
+    
+    
+   
+func followAction(Sender:UIButton)
+{
+    if setFollowIcon == false
+    {
+        
+        setFollowIcon = true
+        
+        
+        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":myEmail]
+        
+        self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.follower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
+            
+            print(dic)
+            if( dic["status"] as! String == "OK" )
+            {
+                self.dele.followCount(value: 1)
+            }
+            
+        })
+        
+        
+   
+    }
+    else
+    {
+        setFollowIcon = false
+        
+        
+        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":myEmail]
+        
+        self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.unFollower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
+            
+            print(dic)
+            if( dic["status"] as! String == "OK" )
+            {
+            self.dele.followCount(value: 0)
+                
+            }
+            
+        })
+
         
     }
+    
+    DispatchQueue.main.async
+    {
+        
+        self.followTableView.reloadData()
+    }
+    
+  /*
+    let mmm = UIImage(named: "FollowsIcon")
+    
+    if setFollowIcon == true
+    {
+    
+    Sender.setBackgroundImage(mmm, for: .normal)
+        
+        
+        
+        setFollowIcon = false
+    }
+
+    else
+    {
+    
+    Sender.setBackgroundImage(UIImage(named: "DashboardUnFollowIcon") , for: .normal)
+        
+        setFollowIcon = true
+        
+      // myCell.imgFollow.image = UIImage(named: "DashboardUnFollowIcon")
+    }
+ */
+    
+    
+}
+    
+    
+func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+    {
+        
+        
+           }
+    
     
 }

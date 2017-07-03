@@ -161,14 +161,16 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         
     }
     
-    @IBAction func backButtonAction (_ sender : Any) {
+    @IBAction func backButtonAction (_ sender : Any)
+       {
         
-        guard (isFromMenu) else {
+        guard (isFromMenu) else
+        {
             self.navigationController?.popViewController(animated: true)
             return
         }
         self.dismiss(animated: true, completion: nil)
-    }
+        }
 
     override func didReceiveMemoryWarning()
           {
@@ -908,7 +910,7 @@ func deleteVideo(sender : UIButton)
        playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
     
             let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
-            let playUploadViewCount = myUploadPlayData["viewed"] as! Int
+            let playUploadViewCount = Int(myUploadPlayData["view_count"] as! String)
             let playUploadSmiley = myUploadPlayData["emotionCount"] as! Int
  
         
@@ -921,7 +923,7 @@ func deleteVideo(sender : UIButton)
         playViewController.playUrlString = playUploadVideoPath!
         
         playViewController.playLike = playUploadLikeCount
-        playViewController.playView = playUploadViewCount
+        playViewController.playView = playUploadViewCount!
         playViewController.playSmiley = playUploadSmiley
             
         playViewController.nextID = playID
@@ -1101,7 +1103,7 @@ func deleteVideo(sender : UIButton)
         
         flag = false
         
-        let  dicData = [ "user_email" : "jnjaga24@gmail.com" , "index" : 0 , "limit" : 30] as [String : Any]
+        let  dicData = [ "user_email" : "mathan6@gmail.com" , "index" : 0 , "limit" : 30] as [String : Any]
         
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.privateMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
             

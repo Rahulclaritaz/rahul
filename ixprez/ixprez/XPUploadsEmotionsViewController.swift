@@ -7,21 +7,20 @@
 //
 
 import UIKit
+protocol updateEmotionCount
+{
+    func passEmotionCount( value : Int)
 
+}
 
 
 class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 {
 
-    
- 
-    
     var FileType = String()
+    
     var ID = String()
-    
-
-
-    
+  
     var customAlertController : DOAlertController!
     
     var recordEmotionCount = [[String :Any]]()
@@ -32,6 +31,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     
     var flagTick : Bool!
     
+    var del : updateEmotionCount!
     
     
     //OutLet
@@ -111,6 +111,9 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
       cell.lblEmotionCount.layer.cornerRadius = cell.lblEmotionCount.frame.size.width/2
         
         cell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+        
+        
+        
 
         cell.imgTick.image = UIImage(named: "")
     
@@ -175,12 +178,8 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         
         let myCell = tableView.cellForRow(at: indexPathData) as! UploadsEmotionsTableViewCell
         
-    
-        
         let emotionCount = recordEmotionCount[indexPathData.row]
-        
-        
-        
+     
         if sender.isSelected == false
         {
      
@@ -190,6 +189,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
             
             getSaveEmotionCount(sender: myCell.lblEmotionCount.text!)
             
+            self.del.passEmotionCount(value: 1)
             
             sender.isSelected = true
             
@@ -198,6 +198,9 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         {
             
             myCell.imgTick.image =  nil
+            
+            self.del.passEmotionCount(value: 0)
+            
             
             myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
             
@@ -220,8 +223,13 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
             
             print("mathan check",dicc)
             
-            
-            
+            DispatchQueue.main.async
+                {
+                
+                self.tableView.reloadData()
+                
+            }
+                        
         })
         
         
