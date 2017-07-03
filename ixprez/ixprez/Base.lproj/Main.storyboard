@@ -1382,7 +1382,7 @@
                                             <outlet property="userProfileBorder" destination="VN5-Xz-qv5" id="PTE-I7-7Jp"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="XPDashboardTableViewCell" rowHeight="74" id="6ve-5j-Vvd" customClass="XPDashboardTableViewCell" customModule="ixprez" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="XPDashboardTableViewCell" rowHeight="74" id="6ve-5j-Vvd" customClass="XPDashboardTableViewCell" customModule="ixprez" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="335" width="375" height="74"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6ve-5j-Vvd" id="yHb-pQ-p2P">
@@ -1437,10 +1437,13 @@
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eBd-G8-WIJ">
-                                                    <rect key="frame" x="334" y="25" width="24" height="24"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="DashboardFollowIcon" translatesAutoresizingMaskIntoConstraints="NO" id="uwd-BK-Fti">
+                                                    <rect key="frame" x="324" y="25" width="25" height="25"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" image="DashboardFollowIcon"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eBd-G8-WIJ">
+                                                    <rect key="frame" x="312" y="13" width="50" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lGP-OB-lMh">
                                                     <rect key="frame" x="15" y="8" width="84" height="58"/>
@@ -1467,6 +1470,7 @@
                                         <connections>
                                             <outlet property="ViewCountLabel" destination="SO2-lC-JJx" id="E9K-k4-hnu"/>
                                             <outlet property="emotionCountLabel" destination="Wdf-b1-d13" id="CrZ-t6-dG3"/>
+                                            <outlet property="followUserButton" destination="eBd-G8-WIJ" id="VvU-p4-Je6"/>
                                             <outlet property="imgVA" destination="DFD-Rg-97I" id="bx4-8Y-b1M"/>
                                             <outlet property="likeCountLabel" destination="IQ5-0b-2gm" id="665-9i-CJv"/>
                                             <outlet property="playButton" destination="lGP-OB-lMh" id="O2c-dH-Bzq"/>
@@ -2031,7 +2035,7 @@
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.60630967879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="XPHumburgerMenuTableViewCell" rowHeight="60" id="dJf-HL-zQ8" customClass="XPHumburgerMenuTableViewCell" customModule="ixprez" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="XPHumburgerMenuTableViewCell" rowHeight="60" id="dJf-HL-zQ8" customClass="XPHumburgerMenuTableViewCell" customModule="ixprez" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="250" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dJf-HL-zQ8" id="QRf-zQ-XOD">
@@ -2039,7 +2043,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDo-wh-bqB">
-                                                    <rect key="frame" x="98.5" y="0.0" width="54" height="60"/>
+                                                    <rect key="frame" x="98" y="0.0" width="54" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="mOH-Mi-9o5"/>
                                                     </constraints>
@@ -2048,7 +2052,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AudioRightImage" translatesAutoresizingMaskIntoConstraints="NO" id="suB-Y7-uUv">
-                                                    <rect key="frame" x="160" y="20" width="20" height="20"/>
+                                                    <rect key="frame" x="159.5" y="20" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="At2-zM-n5G"/>
                                                         <constraint firstAttribute="height" constant="20" id="LZd-DD-st6"/>
@@ -3972,7 +3976,7 @@
                                                     </connections>
                                                 </textField>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="coP-Wq-Vjr">
-                                                    <rect key="frame" x="306" y="40.5" width="51" height="30"/>
+                                                    <rect key="frame" x="306" y="40" width="51" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="49" id="1zw-JZ-5Rq"/>
                                                         <constraint firstAttribute="height" constant="30" id="TDK-6t-ecV"/>
