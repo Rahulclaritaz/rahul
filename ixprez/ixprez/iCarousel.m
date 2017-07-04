@@ -67,9 +67,9 @@
 #define FLOAT_ERROR_MARGIN 0.000001
 
 #ifdef ICAROUSEL_MACOS
-#define MAX_VISIBLE_ITEMS 50
+#define MAX_VISIBLE_ITEMS 51
 #else
-#define MAX_VISIBLE_ITEMS 30
+#define MAX_VISIBLE_ITEMS 51
 #endif
 
 
@@ -1036,7 +1036,7 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
             //slightly arbitrary number, chosen for aesthetic reasons
             CGFloat spacing = [self valueForOption:iCarouselOptionSpacing withDefault:1.0];
             CGFloat width = _vertical ? self.bounds.size.height: self.bounds.size.width;
-            count = MIN(MAX_VISIBLE_ITEMS, MAX(12, ceil(width / (spacing * _itemWidth)) * M_PI));
+            count = MIN(MAX_VISIBLE_ITEMS, MAX(51, ceil(width / (spacing * _itemWidth)) * M_PI));
             count = MIN(_numberOfItems + _numberOfPlaceholdersToShow, count);
             break;
         }

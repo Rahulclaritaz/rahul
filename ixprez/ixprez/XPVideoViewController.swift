@@ -38,6 +38,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var rowInCell = Int ()
     let cameraSession = AVCaptureSession()
     var imagePicker = UIImagePickerController ()
+    var contactUserEmail : Bool = false
     
     var picker: UIPickerView!
 
@@ -81,7 +82,9 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         pulsrator.radius = 150
         pulsrator.animationDuration = 6
         pulsrator.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6).cgColor
+        self.videoTableView.reloadData()
         pulsrator.start()
+        
     
     }
     
@@ -169,7 +172,12 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
-                cell.expressTitleTextField?.text = "Email"
+                if (contactUserEmail == true) {
+                    cell.expressTitleTextField?.text = emailAddressLabel.text
+                } else {
+                    cell.expressTitleTextField?.text = "Email"
+                }
+                
                 cell.indexPathRow = indexPath.row
                 cell.delegate = self
                 return cell
@@ -221,7 +229,11 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             else if (indexPath.row == 1) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
-                cell.expressTitleTextField?.text = "Email"
+                if (contactUserEmail == true) {
+                    cell.expressTitleTextField?.text = emailAddressLabel.text
+                } else {
+                    cell.expressTitleTextField?.text = "Email"
+                }
                 cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
                 cell.indexPathRow = indexPath.row
                 cell.delegate = self
@@ -292,6 +304,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
 //        cnPicker.delegate = self as CNContactPickerDelegate
 //        self.present(cnPicker, animated: true, completion: nil)
         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
+        storyboard.emailDelegate = self
         self.navigationController?.pushViewController(storyboard, animated: true)
     }
     
@@ -415,5 +428,12 @@ extension XPVideoViewController : VideoTextFieldDelegate {
         }
     }
     
+}
+
+extension XPVideoViewController : contactEmailDelegate {
+    func passEmailToAudioAndVideo(email: String) {
+        self.contactUserEmail = true
+        self.emailAddressLabel.text = email
+    }
 }
 

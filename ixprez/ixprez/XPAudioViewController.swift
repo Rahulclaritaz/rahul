@@ -46,6 +46,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
     var rowInCell = Int ()
+    var selectContactEmail : Bool = false
+//    var contactView = XPContactViewController ()
 //    var cellIndexPath = XPAudioXpressTableViewCell()
 //    var delegateCell : cellTextValidateDelegate?
     
@@ -58,6 +60,9 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.delegateCell = self as? cellTextValidateDelegate
+        print(emailAddressLabel)
+//        contactView.emailDelegate = self
+        emailAddressLabel.backgroundColor = UIColor.red
         self.navigationItem.title = "Voice your thoughts"
         self.navigationController?.navigationBar.tintColor = UIColor.white
         audioMailTableView.isHidden  = true
@@ -98,11 +103,13 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     
     override func viewWillAppear(_ animated: Bool) {
+//        contactView.emailDelegate = self
         pulsrator.numPulse = 5
         pulsrator.radius = 150
         pulsrator.animationDuration = 6
         pulsrator.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.6).cgColor
         pulsrator.start()
+        self.audioTableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -148,7 +155,12 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
-                cell.expressTitleTextField?.text = "Email"
+                if (selectContactEmail == true) {
+                    cell.expressTitleTextField?.text = emailAddressLabel.text
+                } else {
+                  cell.expressTitleTextField?.text = "Email"
+                }
+                
                 cell.indexPathRow = indexPath.row
                 cell.delegate = self
                 return cell
@@ -199,7 +211,11 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                 else if (indexPath.row == 1) {
                     cell.addContactButon?.isHidden = false
                     cell.labelCell?.text = "Express your feelings with"
-                    cell.expressTitleTextField?.text = "Email"
+                    if (selectContactEmail == true) {
+                       cell.expressTitleTextField?.text = emailAddressLabel.text 
+                    } else {
+                        cell.expressTitleTextField?.text = "Email"
+                    }
                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
                     cell.indexPathRow = indexPath.row
                     cell.delegate = self
@@ -304,6 +320,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         self.present(cnPicker, animated: true, completion: nil) */
         
         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
+        storyboard.emailDelegate = self
         self.navigationController?.pushViewController(storyboard, animated: true)
     }
 
@@ -435,6 +452,14 @@ extension XPAudioViewController : AudioTextFieldDelegate {
             }
             
         }
+    }
+    
+}
+
+extension XPAudioViewController : contactEmailDelegate {
+    func passEmailToAudioAndVideo(email: String) {
+        self.selectContactEmail = true
+        emailAddressLabel.text = email
     }
     
 }
