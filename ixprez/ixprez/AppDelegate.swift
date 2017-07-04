@@ -38,31 +38,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         systemName = UIDevice.current.systemName
         print(systemName)
         
-     
-
-    if ( checkEmail.string(forKey: "emailAddress")!.isEmpty)
-        {
-            
+        // Here will check app is going to launch is first time.
+        if (checkEmail.value(forKey: "emailAddress") == nil) {
             let regPage = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "RegistrationViewController") as! RegistrationViewController
             
             self.window?.rootViewController = regPage
-            
-        }
-        else
-        {
-   
+        } else {
             let dashBoard = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "SWRevealViewController") as! SWRevealViewController
             
             self.window?.rootViewController = dashBoard
         }
-        
-            
-        
-        
-        
-        
- 
-        
         
         
               return true
