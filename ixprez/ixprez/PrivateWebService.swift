@@ -59,7 +59,7 @@ class  PrivateWebService
                 
                 print(recordPrivate)
          
-                callback(recordPrivate,dataPrivate,error)
+                callback(recordPrivate,myPrivateDictionary,error)
          
                 
             }

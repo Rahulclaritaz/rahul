@@ -223,13 +223,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
             
             print("mathan check",dicc)
             
-            DispatchQueue.main.async
-                {
-                
-                self.tableView.reloadData()
-                
-            }
-                        
+                                    
         })
         
         
