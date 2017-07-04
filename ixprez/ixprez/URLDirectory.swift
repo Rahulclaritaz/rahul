@@ -185,7 +185,7 @@ struct URLDirectory
         func publicVideo() -> String
         {
             
-    return "http://103.235.104.118:3000/queryService/myVideosList"
+   return "http://103.235.104.118:3000/queryService/getVideosByHashTags"
             
         }
     }

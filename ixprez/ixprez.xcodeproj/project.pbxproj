@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130A47551F0BBBBD0096F5EE /* XPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */; };
 		130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FD8E61EB8819F00026975 /* URLDirectory.swift */; };
 		130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FD8E91EB887CB00026975 /* XPWebService.swift */; };
 		13111E741EB1F0ED003661C2 /* moskmedium500.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5B1EB1EF87003661C2 /* moskmedium500.ttf */; };
@@ -74,7 +75,6 @@
 		856574F81EF145520056D97F /* XPContactHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */; };
 		856AD6661EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6651EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift */; };
 		856AD6681EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */; };
-		856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */; };
 		856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */; };
 		856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */; };
 		856E8C161ED9578E0081BCF7 /* XPCameraBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856E8C151ED9578E0081BCF7 /* XPCameraBaseViewController.swift */; };
@@ -124,6 +124,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchViewController.swift; sourceTree = "<group>"; };
 		130FD8E61EB8819F00026975 /* URLDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLDirectory.swift; sourceTree = "<group>"; };
 		130FD8E91EB887CB00026975 /* XPWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPWebService.swift; sourceTree = "<group>"; };
 		13111E5A1EB1EF87003661C2 /* mosklight300.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mosklight300.ttf; sourceTree = "<group>"; };
@@ -201,7 +202,6 @@
 		856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPContactHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		856AD6651EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHomeDashBoardViewController.swift; sourceTree = "<group>"; };
 		856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPPrivateVideoViewController.swift; sourceTree = "<group>"; };
-		856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchViewController.swift; sourceTree = "<group>"; };
 		856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPNotificationViewController.swift; sourceTree = "<group>"; };
 		856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCountryTableViewCell.swift; sourceTree = "<group>"; };
 		856E8C151ED9578E0081BCF7 /* XPCameraBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCameraBaseViewController.swift; sourceTree = "<group>"; };
@@ -532,12 +532,12 @@
 		85A3DFF21ED7F99E006E81ED /* Tabbar */ = {
 			isa = PBXGroup;
 			children = (
+				130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */,
 				131703DD1F061FE200101221 /* XPFolllowsViewController.swift */,
 				131703DE1F061FE200101221 /* XPSettingPhotoViewController.swift */,
 				1314C6CF1ED7E6F900FD0A8F /* IXPrivateViewController.swift */,
 				856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */,
 				85525F061EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift */,
-				856AD6691EC0401100FCBBEC /* XPSearchViewController.swift */,
 				1314C6D51ED7E6F900FD0A8F /* XPSettingsViewController.swift */,
 			);
 			name = Tabbar;
@@ -714,7 +714,6 @@
 				1314C6D71ED7E6F900FD0A8F /* IXPrivateViewController.swift in Sources */,
 				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
 				859407C21ECEBA7B000A6A80 /* XPVideoViewController.swift in Sources */,
-				856AD66A1EC0401100FCBBEC /* XPSearchViewController.swift in Sources */,
 				85879EC51EC57B2800337011 /* XPAudioViewController.swift in Sources */,
 				856574F41EF13B2C0056D97F /* XPContactViewController.swift in Sources */,
 				85BCA1F11EE2B5DB009C4B02 /* XPPublicDataTableViewCell.swift in Sources */,
@@ -742,6 +741,7 @@
 				856E8C161ED9578E0081BCF7 /* XPCameraBaseViewController.swift in Sources */,
 				8592909E1F00FD22006A488D /* IQCropSelectionBeginView.m in Sources */,
 				1314C6DC1ED7E6F900FD0A8F /* XPPriavtePlayVideoAudioViewController.swift in Sources */,
+				130A47551F0BBBBD0096F5EE /* XPSearchViewController.swift in Sources */,
 				1314C6E11ED7E78000FD0A8F /* MyUploadWebServices.swift in Sources */,
 				1314C6DE1ED7E6F900FD0A8F /* XPUploadsEmotionsViewController.swift in Sources */,
 				8592909C1F00FD22006A488D /* IQAudioRecorderConstraints.m in Sources */,
