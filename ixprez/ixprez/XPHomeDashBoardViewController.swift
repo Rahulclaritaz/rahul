@@ -64,6 +64,15 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     
     var setFlag : Bool!
+/*    lazy var refershController : UIRefreshControl = {
+        
+        let refersh = UIRefreshControl()
+        
+        refersh.addTarget(self, action: #selector(getPulledRefreshedData), for: .valueChanged)
+        
+        return refersh
+        
+    }() */
     
     @IBOutlet weak var pulseAnimationView: UIView!
     
@@ -76,6 +85,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
 //        getRecentResponse()
         
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +101,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         xpressTableView?.delegate = self
 //        xpressScrollView?.bounces = false
         xpressTableView?.bounces = false
+//        xpressTableView?.addSubview(refershController)
+//        refershController.backgroundColor = UIColor.red
 //        xpressTableView?.isScrollEnabled = false
 //        xpressScrollView?.contentSize = CGSize(width: self.view.frame.width, height: 870)
 //        carousel?.type = .rotary
@@ -258,11 +270,13 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     //MARK: icarosusel data source method
     func numberOfPlaceholders(in carousel: iCarousel) -> Int {
                 return icarouselUserName.count
+//        return carousel.numberOfPlaceholders
     }
     //MARK: icarosusel data source method
     func numberOfItems(in carousel: iCarousel) -> Int {
         return icarouselUserName.count
 //        return items.count
+//        return carousel.numberOfItems
     }
     
     //MARK: icarosusel data source method
@@ -397,7 +411,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             carouselPlayVideoButton.viewWithTag(index)
             let playButtonImage = UIImage(named: "UploadPlay")
             carouselPlayVideoButton.setBackgroundImage(playButtonImage, for: UIControlState.normal)
-            carouselPlayVideoButton.addTarget(self, action: #selector (CarouselPlayVideoButtonAction(_:)), for: UIControlEvents.touchUpInside)
+           carouselPlayVideoButton.addTarget(self, action: #selector (CarouselPlayVideoButtonAction(_:)), for: UIControlEvents.touchUpInside)
             
             
             
@@ -410,7 +424,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             footerView.addSubview(carouselLikeButton)
             itemView.addSubview(footerView)
             itemView.addSubview(carouselPlayVideoButton)
-            itemView.bringSubview(toFront: carouselPlayVideoButton)
+            
             
             
             
@@ -437,27 +451,27 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     
     //MARK: icarousel delegate method
-//    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
-//        print("you click on the \(index) index")
-//        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
-//        let urlPath = icarouselFileURLPath[index] as! String
-//        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
-//        storyBoard.playUrlString = finalURlPath
-//        storyBoard.nextID = icarouselFeatureID[index] as! String
-//        let labelLikeCount: NSInteger = icarouselLikeCount[index] as! NSInteger
-//        storyBoard.playLike = labelLikeCount
-//        let labelSmileyCount: NSInteger = icarouselSmailyCount[index] as! NSInteger
-//        storyBoard.playSmiley = labelSmileyCount
-//        let labelPlayView: NSInteger = (Int)((icarouselViewCount[index] as? String)!)!
-//        storyBoard.playView = labelPlayView
-//        
-//        storyBoard.playTitle = icarouselTitle[index] as! String
-//        
-//        print("the carousel video url path is \(storyBoard.playUrlString)")
-//        self.navigationController?.pushViewController(storyBoard, animated: true)
-//        
-//    }
-    
+    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
+        print("you click on the \(index) index")
+        let arr = carousel.indexesForVisibleItems
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        let urlPath = icarouselFileURLPath[index] as! String
+        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        storyBoard.playUrlString = finalURlPath
+        storyBoard.nextID = icarouselFeatureID[index] as! String
+        let labelLikeCount: NSInteger = icarouselLikeCount[index] as! NSInteger
+        storyBoard.playLike = labelLikeCount
+        let labelSmileyCount: NSInteger = icarouselSmailyCount[index] as! NSInteger
+        storyBoard.playSmiley = labelSmileyCount
+        let labelPlayView: NSInteger = (Int)((icarouselViewCount[index] as? String)!)!
+        storyBoard.playView = labelPlayView
+        
+        storyBoard.playTitle = icarouselTitle[index] as! String
+        
+        print("the carousel video url path is \(storyBoard.playUrlString)")
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+        
+    }
     
     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         if (option == .spacing) {
@@ -608,10 +622,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.treadingFileType = treandingResponse.value(forKey: "filemimeType") as! NSArray
                 self.treadingUserEmail = treandingResponse.value(forKey: "from_email") as! NSArray
                 self.treadingUserName = treandingResponse.value(forKey: "from_user") as! NSArray
-                
+                self.xpressTableView?.reloadData()
                 self.activityIndicator.stopAnimating()
               
-                self.xpressTableView?.reloadData()
+                
             }
                 
             
@@ -632,12 +646,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.trendingThumbnail = recentResponse.value(forKey: "thumbnailPath") as! NSArray
             self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
             self.treadingFileType = recentResponse.value(forKey: "filemimeType") as! NSArray
-            self.activityIndicator.stopAnimating()
             self.xpressTableView?.reloadData()
+            self.activityIndicator.stopAnimating()
+            
         }
     
     }
     
+    // This method will display the fallower user details
     func followUserAction (sender : UIButton) {
         
         let followView = self.storyboard?.instantiateViewController(withIdentifier: "XPFolllowsViewController") as! XPFolllowsViewController
@@ -658,6 +674,26 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         self.navigationController?.pushViewController(followView, animated: true)
         
     }
+
+    
+  /*  func getPulledRefreshedData() {
+        if (setFlag == true) {
+            self.getTrendingResponse()
+            refershController.beginRefreshing()
+            self.xpressTableView?.reloadData()
+            refershController.endRefreshing()
+            
+            
+        } else {
+            self.getRecentResponse()
+            refershController.beginRefreshing()
+            self.xpressTableView?.reloadData()
+            refershController.endRefreshing()
+            
+        }
+        
+        
+    } */
     
     /*
     // MARK: - Navigation
@@ -671,6 +707,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
 
 }
 
+
+// This method is tableview datasource method
 extension XPHomeDashBoardViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -721,10 +759,12 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         return cell
     }
     
+    // This method is tableview datasource method
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
     }
     
+    // This method is tableview datasource method
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let cellIdentifierDashboard = "XPDashBoardProfileTableViewCell"
@@ -743,7 +783,7 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         
         // This will add the icarousel in tableviewcell.
         cellDashBoard.cellCarousel?.type = .rotary
-        cellDashBoard.cellCarousel?.autoscroll = 0.4
+        cellDashBoard.cellCarousel?.autoscroll = 0.2
         
         
         xpressTableView?.tableHeaderView = cellDashBoard
@@ -782,6 +822,7 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
     
 }
 
+// This method is tableview delegate method
 extension XPHomeDashBoardViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -824,6 +865,7 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
     
 }
 
+// This method is button delegate method
 extension XPHomeDashBoardViewController : treadingButtonDelegate
 {
     func buttonSelectedState(cell: XPDashboardHeaderTableViewCell) {

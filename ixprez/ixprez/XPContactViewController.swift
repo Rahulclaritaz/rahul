@@ -10,6 +10,7 @@ import UIKit
 import ContactsUI
 
 protocol contactEmailDelegate {
+//    func passEmailToAudioAndVideo1 (controller : XPContactViewController)
     func passEmailToAudioAndVideo (email : String)
 }
 
@@ -25,6 +26,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     var contacts = [ContactEntry]()
     var isFiltered : Bool!
     var emailDelegate : contactEmailDelegate?
+    var userEmail = String ()
     
     @IBOutlet weak var contactTableView = UITableView ()
     override func viewDidLoad() {
@@ -378,13 +380,25 @@ extension XPContactViewController : UITableViewDelegate {
 //        cell.configureWithContactEntry(ContactEntry)
         let entry = contacts[(indexPath as NSIndexPath).row]
         let email = entry.email
-        emailDelegate?.passEmailToAudioAndVideo(email: email!)
+        if (email == nil) {
+            userEmail = "No Email"
+        } else {
+            userEmail = email!
+        }
+        
+//        emailDelegate?.passEmailToAudioAndVideo(email: email!)
         
         guard (isFromMenu) else {
             self.navigationController?.popViewController(animated: true)
+            emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
             return
         }
-        self.dismiss(animated: true, completion: nil)
+        
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
+        storyBoard.selectContactEmail = true
+        storyBoard.emailAddressLabel.text = userEmail
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+        //self.dismiss(animated: true, completion: nil)
         
     }
     
