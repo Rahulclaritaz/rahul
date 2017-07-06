@@ -242,6 +242,12 @@ struct URLDirectory
         }
         
     }
+    
+    struct audioVideoViewCount {
+        func viewCount() -> String {
+            return "http://103.235.104.118:3000/commandService/updateAudioView"
+        }
+    }
 
     
     

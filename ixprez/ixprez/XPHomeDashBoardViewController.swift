@@ -53,6 +53,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     let userReplacingURL = URLDirectory.BaseRequestResponseURl()
     let treandingVideoURL = URLDirectory.treandingURL()
     let recentAudioVideoURL = URLDirectory.recentURL()
+    let followUpdateCountURL = URLDirectory.audioVideoViewCount()
     let pulsrator = Pulsator()
     @IBOutlet weak var userProfileImage = UIImageView()
     @IBOutlet weak var userProfileBorder = UIImageView()
@@ -623,6 +624,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.treadingFileType = treandingResponse.value(forKey: "filemimeType") as! NSArray
                 self.treadingUserEmail = treandingResponse.value(forKey: "from_email") as! NSArray
                 self.treadingUserName = treandingResponse.value(forKey: "from_user") as! NSArray
+                
                 self.xpressTableView?.reloadData()
                 self.activityIndicator.stopAnimating()
               
@@ -660,9 +662,11 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let followView = self.storyboard?.instantiateViewController(withIdentifier: "XPFolllowsViewController") as! XPFolllowsViewController
         // to whom going to follow that user email id
         followView.followersEmail = treadingUserEmail[sender.tag] as! String
+        
         // to whom going to follow that user user name
         followView.userName = treadingUserName[sender.tag] as! String
-        // to whom going to follow that user thumbnail Image 
+        
+        // to whom going to follow that user thumbnail Image
         let thumbImageURLString = self.trendingThumbnail[sender.tag] as! String
         let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
@@ -834,6 +838,21 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
         
 //        let cellIndexPath = sender.tag
         
+        let fileType: String = self.treadingFileType[indexPath.row] as! String
+       let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+        print(followFileType)
+        let requestParameter = ["id" : self.trendingFeaturesId[indexPath.row],"video_type": followFileType] as [String : Any]
+        
+        dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+            ) in
+            print(updateCountresponse)
+            if (error == nil) {
+//                storyBoard.playView = labelPlayView + 1
+            } else {
+//                storyBoard.playView = labelPlayView
+            }
+        }
+        
         let urlPath = trendingFileURLPath[indexPath.row] as! String
         
         var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
@@ -844,10 +863,9 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
         storyBoard.playLike = labelLikeCount
         let labelSmileyCount: NSInteger = trendingEmotionCount[indexPath.row] as! NSInteger
         storyBoard.playSmiley = labelSmileyCount
-        let labelPlayView: NSInteger = (Int)((trendingViewCount[indexPath.row] as? String)!)!
-        storyBoard.playView = labelPlayView
-        
         storyBoard.playTitle = trendingTitle[indexPath.row] as! String
+        let labelPlayView: NSInteger = (Int)((trendingViewCount[indexPath.row] as? String)!)!
+        storyBoard.playView = labelPlayView + 1
         
         print("the carousel video url path is \(storyBoard.playUrlString)")
         self.navigationController?.pushViewController(storyBoard, animated: true)
