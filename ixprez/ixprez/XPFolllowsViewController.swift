@@ -43,7 +43,7 @@ class XPFolllowsViewController: UIViewController
     
     
    
-    var myEmail = String()
+    var followersEmail = String()
     
     var activityIndicator = UIActivityIndicatorView()
 
@@ -55,7 +55,7 @@ class XPFolllowsViewController: UIViewController
         
         self.title = userName
         
-        print("email id",myEmail)
+        print("email id",followersEmail)
 
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge, spinColor: .white, bgColor: .clear, placeInTheCenterOf: followTableView)
         
@@ -78,7 +78,7 @@ class XPFolllowsViewController: UIViewController
     {
         
         
-        let  dicData = [ "user_email" : myEmail  , "index" : 0 , "limit" : 30] as [String : Any]
+        let  dicData = [ "user_email" : followersEmail  , "index" : 0 , "limit" : 30] as [String : Any]
         
         
         
@@ -199,7 +199,7 @@ extension XPFolllowsViewController : UITableViewDelegate
         if setFollowIcon == false
         {
             
-            cell.imgFollow.image = UIImage(named: "FollowsIcon")
+            cell.imgFollow.image = UIImage(named: "DashboardFollowIcon")
             
            
             
@@ -231,14 +231,14 @@ func followAction(Sender:UIButton)
         setFollowIcon = true
         
         
-        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":myEmail]
+        let followDic = ["orignator":UserDefaults.standard.value(forKey: "emailAddress"),"followers":followersEmail]
         
         self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.follower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
             
             print(dic)
             if( dic["status"] as! String == "OK" )
             {
-                self.dele.followCount(value: 1)
+//                self.dele.followCount(value: 1)
             }
             
         })
@@ -251,14 +251,14 @@ func followAction(Sender:UIButton)
         setFollowIcon = false
         
         
-        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":myEmail]
+        let followDic = ["orignator":UserDefaults.standard.value(forKey: "emailAddress"),"followers":followersEmail]
         
         self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.unFollower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
             
             print(dic)
             if( dic["status"] as! String == "OK" )
             {
-            self.dele.followCount(value: 0)
+//            self.dele.followCount(value: 0)
                 
             }
             

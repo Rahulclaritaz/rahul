@@ -577,7 +577,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         let followView = self.storyboard?.instantiateViewController(withIdentifier: "XPFolllowsViewController") as! XPFolllowsViewController
         
-        followView.myEmail = followEmail
+        followView.followersEmail = followEmail
         
          followView.userPhoto = myImage.image!
         

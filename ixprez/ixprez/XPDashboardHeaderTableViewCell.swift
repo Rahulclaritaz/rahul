@@ -32,17 +32,17 @@ class XPDashboardHeaderTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    @IBAction func treadingButton (sender : Any) {
-        treadingButton?.isSelected = true
-        recentButton?.isSelected = false
-        delegate?.buttonSelectedState(cell: self)
-    }
-    
-    @IBAction func recentButton (sender : Any) {
-        recentButton?.isSelected = true
-        treadingButton?.isSelected = false
-        delegate?.buttonSelectedState(cell: self)
-    }
+//    
+//    @IBAction func treadingButton (sender : Any) {
+//        treadingButton?.isSelected = true
+//        recentButton?.isSelected = false
+//        delegate?.buttonSelectedState(cell: self)
+//    }
+//    
+//    @IBAction func recentButton (sender : Any) {
+//        recentButton?.isSelected = true
+//        treadingButton?.isSelected = false
+//        delegate?.buttonSelectedState(cell: self)
+//    }
 
 }
