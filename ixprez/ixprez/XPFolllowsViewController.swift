@@ -150,14 +150,14 @@ extension XPFolllowsViewController : UITableViewDataSource
         
         cell.lblTitle.text = followData["title"] as? String
      
-        cell.lblLikeCount.text = String(format: "%d", followData["likeCount"] as! Int)
+        cell.lblLikeCount.text = String(format: "%d Like", followData["likeCount"] as! Int)
    
-        cell.lblReactionCount.text = String(format: "%d", followData["emotionCount"] as! Int)
+        cell.lblReactionCount.text = String(format: "%d Rect", followData["emotionCount"] as! Int)
         
-        
+        cell.imgProfileImage.layer.cornerRadius = 2.0
+        cell.imgProfileImage.layer.masksToBounds = true
         let viewCount : Int = Int(followData["view_count"] as! String)!
         cell.lblViewCount.text = String(format: "%d Views", viewCount)
-        cell.lblViewCount.text = String(format: "%d", followData["viewed"] as! Int)
       
         
         var thumbPath = followData["thumbnailPath"] as? String

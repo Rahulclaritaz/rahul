@@ -30,6 +30,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     @IBOutlet var searchBar : UISearchBar!
     
+    let dashBoardCommonService = XPWebService()
+    
+    let followUpdateCountURL = URLDirectory.audioVideoViewCount()
     
     @IBOutlet weak var collectionViewWidth: NSLayoutConstraint!
     
@@ -475,11 +478,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         let viewCount: Int = Int(publicData["view_count"] as! String)!
         
         cell.lblViewCount.text = String(format: "%d  Views", viewCount)
-        cell.lblViewCount.text = publicData["view_count"] as? String
-        
-        cell.btnPlayPublicVideo.tag = indexPath.row
-        
-        cell.btnPlayPublicVideo.addTarget(self, action: #selector(playPublicVideo(sender:)), for: .touchUpInside)
+
+//        cell.btnPlayPublicVideo.tag = indexPath.row
+//        
+//        cell.btnPlayPublicVideo.addTarget(self, action: #selector(playPublicVideo(sender:)), for: .touchUpInside)
         
          
             cell.btnPress.tag = indexPath.row
@@ -617,7 +619,149 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     }
     
     
-  func playPublicVideo(sender: UIButton)
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if isFiltered == false
+        {
+            
+            
+//            let indexPathValue = IndexPath(row: sender.tag, section: 0)
+            
+            // let cell = self.publicTableView.cellForRow(at: indexPathValue) as! XPPublicDataTableViewCell
+            
+            
+            let publicData = recordPublicVideo[indexPath.row]
+            
+            // This will send the parameter to the view count service and return the response
+            let fileType: String = publicData["filemimeType"] as! String
+            let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+            var  fileTypeData =  String()
+            if (followFileType == "video"){
+                fileTypeData = followFileType
+            } else {
+                fileTypeData = "audio"
+            }
+            print(followFileType)
+            let requestParameter = ["id" : publicData["_id"] as! String,"video_type": fileTypeData] as [String : Any]
+            
+            dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+                ) in
+                print(updateCountresponse)
+                if (error == nil) {
+                    //                storyBoard.playView = labelPlayView + 1
+                } else {
+                    //                storyBoard.playView = labelPlayView
+                }
+            }
+            
+            let playTitle = publicData["title"] as! String
+            
+            var playVideoPath = publicData["fileuploadPath"] as! String
+            
+            playVideoPath.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+            
+            let playFilemimeType = publicData["filemimeType"] as! String
+            
+            let playID = publicData["_id"] as! String
+            
+            let playLikeCount = publicData["likeCount"] as! Int
+            
+            let playViewCount = Int(publicData["view_count"] as! String)
+            
+            let playSmiley = publicData["emotionCount"] as! Int
+            
+            let checkUserLike = publicData["isUserLiked"] as! Int
+            
+            let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+            
+            playViewController.playTitle = playTitle
+            
+            playViewController.playUrlString = playVideoPath
+            
+            playViewController.playLike = playLikeCount
+            
+            playViewController.playView = playViewCount! + 1
+            
+            playViewController.playSmiley = playSmiley
+            
+            playViewController.nextFileType = playFilemimeType
+            
+            playViewController.nextID = playID
+            
+            playViewController.checkLike = checkUserLike
+            
+            self.navigationController?.pushViewController(playViewController, animated: true)
+            
+            
+        }
+        else
+        {
+//            let indexPathValue = IndexPath(row: sender.tag, section: 0)
+            
+            
+            let publicData = recordPublicVideo[indexPath.row ]
+            
+            // This will send the parameter to the view count service and return the response
+            let fileType: String = publicData["filemimeType"] as! String
+            let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+            var  fileTypeData =  String()
+            if (followFileType == "video"){
+                fileTypeData = followFileType
+            } else {
+                fileTypeData = "audio"
+            }
+            print(followFileType)
+            let requestParameter = ["id" : publicData["_id"] as! String,"video_type": fileTypeData] as [String : Any]
+            
+            dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+                ) in
+                print(updateCountresponse)
+                if (error == nil) {
+                    //                storyBoard.playView = labelPlayView + 1
+                } else {
+                    //                storyBoard.playView = labelPlayView
+                }
+            }
+            
+            
+            let playTitle = publicData["title"] as! String
+            
+            var playVideoPath = publicData["fileuploadPath"] as! String
+            
+            playVideoPath.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+            
+            let playFilemimeType = publicData["filemimeType"] as! String
+            
+            let playID = publicData["_id"] as! String
+            
+            let playLikeCount = publicData["likeCount"] as! Int
+            
+            let playViewCount = Int(publicData["view_count"] as! String)
+            
+            let playSmiley = publicData["emotionCount"] as! Int
+            
+            let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+            
+            playViewController.playTitle = playTitle
+            
+            playViewController.playUrlString = playVideoPath
+            
+            playViewController.playLike = playLikeCount
+            
+            playViewController.playView = playViewCount! + 1
+            
+            playViewController.playSmiley = playSmiley
+            
+            playViewController.nextFileType = playFilemimeType
+            
+            playViewController.nextID = playID
+            
+            self.navigationController?.pushViewController(playViewController, animated: true)
+        }
+    }
+    
+    
+/*  func playPublicVideo(sender: UIButton)
     {
         if isFiltered == false
         {
@@ -628,8 +772,23 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
        // let cell = self.publicTableView.cellForRow(at: indexPathValue) as! XPPublicDataTableViewCell
     
     
-        
         let publicData = recordPublicVideo[indexPathValue.row]
+            
+            // This will send the parameter to the view count service and return the response
+            let fileType: String = publicData["filemimeType"] as! String
+            let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+            print(followFileType)
+            let requestParameter = ["id" : publicData["_id"],"video_type": followFileType] as [String : Any]
+            
+            dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+                ) in
+                print(updateCountresponse)
+                if (error == nil) {
+                    //                storyBoard.playView = labelPlayView + 1
+                } else {
+                    //                storyBoard.playView = labelPlayView
+                }
+            }
         
         let playTitle = publicData["title"] as! String
         
@@ -657,7 +816,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         playViewController.playLike = playLikeCount
         
-        playViewController.playView = playViewCount
+        playViewController.playView = playViewCount + 1
         
         playViewController.playSmiley = playSmiley
         
@@ -677,6 +836,22 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
 
             
             let publicData = recordPublicVideo[indexPathValue.row ]
+            
+            // This will send the parameter to the view count service and return the response
+            let fileType: String = publicData["filemimeType"] as! String
+            let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+            print(followFileType)
+            let requestParameter = ["id" : publicData["_id"],"video_type": followFileType] as [String : Any]
+            
+            dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+                ) in
+                print(updateCountresponse)
+                if (error == nil) {
+                    //                storyBoard.playView = labelPlayView + 1
+                } else {
+                    //                storyBoard.playView = labelPlayView
+                }
+            }
             
             
             let playTitle = publicData["title"] as! String
@@ -703,7 +878,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             playViewController.playLike = playLikeCount
             
-            playViewController.playView = playViewCount!
+            playViewController.playView = playViewCount! + 1
             
             playViewController.playSmiley = playSmiley
             
@@ -715,7 +890,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
         
     
-    }
+    } */
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
