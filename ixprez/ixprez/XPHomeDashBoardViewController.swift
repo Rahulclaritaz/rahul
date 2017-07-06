@@ -214,6 +214,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         setFlag = false
         
+        
 //        self.activityIndicator.startAnimating()
         self.getRecentResponse()
         self.xpressTableView?.reloadData()
@@ -608,7 +609,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     // This method will send the request and will return the Dashboard Treanding data response
     func getTrendingResponse () {
         self.activityIndicator.startAnimating()
-        let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress") ,"emotion":"like","index":"1","limit":"20"]
+        let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress") ,"emotion":"like","index":"1","limit":"30"]
         dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: requestParameter as NSDictionary) { (treandingResponse, error) in
             print(treandingResponse)
             if (error == nil) {
@@ -636,7 +637,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     func getRecentResponse () {
         self.activityIndicator.startAnimating()
-        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"20","language":"English","country":"India"]
+        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"30","language":"English","country":"India"]
         dashBoardCommonService.getRecentAudioVideoResponse(urlString: recentAudioVideoURL.url(), dictParameter: requestParameter as NSDictionary) { (recentResponse, error) in
             print(recentResponse)
             self.trendingLikeCount = recentResponse.value(forKey: "likeCount") as! NSArray
@@ -658,7 +659,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         let followView = self.storyboard?.instantiateViewController(withIdentifier: "XPFolllowsViewController") as! XPFolllowsViewController
         // to whom going to follow that user email id
-        followView.myEmail = treadingUserEmail[sender.tag] as! String
+        followView.followersEmail = treadingUserEmail[sender.tag] as! String
         // to whom going to follow that user user name
         followView.userName = treadingUserName[sender.tag] as! String
         // to whom going to follow that user thumbnail Image 
@@ -668,7 +669,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let userThumbNailImage = UIImageView()
         userThumbNailImage.getImageFromUrl(finalThumbNailImageURL)
         followView.userPhoto = userThumbNailImage.image!
-        print(followView.myEmail)
+        print(followView.followersEmail)
         print(followView.userName)
         
         self.navigationController?.pushViewController(followView, animated: true)
@@ -796,13 +797,16 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         if setFlag == true
         
         {
-            
+            cell.treadingButton?.setTitleColor(UIColor.white, for: UIControlState.normal)
+            cell.recentButton?.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
             cell.recentViewLine?.isHidden = true
             cell.treadingViewLine?.isHidden = false
             
         }
         else
         {
+            cell.treadingButton?.setTitleColor(UIColor.lightGray, for: UIControlState.normal)
+            cell.recentButton?.setTitleColor(UIColor.white, for: UIControlState.normal)
             cell.recentViewLine?.isHidden = false
             cell.treadingViewLine?.isHidden = true
             
@@ -813,7 +817,7 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         cell.treadingButton?.addTarget(self, action: #selector(TreandingVideo(sender:)), for: UIControlEvents.touchUpInside)
         cell.recentButton?.addTarget(self, action: #selector(RecentVideo(sender:)), for: UIControlEvents.touchUpInside)
         
-        cell.delegate = self
+//        cell.delegate = self
         
         return cell.contentView
     }
@@ -866,13 +870,13 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
 }
 
 // This method is button delegate method
-extension XPHomeDashBoardViewController : treadingButtonDelegate
-{
-    func buttonSelectedState(cell: XPDashboardHeaderTableViewCell) {
-         buttonTrendingSelected = (cell.treadingButton?.isSelected)!
-         print(buttonTrendingSelected)
-         buttonRecentSelected = (cell.recentButton?.isSelected)!
-         print(buttonRecentSelected)
-        self.xpressTableView?.reloadData()
-    }
-}
+//extension XPHomeDashBoardViewController : treadingButtonDelegate
+//{
+//    func buttonSelectedState(cell: XPDashboardHeaderTableViewCell) {
+//         buttonTrendingSelected = (cell.treadingButton?.isSelected)!
+//         print(buttonTrendingSelected)
+//         buttonRecentSelected = (cell.recentButton?.isSelected)!
+//         print(buttonRecentSelected)
+//        self.xpressTableView?.reloadData()
+//    }
+//}
