@@ -37,15 +37,14 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
      var isFlag : Bool!
     
-     var lastRecord : Bool!
+    var lastRecord : Bool!
     
      let mylabel = UILabel()
     
-     var Index = 0
+    var Index = 0
     
-     var userEmail : String!
-    
-     var nsuerDefault = UserDefaults.standard
+    var userEmail : String!
+    var nsuerDefault = UserDefaults.standard
     
     //let imageView = UIImageView()
     
@@ -53,19 +52,32 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
      var imageView = UIImageView()
     
-     var mySearchText  = String()
+    var mySearchText  = String()
     
-     var isFollowICon : Bool!
+    var isFollowICon : Bool!
     
-     var mySearchData : String!
+    var mySearchData : String!
     
     
     override func awakeFromNib()
     {
   
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
         getPopularVideo()
         
-     }
+        publicTableView.backgroundView = imageView
+        
+        publicTableView.separatorColor = UIColor.clear
+        
+
+        isFiltered = false
+        
+
+    }
     
     func followCount(value : Int)
      
@@ -91,7 +103,6 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         super.viewDidLoad()
         
 /*
- 
          ixprez
          
   Nothing found with the name
@@ -135,12 +146,15 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target:nil, action:nil)
         
-    isFiltered = false
-    isFlag     = false
-    lastRecord = false
+    
+         isFlag     = false
+        
+         lastRecord = false
         
    
     }
+    
+    
     
     @IBAction func BackButtonAction (sender : Any) {
         self.navigationController?.popViewController(animated: true)
@@ -161,12 +175,13 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     }
  
- 
+ /*
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
            self.publicTableView.endEditing(true)
-}
+    }
+    */
     
     
     func getPublicVideo(myString : String)
@@ -181,9 +196,6 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic,dataValue, err ) in
       
            
-            
-            print("search webservice",dic)
-            
          let myData = dataValue["data"] as! [ String : Any]
             
             print("sssss",dataValue["code"] as! String)
@@ -194,7 +206,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             self.isFiltered = true
             
-           
+            self.recordPublicVideo.removeAll()
             
             
             print("ffffffff",dic);
@@ -202,33 +214,31 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             if (myData["last"] as! Int == 0)
             {
             
-                 self.recordPublicVideo.removeAll()
               for dicData in dic
               {
-                self.recordPublicVideo.append(dicData)
+                 self.recordPublicVideo.append(dicData)
               
               }
                 
-                  self.lastRecord = false
+                self.lastRecord = false
                 
            
             }
             
                else
               {
-                 self.recordPublicVideo.removeAll()
                 for dicData in dic
                 {
                     self.recordPublicVideo.append(dicData)
                     
                 }
                 
-                
-                
                 self.lastRecord = true
                 
                 
+                print("last record")
                 
+                          
                 
              }
            
@@ -264,8 +274,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     func   getPopularVideo()
     {
-        
-        let dicData = ["user_email": "mathan6@gmail.com"]
+        let dicData = ["user_email": userEmail]
         
         getWebService.getPrivateDataWebService(urlString: getSearchURL.searchPopularVideo() , dicData: dicData as NSDictionary, callback: {(dicc, myData, err) in
           
@@ -322,19 +331,23 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         {
             recordPublicVideo.removeAll()
         
+            isFiltered = false
             
             Index = 0
             
             mySearchData = searchBar.text?.lowercased()
             
-            
-            isFiltered = true
-            
-            isFiltered = false
-            
-            
+         
            
             self.getPublicVideo(myString: self.mySearchData)
+            
+            DispatchQueue.main.async {
+                
+                self.publicTableView.reloadData()
+                
+            }
+
+            
             
         }
         
@@ -350,12 +363,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             
         })
-       
-       
         
-
-      
         searchBar.resignFirstResponder()
+        
+        
         searchBar.showsCancelButton = false
     
         
@@ -368,6 +379,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool
     {
         
+        isFiltered = false
         
          searchBar.resignFirstResponder()
         
@@ -402,7 +414,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         else
         {
             
-             return 0
+             return recordPublicVideo.count
             
         }
         
@@ -426,9 +438,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
       
           cell.isHidden = true
-            
         
-           publicTableView.backgroundView = imageView
+        
+        publicTableView.backgroundView = imageView
         
         
         publicTableView.backgroundView?.isHidden = false
@@ -460,7 +472,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         cell.lblLikeCount.text = String(format: "%d  Likes", publicData["likeCount"] as! Int)
         
-        cell.lblViewCount.text = String(format: "%d  Views", publicData["viewed"] as! Int)
+        cell.lblViewCount.text = publicData["view_count"] as? String
         
         cell.btnPlayPublicVideo.tag = indexPath.row
         
@@ -470,6 +482,19 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             cell.btnPress.tag = indexPath.row
             
         cell.btnPress.addTarget(self, action: #selector(callFollowProfile(sender :)), for: .touchUpInside)
+        
+        //isuerfollowing
+        
+        if ( (publicData["isuerfollowing"] as! Int) == 0)
+        {
+        
+        cell.imgFollowIcon.image = UIImage(named: "DashboardFollowIcon")
+        }
+        else
+        {//DashboardUnFollowIcon
+            
+            cell.imgFollowIcon.image = UIImage(named: "DashboardUnFollowIcon")
+        }
         
         if  (publicData["filemimeType"] as! String) == "video/mp4"
         {
@@ -486,8 +511,6 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
         
         cell.imgAudioVideo.image = nil
-        
-        // thumbnail = "/root/cpanel3-skel/public_html/Xpress/uploads/profileImage/14901025272571490102527976.jpg"
       
         if ( publicData["thumbnailPath"] as? String != nil )
         {
@@ -620,6 +643,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         let playViewCount = publicData["viewed"] as! Int
         
         let playSmiley = publicData["emotionCount"] as! Int
+            
+         let checkUserLike = publicData["isUserLiked"] as! Int
     
         let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
     
@@ -636,6 +661,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         playViewController.nextFileType = playFilemimeType
         
         playViewController.nextID = playID
+            
+        playViewController.checkLike = checkUserLike
         
         self.navigationController?.pushViewController(playViewController, animated: true)
             
@@ -661,7 +688,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             let playLikeCount = publicData["likeCount"] as! Int
             
-            let playViewCount = publicData["viewed"] as! Int
+            let playViewCount = Int(publicData["view_count"] as! String)
             
             let playSmiley = publicData["emotionCount"] as! Int
             
@@ -673,7 +700,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             playViewController.playLike = playLikeCount
             
-            playViewController.playView = playViewCount
+            playViewController.playView = playViewCount!
             
             playViewController.playSmiley = playSmiley
             
@@ -734,7 +761,8 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
       cell.lblPopularEmotion.text = String(format: "%d Reactions", arguments: [popularData["emotionCount"] as! Int])
         
-      cell.lblPopularViews.text = String(format: "%d Views", popularData["viewed"] as! Int)
+      cell.lblPopularViews.text = popularData["view_count"] as! String
+        
         
         
         
@@ -768,8 +796,18 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
         cell.imgPopularPhoto.image = nil
         
-      
-        print(popularData["filemimeType"] as! String)
+     
+        
+        if (popularData["filemimeType"] as! String) == "video/mp4"
+        {
+            cell.imgPlayPopularVideo.image = UIImage(named: "privatePublicBigPlay")
+        }
+        else
+        {
+            
+            cell.imgPlayPopularVideo.image = UIImage(named: "privateAudio")
+            
+        }
         
         if ( popularData["thumbnailPath"] as? String != nil )
         {
@@ -826,10 +864,11 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
         let playLikeCount = popularData["likeCount"] as! Int
         
-        let playViewCount = popularData["viewed"] as! Int
+        let playViewCount = Int(popularData["view_count"] as! String)
         
         let playSmiley = popularData["emotionCount"] as! Int
         
+        let checkUserLike = popularData["isUserLiked"] as! Int
         
         
         let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
@@ -841,13 +880,17 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
         playViewController.playLike = playLikeCount
         
-        playViewController.playView = playViewCount
+        playViewController.playView = playViewCount!
         
         playViewController.playSmiley = playSmiley
         
         playViewController.nextFileType = playFilemimeType
         
         playViewController.nextID = playID
+        
+        playViewController.checkLike = checkUserLike
+        
+        //playViewController.checkLike = checkUserLike 
         
         
      self.navigationController?.pushViewController(playViewController, animated: true)
@@ -911,10 +954,11 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
     recordPublicVideo.removeAll()
     
     
-    DispatchQueue.main.async {
+    DispatchQueue.main.async
+        {
         
         self.publicTableView.reloadData()
-    }
+       }
     
     
         searchBar.showsCancelButton = true
@@ -963,9 +1007,7 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
         searchBar.resignFirstResponder()
         searchBar.showsCancelButton = false
-       
-        DispatchQueue.main.async
-            {
+        DispatchQueue.main.async {
             
             self.publicTableView.reloadData()
             
@@ -974,7 +1016,13 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
     }
     
- 
+ func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
+ {
+    
+    
+    return true
+    
+    }
     
 }
 

@@ -59,18 +59,23 @@ class XPFolllowsViewController: UIViewController
 
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge, spinColor: .white, bgColor: .clear, placeInTheCenterOf: followTableView)
         
-        getMyUploadPublicListData()
-        
         followTableView.addScalableCover(with: userPhoto)
    
        
     }
+    
+    override func viewWillAppear(_ animated: Bool)
+    {
+        
+       getMyUploadPublicListData()
+    }
 
  
     
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
  
@@ -142,16 +147,15 @@ extension XPFolllowsViewController : UITableViewDataSource
         let followData = self.recordFollow[indexPath.row]
         
           
-        cell.imgProfileImage.layer.cornerRadius = 2.0
-        cell.imgProfileImage.layer.masksToBounds = true
+        
         cell.lblTitle.text = followData["title"] as? String
      
-        cell.lblLikeCount.text = String(format: "%d Likes", followData["likeCount"] as! Int)
+        cell.lblLikeCount.text = String(format: "%d", followData["likeCount"] as! Int)
    
-        cell.lblReactionCount.text = String(format: "%d React", followData["emotionCount"] as! Int)
+        cell.lblReactionCount.text = String(format: "%d", followData["emotionCount"] as! Int)
         
         
-        cell.lblViewCount.text = String(format: "%d Views", followData["viewed"] as! Int)
+        cell.lblViewCount.text = String(format: "%d", followData["viewed"] as! Int)
       
         
         var thumbPath = followData["thumbnailPath"] as? String
@@ -231,14 +235,14 @@ func followAction(Sender:UIButton)
         setFollowIcon = true
         
         
-        let followDic = ["orignator":UserDefaults.standard.value(forKey: "emailAddress"),"followers":followersEmail]
+        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":followersEmail]
         
         self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.follower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
             
             print(dic)
             if( dic["status"] as! String == "OK" )
             {
-//                self.dele.followCount(value: 1)
+                self.dele.followCount(value: 1)
             }
             
         })
@@ -251,14 +255,14 @@ func followAction(Sender:UIButton)
         setFollowIcon = false
         
         
-        let followDic = ["orignator":UserDefaults.standard.value(forKey: "emailAddress"),"followers":followersEmail]
+        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":followersEmail]
         
         self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.unFollower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
             
             print(dic)
             if( dic["status"] as! String == "OK" )
             {
-//            self.dele.followCount(value: 0)
+            self.dele.followCount(value: 0)
                 
             }
             

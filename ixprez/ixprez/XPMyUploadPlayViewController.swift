@@ -11,9 +11,11 @@ import AVKit
 import AVFoundation
 
 
+
 class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDelegate,UINavigationControllerDelegate,updateEmotionCount
     
 {
+    
     
     // Outlet Reference
     
@@ -53,6 +55,12 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     var playSmiley = Int()
     
+    var checkLike = Int()
+    
+    var isSelect : Bool!
+    
+    var pressButton : Bool!
+    
     // goto Next View
     
     var nextFileType = String()
@@ -69,9 +77,9 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     var naviBar : UINavigationBar = UINavigationBar()
     
     
-    var getKeyValue = UserDefaults.standard
+    var nsuerDefault = UserDefaults.standard
     
-    var saveEmail = String()
+    var userEmail = String()
     
     
     var getEmotionUrl = URLDirectory.MyUpload()
@@ -84,7 +92,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     var tapGesture = UITapGestureRecognizer()
     
-        let transitionView = CATransition()
+    let transitionView = CATransition()
     
     
     var isTuch : Bool!
@@ -95,9 +103,11 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     override func awakeFromNib() {
         
         
-        saveEmail = getKeyValue.string(forKey: "emailAddress")!
         
-        print("mathan saveEmail",saveEmail)
+         userEmail = nsuerDefault.string(forKey: "emailAddress")!
+        
+        
+        print("mathan saveEmail",userEmail)
         
     }
     
@@ -125,17 +135,33 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
        setImage = false
         
+        pressButton = true
         
-        
-       getEmotionCount()
+       
         print("myPlay")
         print(playUrlString)
         self.navigationItem.title = playTitle
         
         naviBar.tintColor = UIColor.getXprezBlueColor()
-    
-        lblLikeCount.text = String(format: "%d Likes",playLike)
         
+        if checkLike == 1
+        {
+             lblLikeCount.text = String(format: "%d Likes",playLike )
+             imgHeart.image = UIImage(named: "UploadUnHeart")
+            
+             isSelect = true
+            
+        }
+    
+        else
+        {
+           lblLikeCount.text = String(format: "%d Likes",playLike)
+           imgHeart.image = UIImage(named: "UploadHeart")
+            
+            isSelect = false
+            
+            
+        }
         lblViewCount.text = String(format: "%d Views", playView)
         
         lblSmiley.text = String(format: "%d Reactions", playSmiley)
@@ -156,6 +182,21 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getEmotionCount()
+    }
+    func call()
+    {
+        getEmotionCount()
+        
+        
+        let emotionView = self.storyboard?.instantiateViewController(withIdentifier: "XPUploadsEmotionsViewController") as! XPUploadsEmotionsViewController
+        
+        
+        emotionView.recordEmotionCount = recordEmotionCountData
+        
+        
+    }
   
  
     func handeltap(sender: UITapGestureRecognizer)
@@ -163,6 +204,9 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
         removeChildView()
         
+        
+        
+      
         
     }
     
@@ -200,6 +244,8 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
          super.touchesBegan(touches, with: event)
+        
+      
         
          if (isTuch == true)
          {
@@ -276,12 +322,8 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
       
         self.view.bringSubview(toFront: bottomView)
         player.play()
-        
-        
-        
     }
     
-   
     
     @IBAction func playVideoAudio(_ sender: UIButton)
     {
@@ -306,32 +348,58 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
-
-        
+   
     }
-    
-
+  
     @IBAction func emotionLike(_ sender: UIButton)
     {
-    //UploadUnHeart
-        
-        print(sender.isSelected)
         
         
-       if sender.isSelected == false
-       {
-        imgHeart.image = UIImage(named: "UploadUnHeart")
-       imgHeart.contentMode = .scaleAspectFit
         
-        sender.isSelected = true
         
-        setImage = true
+        
+       if isSelect == false
+
+        
+        {
+            if (pressButton == true)
+            {
+            
+            imgHeart.image = UIImage(named: "UploadUnHeart")
+        
+            imgHeart.contentMode = .scaleAspectFit
+    
+            setImage = true
   
-        lblLikeCount.text =  String(format: "%d Likes",playLike + 1 )
+            lblLikeCount.text =  String(format: "%d Likes",playLike + 1 )
         
-        getSaveEmotionCount(sender: lblLikeCount.text!)
+            getSaveEmotionCount(sender: lblLikeCount.text!)
       
-        print(self.nextEmotionArray)
+            print(self.nextEmotionArray)
+            
+            pressButton = false
+                
+            }
+            else
+            {
+                
+                setImage = false
+                
+                lblLikeCount.text =  String(format: "%d Likes",playLike)
+                
+                
+                imgHeart.image = UIImage(named: "UploadHeart")
+                
+                getSaveEmotionCount1(sender: lblLikeCount.text!)
+                
+                sender.isSelected = false
+                
+                pressButton = true
+                
+                
+            }
+            
+            
         
         }
         
@@ -339,14 +407,40 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
         
         {
+            if pressButton == true
+            {
             setImage = false
             
-            lblLikeCount.text =  String(format: "%d Likes",playLike)
+            lblLikeCount.text =  String(format: "%d Likes",playLike - 1)
             
             
             imgHeart.image = UIImage(named: "UploadHeart")
             
+            getSaveEmotionCount1(sender: lblLikeCount.text!)
+            
             sender.isSelected = false
+                
+                pressButton = false
+                
+            }
+            else
+            {
+                imgHeart.image = UIImage(named: "UploadUnHeart")
+                
+                imgHeart.contentMode = .scaleAspectFit
+                
+                
+                setImage = true
+                
+                lblLikeCount.text =  String(format: "%d Likes",playLike  )
+                
+                getSaveEmotionCount(sender: lblLikeCount.text!)
+                
+                print(self.nextEmotionArray)
+                
+                pressButton = true
+ 
+            }
             
         }
         
@@ -360,7 +454,28 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         print(sender)
         
         
-        let dicValue = ["id":nextID ,"user_email":saveEmail,"emotion":sender,"status":"1"]
+        let dicValue = ["id":nextID ,"user_email":userEmail,"emotion":"Like","status":"1"]
+        
+        
+        getEmotionWebService.getReportMyUploadWebService(urlString: getEmotionUrl.saveEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
+            
+            
+            print(dicc)
+            
+            
+            
+        })
+        
+        
+        
+    }
+    func getSaveEmotionCount1(sender : String)
+        
+    {
+        print(sender)
+        
+        
+        let dicValue = ["id":nextID ,"user_email":userEmail,"emotion":"Like","status":"0"]
         
         
         getEmotionWebService.getReportMyUploadWebService(urlString: getEmotionUrl.saveEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
@@ -419,9 +534,11 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     }
     
+
+    
 func getEmotionCount()
 {
-    let dicValue = ["user_email":saveEmail,"file_id":nextID]
+    let dicValue = ["user_email":userEmail,"file_id":nextID]
     
     
     
