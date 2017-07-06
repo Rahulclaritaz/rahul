@@ -460,7 +460,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         cell.lblLikeCount.text = String(format: "%d  Likes", publicData["likeCount"] as! Int)
         
-        cell.lblViewCount.text = String(format: "%d  Views", publicData["viewed"] as! Int)
+        let viewCount: Int = Int(publicData["view_count"] as! String)!
+        
+        cell.lblViewCount.text = String(format: "%d  Views", viewCount)
         
         cell.btnPlayPublicVideo.tag = indexPath.row
         

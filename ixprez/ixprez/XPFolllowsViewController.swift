@@ -151,7 +151,8 @@ extension XPFolllowsViewController : UITableViewDataSource
         cell.lblReactionCount.text = String(format: "%d React", followData["emotionCount"] as! Int)
         
         
-        cell.lblViewCount.text = String(format: "%d Views", followData["viewed"] as! Int)
+        let viewCount : Int = Int(followData["view_count"] as! String)!
+        cell.lblViewCount.text = String(format: "%d Views", viewCount)
       
         
         var thumbPath = followData["thumbnailPath"] as? String
