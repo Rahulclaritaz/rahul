@@ -72,7 +72,8 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
         super.viewDidLoad()
         
-        
+        self.getPrivateData()
+
         if Reachability.isConnectedToNetwork() == true
         {
             print("Internet connection OK")
@@ -120,9 +121,17 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         
         privateTableView.backgroundColor = UIColor.clear
         
-        self.getPrivateData()
+       // self.getPrivateData()
         // Do any additional setup after loading the view.
     }
+   
+    override func viewWillAppear(_ animated: Bool) {
+        
+        self.getPrivateData()
+
+        
+    }
+    
     
     func getBackgroundView()
     {

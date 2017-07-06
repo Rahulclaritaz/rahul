@@ -23,4 +23,5 @@ class XPSearchPopularCollectionViewCell: UICollectionViewCell
     
     @IBOutlet weak var btnPlayPopularVideo: UIButton!
     
+    @IBOutlet weak var imgPlayPopularVideo: UIImageView!
 }

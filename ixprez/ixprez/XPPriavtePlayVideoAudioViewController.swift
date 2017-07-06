@@ -102,7 +102,6 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
         privatePlayerController.view.frame = CGRect(x: 0, y: 64, width: self.view.frame.size.width, height: self.view.frame.size.height - 64)
         
         
-        
         privatePlayerController.view.sizeToFit()
         
         

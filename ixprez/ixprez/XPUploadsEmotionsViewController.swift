@@ -10,7 +10,7 @@ import UIKit
 protocol updateEmotionCount
 {
     func passEmotionCount( value : Int)
-
+    func call()
 }
 
 
@@ -24,6 +24,10 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     var customAlertController : DOAlertController!
     
     var recordEmotionCount = [[String :Any]]()
+    
+    
+    var checkCurrentRecordEmotionCount = [[String:Any]]()
+    
 
     var getEmotionUrl = URLDirectory.MyUpload()
     
@@ -32,6 +36,14 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     var flagTick : Bool!
     
     var del : updateEmotionCount!
+    
+    var isSele : Bool!
+    
+    var userEmail = String()
+    
+    var nsuerDefault = UserDefaults.standard
+    
+    var isPressButton : Bool!
     
     
     //OutLet
@@ -43,20 +55,26 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     {
         flagTick = true
      
+        isPressButton = false
+        
         super.viewDidLoad()
         print("Check Mathan")
         
         print(FileType)
-        print(ID)
+        print("mathan id",ID)
         
         
-
-        
-     //  getEmotionCount()
+    print("recordEmotionCount",recordEmotionCount)
         
     }
     
   
+    override func viewWillAppear(_ animated: Bool) {
+        
+     
+
+       userEmail = nsuerDefault.string(forKey: "emailAddress")!
+    }
 
    /* func getEmotionCount()
     {
@@ -128,7 +146,27 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
      
         cell.btnEmotion.setTitle(surname, for: .normal)
         
-        
+        if ((emotionCount["isUserChecked"] as! Int ) == 1)
+        {
+            cell.imgTick.image = UIImage(named: "EmotionTick")
+            
+            cell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+            print("hi is userChecked")
+            
+            //isSele = false
+            
+            
+        }
+        else
+        {
+            cell.imgTick.image = nil
+            
+             cell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+            // isSele = true
+         
+            
+        }
+
         
         cell.lblEmotionCount.layer.cornerRadius = cell.lblEmotionCount.frame.width/2
         
@@ -171,42 +209,105 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         
     }
     
+    //isUserChecked
     
     func countEmotion(sender : UIButton)
     {
+       
+
+        
+         del.call()
+
         let indexPathData = IndexPath(row: sender.tag, section: 0)
         
         let myCell = tableView.cellForRow(at: indexPathData) as! UploadsEmotionsTableViewCell
         
         let emotionCount = recordEmotionCount[indexPathData.row]
-     
-        if sender.isSelected == false
+        
+        let userCheckedCount = emotionCount["isUserChecked"] as! Int
+        
+      
+        
+        if   userCheckedCount != 1
         {
-     
-            myCell.imgTick.image = UIImage(named: "check-mark-red-11.png")
             
-            myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
-            
-            getSaveEmotionCount(sender: myCell.lblEmotionCount.text!)
-            
-            self.del.passEmotionCount(value: 1)
-            
-            sender.isSelected = true
+            isSele = true
             
         }
-       else
+            
+        else
+        {
+            isSele = false
+            
+        }
+
+        
+        
+           if (isSele == true)
+          {
+            
+             if isPressButton == false
+             {
+               myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+            
+               getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+            
+               self.del.passEmotionCount(value: 1)
+             
+               myCell.imgTick.image = UIImage(named: "EmotionTick")
+             
+               isPressButton = true
+            }
+            else
+             {
+                myCell.imgTick.image =  nil
+                
+                self.del.passEmotionCount(value: 0)
+                
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+                
+                getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                isPressButton = false
+                
+ 
+            }
+         
+        }
+            else
         {
             
+            
+            if isPressButton == false
+            {
             myCell.imgTick.image =  nil
             
             self.del.passEmotionCount(value: 0)
             
-            
             myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
             
-            sender.isSelected = false
+            getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
             
+             isPressButton = true
+                
+            
+            }
+            else
+            {
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+                
+                getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                self.del.passEmotionCount(value: 1)
+                
+                myCell.imgTick.image = UIImage(named: "EmotionTick")
+                
+                isPressButton = true
+            }
+        
         }
+        
+        
         
     }
     
@@ -216,19 +317,43 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         print(sender)
         
         
-        let dicValue = ["id":ID ,"user_email":"mathan6@gmail.com","emotion":sender,"status":"1"]
+        let dicValue = ["id":ID ,"user_email":userEmail,"emotion":sender,"status":"1"]
         
         
         getEmotionWebService.getReportMyUploadWebService(urlString: getEmotionUrl.saveEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
             
             print("mathan check",dicc)
             
-                                    
+          
+                        
         })
         
         
         
     }
+    
+    
+    func getSaveEmotionCount1(sender : String)
+        
+    {
+        print(sender)
+        
+        
+        let dicValue = ["id":ID ,"user_email":userEmail,"emotion":sender,"status":"0"]
+        
+        
+        getEmotionWebService.getReportMyUploadWebService(urlString: getEmotionUrl.saveEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
+            
+            print("mathan check",dicc)
+            
+            
+            
+        })
+        
+        
+        
+    }
+    
     
 
     
@@ -287,7 +412,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
                 for textField: UITextField in textFields! {
                     print("mathan Check",textField.text!)
                     
-                    let dicData = [ "user_email" : "mathan6@gmail.com" , "description"  : textField.text! , "file_id" : self.ID , "file_type" : self.FileType] as [String : Any]
+                    let dicData = [ "user_email" :self.userEmail , "description"  : textField.text! , "file_id" : self.ID , "file_type" : self.FileType] as [String : Any]
                     
                     self.getEmotionWebService.getReportMyUploadWebService(urlString: self.getEmotionUrl.uploadReportAbuse(), dicData: dicData as NSDictionary, callback: {
                         (dicc,erro) in

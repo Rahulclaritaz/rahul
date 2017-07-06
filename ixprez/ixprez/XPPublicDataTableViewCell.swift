@@ -17,6 +17,9 @@ class XPPublicDataTableViewCell: UITableViewCell
     
     @IBOutlet weak var lblTitle: UILabel!
     
+    
+    @IBOutlet weak var imgFollowIcon: UIImageView!
+    
    // @IBOutlet weak var lblSubTitle: UILabel!
     
     @IBOutlet weak var lblLikeCount: UILabel!
