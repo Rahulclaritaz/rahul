@@ -838,10 +838,17 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
         
 //        let cellIndexPath = sender.tag
         
-        let fileType: String = self.treadingFileType[indexPath.row] as! String
+        // This will send the parameter to the view count service and return the response
+       let fileType: String = self.treadingFileType[indexPath.row] as! String
        let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+        var  fileTypeData =  String()
+        if (followFileType == "video"){
+            fileTypeData = followFileType
+        } else {
+            fileTypeData = "audio"
+        }
         print(followFileType)
-        let requestParameter = ["id" : self.trendingFeaturesId[indexPath.row],"video_type": followFileType] as [String : Any]
+        let requestParameter = ["id" : self.trendingFeaturesId[indexPath.row],"video_type": fileTypeData] as [String : Any]
         
         dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
             ) in
