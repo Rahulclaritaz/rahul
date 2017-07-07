@@ -41,19 +41,26 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
     var activityIndicator = UIActivityIndicatorView()
     
     
-    override func awakeFromNib() {
-        
-           getMyUploadPublicList()
-        
-    }
+    var nsuerDefault = UserDefaults.standard
     
+    var userEmail : String!
+    
+    
+    override func viewWillAppear(_ animated: Bool)
+      {
+        print("view Will Appear")
+        
+       getMyUploadPublicList()
+        
+              }
     
     override func viewDidLoad()
-    {
+       {
         super.viewDidLoad()
         
-        
-        
+        userEmail = nsuerDefault.string(forKey: "emailAddress")
+
+        getMyUploadPublicList()
         if Reachability.isConnectedToNetwork() == true
         {
             print("Internet connection OK")
@@ -123,7 +130,7 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
         
         flag = true
         
-        let  dicData = [ "user_email" : "jnjaga24@gmail.com"  , "index" : 0 , "limit" : 30] as [String : Any]
+        let  dicData = [ "user_email" : userEmail  , "index" : 0 , "limit" : 30] as [String : Any]
         
         
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.publicMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
@@ -132,7 +139,7 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
             
             if err == nil
             {
-            print(dicc)
+            print("check user like ",dicc)
             
               self.recordPublicUpload = dicc
              
@@ -906,6 +913,13 @@ func deleteVideo(sender : UIButton)
         let playFilemimeType  = myUploadPlayData["filemimeType"] as! String
             
         let playID = myUploadPlayData["_id"] as! String
+            
+        let checkUserLike = myUploadPlayData["isUserLiked"] as! Int
+            
+            
+            
+            
+            print("mathan mathan ",checkUserLike)
         
        playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
     
@@ -930,7 +944,7 @@ func deleteVideo(sender : UIButton)
             
         playViewController.nextFileType = playFilemimeType
             
-            
+        playViewController.checkLike = checkUserLike 
         
         self.navigationController?.pushViewController(playViewController, animated: true)
         }
@@ -954,8 +968,13 @@ func deleteVideo(sender : UIButton)
             let playID = myUploadPlayData["_id"] as! String
             
             let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
-            let playUploadViewCount = myUploadPlayData["viewed"] as! Int
+            let playUploadViewCount =  Int(myUploadPlayData["view_count"] as! String)
             let playUploadSmiley = myUploadPlayData["emotionCount"] as! Int
+            
+            let checkUserLike = myUploadPlayData["isUserLiked"] as! Int
+            
+         
+            
             print(playUploadVideoPath!)
             
             
@@ -964,15 +983,16 @@ func deleteVideo(sender : UIButton)
             
             playViewController.playTitle = playUploadTitle
             
-            playViewController.playUrlString = playUploadVideoPath!
-            playViewController.playLike = playUploadLikeCount
-            playViewController.playView = playUploadViewCount
-            playViewController.playSmiley = playUploadSmiley
+            playViewController.playUrlString    = playUploadVideoPath!
+            playViewController.playLike         = playUploadLikeCount
+            playViewController.playView         = playUploadViewCount!
+            playViewController.playSmiley       = playUploadSmiley
             
             playViewController.nextID = playID
             
             playViewController.nextFileType = playFilemimeType
             
+            playViewController.checkLike = checkUserLike
             
             
             self.navigationController?.pushViewController(playViewController, animated: true)
@@ -1103,7 +1123,7 @@ func deleteVideo(sender : UIButton)
         
         flag = false
         
-        let  dicData = [ "user_email" : "mathan6@gmail.com" , "index" : 0 , "limit" : 30] as [String : Any]
+        let  dicData = [ "user_email" : userEmail , "index" : 0 , "limit" : 30] as [String : Any]
         
         getUploadData.getPublicPrivateMyUploadWebService(urlString: getUploadURL.privateMyUpload(), dicData: dicData as NSDictionary, callback:{(dicc, err) in
             

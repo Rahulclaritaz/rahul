@@ -68,7 +68,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool)
+    {
         
         getPopularVideo()
         
@@ -204,6 +205,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             print("sssss",dataValue["code"] as! String)
             
             
+            
+            
         if (dataValue["code"] as! String) != "202"
         {
             
@@ -225,7 +228,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 
                 self.lastRecord = false
                 
+               
+          
            
+            
             }
             
                else
@@ -253,11 +259,39 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             self.isFiltered = false
             
             print("No record")
+           
+            /*
+            let alert = UIAlertController(title: "NoData", message: "NoData", preferredStyle: .alert)
+            
+           
+            
+                
+                UIView.animate(withDuration: 0.6, animations: {
+                    
+                    DispatchQueue.main.async {
+                        alert.show()
+ 
+                        
+                    }
+                    
+                    
+                }, completion: { _ in
+                    
+                   
+                  //  alert.hide()
+                    
+                })
+                
+            */
             
             
             }
             
-            
+            func hide()
+            {
+                self.dismiss(animated: true, completion: nil)
+                
+            }
             
             
             
@@ -623,8 +657,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isFiltered == false
         {
-            
-            
+  
 //            let indexPathValue = IndexPath(row: sender.tag, section: 0)
             
             // let cell = self.publicTableView.cellForRow(at: indexPathValue) as! XPPublicDataTableViewCell
@@ -740,6 +773,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             let playSmiley = publicData["emotionCount"] as! Int
             
+             let checkUserLike = publicData["isUserLiked"] as! Int
+            
             let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
             
             playViewController.playTitle = playTitle
@@ -755,6 +790,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             playViewController.nextFileType = playFilemimeType
             
             playViewController.nextID = playID
+            
+            playViewController.checkLike = checkUserLike
+            
             
             self.navigationController?.pushViewController(playViewController, animated: true)
         }
@@ -914,16 +952,15 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         return 50
         
     }
-func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-{
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
     return self.recordPopularVideo.count
-    
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
+     {
      
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! XPSearchPopularCollectionViewCell
+     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "popularCell", for: indexPath) as! XPSearchPopularCollectionViewCell
         
       cell.layer.cornerRadius = 5.0
         
@@ -939,7 +976,7 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
       cell.lblPopularEmotion.text = String(format: "%d Reactions", arguments: [popularData["emotionCount"] as! Int])
         
-      cell.lblPopularViews.text = popularData["view_count"] as! String
+      cell.lblPopularViews.text = popularData["view_count"] as? String
         
         
         
@@ -1027,17 +1064,17 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
     {
         
         let indexPathValue = IndexPath(item: sender.tag, section: 0)
-        
+ 
         let popularData = recordPopularVideo[indexPathValue.item]
-        
+ 
         let playTitle = popularData["title"] as! String
-        
+ 
         var playVideoPath = popularData["fileuploadPath"] as! String
-        
+ 
         playVideoPath.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
-        
+ 
         let playFilemimeType = popularData["filemimeType"] as! String
-        
+ 
         let playID = popularData["_id"] as! String
         
         let playLikeCount = popularData["likeCount"] as! Int
@@ -1047,6 +1084,8 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         let playSmiley = popularData["emotionCount"] as! Int
         
         let checkUserLike = popularData["isUserLiked"] as! Int
+     
+        print("check collection video ",checkUserLike)
         
         
         let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
@@ -1068,7 +1107,7 @@ func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection s
         
         playViewController.checkLike = checkUserLike
         
-        //playViewController.checkLike = checkUserLike 
+        
         
         
      self.navigationController?.pushViewController(playViewController, animated: true)

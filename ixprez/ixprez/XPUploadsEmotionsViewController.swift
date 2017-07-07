@@ -1,17 +1,13 @@
-//
+
 //  XPUploadsEmotionsViewController.swift
 //  ixprez
-//
+
 //  Created by Quad on 5/23/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
-//
+
 
 import UIKit
-protocol updateEmotionCount
-{
-    func passEmotionCount( value : Int)
-    func call()
-}
+ 
 
 
 class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
@@ -35,7 +31,6 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     
     var flagTick : Bool!
     
-    var del : updateEmotionCount!
     
     var isSele : Bool!
     
@@ -43,7 +38,12 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     
     var nsuerDefault = UserDefaults.standard
     
-    var isPressButton : Bool!
+    var isPressButton0 : Bool!
+    var isPressButton1 : Bool!
+    var isPressButton2 : Bool!
+    var isPressButton3 : Bool!
+    
+    var isReload : Bool!
     
     
     //OutLet
@@ -55,25 +55,79 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     {
         flagTick = true
      
-        isPressButton = false
+        isReload = false
+        
+        isPressButton0 = false
+        
+        isPressButton1 = false
+        
+        isPressButton2 = false
+        
+        isPressButton3 = false
+        
         
         super.viewDidLoad()
         print("Check Mathan")
         
         print(FileType)
         print("mathan id",ID)
+       
+         userEmail = nsuerDefault.string(forKey: "emailAddress")!
+        
+        getEmotionCount()
+        
+             }
+    
+    func getEmotionCount()
+    {
         
         
-    print("recordEmotionCount",recordEmotionCount)
+        
+        let dicValue = ["user_email":userEmail,"file_id":ID]
+        
+        
+        if isReload == false
+        {
+        getEmotionWebService.getPublicPrivateMyUploadWebService(urlString: getEmotionUrl.uploadEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
+            
+            self.recordEmotionCount = dicc
+            
+            DispatchQueue.main.async
+                {
+                
+              self.tableView.reloadData()
+            }
+           
+                   })
+            
+            isReload = true
+            
+            
+        }
+        
+        else
+        {
+            getEmotionWebService.getPublicPrivateMyUploadWebService(urlString: getEmotionUrl.uploadEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
+                
+                self.recordEmotionCount = dicc
+                
+                
+                
+            })
+            
+  
+        }
         
     }
+
     
   
     override func viewWillAppear(_ animated: Bool) {
         
-     
+      //  getEmotionCount()
 
-       userEmail = nsuerDefault.string(forKey: "emailAddress")!
+
+      
     }
 
    /* func getEmotionCount()
@@ -150,7 +204,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         {
             cell.imgTick.image = UIImage(named: "EmotionTick")
             
-            cell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+            cell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
             print("hi is userChecked")
             
             //isSele = false
@@ -172,7 +226,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         
 //        cell.lblEmotionCount.backgroundColor = UIColor.getOrangeColor()
         
-        cell.btnEmotion.tag = indexPath.row
+        
         
         let lengthOfTitle =  cell.btnEmotion.titleLabel?.text?.lengthOfBytes(using: .utf32)
         
@@ -181,7 +235,7 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         cell.emotionWidth.constant  =  CGFloat(lengthOfTitle!)*2
         
         
-        
+        cell.btnEmotion.tag = indexPath.row
         
         cell.btnEmotion.addTarget(self, action: #selector(countEmotion(sender:)), for: .touchUpInside)
        
@@ -213,31 +267,39 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
     
     func countEmotion(sender : UIButton)
     {
-       
-
+   
         
-         del.call()
+        switch sender.tag
+        
+        {
+         
+        case 0 :
 
-        let indexPathData = IndexPath(row: sender.tag, section: 0)
+       let indexPathData = IndexPath(row: sender.tag, section: 0)
         
         let myCell = tableView.cellForRow(at: indexPathData) as! UploadsEmotionsTableViewCell
         
         let emotionCount = recordEmotionCount[indexPathData.row]
         
         let userCheckedCount = emotionCount["isUserChecked"] as! Int
-        
       
+        print("user Checked Count" , userCheckedCount)
+        
+       
         
         if   userCheckedCount != 1
         {
             
             isSele = true
             
+          
+            
         }
             
         else
         {
             isSele = false
+            
             
         }
 
@@ -246,29 +308,28 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
            if (isSele == true)
           {
             
-             if isPressButton == false
+             if isPressButton0 == false
              {
-               myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+                
+                myCell.imgTick.image = UIImage(named: "EmotionTick")
             
-               getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
-            
-               self.del.passEmotionCount(value: 1)
-             
-               myCell.imgTick.image = UIImage(named: "EmotionTick")
-             
-               isPressButton = true
+                getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                print("user Checked Count" , userCheckedCount)
+               
+                
+              isPressButton0 = true
             }
             else
              {
                 myCell.imgTick.image =  nil
                 
-                self.del.passEmotionCount(value: 0)
-                
                 myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
                 
                 getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
                 
-                isPressButton = false
+                isPressButton0 = false
                 
  
             }
@@ -278,37 +339,322 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
         {
             
             
-            if isPressButton == false
+            if isPressButton0 == false
             {
-            myCell.imgTick.image =  nil
+               myCell.imgTick.image =  nil
             
-            self.del.passEmotionCount(value: 0)
-            
-            myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
-            
-            getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
-            
-             isPressButton = true
                 
+               myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int - 1 )
+            
+               getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                  print("user Checked Count" , userCheckedCount)
+                
+                            isPressButton0 = true
+                
+            
             
             }
             else
             {
-                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
                 
                 getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
                 
-                self.del.passEmotionCount(value: 1)
-                
                 myCell.imgTick.image = UIImage(named: "EmotionTick")
                 
-                isPressButton = true
+                isPressButton0 = false
             }
         
+        }
+            
+            
+        case 1 :
+            
+            
+            let indexPathData = IndexPath(row: sender.tag, section: 0)
+            
+            let myCell = tableView.cellForRow(at: indexPathData) as! UploadsEmotionsTableViewCell
+            
+            let emotionCount = recordEmotionCount[indexPathData.row]
+            
+            let userCheckedCount = emotionCount["isUserChecked"] as! Int
+            
+            print("user Checked Count" , userCheckedCount)
+            
+            
+            
+            if   userCheckedCount != 1
+            {
+                
+                isSele = true
+                
+                
+                
+            }
+                
+            else
+            {
+                isSele = false
+                
+                
+            }
+            
+            
+            
+            if (isSele == true)
+            {
+                
+                if isPressButton1 == false
+                {
+                    myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+                    
+                    myCell.imgTick.image = UIImage(named: "EmotionTick")
+                    
+                    getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                                    isPressButton1 = true
+                }
+                else
+                {
+                    myCell.imgTick.image =  nil
+                    
+                    myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+                    
+                    getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                    
+                    isPressButton1 = false
+                    
+                    
+                }
+                
+            }
+            else
+            {
+                
+                
+                if isPressButton1 == false
+                {
+                    myCell.imgTick.image =  nil
+                    
+                    myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int - 1)
+                    
+                    getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                    
+                    isPressButton1 = true
+                    
+                    
+                    
+                }
+                else
+                {
+                    myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+                    
+                    getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                    
+                    myCell.imgTick.image = UIImage(named: "EmotionTick")
+                   
+                    isPressButton1 = false
+                }
+                
+            }
+
+        
+        
+        
+        case 2 :
+            
+           
+
+        
+        let indexPathData = IndexPath(row: sender.tag, section: 0)
+        
+        let myCell = tableView.cellForRow(at: indexPathData) as! UploadsEmotionsTableViewCell
+        
+        let emotionCount = recordEmotionCount[indexPathData.row]
+        
+        let userCheckedCount = emotionCount["isUserChecked"] as! Int
+        
+        print("user Checked Count" , userCheckedCount)
+        
+        
+        
+        if   userCheckedCount != 1
+        {
+            
+            isSele = true
+            
+            
+            
+        }
+            
+        else
+        {
+            isSele = false
+            
+            
         }
         
         
         
+        if (isSele == true)
+        {
+            
+            if isPressButton2 == false
+            {
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+                
+                myCell.imgTick.image = UIImage(named: "EmotionTick")
+                
+                getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                isPressButton2 = true
+            }
+            else
+            {
+                myCell.imgTick.image =  nil
+                
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+                
+                getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                isPressButton2 = false
+                
+                
+            }
+            
+        }
+        else
+        {
+            
+            
+            if isPressButton2 == false
+            {
+                myCell.imgTick.image =  nil
+                
+                
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int - 1)
+                
+                getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                isPressButton2 = true
+                
+                
+                
+            }
+            else
+            {
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+                
+                getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                myCell.imgTick.image = UIImage(named: "EmotionTick")
+                
+                isPressButton2 = false
+            }
+            
+        }
+
+        
+        case 3 :
+        
+         
+            
+        let indexPathData = IndexPath(row: sender.tag, section: 0)
+        
+        let myCell = tableView.cellForRow(at: indexPathData) as! UploadsEmotionsTableViewCell
+        
+        let emotionCount = recordEmotionCount[indexPathData.row]
+        
+        let userCheckedCount = emotionCount["isUserChecked"] as! Int
+        
+        print("user Checked Count" , userCheckedCount)
+        
+        
+        
+        if   userCheckedCount != 1
+        {
+            
+            isSele = true
+            
+            
+            
+        }
+            
+        else
+        {
+            isSele = false
+            
+            
+        }
+        
+        
+        
+        if (isSele == true)
+        {
+            
+            if isPressButton3 == false
+            {
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int + 1)
+                
+                myCell.imgTick.image = UIImage(named: "EmotionTick")
+                
+                getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                isPressButton3 = true
+            }
+            else
+            {
+                myCell.imgTick.image =  nil
+                
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+                
+                getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                
+                isPressButton3 = false
+                
+                
+            }
+            
+        }
+        else
+        {
+            
+            
+            if isPressButton3 == false
+            {
+                myCell.imgTick.image =  nil
+                
+                
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int - 1 )
+                
+                getSaveEmotionCount1(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                isPressButton3 = true
+                
+                
+                
+            }
+            else
+            {
+                myCell.lblEmotionCount.text = String(emotionCount["count"] as! Int)
+                
+                getSaveEmotionCount(sender: (myCell.btnEmotion.titleLabel?.text)!)
+                
+                myCell.imgTick.image = UIImage(named: "EmotionTick")
+                
+                
+                isPressButton3 = false
+            }
+            
+        }
+
+        default :
+        
+        print("ok")
+    }
+    
+    
     }
     
     func getSaveEmotionCount(sender : String)
@@ -324,8 +670,6 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
             
             print("mathan check",dicc)
             
-          
-                        
         })
         
         

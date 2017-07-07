@@ -12,7 +12,7 @@ import AVFoundation
 
 
 
-class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDelegate,UINavigationControllerDelegate,updateEmotionCount
+class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDelegate,UINavigationControllerDelegate
     
 {
     
@@ -111,25 +111,16 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
     }
     
-    func passEmotionCount( value : Int)
-
-    {
-        if value == 1
-        {
-            imgEmotion.image = UIImage(named: "UploadSmileyOrange")
-        }
-        else
-        {
-             imgEmotion.image = UIImage(named: "UploadSmiley")
-        }
-        
-        
-    }
+    
     override func viewDidLoad()
     {
         
         
         super.viewDidLoad()
+        
+        
+        
+        print("mathan check this one",checkLike)
 
        isTuch = true
         
@@ -183,21 +174,9 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getEmotionCount()
+       // getEmotionCount()
     }
-    func call()
-    {
-        getEmotionCount()
-        
-        
-        let emotionView = self.storyboard?.instantiateViewController(withIdentifier: "XPUploadsEmotionsViewController") as! XPUploadsEmotionsViewController
-        
-        
-        emotionView.recordEmotionCount = recordEmotionCountData
-        
-        
-    }
-  
+    
  
     func handeltap(sender: UITapGestureRecognizer)
     {
@@ -281,11 +260,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
          }
  
     }
-    
  
-
-    
-    
     func  playVideoAudio()
     {
     
@@ -353,14 +328,9 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
   
     @IBAction func emotionLike(_ sender: UIButton)
     {
-        
-        
-        
-        
+ 
         
        if isSelect == false
-
-        
         {
             if (pressButton == true)
             {
@@ -383,24 +353,20 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
             else
             {
                 
-                setImage = false
+            setImage = false
                 
-                lblLikeCount.text =  String(format: "%d Likes",playLike)
+            lblLikeCount.text =  String(format: "%d Likes",playLike)
                 
+            imgHeart.image = UIImage(named: "UploadHeart")
                 
-                imgHeart.image = UIImage(named: "UploadHeart")
+            getSaveEmotionCount1(sender: lblLikeCount.text!)
                 
-                getSaveEmotionCount1(sender: lblLikeCount.text!)
+            sender.isSelected = false
                 
-                sender.isSelected = false
-                
-                pressButton = true
+            pressButton = true
                 
                 
             }
-            
-            
-        
         }
         
        else
@@ -501,13 +467,11 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
    
         let emotionView = self.storyboard?.instantiateViewController(withIdentifier: "XPUploadsEmotionsViewController") as! XPUploadsEmotionsViewController
         
-        emotionView.del = self
-        
         emotionView.ID = nextID
         
         emotionView.FileType = nextFileType
         
-        emotionView.recordEmotionCount = recordEmotionCountData
+       // emotionView.recordEmotionCount = recordEmotionCountData
         
         
         transitionView.duration = 0.5
@@ -536,33 +500,6 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
 
     
-func getEmotionCount()
-{
-    let dicValue = ["user_email":userEmail,"file_id":nextID]
-    
-    
-    
-    getEmotionWebService.getPublicPrivateMyUploadWebService(urlString: getEmotionUrl.uploadEmotionCount(), dicData: dicValue as NSDictionary, callback: { (dicc,eror) in
-        
-        self.recordEmotionCountData = dicc
-        
-        
-        print("mathan check dataooooooo",dicc)
-        
-        for details in self.recordEmotionCountData
-        {
-            let myCountData = details["count"] as! Int
-            let myEmothioData = details["emotion"] as! String
-            
-            self.nextCountArray.append(myCountData)
-            
-            self.nextEmotionArray.append(myEmothioData)
-            
-            
-            
-        }
-    })
-}
     
     
 }
