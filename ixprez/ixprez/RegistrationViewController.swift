@@ -11,7 +11,8 @@ import CoreTelephony
 
 class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource{
    
-
+    @IBOutlet weak var btnTerm: UIButton!
+    @IBOutlet weak var btnPrivacy: UIButton!
     @IBOutlet weak var viewScrollView: UIView!
 //    @IBOutlet weak var countryPickerView: UIPickerView!
 //    @IBOutlet weak var languagePickerView: UIPickerView!

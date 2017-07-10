@@ -5,15 +5,24 @@
 //  Created by Quad on 4/27/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
 //
+//Confirmation code has been send to mathan6@gmail.complease Click resend if the mail failed to deliver.
 
 import UIKit
 
 class OTPVerificationViewController: UIViewController,UITextFieldDelegate
 {
+    
+    
+    @IBOutlet weak var lblOtpDescription: UILabel!
+    
     @IBOutlet var btnChangeEmail: UIButton!
+    
     @IBOutlet var designView: UIView!
+    
     @IBOutlet var btnDone: UIButton!
+    
     @IBOutlet var txtOTP: UITextField!
+    
     var userName : String = ""
     var emailId : String = ""
     var country : String = ""
@@ -27,18 +36,34 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     
     let userDefaultData = UserDefaults.standard
 
+    var email : String!
+    
+    let userDefault = UserDefaults.standard
+    
     
 
     @IBOutlet var otpScrollView: UIScrollView!
     override func viewDidLoad()
     {
+        
+        email = userDefault.string(forKey: "emailAddress")
+        
         super.viewDidLoad()
+        
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "bg_reg.png")!)
+        
         designView.backgroundColor = UIColor(patternImage: UIImage(named: "bg_reg.png")!)
         
+        lblOtpDescription.text = String(format: "%@ please Click resend if the mail failed to deliver", email)
+        
+        
+        lblOtpDescription.textAlignment = .center
+  
         
         btnChangeEmail.layer.cornerRadius = 20
+        
         btnChangeEmail.layer.borderWidth = 3.0
+        
         btnChangeEmail.layer.borderColor = UIColor.getLightBlueColor().cgColor
         
         

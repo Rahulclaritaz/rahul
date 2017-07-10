@@ -12,7 +12,8 @@
 
         lazy var VCArray : [UIViewController]
        = {
-            return [self.VCInstance(name: "FirstVC"),
+            return [self.VCInstance(name: "ZeroVC"),
+                self.VCInstance(name: "FirstVC"),
                     self.VCInstance(name: "SecondVC"),
                     self.VCInstance(name: "ThirdVC"),
                   ]
