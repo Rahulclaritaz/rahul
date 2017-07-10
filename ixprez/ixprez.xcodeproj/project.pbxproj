@@ -293,6 +293,7 @@
 		130FD8E81EB887A900026975 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */,
 				1314C6DF1ED7E78000FD0A8F /* MyUploadWebServices.swift */,
 				130FD8E91EB887CB00026975 /* XPWebService.swift */,
 				1314C6E01ED7E78000FD0A8F /* PrivateWebService.swift */,
@@ -536,7 +537,6 @@
 				131703DD1F061FE200101221 /* XPFolllowsViewController.swift */,
 				131703DE1F061FE200101221 /* XPSettingPhotoViewController.swift */,
 				1314C6CF1ED7E6F900FD0A8F /* IXPrivateViewController.swift */,
-				856AD6671EC03FDA00FCBBEC /* XPPrivateVideoViewController.swift */,
 				85525F061EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift */,
 				1314C6D51ED7E6F900FD0A8F /* XPSettingsViewController.swift */,
 			);
