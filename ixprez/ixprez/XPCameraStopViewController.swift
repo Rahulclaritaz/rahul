@@ -14,8 +14,10 @@ class XPCameraStopViewController: UIViewController,AVCaptureVideoDataOutputSampl
     var popController = UIViewController ()
     var cameraSession = AVCaptureSession ()
     var imagePicker = UIImagePickerController ()
+    var videoFileURLPath = NSURL()
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("The url path of the video file is \(videoFileURLPath)")
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         setupCameraSession()

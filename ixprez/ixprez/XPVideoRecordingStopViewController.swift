@@ -7,23 +7,30 @@
 //
 
 import UIKit
+import AVFoundation
 
-class XPVideoRecordingStopViewController: UIViewController {
+class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDelegate {
     var commonRequsetResponseService = XPWebService ()
     var commonWebURL = URLDirectory.videoDataUpload()
     @IBOutlet weak var retryButton = UIButton()
     @IBOutlet weak var xpressButton = UIButton()
     @IBOutlet weak var videoBGImage = UIImageView()
     @IBOutlet weak var countLabel = UILabel ()
+    var cameraSession = AVCaptureSession ()
+    var deviceInput = AVCaptureDeviceInput ()
+    
     var countLabelString = String ()
     var titleLabel = String ()
     var registrationPage = RegistrationViewController ()
     var videoPage = XPVideoViewController ()
+   @IBOutlet weak var bootomToolBarView = UIView ()
+    var videoFileURLPath = NSURL()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        self.title = titleLabel
+        print("The url path of the video file is \(videoFileURLPath)")
+        self.title = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
         self.countLabel?.text = countLabelString
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
@@ -32,6 +39,10 @@ class XPVideoRecordingStopViewController: UIViewController {
         videoBGImage?.clipsToBounds = true
         videoBGImage?.layer.cornerRadius = (videoBGImage?.frame.size.height)!/2
         videoBGImage?.layer.masksToBounds = false
+        setupCameraSession()
+        cameraSession.startRunning()
+        self.view.layer.addSublayer(previewLayer)
+        self.view.addSubview(bootomToolBarView!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,18 +50,63 @@ class XPVideoRecordingStopViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    lazy var previewLayer: AVCaptureVideoPreviewLayer = {
+        let preview =  AVCaptureVideoPreviewLayer(session: self.cameraSession)
+        preview?.bounds = CGRect(x: 0, y: 64, width: self.view.bounds.width, height: self.view.bounds.height)
+        preview?.position = CGPoint(x: self.view.bounds.midX, y: self.view.bounds.midY)
+        preview?.videoGravity = AVLayerVideoGravityResize
+        return preview!
+    }()
+    
+    
+    func setupCameraSession() {
+        let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo) as AVCaptureDevice
+        
+        do {
+            let deviceInput = try AVCaptureDeviceInput(device: captureDevice)
+            
+            cameraSession.beginConfiguration()
+            
+            if (cameraSession.canAddInput(deviceInput) == true) {
+                cameraSession.addInput(deviceInput)
+            }
+            
+            let dataOutput = AVCaptureVideoDataOutput()
+            dataOutput.videoSettings = [(kCVPixelBufferPixelFormatTypeKey as NSString) : NSNumber(value: kCVPixelFormatType_420YpCbCr8BiPlanarFullRange as UInt32)]
+            dataOutput.alwaysDiscardsLateVideoFrames = true
+            
+            if (cameraSession.canAddOutput(dataOutput) == true) {
+                cameraSession.addOutput(dataOutput)
+            }
+            
+            cameraSession.commitConfiguration()
+            
+            let queue = DispatchQueue(label: "ixprez")
+            dataOutput.setSampleBufferDelegate(self, queue: queue)
+            
+        }
+        catch let error as NSError {
+            NSLog("\(error), \(error.localizedDescription)")
+        }
+    }
+    
+    // This method will cancel the record and return back to previous view controller.
     @IBAction func retryButtonAction (sender : Any) {
         self.navigationController?.popViewController(animated: true)
         
     }
     
+    
+    // This method will send to the request parameter to the server and move to dashboard main view.
     @IBAction func xpressButtonAction (sender : Any) {
+        
         uploadVideoToWebService()
 //                let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController")
 //                self.present(storyBoard!, animated: true, completion: nil)
     }
     
     func uploadVideoToWebService () {
+         var videoData = NSData(contentsOf: videoFileURLPath as URL)
         
 //        var videoData = NSData(contentsOf: videoRecordURLString!)
         
@@ -150,8 +206,8 @@ class XPVideoRecordingStopViewController: UIViewController {
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sampleVideo.mp4\"\r\n")
         body.appendString("Content-Type: video/mp4\r\n\r\n")
-//        var urlData = NSData(data: videoData as! Data)
-//        body.append(urlData as Data)
+        let urlData = NSData(data: videoData as! Data)
+        body.append(urlData as Data)
         body.appendString("\r\n")
         
         

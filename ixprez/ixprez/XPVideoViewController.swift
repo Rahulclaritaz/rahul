@@ -334,7 +334,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
         let alert = UIAlertController(title: "Alert", message: "Email and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraONViewController") as! XPCameraONViewController
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingPlayViewController") as! XPVideoRecordingPlayViewController
         if (shareTitleLabel.text == "Private") {
             if ((emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
                 self.present(alert, animated: true, completion: nil)
