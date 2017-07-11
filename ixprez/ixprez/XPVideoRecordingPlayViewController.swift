@@ -46,7 +46,7 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
         videoBGImage?.layer.cornerRadius = (videoBGImage?.frame.size.height)!/2
         videoBGImage?.layer.masksToBounds = true
         setupCameraSession()
-        cameraSession.startRunning()
+//        cameraSession.startRunning()
 //        loadCamera()
 //        previewLayer.frame = self.view.bounds
         self.view.layer.addSublayer(previewLayer)
@@ -380,29 +380,29 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
     }
     
     func stopRecording() {
-        let recorder = RPScreenRecorder.shared()
+        let recorder = deviceVideoFileOutput.stopRecording()
         
-        recorder.stopRecording { [unowned self] (preview, error) in
+  //      recorder.stopRecording { [unowned self] (preview, error) in
 //            self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Start", style: .plain, target: self, action: "startRecording")
             
-            if let unwrappedPreview = preview {
+//            if let unwrappedPreview = preview {
 //                unwrappedPreview.previewControllerDelegate = self as! RPPreviewViewControllerDelegate
 //                self.present(unwrappedPreview, animated: true, completion: nil)
-            }
-        }
+//            }
+//        }
     }
     
     public func capture(_ captureOutput: AVCaptureFileOutput!, didStartRecordingToOutputFileAt fileURL: URL!, fromConnections connections: [Any]!) {
-        
+         videoURLPath = fileURL! as NSURL
         print("The start file output url is \(fileURL)")
         
     }
     
     func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
         
-        videoURLPath = outputFileURL! as NSURL
+//        videoURLPath = outputFileURL! as NSURL
         print("The finish file output url is \(outputFileURL)")
-         print("The finish file1 output url is \(videoURLPath)")
+//         print("The finish file1 output url is \(videoURLPath)")
         
     }
 

@@ -16,8 +16,11 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     @IBOutlet weak var xpressButton = UIButton()
     @IBOutlet weak var videoBGImage = UIImageView()
     @IBOutlet weak var countLabel = UILabel ()
+    var thumbImageView = UIImage()
+    var videoThumbnailImage = NSData ()
     var cameraSession = AVCaptureSession ()
     var deviceInput = AVCaptureDeviceInput ()
+    var urlData = NSData ()
     
     var countLabelString = String ()
     var titleLabel = String ()
@@ -39,6 +42,21 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         videoBGImage?.clipsToBounds = true
         videoBGImage?.layer.cornerRadius = (videoBGImage?.frame.size.height)!/2
         videoBGImage?.layer.masksToBounds = false
+        // this will create the thumbnail image for the video.
+        var err: NSError? = nil
+        let asset = AVURLAsset(url: videoFileURLPath as URL)
+        let imgGenerator = AVAssetImageGenerator(asset: asset)
+        //        let cgImage = imgGenerator.copyCGImageAtTime(CMTimeMake(0, 1), actualTime: nil, error: &err)
+        do {
+            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+            thumbImageView = UIImage(cgImage: cgImage)
+            //            thumbImageView = UIImageView(image: uiImage)
+        } catch {
+            
+        }
+        videoThumbnailImage = UIImagePNGRepresentation(thumbImageView)! as NSData
+        urlData = NSData(data: videoThumbnailImage as Data )
+        
         setupCameraSession()
         cameraSession.startRunning()
         self.view.layer.addSublayer(previewLayer)
@@ -206,17 +224,34 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sampleVideo.mp4\"\r\n")
         body.appendString("Content-Type: video/mp4\r\n\r\n")
-        let urlData = NSData(data: videoData as! Data)
+        let urlData = NSData(data: videoData! as Data)
         body.append(urlData as Data)
         body.appendString("\r\n")
         
         
         // This is the recorded Video parameter add in the web service.
+        
+//        var err: NSError? = nil
+//        let asset = AVURLAsset(url: videoFileURLPath as URL)
+//        let imgGenerator = AVAssetImageGenerator(asset: asset)
+////        let cgImage = imgGenerator.copyCGImageAtTime(CMTimeMake(0, 1), actualTime: nil, error: &err)
+//        do {
+//        let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+//            thumbImageView = UIImage(cgImage: cgImage)
+////            thumbImageView = UIImageView(image: uiImage)
+//        } catch {
+//            
+//        }
+//        
+//        videoThumbnailImage = UIImagePNGRepresentation(thumbImageView)! as NSData
+        // !! check the error before proceeding
+//        let uiImage = UIImage(CGImage: cgImage)
+//        let imageView = UIImageView(image: uiImage)
+        // lay out this image view, or if it already exists, set its image property to uiImage
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"thumbnail\"; filename=\"s.jpg\"\r\n")
         body.appendString("Content-Type: image/png\r\n\r\n")
-//        var urlData = NSData(data:  as! Data)
-//        body.append(urlData as Data)
+        body.append((urlData as NSData) as Data)
         body.appendString("\r\n")
         
         requestUrl.httpBody = body as Data
