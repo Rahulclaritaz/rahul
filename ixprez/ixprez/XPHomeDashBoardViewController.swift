@@ -610,7 +610,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     // This method will send the request and will return the Dashboard Treanding data response
     func getTrendingResponse () {
         self.activityIndicator.startAnimating()
-        let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress") ,"emotion":"like","index":"1","limit":"30"]
+        let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress") ,"emotion":"like","index":"0","limit":"30"]
         dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: requestParameter as NSDictionary) { (treandingResponse, error) in
             print(treandingResponse)
             if (error == nil) {
@@ -639,7 +639,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     func getRecentResponse () {
         self.activityIndicator.startAnimating()
-        let requestParameter = ["user_email": "mathan6@gmail.com","emotion":"like","index":"1","limit":"30","language":"English","country":"India"]
+        let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress"),"emotion":"like","index":"0","limit":"30","language":"English","country":"India"]
         dashBoardCommonService.getRecentAudioVideoResponse(urlString: recentAudioVideoURL.url(), dictParameter: requestParameter as NSDictionary) { (recentResponse, error) in
             print(recentResponse)
             self.trendingLikeCount = recentResponse.value(forKey: "likeCount") as! NSArray
