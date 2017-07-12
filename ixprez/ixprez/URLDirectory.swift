@@ -115,6 +115,12 @@ struct URLDirectory
             //  return "http://192.168.1.20:3000/commandService/blockUser"
         }
         
+         func audioVideoReportAbuse() -> String
+        {
+            
+            return "http://103.235.104.118:3000/commandService/audioVideoReportAbuse"
+        }
+        
     }
     
     struct MyUpload
