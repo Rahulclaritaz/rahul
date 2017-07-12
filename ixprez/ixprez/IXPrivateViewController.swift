@@ -43,13 +43,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     let  myImage = UIImageView()
     
-    
-    
-//   @IBOutlet var backButton = UIBarButtonItem ()
-    //Outlet Reference
-    
-    
-    
+ 
     lazy var refershController : UIRefreshControl = {
         
       let refersh = UIRefreshControl()
@@ -72,7 +66,9 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
         super.viewDidLoad()
         
-        self.getPrivateData()
+         userEmail = nsuerDefault.string(forKey: "emailAddress")
+        
+        
 
         if Reachability.isConnectedToNetwork() == true
         {
@@ -97,7 +93,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         
         getBackgroundView()
 
-        userEmail = nsuerDefault.string(forKey: "emailAddress")
+       
         
         print(userEmail)
         
@@ -534,11 +530,9 @@ func getRefersh( action : UIRefreshControl)
     {
         
         // remove the data from array
-        
-        
+    
         recordPrivateData.remove(at: no)
-        
-        
+      
         // remove the section from tableview
         
         self.privateTableView.beginUpdates()
@@ -596,12 +590,12 @@ func getRefersh( action : UIRefreshControl)
                     self.privateTableView.beginUpdates()
                     // Remove item from the array
                     self.recordPrivateData.remove(at: self.privateIndexPathLength)
-                    
-                    
-                    // Delete the row from the table view
+                  
                 
-                    
+                    // Delete the row from the table view
+                 
                     self.privateTableView.deleteSections([self.privateIndexPathLength], with: .fade)
+                    
                     self.privateTableView.endUpdates()
                     
                 }
@@ -684,19 +678,29 @@ func getRefersh( action : UIRefreshControl)
                     
                 {
                     
+                    let dicData = [ "description" : "Accept","file_id" :self.privateIdValue ,"file_type" : self.privateType ,"user_email" :self.privatefromEmail ] as [String : Any]
+                    
+                    
+                    
+                    self.getPrivateWebData.getPrivateData(urlString: self.getPrivateURL.audioVideoReportAbuse(), dicData: dicData, callback: {
+                        (dic, err) in
+                        
+                        print("check Private Data report Abuse",dic)
+                        
+                    })
+                    
+
+                    
                     DispatchQueue.main.async {
                         
                           self.privateTableView.beginUpdates()
                         // Remove item from the array
                         self.recordPrivateData.remove(at: self.privateIndexPathLength)
                         
-                        
-                        
-                        
                         // Delete the row from the table view
-                      
-                      
+                 
                         self.privateTableView.deleteSections([self.privateIndexPathLength], with: .fade)
+                        
                         self.privateTableView.endUpdates()
                         
                     }
@@ -759,6 +763,28 @@ func getRefersh( action : UIRefreshControl)
                 if ((dicc["status"] as! String).isEqual("OK"))
                     
                 {
+                    
+                    let dicData = [ "description" : "Accept","file_id" :self.privateIdValue ,"file_type" : self.privateType ,"user_email" :self.privatefromEmail ] as [String : Any]
+                    
+                    
+                    
+                    self.getPrivateWebData.getPrivateData(urlString: self.getPrivateURL.audioVideoReportAbuse(), dicData: dicData, callback: {
+                        (dic, err) in
+                        
+                        print("check Private Data report Abuse",dic)
+                       
+                    })
+                    
+                    
+                    //http://103.235.104.118:3000/commandService/audioVideoReportAbuse
+                    /*
+ "{ ""description"": ""ggahhajajajakakq"",
+ ""file_id"": ""5923ec0cbf18f87f42727888"",
+ ""file_type"": ""video/mp4"",
+ ""user_email"": ""jnjaga24@gmail.com""}"
+                     
+                     
+ */
                     
                     DispatchQueue.main.async {
                      
