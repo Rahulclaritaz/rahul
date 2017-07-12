@@ -6,4 +6,5 @@
 #import "iCarousel.h"
 #import "SWRevealViewController.h"
 #import "IQAudioRecorderViewController.h"
+#import "UIBarButtonItem+Badge.h"
 

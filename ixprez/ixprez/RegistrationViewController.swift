@@ -106,6 +106,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         self.viewScrollView.backgroundColor = UIColor(patternImage: UIImage(named:"bg_reg.png")!)
         getCountryDataFromTheWebService()
         getLanguageNameFromWebService()
+        UserDefaults.standard.set(true, forKey: "isAppFirstTime")
         
         // This gesture will use to hide the keyboard (tap anywhere inside the screen)
         // tap = UITapGestureRecognizer(target: self, action:#selector(dismissKeyboard(rec:)))
