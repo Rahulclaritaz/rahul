@@ -54,6 +54,10 @@
 		13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */; };
 		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
 		13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */; };
+		8501FC731F163D4A00C94926 /* XPDashBoardHeartXpressionCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501FC721F163D4A00C94926 /* XPDashBoardHeartXpressionCountViewController.swift */; };
+		850A983B1F16618300AF81F2 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850A983A1F16618300AF81F2 /* File.swift */; };
+		850A98401F1669C200AF81F2 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 850A983D1F1669C200AF81F2 /* UIBarButtonItem+Badge.m */; };
+		850A98411F1669C200AF81F2 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 850A983F1F1669C200AF81F2 /* UIButton+Badge.m */; };
 		8542F2481F03AFA6006FFCE5 /* StretchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */; };
 		8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */; };
 		8542F24D1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */; };
@@ -67,6 +71,7 @@
 		85525F121EEACD27008C5C9B /* XPHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F0F1EEACD26008C5C9B /* XPHelpViewController.swift */; };
 		85525F131EEACD27008C5C9B /* XPSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F101EEACD26008C5C9B /* XPSupportViewController.swift */; };
 		85525F151EEACDD3008C5C9B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F141EEACDD3008C5C9B /* UIImageExtension.swift */; };
+		8552EFE41F15E8A5004DC638 /* XPDashboardTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8552EFE31F15E8A5004DC638 /* XPDashboardTutorialViewController.swift */; };
 		8558BF571ECC7FCD00270E1F /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8558BF561ECC7FCD00270E1F /* ContactsUI.framework */; };
 		8558BF591ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8558BF581ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift */; };
 		855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 855CCAD31ED31C1500939576 /* ATAudioVisualizer.m */; };
@@ -179,6 +184,12 @@
 		13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeEmailViewController.swift; sourceTree = "<group>"; };
 		13B06F341EB30AE500BD439C /* intro_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = intro_bg.png; sourceTree = "<group>"; };
 		13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomePageViewController.swift; sourceTree = "<group>"; };
+		8501FC721F163D4A00C94926 /* XPDashBoardHeartXpressionCountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashBoardHeartXpressionCountViewController.swift; sourceTree = "<group>"; };
+		850A983A1F16618300AF81F2 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		850A983C1F1669C200AF81F2 /* UIBarButtonItem+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Badge.h"; sourceTree = "<group>"; };
+		850A983D1F1669C200AF81F2 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
+		850A983E1F1669C200AF81F2 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
+		850A983F1F1669C200AF81F2 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeader.swift; sourceTree = "<group>"; };
 		8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeaderOptions.swift; sourceTree = "<group>"; };
 		8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashBoardProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -192,6 +203,7 @@
 		85525F0F1EEACD26008C5C9B /* XPHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHelpViewController.swift; sourceTree = "<group>"; };
 		85525F101EEACD26008C5C9B /* XPSupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSupportViewController.swift; sourceTree = "<group>"; };
 		85525F141EEACDD3008C5C9B /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		8552EFE31F15E8A5004DC638 /* XPDashboardTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashboardTutorialViewController.swift; sourceTree = "<group>"; };
 		8558BF561ECC7FCD00270E1F /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
 		8558BF581ECC832400270E1F /* XPAutoPoplatedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAutoPoplatedTableViewCell.swift; sourceTree = "<group>"; };
 		855CCAD11ED31C1300939576 /* ixprez-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ixprez-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -354,6 +366,10 @@
 				85A3DFED1ED7F719006E81ED /* Dashboard */,
 				1314C6EB1ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift */,
 				859234091ECD9F17003C70E4 /* Pulsator.swift */,
+				850A983C1F1669C200AF81F2 /* UIBarButtonItem+Badge.h */,
+				850A983D1F1669C200AF81F2 /* UIBarButtonItem+Badge.m */,
+				850A983E1F1669C200AF81F2 /* UIButton+Badge.h */,
+				850A983F1F1669C200AF81F2 /* UIButton+Badge.m */,
 				857E4C671EEE62D700274F8E /* SWRevealViewController.h */,
 				857E4C681EEE62D700274F8E /* SWRevealViewController.m */,
 				855CCAD21ED31C1500939576 /* ATAudioVisualizer.h */,
@@ -453,6 +469,8 @@
 			isa = PBXGroup;
 			children = (
 				859407C71ECEF14C000A6A80 /* XPPopOverViewController.swift */,
+				8552EFE31F15E8A5004DC638 /* XPDashboardTutorialViewController.swift */,
+				8501FC721F163D4A00C94926 /* XPDashBoardHeartXpressionCountViewController.swift */,
 				856AD6651EC034DA00FCBBEC /* XPHomeDashBoardViewController.swift */,
 				85879EC41EC57B2800337011 /* XPAudioViewController.swift */,
 				85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */,
@@ -558,6 +576,7 @@
 				1314C6E71ED7E81300FD0A8F /* StringURLExtension.swift */,
 				85BCA1EA1EE2B4FD009C4B02 /* ActivityExtension.swift */,
 				85525F141EEACDD3008C5C9B /* UIImageExtension.swift */,
+				850A983A1F16618300AF81F2 /* File.swift */,
 			);
 			name = Extension;
 			sourceTree = "<group>";
@@ -653,6 +672,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */,
+				8552EFE41F15E8A5004DC638 /* XPDashboardTutorialViewController.swift in Sources */,
 				131703E31F06247200101221 /* XPFollowHeaderTableViewCell.swift in Sources */,
 				85525F121EEACD27008C5C9B /* XPHelpViewController.swift in Sources */,
 				85525F131EEACD27008C5C9B /* XPSupportViewController.swift in Sources */,
@@ -662,6 +682,7 @@
 				13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */,
 				85BCA1EB1EE2B4FD009C4B02 /* ActivityExtension.swift in Sources */,
 				131703DF1F061FE200101221 /* XPFolllowsViewController.swift in Sources */,
+				850A98401F1669C200AF81F2 /* UIBarButtonItem+Badge.m in Sources */,
 				856E8C181ED97FBB0081BCF7 /* XPCameraONViewController.swift in Sources */,
 				8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */,
 				1314C6F21ED7EDA100FD0A8F /* MyUploadReportAbuseTableViewCell.swift in Sources */,
@@ -676,6 +697,7 @@
 				1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */,
 				8592909F1F00FD22006A488D /* IQCropSelectionEndView.m in Sources */,
 				1314C6F41ED7EDA100FD0A8F /* UploadsEmotionsTableViewCell.swift in Sources */,
+				850A983B1F16618300AF81F2 /* File.swift in Sources */,
 				85C4343E1F0644580046EE25 /* ContactEntry.swift in Sources */,
 				85BCA1F21EE2B5DB009C4B02 /* XPSearchPopularCollectionViewCell.swift in Sources */,
 				131703EE1F0629E000101221 /* IXValidation.swift in Sources */,
@@ -722,6 +744,7 @@
 				85BCA1F31EE2B5DB009C4B02 /* XPSearchTableViewCell.swift in Sources */,
 				859A22F11EB1ADDB008DD7F7 /* AppDelegate.swift in Sources */,
 				131703DC1F061CA700101221 /* Reachability.swift in Sources */,
+				850A98411F1669C200AF81F2 /* UIButton+Badge.m in Sources */,
 				8592340A1ECD9F17003C70E4 /* Pulsator.swift in Sources */,
 				859A5E111ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift in Sources */,
 				131703EC1F0625AA00101221 /* UIScrollView+ScalableCover.swift in Sources */,
@@ -731,6 +754,7 @@
 				856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */,
 				85DE17A71EC70E1E00CD9671 /* XPAudioRecordingViewController.swift in Sources */,
 				857E4C6D1EEE6B9700274F8E /* XPHumburgerMenuTableViewCell.swift in Sources */,
+				8501FC731F163D4A00C94926 /* XPDashBoardHeartXpressionCountViewController.swift in Sources */,
 				1314C6F11ED7EDA100FD0A8F /* MyUploadCollectionViewCell.swift in Sources */,
 				85525F0A1EEAC685008C5C9B /* XPSettingLanConDoneTableViewCell.swift in Sources */,
 				85525F091EEAC685008C5C9B /* XPSettingHeaderTableViewCell.swift in Sources */,

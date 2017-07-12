@@ -54,7 +54,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     let treandingVideoURL = URLDirectory.treandingURL()
     let recentAudioVideoURL = URLDirectory.recentURL()
     let followUpdateCountURL = URLDirectory.audioVideoViewCount()
+    let dashboardScreenCount = URLDirectory.Setting()
+    let getDashBoardCountWebService = PrivateWebService()
+    let heartDashboardXpressionButton = UIBarButtonItem ()
+    var dashboardHeartButtonCount = Int ()
+    var dashboardCountData = [String : AnyObject]()
+    
     let pulsrator = Pulsator()
+    var  popController = UIViewController()
     @IBOutlet weak var userProfileImage = UIImageView()
     @IBOutlet weak var userProfileBorder = UIImageView()
     @IBOutlet weak var userProfileAnimationOne = UIImageView()
@@ -62,6 +69,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet weak var humburgerMenuIcon = UIBarButtonItem ()
     
     var imageGesture = UITapGestureRecognizer()
+    
     
     
     var setFlag : Bool!
@@ -81,8 +89,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        getIcarouselFeaturesVideo()
-        getTrendingResponse()
+        dashboardXpressionCount()  // This will return the dashboard heart, private upload and notification count
+        getIcarouselFeaturesVideo() // This will return the carousel video
+        getTrendingResponse()  // This will return the treanding video (most like video)
 //        getRecentResponse()
         
     }
@@ -90,7 +99,13 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
+//       let tutorialScreen = self.storyboard?.instantiateViewController(withIdentifier: "XPDashboardTutorialViewController")  as! XPDashboardTutorialViewController
+//        self.addChildViewController(tutorialScreen)
+//        tutorialScreen.view.frame = self.view.frame
+//        self.view.addSubview(tutorialScreen.view)
+//        tutorialScreen.didMove(toParentViewController: self)
+//        heartDashboardXpressionButton.addBadge(number: 10)
         imageGesture = UITapGestureRecognizer(target: self, action: #selector(gotoSettingView(gesture:)))
             
             
@@ -188,7 +203,30 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     // This method will call when clik on the trending button
     
+    func dashboardXpressionCount() {
+        
+        let parameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress"), "PreviousCount" : 0 ]
+        
+         getDashBoardCountWebService.getPrivateData(urlString: dashboardScreenCount.getPrivateData(), dicData: parameter) { (response, error) in
+            print("the dashboard count is \(response)")
+            self.dashboardCountData = response["data"] as! [String : AnyObject]
+            self.dashboardHeartButtonCount = self.dashboardCountData["TotalNumberofrecords"] as! Int
+            print("The dashboard heart expression count is \(self.dashboardHeartButtonCount)")
+            
+        }
+        
+    }
     
+   @IBAction func xpressionHeartButtonAction (sender : AnyObject) {
+    
+   let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPDashBoardHeartXpressionCountViewController") as! XPDashBoardHeartXpressionCountViewController
+    popController.countExpression = self.dashboardHeartButtonCount
+    self.addChildViewController(popController)
+    popController.view.frame = self.view.frame
+    self.view.addSubview(popController.view)
+    popController.didMove(toParentViewController: self)
+        
+    }
     
     func gotoSettingView(gesture: UIGestureRecognizer )
     {
@@ -506,6 +544,19 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         pulsrator.animationDuration = 6
         pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
        pulsrator.start()
+        self.navigationItem.leftBarButtonItem?.badgeValue = String(self.dashboardHeartButtonCount)
+        
+        if (UserDefaults.standard.bool(forKey: "isAppFirstTime")) {
+            UserDefaults.standard.set(false, forKey: "isAppFirstTime")
+            popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPDashboardTutorialViewController") as! XPDashboardTutorialViewController
+            self.addChildViewController(popController)
+            popController.view.frame = self.view.frame
+            self.view.addSubview(popController.view)
+            self.didMove(toParentViewController: self)
+        }
+        
+        self.navigationItem.leftBarButtonItem?.badgeValue = String(self.dashboardHeartButtonCount)
+       
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var deviceOS : String!
     var systemName : String!
     var checkEmail = UserDefaults.standard
+    var isAppFirstTime = Bool ()
     
     
     
@@ -40,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Here will check app is going to launch is first time.
         if (checkEmail.value(forKey: "emailAddress") == nil) {
+            isAppFirstTime = true
             let regPage = self.window?.rootViewController?.storyboard?.instantiateViewController(withIdentifier: "RegistrationViewController") as! RegistrationViewController
             
             self.window?.rootViewController = regPage
