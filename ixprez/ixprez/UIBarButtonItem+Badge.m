@@ -45,7 +45,7 @@ NSString const *UIBarButtonItem_badgeValueKey = @"UIBarButtonItem_badgeValueKey"
     // Default design initialization
     self.badgeBGColor   = [UIColor orangeColor];
     self.badgeTextColor = [UIColor whiteColor];
-    self.badgeFont      = [UIFont systemFontOfSize:12.0];
+    self.badgeFont      = [UIFont fontWithName:@"Mosk" size:10.0];
     self.badgePadding   = 6;
     self.badgeMinSize   = 8;
     self.badgeOriginX   = defaultOriginX;
