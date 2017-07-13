@@ -12,6 +12,7 @@ class XPDashBoardHeartXpressionCountViewController: UIViewController {
     
     var tapGesture = UITapGestureRecognizer ()
   @IBOutlet weak var countExpressionLabel = UILabel ()
+    @IBOutlet weak var imageView = UIImageView ()
     var countExpression = Int ()
 
     override func viewDidLoad() {
@@ -20,8 +21,15 @@ class XPDashBoardHeartXpressionCountViewController: UIViewController {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeTheView(sender:)))
         self.view.addGestureRecognizer(tapGesture)
         self.countExpressionLabel?.text = String(countExpression)
+        
+        
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        imageView?.zoomInWithEasing()
+        imageView?.zoomOutWithEasing()
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,7 +37,7 @@ class XPDashBoardHeartXpressionCountViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    
+ 
     func removeTheView (sender: AnyObject) {
         print("you click on the xpression heart touch screen")
        self.view.removeFromSuperview()

@@ -58,6 +58,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     let getDashBoardCountWebService = PrivateWebService()
     let heartDashboardXpressionButton = UIBarButtonItem ()
     var dashboardHeartButtonCount = Int ()
+    var dashboardPrivateButtonCount = Int ()
+    var dashboardNotifiacationCount = Int ()
     var dashboardCountData = [String : AnyObject]()
     
     let pulsrator = Pulsator()
@@ -67,6 +69,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet weak var userProfileAnimationOne = UIImageView()
     @IBOutlet weak var userProfileAnimationTwo = UIImageView()
     @IBOutlet weak var humburgerMenuIcon = UIBarButtonItem ()
+    @IBOutlet weak var privateButton = UIBarButtonItem ()
+    @IBOutlet weak var notificationButton = UIBarButtonItem ()
     
     var imageGesture = UITapGestureRecognizer()
     
@@ -212,7 +216,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.dashboardCountData = response["data"] as! [String : AnyObject]
             self.dashboardHeartButtonCount = self.dashboardCountData["TotalNumberofrecords"] as! Int
             print("The dashboard heart expression count is \(self.dashboardHeartButtonCount)")
-            
+            self.dashboardPrivateButtonCount = self.dashboardCountData["PrivateCount"] as! Int
+            print("The dashboard private  expression count is \(self.dashboardPrivateButtonCount)")
+            self.dashboardNotifiacationCount = self.dashboardCountData["PrivateFollowCount"] as! Int
+            print("The dashboard notification  expression count is \(self.dashboardNotifiacationCount)")
         }
         
     }
@@ -538,13 +545,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     
     override func viewWillAppear(_ animated: Bool) {
+        // This will return the dashboard heart, private upload and notification count
+        dashboardXpressionCount()
         // This will create the number of circle animation and radius
         pulsrator.numPulse = 5
         pulsrator.radius = 120
         pulsrator.animationDuration = 6
         pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
        pulsrator.start()
-        self.navigationItem.leftBarButtonItem?.badgeValue = String(self.dashboardHeartButtonCount)
         
         if (UserDefaults.standard.bool(forKey: "isAppFirstTime")) {
             UserDefaults.standard.set(false, forKey: "isAppFirstTime")
@@ -556,7 +564,18 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         }
         
         self.navigationItem.leftBarButtonItem?.badgeValue = String(self.dashboardHeartButtonCount)
+        self.privateButton?.badgeOriginX = 10.0
+        self.privateButton?.badgeOriginY = 10.0
+        self.privateButton?.badgeValue = String(self.dashboardPrivateButtonCount)
+        self.notificationButton?.badgeOriginX = 10.0
+        self.notificationButton?.badgeOriginY = 10.0
+        self.notificationButton?.badgeValue = String(self.dashboardNotifiacationCount)
+        
        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
