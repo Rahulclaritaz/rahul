@@ -18,6 +18,8 @@ class XPDashboardTableViewCell: UITableViewCell {
     @IBOutlet weak var playButton = UIButton ()
     @IBOutlet weak var imgVA: UIImageView!
     @IBOutlet weak var followUserButton = UIButton ()
+    @IBOutlet weak var followerUserImage = UIImageView ()
+    var isUserFollowing = Int ()
 
     override func awakeFromNib() {
         super.awakeFromNib()

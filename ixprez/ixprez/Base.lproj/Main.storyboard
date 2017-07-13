@@ -1322,6 +1322,7 @@
                                             <outlet property="ViewCountLabel" destination="SO2-lC-JJx" id="E9K-k4-hnu"/>
                                             <outlet property="emotionCountLabel" destination="Wdf-b1-d13" id="CrZ-t6-dG3"/>
                                             <outlet property="followUserButton" destination="eBd-G8-WIJ" id="aXB-TR-5ZL"/>
+                                            <outlet property="followerUserImage" destination="ay9-7O-Ljz" id="w1V-Go-bNb"/>
                                             <outlet property="imgVA" destination="DFD-Rg-97I" id="bx4-8Y-b1M"/>
                                             <outlet property="likeCountLabel" destination="IQ5-0b-2gm" id="665-9i-CJv"/>
                                             <outlet property="playButton" destination="lGP-OB-lMh" id="O2c-dH-Bzq"/>
