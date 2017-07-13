@@ -35,6 +35,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var treadingFileType = NSArray ()
     var treadingUserEmail = NSArray ()
     var treadingUserName = NSArray ()
+    var dashboardUserfollowing = NSArray ()
     var activityIndicator = UIActivityIndicatorView ()
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
@@ -130,7 +131,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
         self.navigationItem.titleView = imageView
-        userEmail = "mathan6@gmail.com"
+        userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
@@ -694,6 +695,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.treadingFileType = treandingResponse.value(forKey: "filemimeType") as! NSArray
                 self.treadingUserEmail = treandingResponse.value(forKey: "from_email") as! NSArray
                 self.treadingUserName = treandingResponse.value(forKey: "from_user") as! NSArray
+                self.dashboardUserfollowing = treandingResponse.value(forKey: "isuerfollowing") as! NSArray
                 
                 self.xpressTableView?.reloadData()
                 self.activityIndicator.stopAnimating()
@@ -719,6 +721,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.trendingThumbnail = recentResponse.value(forKey: "thumbnailPath") as! NSArray
             self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
             self.treadingFileType = recentResponse.value(forKey: "filemimeType") as! NSArray
+            self.dashboardUserfollowing = recentResponse.value(forKey: "isuerfollowing") as! NSArray
             self.xpressTableView?.reloadData()
             self.activityIndicator.stopAnimating()
             
@@ -828,6 +831,14 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         cell.ViewCountLabel?.text = viewCountText + " " + "Views"
         cell.playButton?.tag = indexPath.row
         cell.playButton?.addTarget(self, action: #selector(TreandingVideoAudioPlayButtonAction(sender:)), for: UIControlEvents.touchUpInside)
+        cell.isUserFollowing = self.dashboardUserfollowing[indexPath.row] as! NSInteger
+        
+        if (cell.isUserFollowing == 0) {
+            cell.followerUserImage?.image = UIImage(named: "DashboardFollowIcon")
+        }else {
+           cell.followerUserImage?.image = UIImage(named: "DashboardUnFollowIcon")
+        }
+        
         cell.followUserButton?.tag = indexPath.row
         cell.followUserButton?.addTarget(self, action: #selector (followUserAction(sender:)), for: UIControlEvents.touchUpInside)
         

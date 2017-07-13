@@ -24,8 +24,8 @@ class XPHumburgerMenuViewController: UIViewController {
         
         imageGesture = UITapGestureRecognizer(target: self, action: #selector(gotoSettingView(gesture:)))
         
-        userEmail = "mathan6@gmail.com"
-        humburgerMenuUserName?.text = "Mathan"
+        userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
+        humburgerMenuUserName?.text = UserDefaults.standard.value(forKey: "userName") as! String
          self.getUserProfile()
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
@@ -33,6 +33,7 @@ class XPHumburgerMenuViewController: UIViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
+        self.navigationItem.leftBarButtonItem?.badgeValue = "757"
         
         humburgerMenuUserProfile?.layer.masksToBounds = true
         humburgerMenuUserProfile?.layer.cornerRadius = (self.humburgerMenuUserProfile?.frame.size.width)!/2
