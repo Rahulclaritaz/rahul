@@ -1,10 +1,10 @@
-//
+
 //  XPSearchViewController.swift
 //  ixprez
-//
+
 //  Created by Quad on 5/29/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
-//
+
 
 
 
@@ -106,12 +106,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
-/*
-         ixprez
-         
-  Nothing found with the name
-         " "
- */
+ 
         
         print(isFollowICon)
         
@@ -179,13 +174,13 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     }
  
- /*
+   /*
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
     {
            self.publicTableView.endEditing(true)
     }
-    */
+   */
     
     
     func getPublicVideo(myString : String)
@@ -259,39 +254,41 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             self.isFiltered = false
             
             print("No record")
-           
-            /*
-            let alert = UIAlertController(title: "NoData", message: "NoData", preferredStyle: .alert)
             
+             let alert = UIAlertController(title: "", message:  "", preferredStyle: .alert)
+         
+            let attributedString = NSAttributedString(string: "iXprez Nothing found with the name", attributes: [
+                NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15)  , //your font here
+                NSForegroundColorAttributeName : UIColor.white
+                ])
+            
+            let attributedString1 = NSAttributedString(string: myString, attributes: [
+                NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                NSForegroundColorAttributeName : UIColor.white
+                ])
            
             
+            alert.view.backgroundColor = UIColor.black.withAlphaComponent(1.0)
+    
+            alert.setValue(attributedString, forKey: "attributedTitle")
+         
+            alert.setValue(attributedString1, forKey: "attributedMessage")
+            
+            UIView.animate(withDuration: 15.0, delay: 0, options: .curveEaseIn, animations: {
                 
-                UIView.animate(withDuration: 0.6, animations: {
+                DispatchQueue.main.async {
                     
-                    DispatchQueue.main.async {
-                        alert.show()
- 
-                        
-                    }
+                    alert.show()
                     
-                    
-                }, completion: { _ in
-                    
-                   
-                  //  alert.hide()
-                    
-                })
+                }
                 
-            */
+            }, completion: nil)
+            
             
             
             }
             
-            func hide()
-            {
-                self.dismiss(animated: true, completion: nil)
-                
-            }
+            
             
             
             
@@ -342,6 +339,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
      
     }
   
+ 
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
         
@@ -384,9 +383,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 
             }
 
-            
-            
-        }
+                  }
         
         
         self.view.layoutIfNeeded()
@@ -394,6 +391,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         UIView.animate(withDuration: 0.3, animations: {
             
             self.navigationController?.navigationBar.isHidden = false
+            
             self.collectionViewWidth.constant = 160
             
             self.view.layoutIfNeeded()
@@ -415,6 +413,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool
     {
+        
         
         isFiltered = false
         
@@ -669,9 +668,11 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             let fileType: String = publicData["filemimeType"] as! String
             let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
             var  fileTypeData =  String()
-            if (followFileType == "video"){
+            if (followFileType == "video")
+            {
                 fileTypeData = followFileType
-            } else {
+            } else
+            {
                 fileTypeData = "audio"
             }
             print(followFileType)
@@ -766,6 +767,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             let playFilemimeType = publicData["filemimeType"] as! String
             
             let playID = publicData["_id"] as! String
+            
+            
+            print("playID",playID)
+            
             
             let playLikeCount = publicData["likeCount"] as! Int
             
@@ -944,6 +949,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         return cell.contentView
    
     }
+    
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
 
@@ -1203,12 +1209,11 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         self.navigationController?.navigationBar.isHidden = false
         
         
-        
 
     }
 
     
-        func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar)
     {
    
     
@@ -1234,9 +1239,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     }
     
  func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool
- {
-    
-    
+    {
+ 
     return true
     
     }

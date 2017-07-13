@@ -172,10 +172,48 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     {
         
         
-      
+      //status = OK
+        
         
         let dicOtpResend  = [ "email_id" : self.emailId , "device_id" : appDelegate.deviceUDID]
-        getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: dicOtpResend as NSDictionary)
+        getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: dicOtpResend as NSDictionary, callBack: {
+            (dic ,err)  in
+            
+            print("resend ",dic)
+            
+            if (dic["status"] as! String == "OK")
+            {
+                
+                let alert = UIAlertController(title: nil, message:  "", preferredStyle: .alert)
+                
+                
+                
+                let attributedString1 = NSAttributedString(string: "OTP Successfully Resend Please Check Your mail", attributes: [
+                    NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                    NSForegroundColorAttributeName : UIColor.white
+                    ])
+                
+                alert.setValue(attributedString1, forKey: "attributedMessage")
+                
+                
+                alert.view.backgroundColor = UIColor.black.withAlphaComponent(1.0)
+                
+                alert.view.clipsToBounds = true
+
+                DispatchQueue.main.async
+                {
+                    
+                    alert.show()
+                }
+                
+            }
+            else
+            {
+                
+            }
+            
+            
+        })
         
     }
     
@@ -210,8 +248,30 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                 }
                 else
                 {
-                print("error")
-                
+                    
+                  
+                    let alert = UIAlertController(title: nil, message:  "", preferredStyle: .alert)
+                    
+                   
+                    
+                    let attributedString = NSAttributedString(string: "wrong OTPFailed", attributes: [
+                        NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                        NSForegroundColorAttributeName : UIColor.white
+                        ])
+                    
+                    
+                    alert.view.backgroundColor = UIColor.black.withAlphaComponent(1.0)
+                    
+                    alert.view.clipsToBounds = true
+                    
+                    alert.setValue(attributedString, forKey: "attributedMessage")
+                    
+                    DispatchQueue.main.async
+                        {
+                            
+                            alert.show()
+                    }
+
                 }
             })
             

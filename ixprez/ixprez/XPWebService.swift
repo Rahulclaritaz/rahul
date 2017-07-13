@@ -201,8 +201,7 @@ class XPWebService
     }
     
     
-    func getResendOTPWebService(urlString : String , dicData : NSDictionary)
-        
+    func getResendOTPWebService(urlString : String , dicData : NSDictionary,callBack: @escaping(_ message : NSDictionary , _ error : NSError?) -> Void)
     {
         
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
@@ -228,9 +227,11 @@ class XPWebService
             if data != nil && error == nil
             {
                 
+                var getData : Any!
                 do
                 {
-                    let getData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    getData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    
                     
                     print(getData)
                 }
@@ -239,6 +240,10 @@ class XPWebService
                 {
                     
                 }
+                
+                callBack(getData as! NSDictionary, nil)
+                
+                
                 
             }
             
@@ -250,6 +255,7 @@ class XPWebService
         
         
     }
+    
     
     func getAddContact(urlString: String, dicData: NSDictionary,callback: @escaping (_ dic: NSDictionary,_ error: Error?) -> Void)
         

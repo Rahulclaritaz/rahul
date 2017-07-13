@@ -47,6 +47,7 @@
 		131703EB1F0625AA00101221 /* UINavigationBar+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E71F0625AA00101221 /* UINavigationBar+Alpha.swift */; };
 		131703EC1F0625AA00101221 /* UIScrollView+ScalableCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E81F0625AA00101221 /* UIScrollView+ScalableCover.swift */; };
 		131703EE1F0629E000101221 /* IXValidation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703ED1F0629E000101221 /* IXValidation.swift */; };
+		131A2F961F17AC3D00D0E9EC /* PopupAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131A2F951F17AC3D00D0E9EC /* PopupAlert.swift */; };
 		132131991EB46F6F008709DC /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132131981EB46F6F008709DC /* ColorExtension.swift */; };
 		132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */; };
 		13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */; };
@@ -177,6 +178,7 @@
 		131703E71F0625AA00101221 /* UINavigationBar+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Alpha.swift"; sourceTree = "<group>"; };
 		131703E81F0625AA00101221 /* UIScrollView+ScalableCover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+ScalableCover.swift"; sourceTree = "<group>"; };
 		131703ED1F0629E000101221 /* IXValidation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IXValidation.swift; sourceTree = "<group>"; };
+		131A2F951F17AC3D00D0E9EC /* PopupAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupAlert.swift; sourceTree = "<group>"; };
 		132131981EB46F6F008709DC /* ColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		132A15F21EB9EFDC00FF0217 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		13A0F1661EB9D79B0069ABDD /* TextfieldExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextfieldExtension.swift; sourceTree = "<group>"; };
@@ -564,6 +566,7 @@
 		85A3DFF31ED7F9FB006E81ED /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				131A2F951F17AC3D00D0E9EC /* PopupAlert.swift */,
 				131703ED1F0629E000101221 /* IXValidation.swift */,
 				131703E51F0625AA00101221 /* AlertExtension.swift */,
 				131703E61F0625AA00101221 /* FontExtension.swift */,
@@ -693,6 +696,7 @@
 				859290A21F00FD22006A488D /* IQPlaybackDurationView.m in Sources */,
 				856574F81EF145520056D97F /* XPContactHeaderTableViewCell.swift in Sources */,
 				859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */,
+				131A2F961F17AC3D00D0E9EC /* PopupAlert.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
 				1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */,
 				8592909F1F00FD22006A488D /* IQCropSelectionEndView.m in Sources */,
