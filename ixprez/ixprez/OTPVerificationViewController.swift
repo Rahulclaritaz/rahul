@@ -184,7 +184,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
             if (dic["status"] as! String == "OK")
             {
                 
-                let alert = UIAlertController(title: nil, message:  "", preferredStyle: .alert)
+                let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
                 
                 
                 
@@ -195,8 +195,24 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                 
                 alert.setValue(attributedString1, forKey: "attributedMessage")
                 
+                /*
+ let subview =(alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
+ 
+ subview.backgroundColor = UIColor(red: (145/255.0), green: (200/255.0), blue: (0/255.0), alpha: 1.0)
+ 
+ alert.view.tintColor = UIColor.black
+ */
                 
-                alert.view.backgroundColor = UIColor.black.withAlphaComponent(1.0)
+ 
+                let subView1 = alert.view.subviews.first! as UIView
+                let subView2 = subView1.subviews.first! as UIView
+                let view = subView2.subviews.first! as UIView
+                
+                
+                view.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
+                
+                
+                
                 
                 alert.view.clipsToBounds = true
 
@@ -250,7 +266,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                 {
                     
                   
-                    let alert = UIAlertController(title: nil, message:  "", preferredStyle: .alert)
+                    let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
                     
                    
                     
@@ -258,9 +274,19 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                         NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
                         NSForegroundColorAttributeName : UIColor.white
                         ])
+                    /*
+                     let subview =(alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
+                     
+                     subview.backgroundColor = UIColor(red: (145/255.0), green: (200/255.0), blue: (0/255.0), alpha: 1.0)
+                     
+                     alert.view.tintColor = UIColor.black
+                     */
                     
+                  
+                    let alertView = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
                     
-                    alert.view.backgroundColor = UIColor.black.withAlphaComponent(1.0)
+                    alertView.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
+
                     
                     alert.view.clipsToBounds = true
                     

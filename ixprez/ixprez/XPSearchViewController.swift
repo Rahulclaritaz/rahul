@@ -5,15 +5,13 @@
 //  Created by Quad on 5/29/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
 
-
-
-
 import UIKit
 
 class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate,passFollow
     
 {
     
+    @IBOutlet weak var searchPublic: UISearchBar!
    @IBOutlet weak var publicTableView: UITableView!
     
     var getSearchURL = URLDirectory.Search()
@@ -64,8 +62,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     override func awakeFromNib()
     {
-  
-        
+    
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -103,17 +100,14 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     }
   
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        
- 
-        
+  
         print(isFollowICon)
-        
-      
-       setBackGroundView()
-        
-      
+     
+        setBackGroundView()
+   
         userEmail = nsuerDefault.string(forKey: "emailAddress")
        
         if Reachability.isConnectedToNetwork() == true
@@ -255,7 +249,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             print("No record")
             
-             let alert = UIAlertController(title: "", message:  "", preferredStyle: .alert)
+             let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
          
             let attributedString = NSAttributedString(string: "iXprez Nothing found with the name", attributes: [
                 NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15)  , //your font here
@@ -266,9 +260,23 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
                 NSForegroundColorAttributeName : UIColor.white
                 ])
-           
             
-            alert.view.backgroundColor = UIColor.black.withAlphaComponent(1.0)
+            
+            let subview1 = alert.view.subviews.first! as UIView
+            let subview2 = subview1.subviews.first! as UIView
+            let view = subview2.subviews.first! as UIView
+            
+            subview2.backgroundColor = UIColor.clear
+            
+            subview1.backgroundColor = UIColor.clear
+            
+            view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.8)
+            
+            view.layer.cornerRadius = 20.0
+
+            
+                         
+           // alert.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
     
             alert.setValue(attributedString, forKey: "attributedTitle")
          
@@ -279,19 +287,14 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 DispatchQueue.main.async {
                     
                     alert.show()
-                    
+                   
                 }
                 
             }, completion: nil)
-            
-            
+        
             
             }
-            
-            
-            
-            
-            
+   
             DispatchQueue.main.async
                 {
                     
@@ -344,7 +347,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
         
-        
+
         if (searchBar.text?.characters.count)! <= 2
         {
             isFiltered = false
@@ -479,7 +482,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         publicTableView.backgroundView = imageView
         
         
-        publicTableView.backgroundView?.isHidden = false
+       // publicTableView.backgroundView?.isHidden = false
         
         
         return cell
@@ -492,7 +495,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         cell.isHidden = false
         
-        publicTableView.backgroundView?.isHidden = true
+       // publicTableView.backgroundView?.isHidden = true
         
        if indexPath.row <= recordPublicVideo.count
        {
@@ -522,6 +525,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         cell.btnPress.addTarget(self, action: #selector(callFollowProfile(sender :)), for: .touchUpInside)
         
         //isuerfollowing
+        
+        print("mathan isuserfollowing",(publicData["isuerfollowing"] as! Int))
+        
         
         if ( (publicData["isuerfollowing"] as! Int) == 0)
         {
@@ -933,7 +939,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         }
         
     
-    } */
+    }
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
@@ -958,6 +964,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         return 50
         
     }
+ 
+ */
+
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
     return self.recordPopularVideo.count

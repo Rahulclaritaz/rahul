@@ -11,6 +11,7 @@ import UIKit
 class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout
 
 {
+    @IBOutlet weak var segmentationController: UISegmentedControl!
     
     @IBOutlet weak var myUploadCollectionView: UICollectionView!
     
@@ -49,18 +50,92 @@ class XPMyUploadViewController: UIViewController,UICollectionViewDelegate,UIColl
     override func viewWillAppear(_ animated: Bool)
       {
         print("view Will Appear")
+   
+        if segmentationController.selectedSegmentIndex == 0
+        {
+                   getMyUploadPublicList()
+        }
+        else
+        {
+          
+            getMyUploadPrivateList()
+        }
         
-       getMyUploadPublicList()
+      }
+    
+    @IBAction func segmentAction(_ sender: UISegmentedControl)
+    {
+        if sender.selectedSegmentIndex == 0
+        {
+          
+            getMyUploadPublicList()
+        }
+        else
+        {
+     
+            getMyUploadPrivateList()
+        }
+
         
-              }
+    }
+   /* func setupView()
+    {
+        setupSegmentedControl()
+        
+        updateView()
+        
+    }
+    
+    func setupSegmentedControl()
+    {
+    
+    segmentationController.removeAllSegments()
+        
+    segmentationController.insertSegment(withTitle: "Public Upload", at: 0, animated: false)
+    
+    segmentationController.insertSegment(withTitle: "Private Upload", at: 1, animated: false)
+        
+    segmentationController.addTarget(self, action: #selector(getAction(sender:)), for: .valueChanged)
+      
+    }
+    
+    func updateView()
+    {
+        
+     
+        if segmentationController.selectedSegmentIndex == 0
+        {
+            segmentationController.isSelected = true
+            
+           getMyUploadPublicList()
+        }
+        else
+        {
+            
+             segmentationController.isSelected = true
+          getMyUploadPrivateList()
+        }
+    }
+    
+    func getAction(sender: UISegmentedControl)
+    {
+        updateView()
+        
+    }
+ 
+ */
+ 
     
     override func viewDidLoad()
        {
         super.viewDidLoad()
         
+        
         userEmail = nsuerDefault.string(forKey: "emailAddress")
-
+ 
+        
         getMyUploadPublicList()
+        
         if Reachability.isConnectedToNetwork() == true
         {
             print("Internet connection OK")
@@ -1060,6 +1135,7 @@ func deleteVideo(sender : UIButton)
         return UIEdgeInsetsMake(10, 10, 10, 10)
       
     }
+    /*
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView
     {
@@ -1116,6 +1192,9 @@ func deleteVideo(sender : UIButton)
         
         
     }
+ 
+ */
+    
 
     func  getMyUploadPrivateList()
     {
