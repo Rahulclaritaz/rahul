@@ -36,6 +36,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var treadingUserEmail = NSArray ()
     var treadingUserName = NSArray ()
     var dashboardUserfollowing = NSArray ()
+    var followingUserDP = NSArray ()
     var activityIndicator = UIActivityIndicatorView ()
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
@@ -696,6 +697,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.treadingUserEmail = treandingResponse.value(forKey: "from_email") as! NSArray
                 self.treadingUserName = treandingResponse.value(forKey: "from_user") as! NSArray
                 self.dashboardUserfollowing = treandingResponse.value(forKey: "isuerfollowing") as! NSArray
+                self.followingUserDP = treandingResponse.value(forKey: "mydp") as! NSArray
                 
                 self.xpressTableView?.reloadData()
                 self.activityIndicator.stopAnimating()
@@ -722,6 +724,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
             self.treadingFileType = recentResponse.value(forKey: "filemimeType") as! NSArray
             self.dashboardUserfollowing = recentResponse.value(forKey: "isuerfollowing") as! NSArray
+            self.followingUserDP = recentResponse.value(forKey: "mydp") as! NSArray
             self.xpressTableView?.reloadData()
             self.activityIndicator.stopAnimating()
             
@@ -743,9 +746,20 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let thumbImageURLString = self.trendingThumbnail[sender.tag] as! String
         let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
+        // To whom going to follow will check it is already follow or not (0 == not following & 1 = following)
+        followView.isUserFollowing = self.dashboardUserfollowing[sender.tag] as! Int
+        
+        // To whom going to follow that user profile image
+        let followingUserProfileURLString = self.followingUserDP[sender.tag] as! String
+        let followingUserProfileURL = followingUserProfileURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+        
         let userThumbNailImage = UIImageView()
         userThumbNailImage.getImageFromUrl(finalThumbNailImageURL)
         followView.userPhoto = userThumbNailImage.image!
+        
+//        let followingUserProfileImage = UIImageView ()
+//        followingUserProfileImage.getImageFromUrl(followingUserProfileURL)
+//        followView.profileIconImage.image = followingUserProfileImage.image
         print(followView.followersEmail)
         print(followView.userName)
         

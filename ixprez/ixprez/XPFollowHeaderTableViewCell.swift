@@ -11,7 +11,9 @@ import UIKit
 class XPFollowHeaderTableViewCell: UITableViewCell {
     
     
-    @IBOutlet weak var imgProfileIcon: UIButton!
+    @IBOutlet weak var followerProfileButton: UIButton!
+    @IBOutlet weak var followerProfileImage: UIImageView!
+    @IBOutlet weak var followerProfileBGImage: UIImageView!
 
     @IBOutlet weak var lblProfileName: UILabel!
     
@@ -19,6 +21,7 @@ class XPFollowHeaderTableViewCell: UITableViewCell {
     @IBOutlet weak var btnFollow: UIButton!
     
     @IBOutlet weak var imgFollow: UIImageView!
+    @IBOutlet weak var imgFollowBG: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
