@@ -18,18 +18,19 @@ protocol passFollow
 class XPFolllowsViewController: UIViewController
 {
     
-    var setFollowIcon : Bool!
+    var isUserFollowing = Int ()
     
-    
+    let dashBoardCommonService = XPWebService()
+    let followUpdateCountURL = URLDirectory.audioVideoViewCount()
     var getUploadData = MyUploadWebServices()
     
     var getUploadURL = URLDirectory.MyUpload()
     var followURL = URLDirectory.follow()
     
     
-       var recordFollow = [[String : Any]]()
-   
+    var recordFollow = [[String : Any]]()
     
+    var profileIconImage =  UIImageView ()
     var userPhoto = UIImage()
     
     var userName = String()
@@ -40,37 +41,33 @@ class XPFolllowsViewController: UIViewController
     
     @IBOutlet weak var followTableView: UITableView!
 
-    
-    
-   
     var followersEmail = String()
     
     var activityIndicator = UIActivityIndicatorView()
-
+    
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-    
-        setFollowIcon = false
+        
         
         self.title = userName
-        
-        print("email id",followersEmail)
 
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge, spinColor: .white, bgColor: .clear, placeInTheCenterOf: followTableView)
         
-        followTableView.addScalableCover(with: userPhoto)
-   
-       
+//        followTableView.addScalableCover(with: userPhoto)
+        getMyUploadPublicListData()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool)
     {
         
-       getMyUploadPublicListData()
+        
     }
-
- 
+    
+    
     
     override func didReceiveMemoryWarning()
     {
@@ -78,7 +75,7 @@ class XPFolllowsViewController: UIViewController
         
     }
     
- 
+    
     func  getMyUploadPublicListData()
     {
         
@@ -121,9 +118,9 @@ class XPFolllowsViewController: UIViewController
         })
         
     }
-
     
-
+    
+    
 }
 
 
@@ -135,30 +132,30 @@ extension XPFolllowsViewController : UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-       return recordFollow.count
+        return recordFollow.count
         
     }
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-     {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell1") as! XPFollowsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "XPFollowsTableViewCell") as! XPFollowsTableViewCell
         
         
         let followData = self.recordFollow[indexPath.row]
         
-          
+        
         
         cell.lblTitle.text = followData["title"] as? String
-     
+        
         cell.lblLikeCount.text = String(format: "%d Like", followData["likeCount"] as! Int)
-   
+        
         cell.lblReactionCount.text = String(format: "%d Rect", followData["emotionCount"] as! Int)
         
-        cell.imgProfileImage.layer.cornerRadius = 2.0
+        cell.imgProfileImage.layer.cornerRadius = 4.0
         cell.imgProfileImage.layer.masksToBounds = true
         let viewCount : Int = Int(followData["view_count"] as! String)!
         cell.lblViewCount.text = String(format: "%d Views", viewCount)
-      
+        
         
         var thumbPath = followData["thumbnailPath"] as? String
         
@@ -179,139 +176,157 @@ extension XPFolllowsViewController : UITableViewDataSource
 extension XPFolllowsViewController : UITableViewDelegate
 {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat
-    
-
+        
+        
     {
         
-        return 80.0
+        return 150.0
         
     }
     
-     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
-     {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "XPFollowHeaderTableViewCell") as! XPFollowHeaderTableViewCell
+        cell.followerProfileBGImage.image = userPhoto
+        cell.followerProfileBGImage.alpha = 0.2
         
-        cell.imgProfileIcon.setBackgroundImage(userPhoto, for: .normal)
+//        cell.imgProfileIcon.setBackgroundImage(userPhoto, for: .normal)
+        cell.followerProfileImage.image = userPhoto //profileIconImage.image
         
-        cell.imgProfileIcon.layer.cornerRadius = cell.imgProfileIcon.frame.size.width/2
+        cell.followerProfileImage.layer.cornerRadius = cell.followerProfileImage.frame.size.width/2
         
-        cell.imgProfileIcon.clipsToBounds = true
+        cell.followerProfileImage.clipsToBounds = true
         
-        cell.imgProfileIcon.contentMode = .scaleAspectFit
+//        cell.followerProfileImage.contentMode = .scaleAspectFit
         
         cell.lblProfileName.text = userName
         
-        if setFollowIcon == false
+        cell.imgFollowBG.layer.cornerRadius = cell.imgFollowBG.frame.size.width/2
+        
+        cell.imgFollowBG.clipsToBounds = true
+        
+        if (isUserFollowing == 0)
         {
-            
             cell.imgFollow.image = UIImage(named: "DashboardFollowIcon")
-            
-           
-            
         }
             
         else
         {
-            
             cell.imgFollow.image = UIImage(named: "DashboardUnFollowIcon")
-            
-            
         }
-
-       
+        
+        
         
         
         cell.btnFollow.addTarget(self, action: #selector(followAction(Sender:)), for: .touchUpInside)
         
         return cell
-        }
-    
-    
-   
-func followAction(Sender:UIButton)
-{
-    if setFollowIcon == false
-    {
-        
-        setFollowIcon = true
-        
-        
-        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":followersEmail]
-        
-        self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.follower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
-            
-            print(dic)
-            if( dic["status"] as! String == "OK" )
-            {
-                self.dele.followCount(value: 1)
-            }
-            
-        })
-        
-        
-   
     }
-    else
+    
+    
+    
+    func followAction(Sender:UIButton)
     {
-        setFollowIcon = false
-        
-        
-        let followDic = ["orignator":"venkat.r@quadrupleindia.com","followers":followersEmail]
-        
-        self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.unFollower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
+        if (isUserFollowing == 0)
+        {
+            // orignator - to whom going to follow & follower - who is going to follow.
+            let followDic = ["orignator": followersEmail  ,"followers": UserDefaults.standard.value(forKey: "emailAddress")]
             
-            print(dic)
-            if( dic["status"] as! String == "OK" )
-            {
-            self.dele.followCount(value: 0)
+            self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.follower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
                 
-            }
+                print(dic)
+                if( dic["status"] as! String == "OK" )
+                {
+                   // self.dele.followCount(value: 1)
+                    self.isUserFollowing = 1
+                    DispatchQueue.main.async(execute: {
+                        self.followTableView.reloadData()
+                    })
+                }
+                
+            })
             
-        })
+        }
+        else
+        {
+            
+            // orignator - to whom going to follow & follower - who is going to follow.
+            let followDic = ["orignator": followersEmail  ,"followers": UserDefaults.standard.value(forKey: "emailAddress")]
+            
+            self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.unFollower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
+                
+                print(dic)
+                if( dic["status"] as! String == "OK" )
+                {
+                    //self.dele.followCount(value: 0)
+                    self.isUserFollowing = 0
+                    DispatchQueue.main.async(execute: {
+                        self.followTableView.reloadData()
+                    })
+                    
+                }
+                
+            })
+            
+            
+        }
+        
+    }
+    
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
+    {
+        
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        
+        //        let cellIndexPath = sender.tag
+        
+        // This will send the parameter to the view count service and return the response
+        var recordFollowData = self.recordFollow[indexPath.row]
+        let fileType: String = recordFollowData["filemimeType"] as! String
+        let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+        var  fileTypeData =  String()
+        if (followFileType == "video"){
+            fileTypeData = followFileType
+        } else {
+            fileTypeData = "audio"
+        }
+        print(followFileType)
+        let requestParameter = ["id" : recordFollowData["_id"],"video_type": fileTypeData] as [String : Any]
+        
+        dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+            ) in
+            print(updateCountresponse)
+            if (error == nil) {
+                //                storyBoard.playView = labelPlayView + 1
+            } else {
+                //                storyBoard.playView = labelPlayView
+            }
+        }
+        
+        let urlPath = recordFollowData["fileuploadPath"] as! String
+        
+        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        
+        storyBoard.playUrlString = finalURlPath
+        storyBoard.nextID = recordFollowData["_id"] as! String
+        let labelLikeCount: NSInteger = recordFollowData["likeCount"] as! NSInteger
+        storyBoard.playLike = labelLikeCount
+        let labelSmileyCount: NSInteger = recordFollowData["emotionCount"] as! NSInteger
+        storyBoard.playSmiley = labelSmileyCount
+        storyBoard.playTitle = recordFollowData["title"] as! String
+        let labelPlayView: NSInteger = (Int)((recordFollowData["view_count"] as? String)!)!
+        storyBoard.playView = labelPlayView + 1
+        
+        print("the carousel video url path is \(storyBoard.playUrlString)")
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+        
+    }
 
-        
-    }
-    
-    DispatchQueue.main.async
-    {
-        
-        self.followTableView.reloadData()
-    }
-    
-  /*
-    let mmm = UIImage(named: "FollowsIcon")
-    
-    if setFollowIcon == true
-    {
-    
-    Sender.setBackgroundImage(mmm, for: .normal)
-        
-        
-        
-        setFollowIcon = false
-    }
-
-    else
-    {
-    
-    Sender.setBackgroundImage(UIImage(named: "DashboardUnFollowIcon") , for: .normal)
-        
-        setFollowIcon = true
-        
-      // myCell.imgFollow.image = UIImage(named: "DashboardUnFollowIcon")
-    }
- */
-    
-    
-}
-    
-    
-func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int)
-    {
-        
-        
-           }
-    
     
 }
