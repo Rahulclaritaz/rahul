@@ -11,10 +11,13 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
 {
     
-    @IBOutlet weak var searchPublic: UISearchBar!
+   @IBOutlet weak var searchPublic: UISearchBar!
+    
    @IBOutlet weak var publicTableView: UITableView!
     
     var getSearchURL = URLDirectory.Search()
+    
+    var getReloadData = URLDirectory.recentURL()
     
     var recordPopularVideo = [[String:Any]]()
     
@@ -73,8 +76,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         publicTableView.backgroundView = imageView
         
         publicTableView.separatorColor = UIColor.clear
-        
-
+    
         isFiltered = false
         
 
@@ -99,7 +101,15 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         
     }
-  
+    //let dicData = ["user_email":"mathan6@gmail.com","emotion":"like","index":Index,"limit":10,"language":"English (India)","country":"IN"] as [String : Any]
+    
+    // let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress"),"emotion":"like","index":"0","limit":"30","language":"English","country":"India"]
+    
+    //recentURL
+    
+    
+    
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -160,7 +170,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         self.imageView.image = UIImage(named: "WelcomeHeartImage")
         
-        self.imageView.alpha = 0.5
+        self.imageView.alpha = 0.1
         
         
         self.imageView.contentMode = .scaleAspectFit
@@ -270,7 +280,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             subview1.backgroundColor = UIColor.clear
             
-            view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.8)
+            view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.5)
             
             view.layer.cornerRadius = 20.0
 
@@ -660,21 +670,21 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
         if isFiltered == false
         {
-  
-//            let indexPathValue = IndexPath(row: sender.tag, section: 0)
-            
-            // let cell = self.publicTableView.cellForRow(at: indexPathValue) as! XPPublicDataTableViewCell
-            
-            
+        
             let publicData = recordPublicVideo[indexPath.row]
             
             // This will send the parameter to the view count service and return the response
+            
             let fileType: String = publicData["filemimeType"] as! String
+            
             let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+            
             var  fileTypeData =  String()
+            
             if (followFileType == "video")
             {
                 fileTypeData = followFileType
@@ -712,6 +722,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             let playSmiley = publicData["emotionCount"] as! Int
             
             let checkUserLike = publicData["isUserLiked"] as! Int
+        
+        
+        print("mathan check search",checkUserLike)
+        
             
             let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
             
@@ -1183,6 +1197,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
  {
    
     isFiltered = false
+    
+    searchBar.text = ""
+    
     
     recordPublicVideo.removeAll()
     

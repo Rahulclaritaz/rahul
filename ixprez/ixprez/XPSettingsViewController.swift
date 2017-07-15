@@ -19,9 +19,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     var remain = String()
     var language = String()
     var country = String()
-    
-    
-    
+  
     var saveEmail = String()
     
     var previousCountData : Int!
@@ -74,9 +72,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
             self.navigationController?.popViewController(animated: true)
             
             return
-            
-            
-          }
+        
+        }
         
         self.dismiss(animated: true, completion: nil)
         
@@ -114,8 +111,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
             alertData.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             
             self.present(alertData, animated: true, completion: nil)
-            
-            
+          
         }
 
         
@@ -140,7 +136,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
         roundprofilePhoto.clipsToBounds = true
         
     
-    arrayName = ["User Name","Mobile Number","Email","Reminders","Notification","Language","Country","","Support","Help" ,"About"]
+        arrayName = ["User Name","Mobile Number","Email","Reminders","Notification","Language","Country","","Support","Help" ,"About"]
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewPhoto(sender:)))
 
@@ -200,11 +196,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
             
             self.orginalUrl = self.recordProfileData["ProfileImage"] as! String
             
-            
-            
+           
             self.orginalUrl.replace("/root/cpanel3-skel/public_html/Xpress/",with: "http://103.235.104.118:3000/")
-        
-            
         
             
             DispatchQueue.main.async(execute: {
@@ -240,8 +233,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
 }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
-    {
-         // print(self.recordProfileData)
+     {
+       
         let cell = tableView.dequeueReusableCell(withIdentifier: "settingcell", for: indexPath) as! XPSettingTableViewCell
    
         settingTableView.rowHeight = 44
@@ -271,6 +264,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[0]
             cell.txtEnterSettings.text = userName
+            getData.set(cell.txtEnterSettings.text, forKey: "name")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
            
             
@@ -281,6 +275,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[1]
             cell.txtEnterSettings.text = phoneNumber
+            getData.set(cell.txtEnterSettings.text, forKey: "phone")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
            
             
@@ -291,6 +286,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.lblSettingName.text = arrayName[2]
             cell.txtEnterSettings.isHidden = false
             cell.txtEnterSettings.text = emailID
+            getData.set(cell.txtEnterSettings.text, forKey: "email")
             cell.txtEnterSettings.isUserInteractionEnabled = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
           
@@ -299,6 +295,17 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.switchNotify.isHidden = false
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[3]
+            
+            if ( cell.switchNotify.isOn == true)
+            {
+                notify = "1"
+            }
+            else
+            {
+                notify = "0"
+            }
+          
+              getData.set(notify, forKey: "notify")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
           
             
@@ -307,6 +314,19 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.switchNotify.isHidden = false
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[4]
+            
+            if ( cell.switchNotify.isOn == true)
+            {
+                remain = "1"
+            }
+            else
+            {
+                remain = "0"
+            }
+            
+
+            
+            getData.set(remain, forKey: "remain")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             
             
@@ -317,6 +337,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.text = arrayName[5]
             cell.txtEnterSettings.text = language
+            getData.set(cell.txtEnterSettings.text, forKey: "count")
             cell.txtEnterSettings.isHidden = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(languageData(sender:)), for: .editingDidBegin)
@@ -328,6 +349,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.text = arrayName[6]
             cell.txtEnterSettings.text = country
+              getData.set(cell.txtEnterSettings.text, forKey: "lang")
              cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(countryData(sender:)), for: .editingDidBegin)
            
@@ -348,6 +370,9 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
             
             cell.downArrow.isHidden = false
+            
+            
+            cell.btnSettingSave.tag = indexPath.row
             
             cell.btnSettingSave.addTarget(self, action: #selector(saveSetting(sender:)), for: .touchUpInside)
             
@@ -391,6 +416,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
    
     }
     
+    
+    
     func scrollToLastRow()
     {
      
@@ -418,7 +445,6 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             isTuch = true
         }
     }
-    
     
     func languageData(sender:UITextField)
     {
@@ -504,6 +530,22 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     func saveSetting(sender : UIButton)
     {
     
+        print("getData",sender.tag)
+   
+        
+       userName = getData.object(forKey: "name") as! String
+        
+        phoneNumber    = getData.object(forKey: "phone") as! String
+        
+        emailID = getData.object(forKey: "email") as! String
+
+        
+        language = getData.object(forKey: "count") as! String
+
+        country = getData.object(forKey: "lang") as! String
+
+        /*
+        
        let  IndexPathUser = IndexPath(row: 0, section: 0)
         
        let userCell  = settingTableView.cellForRow(at: IndexPathUser) as! XPSettingTableViewCell
@@ -566,39 +608,41 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         let conCell = settingTableView.cellForRow(at: indexCountry) as! XPSettingTableViewCell
         
         country = conCell.txtEnterSettings.text!
+ 
         
+        */
         
        print(userName,"+",phoneNumber,"+",emailID,"+",notify,"+",remain,"+",country,"+", language)
         
-        if (userCell.txtEnterSettings.text == "" || phoneCell.txtEnterSettings.text == "" || emailCell.txtEnterSettings.text?.isValidEmail() == false || conCell.txtEnterSettings.text == "" || langCell.txtEnterSettings.text == "")
+    if (userName == "" || phoneNumber == "" || emailID.isValidEmail() == false || country == "" || language == "")
         {
-            if userCell.txtEnterSettings.text == ""
+            if userName == ""
             {
             
                 
-                userCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3)
+               // userNameFieldBoarder(txtColor: UIColor.red, txtWidth: 3)
                 
                 
             }
-            if phoneCell.txtEnterSettings.text == ""
+            if phoneNumber == ""
             {
                 
-                phoneCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.red , txtWidth: 3)
-                
-            }
-            if (emailCell.txtEnterSettings.text?.isValidEmail())! == false
-            {
-                emailCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
+               // phoneCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.red , txtWidth: 3)
                 
             }
-            if (langCell.txtEnterSettings.text == "")
+            if (emailID.isValidEmail()) == false
             {
-                langCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
+                //emailCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
+                
+            }
+            if (language == "")
+            {
+              //  langCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
             }
             
-            if (conCell.txtEnterSettings.text == "" )
+            if (country == "" )
             {
-                conCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
+               // conCell.txtEnterSettings.textFieldBoarder(txtColor: UIColor.getLightBlueColor(), txtWidth: 1)
             }
             else
             {
@@ -614,9 +658,60 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         
         getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callBack: {
             (dicc, err) in
+           
+            if ( (dicc["status"] as! String) == "OK" )
+            {
+                
+                let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
+                
+                
+                
+                let attributedString = NSAttributedString(string: "Saved", attributes: [
+                    
+                    NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
+                    
+                    NSForegroundColorAttributeName : UIColor.white
+                    
+                    ])
+                
+                
+                
+                let subview1 = alert.view.subviews.first! as UIView
+                let subview2 = subview1.subviews.first! as UIView
+                let view = subview2.subviews.first! as UIView
+                
+                subview2.backgroundColor = UIColor.clear
+                
+                subview1.backgroundColor = UIColor.clear
+                
+                view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.8)
+                
+                view.layer.cornerRadius = 20.0
+                
+                alert.setValue(attributedString, forKey: "attributedTitle")
+                
+                
+                UIView.animate(withDuration: 15.0, delay: 0, options: .curveEaseIn, animations: {
+                    
+                    DispatchQueue.main.async {
+                        
+                        alert.show()
+                        
+                    }
+                    
+                }, completion: nil)
+                
+                
+            }
+
+                
             
-            print(dicc)
-            
+            else
+            {
+                
+                print("Not Save")
+                
+            }
         })
         
 
@@ -879,7 +974,6 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         if ( UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary))
         
         {
-           
             imagePickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
             imagePickerController.allowsEditing = true
             self.present(imagePickerController, animated: true, completion: nil)
