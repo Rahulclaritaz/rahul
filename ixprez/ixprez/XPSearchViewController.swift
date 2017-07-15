@@ -184,7 +184,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     Index += 1
         
-        let dicData = ["tags":myString,"index": Index - 1 ,"limit": 30,"sort":"like"] as [String : Any]
+        let dicData = ["tags":myString,"index": Index - 1 ,"limit": 30,"sort":"like","user_email": userEmail] as [String : Any]
         
         getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic,dataValue, err ) in
       
@@ -645,6 +645,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         let followView = self.storyboard?.instantiateViewController(withIdentifier: "XPFolllowsViewController") as! XPFolllowsViewController
         
         followView.followersEmail = followEmail
+        followView.isUserFollowing = (followData["isuerfollowing"] as! Int)
         
          followView.userPhoto = myImage.image!
         

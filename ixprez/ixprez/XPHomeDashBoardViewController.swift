@@ -169,7 +169,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         getUserProfile()
       //  activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge, color: .darkGray, placeInTheCenterOf: self.xpressTableView!)
 //        self.activityIndicator.startAnimating()
-        self.xpressTableView?.reloadData()
+        DispatchQueue.main.async(execute: {
+            self.xpressTableView?.reloadData()
+        })
 //       getIcarouselFeaturesVideo()
         if revealViewController() != nil {
             
@@ -253,7 +255,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         setFlag = true
       
         self.getTrendingResponse()
-        self.xpressTableView?.reloadData()
+//        DispatchQueue.main.async(execute: {
+//            self.xpressTableView?.reloadData()
+//        })
         
     }
     
@@ -265,7 +269,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
 //        self.activityIndicator.startAnimating()
         self.getRecentResponse()
-        self.xpressTableView?.reloadData()
+//        DispatchQueue.main.async(execute: {
+//            self.xpressTableView?.reloadData()
+//        })
     }
     
     func TreandingVideoAudioPlayButtonAction (sender: UIButton) {
@@ -699,7 +705,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.dashboardUserfollowing = treandingResponse.value(forKey: "isuerfollowing") as! NSArray
                 self.followingUserDP = treandingResponse.value(forKey: "mydp") as! NSArray
                 
-                self.xpressTableView?.reloadData()
+                DispatchQueue.main.async(execute: {
+                    self.xpressTableView?.reloadData()
+                })
                 self.activityIndicator.stopAnimating()
               
                 
@@ -722,10 +730,16 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.trendingTitle = recentResponse.value(forKey: "title") as! NSArray
             self.trendingThumbnail = recentResponse.value(forKey: "thumbnailPath") as! NSArray
             self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
+            self.trendingFeaturesId = recentResponse.value(forKey: "_id") as! NSArray
             self.treadingFileType = recentResponse.value(forKey: "filemimeType") as! NSArray
+            self.treadingUserEmail = recentResponse.value(forKey: "from_email") as! NSArray
+            self.treadingUserName = recentResponse.value(forKey: "from_user") as! NSArray
             self.dashboardUserfollowing = recentResponse.value(forKey: "isuerfollowing") as! NSArray
             self.followingUserDP = recentResponse.value(forKey: "mydp") as! NSArray
-            self.xpressTableView?.reloadData()
+            DispatchQueue.main.async(execute: {
+                 self.xpressTableView?.reloadData()
+            })
+           
             self.activityIndicator.stopAnimating()
             
         }
