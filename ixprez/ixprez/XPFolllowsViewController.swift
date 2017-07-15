@@ -45,24 +45,52 @@ class XPFolllowsViewController: UIViewController
     
     var activityIndicator = UIActivityIndicatorView()
     
+    // This will add the pull refresh in th etable view
+    lazy var refershController : UIRefreshControl = {
+        
+        let refersh = UIRefreshControl()
+        
+        refersh.addTarget(self, action: #selector(getPulledRefreshedData), for: .valueChanged)
+        
+        return refersh
+        
+    }()
+    
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        
+        followTableView.addSubview(refershController)
         self.title = userName
 
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge, spinColor: .white, bgColor: .clear, placeInTheCenterOf: followTableView)
         
 //        followTableView.addScalableCover(with: userPhoto)
         getMyUploadPublicListData()
+       
         
         
     }
     
-    override func viewWillAppear(_ animated: Bool)
-    {
+//    override func viewWillAppear(_ animated: Bool)
+//    {
+//        DispatchQueue.main.async { 
+//            self.followTableView.reloadData()
+//        }
+//        
+//    }
+    
+    func getPulledRefreshedData () {
+        
+        print("You Pulled the tableview")
+        //        refershController.beginRefreshing()
+         getMyUploadPublicListData()
+        DispatchQueue.main.async
+            {
+                self.followTableView.reloadData()
+        }
+        self.refershController.endRefreshing()
         
         
     }
@@ -189,7 +217,7 @@ extension XPFolllowsViewController : UITableViewDelegate
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "XPFollowHeaderTableViewCell") as! XPFollowHeaderTableViewCell
         cell.followerProfileBGImage.image = userPhoto
-        cell.followerProfileBGImage.alpha = 0.2
+        cell.followerProfileBGImage.alpha = 0.3
         
 //        cell.imgProfileIcon.setBackgroundImage(userPhoto, for: .normal)
         cell.followerProfileImage.image = userPhoto //profileIconImage.image
@@ -208,7 +236,7 @@ extension XPFolllowsViewController : UITableViewDelegate
         
         if (isUserFollowing == 0)
         {
-            cell.imgFollow.image = UIImage(named: "DashboardFollowIcon")
+            cell.imgFollow.image = UIImage(named: "FollowHeartIcon")
         }
             
         else
