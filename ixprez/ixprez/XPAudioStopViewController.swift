@@ -37,7 +37,7 @@ class XPAudioStopViewController: UIViewController {
         print(audioPage.defaultValue.string(forKey: "countryName"))
         print(audioPage.defaultValue.string(forKey: "languageName"))
         // this will remove the back button from the navigation bar
-        let backButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         
         retryButton?.layer.cornerRadius = 25.0
