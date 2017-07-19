@@ -22,6 +22,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     }
     
     let pulsrator = Pulsator ()
+    var controller = IQAudioRecorderViewController ()
   
     @IBOutlet weak var  audioMailTableView : UITableView!
     @IBOutlet weak var shareTitleLabel: UILabel!
@@ -358,19 +359,22 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
         let alert = UIAlertController(title: "Alert", message: "Email and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioRecordingViewController") as! XPAudioRecordingViewController
+//        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioRecordingViewController") as! XPAudioRecordingViewController
         if (shareTitleLabel.text == "Private") {
             if ((emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
                 self.present(alert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
                   feelingsLabel.text! = "Awesome"
-                    storyBoard.titleString = feelingsLabel.text!
+//                    storyBoard.titleString = feelingsLabel.text!
+                    controller.title = feelingsLabel.text!
                 }else {
-                    storyBoard.titleString = feelingsLabel.text!
+//                    storyBoard.titleString = feelingsLabel.text!
+                    controller.title = feelingsLabel.text!
                 }
                 
-                self.navigationController?.pushViewController(storyBoard, animated: true)
+//                self.navigationController?.pushViewController(storyBoard, animated: true)
+                presentBlurredAudioRecorderViewControllerAnimated(controller)
             }
             
         } else if (shareTitleLabel.text == "Public") {
@@ -379,11 +383,14 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
             } else {
                 if (feelingsLabel.text == nil) {
                     feelingsLabel.text! = "Awesome"
-                    storyBoard.titleString = feelingsLabel.text!
+//                    storyBoard.titleString = feelingsLabel.text!
+                    controller.title = feelingsLabel.text!
                 }else {
-                    storyBoard.titleString = feelingsLabel.text!
+//                    storyBoard.titleString = feelingsLabel.text!
+                    controller.title = feelingsLabel.text!
                 }
-                self.navigationController?.pushViewController(storyBoard, animated: true)
+//                self.navigationController?.pushViewController(storyBoard, animated: true)
+                presentBlurredAudioRecorderViewControllerAnimated(controller)
             }
             
             
@@ -393,11 +400,14 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
             } else {
                 if (feelingsLabel.text == nil) {
                     feelingsLabel.text! = "Awesome"
-                    storyBoard.titleString = feelingsLabel.text!
+//                    storyBoard.titleString = feelingsLabel.text!
+                    controller.title = feelingsLabel.text!
                 }else {
-                    storyBoard.titleString = feelingsLabel.text!
+//                    storyBoard.titleString = feelingsLabel.text!
+                    controller.title = feelingsLabel.text!
                 }
-                self.navigationController?.pushViewController(storyBoard, animated: true)
+//                self.navigationController?.pushViewController(storyBoard, animated: true)
+                presentBlurredAudioRecorderViewControllerAnimated(controller)
             }
             
         }
