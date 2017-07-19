@@ -265,15 +265,6 @@
     {
         _flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         
-        //Recording controls
-        _startRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_startRecordingButton addTarget:self action:@selector(recordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        _startRecordingButton.frame = CGRectMake(157, 520, 62, 62);
-        _startRecordingButton.layer.cornerRadius = _startRecordingButton.layer.frame.size.width/2;
-        [_startRecordingButton setImage:[UIImage imageNamed:@"MicrophoneImage"] forState:UIControlStateNormal];
-        _startRecordingButton.layer.masksToBounds = true;
-        _startRecordingButton.backgroundColor = [UIColor colorWithRed:74.0/255.0 green:191.0/255.0 blue:227.0/255.0 alpha:1.0];
-        [visualEffectView addSubview:_startRecordingButton];
 //        _startRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audio_record" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(recordingButtonAction:)];
 //        _startRecordingButton.tintColor = [self _normalTintColor];
 //        _pauseRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(pauseRecordingButtonAction:)];
@@ -283,15 +274,7 @@
 //        _stopRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop_recording" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(stopRecordingButtonAction:)];
 //        
 //        
-        _stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_stopRecordingButton addTarget:self action:@selector(stopRecordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        _stopRecordingButton.frame = CGRectMake(157, 520, 62 , 62);
-        _stopRecordingButton.layer.cornerRadius = _stopRecordingButton.layer.frame.size.width/2;
-        [_stopRecordingButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
-        _stopRecordingButton.layer.masksToBounds = true;
-        _stopRecordingButton.hidden =  true;
-        _stopRecordingButton.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:116.0/255.0 blue:1.0/255.0 alpha:1.0];
-        [visualEffectView addSubview:_stopRecordingButton];
+       
 //        _cancelRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelRecordingAction:)];
 //        _cancelRecordingButton.tintColor = [self _highlightedTintColor];
 //        [visualEffectView addSubview:_startRecordingButton.customView];
@@ -446,10 +429,30 @@
     pulsrator.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1.0].CGColor;
     [pulsrator start];
     
-    pulsratorView = [[UIView alloc] initWithFrame:CGRectMake(170, 528, 20, 20)];
+    pulsratorView = [[UIView alloc] initWithFrame:CGRectMake(180, 550, 20, 20)];
     pulsratorView.backgroundColor = [UIColor whiteColor];
     [pulsratorView.layer addSublayer:pulsrator];
     [visualEffectView addSubview:pulsratorView];
+    
+    //Recording controls
+    _startRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_startRecordingButton addTarget:self action:@selector(recordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    _startRecordingButton.frame = CGRectMake(157, 520, 62, 62);
+    _startRecordingButton.layer.cornerRadius = _startRecordingButton.layer.frame.size.width/2;
+    [_startRecordingButton setImage:[UIImage imageNamed:@"MicrophoneImage"] forState:UIControlStateNormal];
+    _startRecordingButton.layer.masksToBounds = true;
+    _startRecordingButton.backgroundColor = [UIColor colorWithRed:74.0/255.0 green:191.0/255.0 blue:227.0/255.0 alpha:1.0];
+    [visualEffectView addSubview:_startRecordingButton];
+    
+    _stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_stopRecordingButton addTarget:self action:@selector(stopRecordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    _stopRecordingButton.frame = CGRectMake(157, 520, 62 , 62);
+    _stopRecordingButton.layer.cornerRadius = _stopRecordingButton.layer.frame.size.width/2;
+    [_stopRecordingButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
+    _stopRecordingButton.layer.masksToBounds = true;
+    _stopRecordingButton.hidden =  true;
+    _stopRecordingButton.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:116.0/255.0 blue:1.0/255.0 alpha:1.0];
+    [visualEffectView addSubview:_stopRecordingButton];
     
     [self startUpdatingMeter];
     
@@ -751,6 +754,8 @@
     XPAudioStopViewController *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
     
     [self.navigationController pushViewController:stopView animated:true];
+//    XPAudioStopViewController *infoController = [self.storyboard instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
+//    [self.navigationController pushViewController:infoController animated:YES];
 }
 
 -(void)cancelRecordingAction:(UIBarButtonItem*)item
@@ -770,7 +775,7 @@
     {
         //UI Update
         {
-            [self setToolbarItems:@[_flexItem, _startRecordingButton,_flexItem] animated:YES];
+//            [self setToolbarItems:@[_flexItem, _startRecordingButton,_flexItem] animated:YES];
 //            [self.navigationItem setLeftBarButtonItem:_cancelButton animated:YES];
             
 //            if ([[NSFileManager defaultManager] fileExistsAtPath:_recordingFilePath])
