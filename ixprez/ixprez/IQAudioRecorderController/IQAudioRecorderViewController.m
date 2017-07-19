@@ -77,6 +77,7 @@
     UILabel *labelStringXprez;
     Pulsator *pulsrator;
     UIView *pulsratorView;
+    UIImageView *userProfileView;
     
     //Crop/Delete controls
 //    UIBarButtonItem *_cropOrDeleteButton;
@@ -175,7 +176,7 @@
 {
     [super viewDidLoad];
     
-    _isFirstTime = YES;
+//    _isFirstTime = YES;
     
     if (self.title.length == 0)
     {
@@ -195,17 +196,23 @@
     self.view = visualEffectView;
     self.view.backgroundColor = [UIColor colorWithRed:92.0/255.0 green:60.0/255.0 blue:237.0/255.0 alpha:1.0];
     
-    labelString = [[UILabel alloc] initWithFrame:CGRectMake(120, 50, 250, 40)];
+    labelString = [[UILabel alloc] initWithFrame:CGRectMake(120, 110, 250, 40)];
     labelString.text = @"Don't hold back";
     labelString.textColor = [UIColor whiteColor];
     labelString.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
     [visualEffectView addSubview:labelString];
     
-    labelStringXprez = [[UILabel alloc] initWithFrame:CGRectMake(150, 90, 150, 40)];
+    labelStringXprez = [[UILabel alloc] initWithFrame:CGRectMake(150, 150, 150, 40)];
     labelStringXprez.text = @"Xprez it!";
     labelStringXprez.textColor = [UIColor whiteColor];
     labelStringXprez.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
     [visualEffectView addSubview:labelStringXprez];
+    
+    userProfileView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 200, 80, 80)];
+    userProfileView.backgroundColor = [UIColor purpleColor];
+    userProfileView.layer.cornerRadius = userProfileView.frame.size.width/2;
+    userProfileView.layer.masksToBounds = true;
+    [visualEffectView addSubview:userProfileView];
     
     if (resourcesBundle == nil) resourcesBundle = bundle;
 
@@ -264,47 +271,7 @@
     
     {
         _flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        
-//        _startRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audio_record" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(recordingButtonAction:)];
-//        _startRecordingButton.tintColor = [self _normalTintColor];
-//        _pauseRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(pauseRecordingButtonAction:)];
-//        _pauseRecordingButton.tintColor = [UIColor redColor];
-//        _continueRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audio_record" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(continueRecordingButtonAction:)];
-//        _continueRecordingButton.tintColor = [UIColor redColor];
-//        _stopRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop_recording" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(stopRecordingButtonAction:)];
-//        
-//        
-       
-//        _cancelRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelRecordingAction:)];
-//        _cancelRecordingButton.tintColor = [self _highlightedTintColor];
-//        [visualEffectView addSubview:_startRecordingButton.customView];
-        
-        //Playing controls
-//        _stopPlayButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop_playing" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(stopPlayingButtonAction:)];
-//        _stopPlayButton.tintColor = [self _normalTintColor];
-//        _playButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playAction:)];
-//        _playButton.tintColor = [self _normalTintColor];
-
-//        _pauseButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(pausePlayingAction:)];
-//        _pauseButton.tintColor = [self _normalTintColor];
-
-        //crop/delete control
-        
-//        if (self.allowCropping)
-//        {
-//            _cropOrDeleteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scissor" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(cropAction:)];
-//        }
-//        else
-//        {
-//            _cropOrDeleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAction:)];
-//        }
-        
-//        _cropOrDeleteButton.tintColor = [self _normalTintColor];
-        
-//        [self setToolbarItems:@[_flexItem, _startRecordingButton,_flexItem] animated:NO];
-
-//        _playButton.enabled = NO;
-//        _cropOrDeleteButton.enabled = NO;
+    
     }
     
     // Define the recorder setting
@@ -429,7 +396,7 @@
     pulsrator.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1.0].CGColor;
     [pulsrator start];
     
-    pulsratorView = [[UIView alloc] initWithFrame:CGRectMake(180, 550, 20, 20)];
+    pulsratorView = [[UIView alloc] initWithFrame:CGRectMake(187, 610, 20, 20)];
     pulsratorView.backgroundColor = [UIColor whiteColor];
     [pulsratorView.layer addSublayer:pulsrator];
     [visualEffectView addSubview:pulsratorView];
@@ -437,7 +404,7 @@
     //Recording controls
     _startRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_startRecordingButton addTarget:self action:@selector(recordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    _startRecordingButton.frame = CGRectMake(157, 520, 62, 62);
+    _startRecordingButton.frame = CGRectMake(157, 580, 62, 62);
     _startRecordingButton.layer.cornerRadius = _startRecordingButton.layer.frame.size.width/2;
     [_startRecordingButton setImage:[UIImage imageNamed:@"MicrophoneImage"] forState:UIControlStateNormal];
     _startRecordingButton.layer.masksToBounds = true;
@@ -446,7 +413,7 @@
     
     _stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_stopRecordingButton addTarget:self action:@selector(stopRecordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    _stopRecordingButton.frame = CGRectMake(157, 520, 62 , 62);
+    _stopRecordingButton.frame = CGRectMake(157, 580, 62 , 62);
     _stopRecordingButton.layer.cornerRadius = _stopRecordingButton.layer.frame.size.width/2;
     [_stopRecordingButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
     _stopRecordingButton.layer.masksToBounds = true;
@@ -461,9 +428,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [self validateMicrophoneAccess];
     
-    if (_isFirstTime)
-    {
-        _isFirstTime = NO;
+//    if (_isFirstTime)
+//    {
+//        _isFirstTime = NO;
 
         if (self.blurrEnabled)
         {
@@ -487,7 +454,7 @@
                 self.view.backgroundColor = [UIColor darkGrayColor];
             }
         }
-    }
+//    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -505,6 +472,7 @@
     _audioRecorder = nil;
     
     [self stopUpdatingMeter];
+    [pulsrator stop ];
     
     [UIApplication sharedApplication].idleTimerDisabled = _wasIdleTimerDisabled;
 }
@@ -817,7 +785,8 @@
     }
     else
     {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self.navigationController popToRootViewControllerAnimated:true];
+//        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -986,7 +955,8 @@
     navigationController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     
     audioRecorderViewController.barStyle = audioRecorderViewController.barStyle;        //This line is used to refresh UI of Audio Recorder View Controller
-    [self presentViewController:navigationController animated:YES completion:nil];
+    [self.navigationController pushViewController:audioRecorderViewController animated:true];
+//    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 @end
