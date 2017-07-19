@@ -31,6 +31,7 @@
 #import "IQMessageDisplayView.h"
 #import "SCSiriWaveformView.h"
 #import "IQAudioCropperViewController.h"
+#import <ixprez-Swift.h>
 
 /************************************/
 
@@ -55,26 +56,30 @@
     //Navigation Bar
     NSString *_navigationTitle;
     UIBarButtonItem *_cancelButton;
-    UIBarButtonItem *_doneButton;
+//    UIBarButtonItem *_doneButton;
     
     //Toolbar
     UIBarButtonItem *_flexItem;
 
     //Playing controls
-    UIBarButtonItem *_playButton;
-    UIBarButtonItem *_pauseButton;
-    UIBarButtonItem *_stopPlayButton;
+//    UIBarButtonItem *_playButton;
+//    UIBarButtonItem *_pauseButton;
+//    UIBarButtonItem *_stopPlayButton;
 
     //Recording controls
     BOOL _isRecordingPaused;
     UIBarButtonItem *_cancelRecordingButton;
-    UIBarButtonItem *_startRecordingButton;
+    UIButton *_startRecordingButton;
     UIBarButtonItem *_continueRecordingButton;
     UIBarButtonItem *_pauseRecordingButton;
-    UIBarButtonItem *_stopRecordingButton;
+    UIButton *_stopRecordingButton;
+    UILabel *labelString;
+    UILabel *labelStringXprez;
+    Pulsator *pulsrator;
+    UIView *pulsratorView;
     
     //Crop/Delete controls
-    UIBarButtonItem *_cropOrDeleteButton;
+//    UIBarButtonItem *_cropOrDeleteButton;
     
     //Access
     IQMessageDisplayView *viewMicrophoneDenied;
@@ -82,6 +87,7 @@
     //Private variables
     NSString *_oldSessionCategory;
     BOOL _wasIdleTimerDisabled;
+    UIImageView *audioMikeImage;
 }
 
 @property(nonatomic, assign) BOOL blurrEnabled;
@@ -98,11 +104,11 @@
 {
     _normalTintColor = normalTintColor;
 
-    _playButton.tintColor = [self _normalTintColor];
-    _pauseButton.tintColor = [self _normalTintColor];
-    _stopPlayButton.tintColor = [self _normalTintColor];
+//    _playButton.tintColor = [self _normalTintColor];
+//    _pauseButton.tintColor = [self _normalTintColor];
+//    _stopPlayButton.tintColor = [self _normalTintColor];
     _startRecordingButton.tintColor = [self _normalTintColor];
-    _cropOrDeleteButton.tintColor = [self _normalTintColor];
+//    _cropOrDeleteButton.tintColor = [self _normalTintColor];
 }
 
 -(UIColor*)_normalTintColor
@@ -154,9 +160,15 @@
 
 -(void)loadView
 {
-    visualEffectView = [[UIVisualEffectView alloc] initWithEffect:nil];
-    visualEffectView.frame = [UIScreen mainScreen].bounds;
-    self.view = visualEffectView;
+    
+//    NSBundle* bundle = [NSBundle bundleForClass:self.class];
+//    if (bundle == nil)  bundle = [NSBundle mainBundle];
+//    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[bundle pathForResource:@"IQAudioRecorderController" ofType:@"bundle"]];
+//    visualEffectView = [[UIVisualEffectView alloc] initWithEffect:nil];
+//    visualEffectView.frame =  [UIScreen mainScreen].bounds;
+//    self.view = visualEffectView;
+//    self.view.backgroundColor = [UIColor colorWithRed:92.0/255.0 green:60.0/255.0 blue:237.0/255.0 alpha:1.0];
+    
 }
 
 - (void)viewDidLoad
@@ -173,10 +185,28 @@
     {
         _navigationTitle = self.title;
     }
-
+    [self.navigationController.navigationBar
+     setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0]}];
     NSBundle* bundle = [NSBundle bundleForClass:self.class];
     if (bundle == nil)  bundle = [NSBundle mainBundle];
     NSBundle *resourcesBundle = [NSBundle bundleWithPath:[bundle pathForResource:@"IQAudioRecorderController" ofType:@"bundle"]];
+    visualEffectView = [[UIVisualEffectView alloc] initWithEffect:nil];
+    visualEffectView.frame =  [UIScreen mainScreen].bounds;
+    self.view = visualEffectView;
+    self.view.backgroundColor = [UIColor colorWithRed:92.0/255.0 green:60.0/255.0 blue:237.0/255.0 alpha:1.0];
+    
+    labelString = [[UILabel alloc] initWithFrame:CGRectMake(120, 50, 250, 40)];
+    labelString.text = @"Don't hold back";
+    labelString.textColor = [UIColor whiteColor];
+    labelString.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
+    [visualEffectView addSubview:labelString];
+    
+    labelStringXprez = [[UILabel alloc] initWithFrame:CGRectMake(150, 90, 150, 40)];
+    labelStringXprez.text = @"Xprez it!";
+    labelStringXprez.textColor = [UIColor whiteColor];
+    labelStringXprez.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
+    [visualEffectView addSubview:labelStringXprez];
+    
     if (resourcesBundle == nil) resourcesBundle = bundle;
 
     {
@@ -193,7 +223,6 @@
         {
             viewMicrophoneDenied.tintColor = [UIColor whiteColor];
         }
-        
         viewMicrophoneDenied.image = [[UIImage imageNamed:@"microphone_access" inBundle:resourcesBundle compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
         viewMicrophoneDenied.title = @"Microphone Access Denied!";
         viewMicrophoneDenied.message = @"Unable to access microphone. Please enable microphone access in Settings.";
@@ -208,6 +237,7 @@
         musicFlowView.alpha = 0.0;
         [visualEffectView addSubview:musicFlowView];
         musicFlowView.backgroundColor = [UIColor clearColor];
+        
     }
     
  /*   {
@@ -236,44 +266,62 @@
         _flexItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
         
         //Recording controls
-        _startRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audio_record" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(recordingButtonAction:)];
-        _startRecordingButton.tintColor = [self _normalTintColor];
-        _pauseRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(pauseRecordingButtonAction:)];
-        _pauseRecordingButton.tintColor = [UIColor redColor];
-        _continueRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audio_record" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(continueRecordingButtonAction:)];
-        _continueRecordingButton.tintColor = [UIColor redColor];
-        _stopRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop_recording" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(stopRecordingButtonAction:)];
-        
-        _stopRecordingButton.tintColor = [UIColor redColor];
-        _cancelRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelRecordingAction:)];
-        _cancelRecordingButton.tintColor = [self _highlightedTintColor];
+        _startRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_startRecordingButton addTarget:self action:@selector(recordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        _startRecordingButton.frame = CGRectMake(157, 520, 62, 62);
+        _startRecordingButton.layer.cornerRadius = _startRecordingButton.layer.frame.size.width/2;
+        [_startRecordingButton setImage:[UIImage imageNamed:@"MicrophoneImage"] forState:UIControlStateNormal];
+        _startRecordingButton.layer.masksToBounds = true;
+        _startRecordingButton.backgroundColor = [UIColor colorWithRed:74.0/255.0 green:191.0/255.0 blue:227.0/255.0 alpha:1.0];
+        [visualEffectView addSubview:_startRecordingButton];
+//        _startRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audio_record" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(recordingButtonAction:)];
+//        _startRecordingButton.tintColor = [self _normalTintColor];
+//        _pauseRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(pauseRecordingButtonAction:)];
+//        _pauseRecordingButton.tintColor = [UIColor redColor];
+//        _continueRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"audio_record" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(continueRecordingButtonAction:)];
+//        _continueRecordingButton.tintColor = [UIColor redColor];
+//        _stopRecordingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop_recording" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(stopRecordingButtonAction:)];
+//        
+//        
+        _stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_stopRecordingButton addTarget:self action:@selector(stopRecordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+        _stopRecordingButton.frame = CGRectMake(157, 520, 62 , 62);
+        _stopRecordingButton.layer.cornerRadius = _stopRecordingButton.layer.frame.size.width/2;
+        [_stopRecordingButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
+        _stopRecordingButton.layer.masksToBounds = true;
+        _stopRecordingButton.hidden =  true;
+        _stopRecordingButton.backgroundColor = [UIColor colorWithRed:255.0/255.0 green:116.0/255.0 blue:1.0/255.0 alpha:1.0];
+        [visualEffectView addSubview:_stopRecordingButton];
+//        _cancelRecordingButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelRecordingAction:)];
+//        _cancelRecordingButton.tintColor = [self _highlightedTintColor];
+//        [visualEffectView addSubview:_startRecordingButton.customView];
         
         //Playing controls
-        _stopPlayButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop_playing" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(stopPlayingButtonAction:)];
-        _stopPlayButton.tintColor = [self _normalTintColor];
-        _playButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playAction:)];
-        _playButton.tintColor = [self _normalTintColor];
+//        _stopPlayButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"stop_playing" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(stopPlayingButtonAction:)];
+//        _stopPlayButton.tintColor = [self _normalTintColor];
+//        _playButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay target:self action:@selector(playAction:)];
+//        _playButton.tintColor = [self _normalTintColor];
 
-        _pauseButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(pausePlayingAction:)];
-        _pauseButton.tintColor = [self _normalTintColor];
+//        _pauseButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(pausePlayingAction:)];
+//        _pauseButton.tintColor = [self _normalTintColor];
 
         //crop/delete control
         
-        if (self.allowCropping)
-        {
-            _cropOrDeleteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scissor" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(cropAction:)];
-        }
-        else
-        {
-            _cropOrDeleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAction:)];
-        }
+//        if (self.allowCropping)
+//        {
+//            _cropOrDeleteButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"scissor" inBundle:resourcesBundle compatibleWithTraitCollection:nil] style:UIBarButtonItemStylePlain target:self action:@selector(cropAction:)];
+//        }
+//        else
+//        {
+//            _cropOrDeleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(deleteAction:)];
+//        }
         
-        _cropOrDeleteButton.tintColor = [self _normalTintColor];
+//        _cropOrDeleteButton.tintColor = [self _normalTintColor];
         
-        [self setToolbarItems:@[_flexItem, _startRecordingButton,_flexItem] animated:NO];
+//        [self setToolbarItems:@[_flexItem, _startRecordingButton,_flexItem] animated:NO];
 
-        _playButton.enabled = NO;
-        _cropOrDeleteButton.enabled = NO;
+//        _playButton.enabled = NO;
+//        _cropOrDeleteButton.enabled = NO;
     }
     
     // Define the recorder setting
@@ -333,18 +381,24 @@
     }
 
     //Navigation Bar Settings
- /*   {
-        if (self.title.length == 0 && self.navigationItem.title.length == 0)
-        {
-            self.navigationItem.title = @"Audio Recorder";
-        }
+    {
+//        if (self.title.length == 0 && self.navigationItem.title.length == 0)
+//        {
+//            self.navigationItem.title = @"Audio Recorder";
+//        }
 
         _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
         self.navigationItem.leftBarButtonItem = _cancelButton;
-        _doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
-        _doneButton.enabled = NO;
-        self.navigationItem.rightBarButtonItem = _doneButton;
-    } */
+        
+        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+        [_cancelButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [UIColor whiteColor],UITextAttributeTextColor,[UIFont fontWithName:@"MoskMedium500" size:16.0f],UITextAttributeFont,
+                                               nil] forState:UIControlStateNormal];
+        self.navigationItem.leftBarButtonItem = _cancelButton;
+//        _doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
+//        _doneButton.enabled = NO;
+//        self.navigationItem.rightBarButtonItem = _doneButton;
+    }
     
     //Player Duration View
     {
@@ -352,7 +406,7 @@
         _viewPlayerDuration.delegate = self;
         _viewPlayerDuration.tintColor = [self _highlightedTintColor];
         _viewPlayerDuration.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _viewPlayerDuration.backgroundColor = [UIColor clearColor];
+        _viewPlayerDuration.backgroundColor = [UIColor whiteColor];
     }
 }
 
@@ -364,19 +418,19 @@
     {
         self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
         self.navigationController.toolbar.barStyle = UIBarStyleDefault;
-        self.navigationController.navigationBar.tintColor = [self _normalTintColor];
+//        self.navigationController.navigationBar.tintColor = [self _normalTintColor];
         self.navigationController.toolbar.tintColor = [self _normalTintColor];
     }
     else
     {
         self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
         self.navigationController.toolbar.barStyle = UIBarStyleBlack;
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
         self.navigationController.toolbar.tintColor = [UIColor whiteColor];
     }
 
     viewMicrophoneDenied.tintColor = [self _normalTintColor];
-    self.view.tintColor = [self _normalTintColor];
+//    self.view.tintColor = [self _normalTintColor];
     self.highlightedTintColor = self.highlightedTintColor;
     self.normalTintColor = self.normalTintColor;
 }
@@ -384,6 +438,19 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    // This will create the number of circle animation and radius
+    pulsrator = [[Pulsator alloc] init];
+    pulsrator.numPulse = 5;
+    pulsrator.radius = 150;
+    pulsrator.animationDuration = 6;
+    pulsrator.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1.0].CGColor;
+    [pulsrator start];
+    
+    pulsratorView = [[UIView alloc] initWithFrame:CGRectMake(170, 528, 20, 20)];
+    pulsratorView.backgroundColor = [UIColor whiteColor];
+    [pulsratorView.layer addSublayer:pulsrator];
+    [visualEffectView addSubview:pulsratorView];
+    
     [self startUpdatingMeter];
     
     _wasIdleTimerDisabled = [[UIApplication sharedApplication] isIdleTimerDisabled];
@@ -532,9 +599,9 @@
     
     //UI Update
     {
-        [self setToolbarItems:@[_pauseButton,_flexItem, _stopPlayButton,_flexItem, _cropOrDeleteButton] animated:YES];
-        [self showNavigationButton:NO];
-        _cropOrDeleteButton.enabled = NO;
+//        [self setToolbarItems:@[_pauseButton,_flexItem, _stopPlayButton,_flexItem, _cropOrDeleteButton] animated:YES];
+//        [self showNavigationButton:NO];
+//        _cropOrDeleteButton.enabled = NO;
     }
     
     //Start regular update
@@ -561,46 +628,46 @@
     }
 }
 
--(void)pausePlayingAction:(UIBarButtonItem*)item
-{
-    //UI Update
-    {
-        [self setToolbarItems:@[_playButton,_flexItem, _stopPlayButton,_flexItem, _cropOrDeleteButton] animated:YES];
-    }
-    
-    [_audioPlayer pause];
-    
-    [[AVAudioSession sharedInstance] setCategory:_oldSessionCategory error:nil];
-    [UIApplication sharedApplication].idleTimerDisabled = _wasIdleTimerDisabled;
-}
+//-(void)pausePlayingAction:(UIBarButtonItem*)item
+//{
+//    //UI Update
+//    {
+//        [self setToolbarItems:@[_playButton,_flexItem] animated:YES];
+//    }
+//    
+//    [_audioPlayer pause];
+//    
+//    [[AVAudioSession sharedInstance] setCategory:_oldSessionCategory error:nil];
+//    [UIApplication sharedApplication].idleTimerDisabled = _wasIdleTimerDisabled;
+//}
 
--(void)stopPlayingButtonAction:(UIBarButtonItem*)item
-{
-    //UI Update
-    {
-        [self setToolbarItems:@[_playButton,_flexItem, _startRecordingButton,_flexItem, _cropOrDeleteButton] animated:YES];
-        _cropOrDeleteButton.enabled = YES;
-    }
-    
-    {
-        [playProgressDisplayLink invalidate];
-        playProgressDisplayLink = nil;
-        
-        [UIView animateWithDuration:0.1 animations:^{
-            _viewPlayerDuration.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            self.navigationItem.titleView = nil;
-            [self showNavigationButton:YES];
-        }];
-    }
-    
-    _audioPlayer.delegate = nil;
-    [_audioPlayer stop];
-    _audioPlayer = nil;
-    
-    [[AVAudioSession sharedInstance] setCategory:_oldSessionCategory error:nil];
-    [UIApplication sharedApplication].idleTimerDisabled = _wasIdleTimerDisabled;
-}
+//-(void)stopPlayingButtonAction:(UIBarButtonItem*)item
+//{
+//    //UI Update
+//    {
+//        [self setToolbarItems:@[_playButton,_flexItem, _startRecordingButton,_flexItem, _cropOrDeleteButton] animated:YES];
+//        _cropOrDeleteButton.enabled = YES;
+//    }
+//    
+//    {
+//        [playProgressDisplayLink invalidate];
+//        playProgressDisplayLink = nil;
+//        
+//        [UIView animateWithDuration:0.1 animations:^{
+//            _viewPlayerDuration.alpha = 0.0;
+//        } completion:^(BOOL finished) {
+//            self.navigationItem.titleView = nil;
+//            [self showNavigationButton:YES];
+//        }];
+//    }
+//    
+//    _audioPlayer.delegate = nil;
+//    [_audioPlayer stop];
+//    _audioPlayer = nil;
+//    
+//    [[AVAudioSession sharedInstance] setCategory:_oldSessionCategory error:nil];
+//    [UIApplication sharedApplication].idleTimerDisabled = _wasIdleTimerDisabled;
+//}
 
 #pragma mark - AVAudioPlayerDelegate
 /*
@@ -609,22 +676,22 @@
 -(void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     //To update UI on stop playing
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[_stopPlayButton.target methodSignatureForSelector:_stopPlayButton.action]];
-    invocation.target = _stopPlayButton.target;
-    invocation.selector = _stopPlayButton.action;
-    [invocation invoke];
+//    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[_stopPlayButton.target methodSignatureForSelector:_stopPlayButton.action]];
+//    invocation.target = _stopPlayButton.target;
+//    invocation.selector = _stopPlayButton.action;
+//    [invocation invoke];
 }
 
 #pragma mark - Audio Record
 
-- (void)recordingButtonAction:(UIBarButtonItem *)item
+- (void)recordingButtonAction:(UIButton *)item
 {
     //UI Update
     {
-        [self setToolbarItems:@[_stopRecordingButton,_flexItem, _pauseRecordingButton,_flexItem, _cropOrDeleteButton] animated:YES];
-        _cropOrDeleteButton.enabled = NO;
-        [self.navigationItem setLeftBarButtonItem:_cancelRecordingButton animated:YES];
-        _doneButton.enabled = NO;
+//        [self setToolbarItems:@[_flexItem, _stopRecordingButton,_flexItem] animated:YES];
+//        _cropOrDeleteButton.enabled = NO;
+//        [self.navigationItem setLeftBarButtonItem:_cancelRecordingButton animated:YES];
+//        _doneButton.enabled = NO;
     }
     
     /*
@@ -634,6 +701,8 @@
     {
         [[NSFileManager defaultManager] removeItemAtPath:_recordingFilePath error:nil];
     }
+    _startRecordingButton.hidden = true;
+    _stopRecordingButton.hidden = false;
     
     _oldSessionCategory = [AVAudioSession sharedInstance].category;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryRecord error:nil];
@@ -652,11 +721,11 @@
     }
 }
 
-- (void)continueRecordingButtonAction:(UIBarButtonItem *)item
+/*- (void)continueRecordingButtonAction:(UIBarButtonItem *)item
 {
     //UI Update
     {
-        [self setToolbarItems:@[_stopRecordingButton,_flexItem, _pauseRecordingButton,_flexItem, _cropOrDeleteButton] animated:YES];
+        [self setToolbarItems:@[_flexItem,_stopRecordingButton,_flexItem] animated:YES];
     }
 
     _isRecordingPaused = NO;
@@ -667,13 +736,21 @@
 {
     _isRecordingPaused = YES;
     [_audioRecorder pause];
-    [self setToolbarItems:@[_stopRecordingButton,_flexItem, _continueRecordingButton,_flexItem, _cropOrDeleteButton] animated:YES];
-}
+    [self setToolbarItems:@[_flexItem,_stopRecordingButton,_flexItem] animated:YES];
+} */
 
--(void)stopRecordingButtonAction:(UIBarButtonItem*)item
+-(void)stopRecordingButtonAction:(UIButton*)item
 {
+    _startRecordingButton.hidden = false;
+    _stopRecordingButton.hidden = true;
     _isRecordingPaused = NO;
     [_audioRecorder stop];
+//    UIStoryboard *storyboardStop = [[UIStoryboard alloc] instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
+    
+    UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    XPAudioStopViewController *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
+    
+    [self.navigationController pushViewController:stopView animated:true];
 }
 
 -(void)cancelRecordingAction:(UIBarButtonItem*)item
@@ -693,21 +770,21 @@
     {
         //UI Update
         {
-            [self setToolbarItems:@[_playButton,_flexItem, _startRecordingButton,_flexItem, _cropOrDeleteButton] animated:YES];
-            [self.navigationItem setLeftBarButtonItem:_cancelButton animated:YES];
+            [self setToolbarItems:@[_flexItem, _startRecordingButton,_flexItem] animated:YES];
+//            [self.navigationItem setLeftBarButtonItem:_cancelButton animated:YES];
             
-            if ([[NSFileManager defaultManager] fileExistsAtPath:_recordingFilePath])
-            {
-                _playButton.enabled = YES;
-                _cropOrDeleteButton.enabled = YES;
-                _doneButton.enabled = YES;
-            }
-            else
-            {
-                _playButton.enabled = NO;
-                _cropOrDeleteButton.enabled = NO;
-                _doneButton.enabled = NO;
-            }
+//            if ([[NSFileManager defaultManager] fileExistsAtPath:_recordingFilePath])
+//            {
+//                _playButton.enabled = YES;
+//                _cropOrDeleteButton.enabled = YES;
+////                _doneButton.enabled = YES;
+//            }
+//            else
+//            {
+//                _playButton.enabled = NO;
+//                _cropOrDeleteButton.enabled = NO;
+////                _doneButton.enabled = NO;
+//            }
         }
 
         [[AVAudioSession sharedInstance] setCategory:_oldSessionCategory error:nil];
@@ -798,9 +875,9 @@
 
                                                         [[NSFileManager defaultManager] removeItemAtPath:_recordingFilePath error:nil];
                                                         
-                                                        _playButton.enabled = NO;
-                                                        _cropOrDeleteButton.enabled = NO;
-                                                        _doneButton.enabled = NO;
+//                                                        _playButton.enabled = NO;
+//                                                        _cropOrDeleteButton.enabled = NO;
+//                                                        _doneButton.enabled = NO;
                                                         self.navigationItem.title = _navigationTitle;
                                                     }];
     
@@ -832,8 +909,8 @@
 {
     if (show)
     {
-        [self.navigationItem setLeftBarButtonItem:_cancelButton animated:YES];
-        [self.navigationItem setRightBarButtonItem:_doneButton animated:YES];
+//        [self.navigationItem setLeftBarButtonItem:_cancelButton animated:YES];
+//        [self.navigationItem setRightBarButtonItem:_doneButton animated:YES];
     }
     else
     {
@@ -888,13 +965,16 @@
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:audioRecorderViewController];
     
-    navigationController.toolbarHidden = NO;
-    navigationController.toolbar.translucent = YES;
+    navigationController.toolbarHidden = YES;
+    navigationController.toolbar.translucent = NO;
     [navigationController.toolbar setBackgroundImage:[UIImage new] forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [navigationController.toolbar setShadowImage:[UIImage new] forToolbarPosition:UIBarPositionAny];
     
-    navigationController.navigationBar.translucent = YES;
+    navigationController.navigationBar.translucent = NO;
     [navigationController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+//    [navigationController.navigationBar setBackgroundColor:[UIColor colorWithRed:99.0/255.0 green:72.0/255.0 blue:224.0/255.0 alpha:1.0]];
+    [navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:103.0/255.0 green:68.0/255.0 blue:240.0/255.0 alpha:1.0]];
+//    navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:99.0/255.0 green:72.0/255.0 blue:224.0/255.0 alpha:1.0];
     [navigationController.navigationBar setShadowImage:[UIImage new]];
     
     navigationController.modalPresentationStyle = UIModalPresentationOverCurrentContext;

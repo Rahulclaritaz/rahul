@@ -48,11 +48,13 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        addChildViewController(controller)
+//        addChildViewController(controller)
 //        self.view.addSubview(controller.view)
 //        controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
 //        controller.didMove(toParentViewController: self)
 //        controller.delegate = self
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: nil)
+        navigationItem.leftBarButtonItem = backButton
         visualizerView.isHidden = true
         self.navigationItem.title = titleString
         audioButton.setImage(UIImage(named: "MicrophoneImage"), for: UIControlState.normal)
@@ -273,6 +275,8 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
     pulsrator.start()
 //    self.stopAudioVisualizer()
+    presentBlurredAudioRecorderViewControllerAnimated(controller)
+//    presentAudioRecorderViewControllerAnimated(controller)
     
     }
 
@@ -329,10 +333,10 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             isAudioButtonSelected = true
             audioTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
  //            self.startAudioVisualizer()
-            addChildViewController(controller)
-            self.view.addSubview(controller.view)
-            controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
-            controller.didMove(toParentViewController: self)
+//            addChildViewController(controller)
+//            self.view.addSubview(controller.view)
+//            controller.view.frame = CGRect(x: 0, y: 0, width: 375, height: 400)
+//            controller.didMove(toParentViewController: self)
 //            presentBlurredAudioRecorderViewControllerAnimated(controller)
             if (audioRecorder.isRecording == false) {
                 audioRecorder.record()

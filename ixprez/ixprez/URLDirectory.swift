@@ -8,10 +8,12 @@
 
 import Foundation
 
+var localURL : String = "http://183.82.33.232:3000/"   //local
+var LiveURL : String = "http://103.235.104.118:3000/"   //Live
+
 struct URLDirectory
 {
-//    var newURL = "http://183.82.33.232:3000"   //New
-//    var url = "http://103.235.104.118:3001"  //Old
+    
     
     
     struct BaseRequestResponseURl {
@@ -25,7 +27,7 @@ struct URLDirectory
      
         func url() -> String
         {
-            return "http://103.235.104.118:3000/queryservice/getIsoList"
+            return    localURL + "queryservice/getIsoList"
         }
         
         }
@@ -36,7 +38,7 @@ struct URLDirectory
     struct Language {
         func url() -> String
         {
-            return "http://103.235.104.118:3000/queryservice/getIsoList"
+            return  localURL + "queryservice/getIsoList"
         }
     }
     
@@ -46,7 +48,7 @@ struct URLDirectory
         func url() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/addDevice"
+            return  localURL + "commandService/addDevice"
     
         }
     }
@@ -56,7 +58,7 @@ struct URLDirectory
         func url() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/OTPVerification"
+            return  localURL + "commandService/OTPVerification"
         }
         
     }
@@ -67,7 +69,7 @@ struct URLDirectory
         
         func url() -> String
         {
-            return "http://103.235.104.118:3000/commandService/resendOTP"
+            return  localURL + "commandService/resendOTP"
             
         }
         
@@ -76,7 +78,7 @@ struct URLDirectory
     struct UserProfile {
         func url() -> String
         {
-            return "http://103.235.104.118:3000/commandService/getProfileImage"
+            return  localURL + "commandService/getProfileImage"
         }
     }
     
@@ -84,7 +86,7 @@ struct URLDirectory
     struct audioDataUpload {
         func url() -> String
         {
-           return "http://103.235.104.118:3000/commandService/audioFileUpload"
+           return  localURL + "commandService/audioFileUpload"
         }
     }
     
@@ -95,14 +97,14 @@ struct URLDirectory
     {
         func privateDataUrl() -> String
         {
-            return "http://103.235.104.118:3000/queryService/myVideosToPlay"
+            return localURL + "queryService/myVideosToPlay"
             
             //  return "http://192.168.1.20:3000/queryService/myVideosToPlay"
             
         }
         func privateAcceptRejectAudioVideo() -> String
         {
-            return "http://103.235.104.118:3000/commandService/feedbackAboutFile"
+            return localURL + "commandService/feedbackAboutFile"
             
             //      return "http://192.168.1.20:3000/commandService/feedbackAboutFile"
             
@@ -110,7 +112,7 @@ struct URLDirectory
         
         func privateBlockAudioVideo() -> String
         {
-            return "http://103.235.104.118:3000/commandService/blockUser"
+            return localURL + "commandService/blockUser"
             
             //  return "http://192.168.1.20:3000/commandService/blockUser"
         }
@@ -118,7 +120,7 @@ struct URLDirectory
          func audioVideoReportAbuse() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/audioVideoReportAbuse"
+            return localURL + "commandService/audioVideoReportAbuse"
         }
         
     }
@@ -128,13 +130,13 @@ struct URLDirectory
         func publicMyUpload() -> String
         {
             
-            return "http://103.235.104.118:3000/queryService/myUploads"
+            return localURL + "queryService/myUploads"
             
         }
         func privateMyUpload() -> String
         {
             
-            return "http://103.235.104.118:3000/queryService/ownuploads"
+            return localURL + "queryService/ownuploads"
             
         }
         
@@ -142,7 +144,7 @@ struct URLDirectory
         {
             
             
-            return "http://103.235.104.118:3000/commandService/deleteAudioVideo"
+            return localURL + "commandService/deleteAudioVideo"
             
             
         }
@@ -150,7 +152,7 @@ struct URLDirectory
         func deleteMyUploadPrivate() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/del_status"
+            return localURL + "commandService/del_status"
             
         }
         
@@ -158,21 +160,21 @@ struct URLDirectory
         func uploadEmotionCount() -> String
             
         {
-            return "http://103.235.104.118:3000/commandService/emotionCount"
+            return localURL + "commandService/emotionCount"
             
         }
         
         func uploadReportAbuse() -> String
         {
             
-            return  "http://103.235.104.118:3000/commandService/audioVideoReportAbuse"
+            return  localURL + "commandService/audioVideoReportAbuse"
             
         }
         
         func saveEmotionCount() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/likeAudioVideo"
+            return localURL + "commandService/likeAudioVideo"
             
         }
         
@@ -184,38 +186,38 @@ struct URLDirectory
         func searchPopularVideo() -> String
         
         {
-            return "http://103.235.104.118:3000/queryService/getPopularVideosByHash"
+            return localURL + "queryService/getPopularVideosByHash"
             
         }
         
         func publicVideo() -> String
         {
             
-   return "http://103.235.104.118:3000/queryService/getVideosByHashTags"
+   return localURL + "queryService/getVideosByHashTags"
             
         }
     }
     struct videoDataUpload {
         func url () -> String {
-            return "http://103.235.104.118:3000/commandService/videoFileUpload"
+            return localURL + "commandService/videoFileUpload"
         }
     }
     
     struct getIcarouselFeatureURL {
         func url() -> String {
-            return  "http://103.235.104.118:3000/commandService/getFeaturedVideoList"
+            return  localURL + "commandService/getFeaturedVideoList"
         }
     }
     
     struct treandingURL {
         func url () -> String {
-            return "http://103.235.104.118:3000/queryService/getAudioVideoListByLike"
+            return localURL + "queryService/getAudioVideoListByLike"
         }
     }
     
     struct recentURL {
     func url () -> String {
-            return "http://103.235.104.118:3000/queryService/myVideosList"
+            return localURL + "queryService/myVideosList"
     }
     }
     
@@ -224,13 +226,13 @@ struct URLDirectory
         func getPrivateData() -> String
         {
             
-            return  "http://103.235.104.118:3000/queryService/getPrivateFollowCount"
+            return  localURL + "queryService/getPrivateFollowCount"
             
         }
         func uploadProfileImage() -> String
         {
             
-            return "http://103.235.104.118:3000/commandService/profileImage"
+            return localURL + "commandService/profileImage"
         }
     }
     
@@ -238,12 +240,12 @@ struct URLDirectory
         
         func follower() -> String
         {
-            return "http://103.235.104.118:3000/commandService/followers"
+            return localURL + "commandService/followers"
         }
         
         func unFollower() -> String
         {
-            return "http://103.235.104.118:3000/commandService/unfollowers"
+            return localURL + "commandService/unfollowers"
             
         }
         
@@ -251,7 +253,7 @@ struct URLDirectory
     
     struct audioVideoViewCount {
         func viewCount() -> String {
-            return "http://103.235.104.118:3000/commandService/updateAudioView"
+            return localURL + "commandService/updateAudioView"
         }
     }
 

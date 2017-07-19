@@ -177,15 +177,16 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
        // getEmotionCount()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+//        player.pause()
+        playerController.dismiss(animated: true, completion: nil)
+    }
+    
  
     func handeltap(sender: UITapGestureRecognizer)
     {
         
         removeChildView()
-        
-        
-        
-      
         
     }
     
@@ -298,6 +299,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         self.view.bringSubview(toFront: bottomView)
         player.play()
     }
+    
     
     
     @IBAction func playVideoAudio(_ sender: UIButton)
