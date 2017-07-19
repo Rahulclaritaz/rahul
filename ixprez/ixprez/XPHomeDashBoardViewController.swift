@@ -11,20 +11,6 @@ import UIKit
 class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate,SWRevealViewControllerDelegate,UIScrollViewDelegate {
     
 
-    var items: [Int] = []
-    var icarouselUserProfile = NSArray ()
-    var icarouselUserName = NSArray ()
-    var icarouselCreatedTime = NSArray ()
-    var icarouselThumbnailImage = NSArray ()
-    var icarouselTitle = NSArray ()
-    var icarouselUpdateVideoTime = NSArray ()
-    var icarouselLikeCount = NSArray ()
-    var icarouselViewCount = NSArray ()
-    var baseUrl = "http://183.82.33.232:3000/"
-    var icarouselFeatureVideoCount = NSArray ()
-    var icarouselFileURLPath = NSArray ()
-    var icarouselFeatureID = NSArray ()
-    var icarouselSmailyCount = NSArray ()
     var trendingLikeCount = NSArray ()
     var trendingEmotionCount = NSArray ()
     var trendingViewCount = NSArray ()
@@ -76,18 +62,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     var imageGesture = UITapGestureRecognizer()
     
+    var recordFeatureVideo = [[String : Any]]()
     
     
     var setFlag : Bool!
-/*    lazy var refershController : UIRefreshControl = {
-        
-        let refersh = UIRefreshControl()
-        
-        refersh.addTarget(self, action: #selector(getPulledRefreshedData), for: .valueChanged)
-        
-        return refersh
-        
-    }() */
     
     @IBOutlet weak var pulseAnimationView: UIView!
     
@@ -301,7 +279,10 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
     }
     
-    func CarouselPlayVideoButtonAction(_ sender : UIButton) {
+    /*
+    func CarouselPlayVideoButtonAction(_ sender : UIButton)
+    {
+        
         print("you click on the \(sender.tag) index")
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
         let urlPath = icarouselFileURLPath[sender.tag] as! String
@@ -318,185 +299,269 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         storyBoard.playTitle = icarouselTitle[sender.tag] as! String
         
         print("the carousel video url path is \(storyBoard.playUrlString)")
+        
         self.navigationController?.pushViewController(storyBoard, animated: true)
     }
+    */
     
     
-    //MARK: icarosusel data source method
-    func numberOfPlaceholders(in carousel: iCarousel) -> Int {
-                return icarouselUserName.count
-//        return carousel.numberOfPlaceholders
-    }
-    //MARK: icarosusel data source method
-    func numberOfItems(in carousel: iCarousel) -> Int {
-        return icarouselUserName.count
-//        return items.count
-//        return carousel.numberOfItems
-    }
+       //MARK: icarosusel data source method
+    func numberOfItems(in carousel: iCarousel) -> Int
+    {
+        return recordFeatureVideo.count
+   }
     
-    //MARK: icarosusel data source method
-    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
-        var label: UILabel
-        var itemView: UIImageView
+    
+    func carouselItemWidth(_ carousel: iCarousel) -> CGFloat {
+        return (self.xpressTableView?.frame.size.width)!/2
         
-        //reuse view if available, otherwise create a new view
-        if let view = view as? UIImageView {
-            itemView = view
-            //get a reference to the label in the recycled view
-            label = itemView.viewWithTag(1) as! UILabel
-        } else {
-            //don't do anything specific to the index within
-            //this `if ... else` statement because the view will be
-            //recycled and used with other index values later
-            itemView = UIImageView(frame: CGRect(x: 0, y: 0, width: 240, height: 150))
-            itemView.backgroundColor = UIColor.clear
-            itemView.contentMode = .center
-            var thumbnailUrl = icarouselThumbnailImage[index] as? String
-            var thumbnailFinalUrl = thumbnailUrl?.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
-            itemView.getImageFromUrl(thumbnailFinalUrl!)
-            itemView.clipsToBounds = true
-           // itemView.layer.masksToBounds = true
-           itemView.contentMode = .scaleAspectFill
-            itemView.layer.cornerRadius = 0.3
-            
-            // This will create the headerview in icarousel.
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 240, height: 30))
-            headerView.backgroundColor = UIColor.white
-            let headerUserProfile = UIImageView(frame: CGRect(x: 7, y: 4, width: 23, height: 23))
-            
-            // This will create the user profile  in icarousel.
-            headerUserProfile.layer.cornerRadius = (headerUserProfile.frame.size.height)/2
-            var profileUrl = icarouselUserProfile[index] as! String
-            var profileFinalUrl = baseUrl + profileUrl
-            headerUserProfile.getImageFromUrl(profileFinalUrl)
-            headerUserProfile.clipsToBounds = true
-            headerUserProfile.backgroundColor = UIColor.clear
-            
-            // This will create the header title in icarousel.
-            let headerTitleName  = UILabel(frame: CGRect(x: 40, y: 6, width: 50, height: 20))
-            headerTitleName.font = UIFont(name: "MOSK", size: 10.0)
-            headerTitleName.text = icarouselUserName[index] as! String
-            headerTitleName.textColor = UIColor.lightGray
-            
-            // This will create the upload time image in icarousel.
-            var headerUploadTimeImage = UIImageView(frame: CGRect(x: 195, y: 9, width: 15, height: 15))
-            let uploadTimeImage = UIImage(named: "TimeImage")
-            headerUploadTimeImage.image = uploadTimeImage
-            
-            // This will create the upload time in icarousel.
-            let headerUploadTime  = UILabel(frame: CGRect(x: 215, y: 9, width: 30, height: 15))
-            headerUploadTime.font = UIFont(name: "MOSK", size: 10.0)
-            let createTime = getTheCarouselCreatedTime(createTime: (icarouselCreatedTime[index] as? String)!)
-            print(createTime)
-            headerUploadTime.text = createTime
-            
-            headerUploadTime.textColor = UIColor.lightGray
-            
-            // This will add the subview in the header of icarousel
-            headerView.addSubview(headerUploadTimeImage)
-            headerView.addSubview(headerUploadTime)
-            headerView.addSubview(headerTitleName)
-            headerView.addSubview(headerUserProfile)
-            itemView.addSubview(headerView)
-            
-            
-            // This will create the Video Screen Title in icarousel.
-            let videoScreenTitle = UILabel(frame: CGRect(x: 7, y: 75, width: 140, height: 50))
-            videoScreenTitle.font = UIFont(name: "MOSK", size: 17.0)
-            videoScreenTitle.lineBreakMode = NSLineBreakMode(rawValue: 2)!
-            videoScreenTitle.textColor = UIColor.white
-            videoScreenTitle.text = icarouselTitle[index] as? String
-            videoScreenTitle.numberOfLines = 2
-            videoScreenTitle.text = videoScreenTitle.text?.uppercased()
-            itemView.addSubview(videoScreenTitle)
-            
-            // This will create the Footer view in icarousel.
-            let footerView = UIView(frame: CGRect(x: 0, y: 120, width: 200, height: 30))
-//            footerView.backgroundColor = UIColor.lightGray
-            
-            // This will create the Footer like Button in icarousel.
-            let carouselLikeButton = UIButton(type: UIButtonType.custom) as UIButton
-             carouselLikeButton.frame = CGRect(x: 7.0, y: 12.0, width: 12.0, height: 12.0)
-            let likeImage = UIImage(named: "UploadHeart")
-            carouselLikeButton.setBackgroundImage(likeImage, for: UIControlState.normal)
-            carouselLikeButton.addTarget(self, action: "BtnTouched", for: .touchUpInside)
-            
-            
-            // This will create the Footer like title in icarousel.
-            let footerCarouselLike  = UILabel(frame: CGRect(x: 25.0, y: 10.0, width: 25.0, height: 15))
-            footerCarouselLike.font = UIFont(name: "MOSK", size: 11.0)
-            let likeText: NSInteger = icarouselLikeCount[index] as! NSInteger
-            footerCarouselLike.text = String(likeText)
-            footerCarouselLike.textColor = UIColor.white
-            
-            // This will create the Footer View Button in icarousel.
-            let carouselViewButton = UIButton(type: UIButtonType.custom) as UIButton
-            carouselViewButton.frame = CGRect(x: 50.0, y: 12.0, width: 12.0, height: 12.0)
-            let viewImage = UIImage(named: "UploadViews")
-            carouselViewButton.setBackgroundImage(viewImage, for: UIControlState.normal)
-            carouselViewButton.addTarget(self, action: "BtnTouched", for: .touchUpInside)
-            
-            
-            // This will create the Footer View title in icarousel.
-            let footerCarouselView  = UILabel(frame: CGRect(x: 66.0, y: 10.0, width: 25.0, height: 15))
-            footerCarouselView.font = UIFont(name: "MOSK", size: 11.0)
-            footerCarouselView.text = icarouselViewCount[index] as? String
-            footerCarouselView.textColor = UIColor.white
-            
-            
-            // This will create the Footer View Button in icarousel.
-            let carouselFireButton = UIButton(type: UIButtonType.custom) as UIButton
-            carouselFireButton.frame = CGRect(x: 91.0, y: 12.0, width: 12.0, height: 12.0)
-            let fireImage = UIImage(named: "FireImage")
-            carouselFireButton.setBackgroundImage(fireImage, for: UIControlState.normal)
-            carouselFireButton.addTarget(self, action: "BtnTouched", for: .touchUpInside)
-            
-            
-            // This will create the Footer View title in icarousel.
-            let footerCarouselFire  = UILabel(frame: CGRect(x: 108.0, y: 10.0, width: 25.0, height: 15))
-            footerCarouselFire.font = UIFont(name: "MOSK", size: 11.0)
-            let feturesCount: NSInteger = icarouselFeatureVideoCount[index] as! NSInteger
-            footerCarouselFire.text = String(feturesCount)
-            footerCarouselFire.textColor = UIColor.white
-            
-            
-            // This will create the play button in icarousel
-            let carouselPlayVideoButton = UIButton(type: UIButtonType.custom)
-            carouselPlayVideoButton.frame = CGRect(x: 195.0, y: 115.0, width: 30.0, height: 30.0)
-            carouselPlayVideoButton.viewWithTag(index)
-            let playButtonImage = UIImage(named: "UploadPlay")
-            carouselPlayVideoButton.setBackgroundImage(playButtonImage, for: UIControlState.normal)
-           carouselPlayVideoButton.addTarget(self, action: #selector (CarouselPlayVideoButtonAction(_:)), for: UIControlEvents.touchUpInside)
-            
-            
-            
-            // This will add all the subview in view.
-            footerView.addSubview(carouselFireButton)
-            footerView.addSubview(footerCarouselFire)
-            footerView.addSubview(carouselViewButton)
-            footerView.addSubview(footerCarouselView)
-            footerView.addSubview(footerCarouselLike)
-            footerView.addSubview(carouselLikeButton)
-            itemView.addSubview(footerView)
-            itemView.addSubview(carouselPlayVideoButton)
-            
-            
-            
-            
-            label = UILabel(frame: itemView.bounds)
-            label.backgroundColor = UIColor.clear
-            label.textAlignment = .center
-            label.font = label.font.withSize(50)
-            label.tag = 1
-            itemView.addSubview(label)
-        }
+    }
+    
+    //MARK: icarosusel data source method
+    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView
+    {
         
-        //set item label
-        //remember to always set any properties of your carousel item
-        //views outside of the `if (view == nil) {...}` check otherwise
-        //you'll get weird issues with carousel item content appearing
-        //in the wrong place in the carousel
-//        label.text = "\(items[index])"
+        
+        
+        var iCarData = recordFeatureVideo[index]
+        
+        var itemView =  UIImageView()
+        
+        
+        
+    itemView = UIImageView(frame: CGRect(x: 0, y: 0, width: (self.xpressTableView?.frame.size.width)!/2 * 1.3 , height: 150))
+        
+        itemView.backgroundColor = UIColor.clear
+        itemView.contentMode = .center
+        var thumbnailUrl = iCarData["thumbnailPath"] as? String
+        
+        
+        thumbnailUrl?.replace("/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+        
+       // thumbnailUrl?.replace( localPath, with: localUrl )
+      
+        print("check thumbnail ",thumbnailUrl!)
+        
+        itemView.getImageFromUrl(thumbnailUrl!)
+        
+        itemView.clipsToBounds = true
+        itemView.layer.masksToBounds = true
+        itemView.contentMode = .scaleAspectFill
+        itemView.layer.cornerRadius = 3
+        
+
+        let headerView = UIView()
+        
+        headerView.frame = CGRect(x: itemView.frame.origin.x, y: itemView.frame.origin.y, width: itemView.frame.size.width, height: 30)
+        
+        headerView.backgroundColor = UIColor.white
+        
+        
+        
+        
+        let headerUserProfile = UIImageView()
+        
+        headerUserProfile.frame = CGRect(x: headerView.frame.origin.x + 5, y: headerView.frame.origin.y + 5 , width: 15, height: 15)
+        
+        var userProfileUrl =  iCarData["profilePicture"] as! String
+        
+        
+       userProfileUrl.replace("/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+        //http://183.82.33.232:3000
+        
+       //  userProfileUrl.replace(localPath, with: localUrl)
+        headerUserProfile.layer.cornerRadius = headerUserProfile.frame.size.width/2
+        
+        headerUserProfile.contentMode = .scaleAspectFill
+        
+        headerUserProfile.clipsToBounds = true
+        
+        headerUserProfile.getImageFromUrl(userProfileUrl)
+        
+        //headerTitleName
+        
+        
+        let headerTitleName = UILabel()
+        
+        headerTitleName.frame = CGRect(x: headerUserProfile.frame.origin.x + headerUserProfile.frame.size.width , y: headerView.frame.origin.y + 5, width: 50, height: 20)
+        
+        
+        headerTitleName.text = iCarData["username"] as? String
+        
+        headerTitleName.font = UIFont.xprezMediumFontOfsize(size: 12)
+        
+        headerTitleName.textColor = UIColor.lightGray
+        
+        headerTitleName.textAlignment = .center
+        
+      
+        let headerUploadTimeImage = UIImageView()
+        
+        headerUploadTimeImage.frame = CGRect(x: headerView.frame.size.width - 50, y: headerView.frame.origin.y + 5, width: 15, height: 15)
+        
+        
+        let uploadTimeImage = UIImage(named: "TimeImage")
+        
+        headerUploadTimeImage.image = uploadTimeImage
+        
+        
+        
+        let headerUploadTime = UILabel()
+        
+        headerUploadTime.frame = CGRect(x: headerUploadTimeImage.frame.origin.x + 17, y: headerView.frame.origin.y + 5, width: 30, height: 15)
+        
+        let createDate = iCarData["createdAt"] as! String
+        
+        headerUploadTime.font = UIFont.xprezMediumFontOfsize(size: 12)
+        
+        headerUploadTime.textColor = UIColor.lightGray
+        
+        
+        headerUploadTime.text = getTheCarouselCreatedTime(createTime: createDate)
+        
+        //title
+          let footerView = UIView()
+        
+        let carouselTitle = UILabel()
+        
+        carouselTitle.frame = CGRect(x: itemView.frame.origin.x + 5, y: headerView.frame.origin.x + 50, width: itemView.frame.size.width - 75, height: 40)
+        
+        carouselTitle.text = (iCarData["title"] as? String)?.uppercased()
+         
+        carouselTitle.numberOfLines = 2
+        
+        carouselTitle.font = UIFont.xprezMediumFontOfsize(size: 17)
+        
+        carouselTitle.textColor = UIColor.white
+        
+        carouselTitle.textAlignment = .left
+        
+        headerView.addSubview(carouselTitle)
+        
+        
+        
+      
+        
+        
+        footerView.frame = CGRect(x: itemView.frame.origin.x, y: itemView.frame.size.height - 40, width: itemView.frame.size.width, height: 40)
+        
+        
+        footerView.backgroundColor = UIColor.clear
+        
+        
+        let carouselLikeButton = UIButton()
+        
+        
+        carouselLikeButton.frame = CGRect(x: footerView.frame.origin.x + 5, y: footerView.frame.origin.y + 10, width: 15, height: 15)
+        
+        let likeImage = UIImage(named: "UploadHeart")
+        carouselLikeButton.setBackgroundImage(likeImage, for: UIControlState.normal)
+        
+        
+        let footerCarouselLike = UILabel()
+        
+        footerCarouselLike.frame = CGRect(x: carouselLikeButton.frame.origin.x + 20, y: footerView.frame.origin.y + 10, width: 15, height: 15)
+        
+        footerCarouselLike.text = String(iCarData["likeCount"] as! Int)
+        
+        footerCarouselLike.font = UIFont.xprezLightFontOfSize(size: 10)
+        
+        footerCarouselLike.textColor = UIColor.white
+        
+        //footerCarouselLike.backgroundColor = UIColor.red
+        
+        
+        
+        let carouselViewButton = UIButton()
+        
+        carouselViewButton.frame = CGRect(x: footerCarouselLike.frame.origin.x + 15, y: footerView.frame.origin.y + 10, width: 15, height: 15)
+        
+        let viewImage = UIImage(named: "UploadViews")
+        
+        carouselViewButton.setBackgroundImage(viewImage, for: UIControlState.normal)
+        
+       
+       // carouselViewButton.backgroundColor = UIColor.red
+        
+        //view_count
+        
+        
+        let footerCarouselView = UILabel()
+        
+        footerCarouselView.frame = CGRect(x: carouselViewButton.frame.origin.x + 20, y: footerView.frame.origin.y + 10, width: 20, height: 15)
+        
+        footerCarouselView.text =  iCarData["view_count"] as? String
+        
+        footerCarouselView.font = UIFont.xprezLightFontOfSize(size: 10)
+        
+        footerCarouselView.textColor = UIColor.white
+        
+        //footerCarouselView.backgroundColor = UIColor.white
+        
+        let carouselFireButton = UIButton()
+        
+        carouselFireButton.frame = CGRect(x: footerCarouselView.frame.origin.x + 20 , y: footerView.frame.origin.y + 10 , width: 15, height: 15)
+        let fireImage = UIImage(named: "FireImage")
+        carouselFireButton.setBackgroundImage(fireImage, for: UIControlState.normal)
+        
+       // carouselFireButton.backgroundColor = UIColor.clear
+        
+        let footerCarouselFire  = UILabel()
+        
+        footerCarouselFire.frame = CGRect(x: carouselFireButton.frame.origin.x + 20, y: footerView.frame.origin.y + 10, width: 15, height: 15)
+        
+        
+        footerCarouselFire.font =  UIFont.xprezLightFontOfSize(size: 10)
+        
+        footerCarouselFire.text = String(iCarData["smailyCount"] as! Int)
+        
+       footerCarouselFire.textColor = UIColor.white
+        
+        let carouselPlayVideoButton = UIButton()
+        
+        carouselPlayVideoButton.frame = CGRect(x: footerView.frame.size.width - 40 , y: footerView.frame.origin.y, width: 30.0, height: 30.0)
+        
+        carouselPlayVideoButton.viewWithTag(index)
+        let playButtonImage = UIImage(named: "UploadPlay")
+        carouselPlayVideoButton.setBackgroundImage(playButtonImage, for: UIControlState.normal)
+      
+        
+        headerView.addSubview(carouselPlayVideoButton)
+        
+        headerView.addSubview(footerCarouselFire)
+        
+        
+        headerView.addSubview(carouselFireButton)
+        
+        headerView.addSubview( footerCarouselView)
+        
+        headerView.addSubview(carouselViewButton)
+        
+        
+        headerView.addSubview(footerCarouselLike)
+        
+        headerView.addSubview(carouselLikeButton)
+        
+        headerView.addSubview(headerUploadTime)
+        
+        
+        headerView.addSubview(headerUploadTimeImage)
+        
+        headerView.addSubview(headerTitleName)
+        
+        headerView.addSubview(headerUserProfile)
+        
+        
+        itemView.insertSubview(footerView, aboveSubview: headerView)
+        
+        itemView.addSubview(headerView)
+
+        
+        //username
+        
+    
+        
+        
         
         return itemView
     }
@@ -506,34 +571,123 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     
     //MARK: icarousel delegate method
-    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
+    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int)
+    {
+        /*
+ let publicData = recordPublicVideo[indexPath.row]
+ 
+ // This will send the parameter to the view count service and return the response
+ 
+ let fileType: String = publicData["filemimeType"] as! String
+ 
+ let followFileType = fileType.replacingOccurrences(of: "/mp4", with: "")
+ 
+ var  fileTypeData =  String()
+ 
+ if (followFileType == "video")
+ {
+ fileTypeData = followFileType
+ } else
+ {
+ fileTypeData = "audio"
+ }
+ print(followFileType)
+ let requestParameter = ["id" : publicData["_id"] as! String,"video_type": fileTypeData] as [String : Any]
+ 
+ dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+ ) in
+ print(updateCountresponse)
+ if (error == nil) {
+ //                storyBoard.playView = labelPlayView + 1
+ } else {
+ //                storyBoard.playView = labelPlayView
+ }
+ }
+ 
+  */
+        
         print("you click on the \(index) index")
-        let arr = carousel.indexesForVisibleItems
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
-        let urlPath = icarouselFileURLPath[index] as! String
-        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
-        storyBoard.playUrlString = finalURlPath
-        storyBoard.nextID = icarouselFeatureID[index] as! String
-        let labelLikeCount: NSInteger = icarouselLikeCount[index] as! NSInteger
-        storyBoard.playLike = labelLikeCount
-        let labelSmileyCount: NSInteger = icarouselSmailyCount[index] as! NSInteger
-        storyBoard.playSmiley = labelSmileyCount
-        let labelPlayView: NSInteger = (Int)((icarouselViewCount[index] as? String)!)!
-        storyBoard.playView = labelPlayView
+ 
+        let playData = recordFeatureVideo[index]
         
-        storyBoard.playTitle = icarouselTitle[index] as! String
+        let playTitle = playData["title"] as! String
         
-        print("the carousel video url path is \(storyBoard.playUrlString)")
-        self.navigationController?.pushViewController(storyBoard, animated: true)
+        var playVideoPath = playData["fileuploadPath"] as! String
+        
+       // playVideoPath.replace(localPath, with: localUrl )
+        
+        let playFilemimeType = playData["filemimeType"] as! String
+        
+        let playID = playData["_id"] as! String
+        
+        let playLikeCount = playData["likeCount"] as! Int
+        
+        let playViewCount = Int(playData["view_count"] as! String)
+        
+        let playSmiley = playData["smailyCount"] as! Int
+        
+        let checkUserLike = playData["liked"] as! Int
+        
+        
+        let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+        
+        playViewController.playTitle = playTitle
+        
+        playViewController.playUrlString = playVideoPath
+        
+        playViewController.playLike = playLikeCount
+        
+        playViewController.playView = playViewCount! + 1
+        
+        playViewController.playSmiley = playSmiley
+        
+        playViewController.nextFileType = playFilemimeType
+        
+        playViewController.nextID = playID
+        
+        playViewController.checkLike = checkUserLike
+        
+        self.navigationController?.pushViewController(playViewController, animated: true)
+        
+
         
     }
     
-    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+    func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+        switch (option)
+        {
+            
+        case .wrap:
+            
+            return  1.0
+            
+        case .spacing :
+            
+            
+            return 0.6
+            
+        case .count :
+            
+            return 5
+            
+        default:
+            
+            return value;
+            
+            
+        }
+
+
+    }
+    
+    /*
+     func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         if (option == .spacing) {
-            return value * 1.1
+            return value * 3.3
         }
         return value
     }
+    */
     
     // This method will convert the resonse service time in hh:mm formet.
     func getTheCarouselCreatedTime(createTime: String) -> String {
@@ -604,9 +758,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
             print(imageURL)
             
-            self.userProfileImageResponseURl = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+           // self.userProfileImageResponseURl = imageURL.replacingOccurrences(of: localPath , with:localUrl )
 
-            let url = NSURL(string: self.userProfileImageResponseURl)
+            let url = NSURL(string: imageURL)
             let session = URLSession.shared
             
             let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
@@ -651,34 +805,26 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     }
     
     // This will send the request to the web server with parameter and will return the carousel user data
-    func getIcarouselFeaturesVideo () {
+    func getIcarouselFeaturesVideo ()
+    {
         let parameter = ["video_type" : "video"]
-        dashBoardCommonService.getIcarouselFeaturesVideo(urlString: icarouselFeatureVideoURL.url() , dicData: parameter as NSDictionary, callBack: {(icarouselVideoData , error) in
+        
+           dashBoardCommonService.getIcarouselFeaturesVideo(urlString: icarouselFeatureVideoURL.url() , dicData: parameter as NSDictionary, callBack: {(icarouselVideoData , error) in
             print("You get the Value from features video data")
-            print(icarouselVideoData)
             
-            self.icarouselUserProfile = icarouselVideoData.value(forKey: "profilePicture") as! NSArray
             
-            self.icarouselUserName = icarouselVideoData.value(forKey: "username") as! NSArray
-            self.icarouselCreatedTime = icarouselVideoData.value(forKey: "createdAt") as! NSArray
-            self.icarouselThumbnailImage = icarouselVideoData.value(forKey: "thumbnailPath") as! NSArray
-             self.icarouselTitle = icarouselVideoData.value(forKey: "title") as! NSArray
-            self.icarouselUpdateVideoTime = icarouselVideoData.value(forKey: "createdAt") as! NSArray
-            self.icarouselLikeCount = icarouselVideoData.value(forKey: "likeCount") as! NSArray
-             self.icarouselViewCount = icarouselVideoData.value(forKey: "view_count") as! NSArray
-            self.icarouselFeatureVideoCount = icarouselVideoData.value(forKey: "featuredVideo") as! NSArray
-//            self.items = [Int(icarouselVideoData.count)]
-            self.icarouselFileURLPath = icarouselVideoData.value(forKey: "fileuploadPath") as! NSArray
-            self.icarouselFeatureID = icarouselVideoData.value(forKey: "_id") as! NSArray
-            self.icarouselSmailyCount = icarouselVideoData.value(forKey: "smailyCount") as! NSArray
+            self.recordFeatureVideo = icarouselVideoData
             
-            print(self.icarouselUserName)
-            print(self.icarouselTitle)
-            print(self.icarouselCreatedTime)
-            print(self.icarouselLikeCount)
-            print(self.icarouselViewCount)
-            print(self.icarouselFeatureVideoCount)
-            self.carousel?.reloadData()
+            print("mathan feature video", icarouselVideoData)
+            
+                     
+            DispatchQueue.main.async {
+              self.carousel?.reloadData()
+                
+                self.xpressTableView?.reloadData()
+                
+            }
+            
             
         })
         
@@ -704,9 +850,12 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.treadingUserName = treandingResponse.value(forKey: "from_user") as! NSArray
                 self.dashboardUserfollowing = treandingResponse.value(forKey: "isuerfollowing") as! NSArray
                 self.followingUserDP = treandingResponse.value(forKey: "mydp") as! NSArray
-                
+             
+              //  XPDashboardTableViewCell
                 DispatchQueue.main.async(execute: {
-                    self.xpressTableView?.reloadData()
+                   self.xpressTableView?.reloadData()
+                    
+                 
                 })
                 self.activityIndicator.stopAnimating()
               
@@ -736,9 +885,13 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.treadingUserName = recentResponse.value(forKey: "from_user") as! NSArray
             self.dashboardUserfollowing = recentResponse.value(forKey: "isuerfollowing") as! NSArray
             self.followingUserDP = recentResponse.value(forKey: "mydp") as! NSArray
+            
             DispatchQueue.main.async(execute: {
-                 self.xpressTableView?.reloadData()
+                self.xpressTableView?.reloadData()
+                
+                
             })
+
            
             self.activityIndicator.stopAnimating()
             
@@ -758,7 +911,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         // to whom going to follow that user thumbnail Image
         let thumbImageURLString = self.trendingThumbnail[sender.tag] as! String
-        let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+       // let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: localPath , with: localUrl )
         
         // To whom going to follow will check it is already follow or not (0 == not following & 1 = following)
         followView.isUserFollowing = self.dashboardUserfollowing[sender.tag] as! Int
@@ -768,7 +921,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let followingUserProfileURL = followingUserProfileURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
         let userThumbNailImage = UIImageView()
-        userThumbNailImage.getImageFromUrl(finalThumbNailImageURL)
+        userThumbNailImage.getImageFromUrl(thumbImageURLString)
         followView.userPhoto = userThumbNailImage.image!
         
 //        let followingUserProfileImage = UIImageView ()
@@ -817,15 +970,18 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
 // This method is tableview datasource method
 extension XPHomeDashBoardViewController : UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return trendingTitle.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
         return 75
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
         let cellIdentifier = "XPDashboardTableViewCell"
         let cell : XPDashboardTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardTableViewCell
         let thumbImageURLString = self.trendingThumbnail[indexPath.row] as! String
@@ -833,11 +989,12 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         cell.thumbNailImage?.layer.masksToBounds = true
         cell.thumbNailImage?.layer.cornerRadius = 1.0
         cell.thumbNailImage?.contentMode = .scaleAspectFit
-        let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+        
+       // let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: localPath, with: localUrl )
         
         cell.thumbNailImage?.image = nil
         
-        cell.thumbNailImage?.getImageFromUrl(finalThumbNailImageURL)
+        cell.thumbNailImage?.getImageFromUrl(thumbImageURLString)
         if (self.treadingFileType[indexPath.row] as! String == "video/mp4") {
             cell.imgVA.image = UIImage(named: "SearchVideoOn")
         } else {
@@ -895,9 +1052,18 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         cellDashBoard.cellUserProfileImage?.addGestureRecognizer(imageGesture)
         cellDashBoard.cellUserProfileImage?.isUserInteractionEnabled = true
         
+        //cellDashBoard.pulseAnimationView.sendSubview(toBack: cellDashBoard.cellUserProfileImage!)
+        //cellDashBoard.pulseAnimationView.sendSubview(toBack: cellDashBoard.cellCarousel!)
+        
+        
+       //cellDashBoard.pulseAnimationView?.bringSubview(toFront: cellDashBoard.cellCarousel!)
+        
+        //cellDashBoard.pulseAnimationView.bringSubview(toFront: cellDashBoard.cellUserProfileImage!)
+        
+      
         // This will add the icarousel in tableviewcell.
         cellDashBoard.cellCarousel?.type = .rotary
-        cellDashBoard.cellCarousel?.autoscroll = 0.2
+        cellDashBoard.cellCarousel?.autoscroll = 0.4
         
         
         xpressTableView?.tableHeaderView = cellDashBoard
@@ -971,9 +1137,9 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
         
         let urlPath = trendingFileURLPath[indexPath.row] as! String
         
-        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+       // let finalURlPath = urlPath.replacingOccurrences(of: localPath, with: localUrl)
         
-        storyBoard.playUrlString = finalURlPath
+        storyBoard.playUrlString = urlPath
         storyBoard.nextID = trendingFeaturesId[indexPath.row] as! String
         let labelLikeCount: NSInteger = trendingLikeCount[indexPath.row] as! NSInteger
         storyBoard.playLike = labelLikeCount

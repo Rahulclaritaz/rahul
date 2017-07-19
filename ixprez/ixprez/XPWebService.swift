@@ -437,7 +437,7 @@ class XPWebService
     
     // This function will send the data and get the response from the server.
     
-    func getIcarouselFeaturesVideo(urlString : String, dicData: NSDictionary, callBack: @escaping (_ message : NSArray, _ error : NSError? ) -> Void) {
+    func getIcarouselFeaturesVideo(urlString : String, dicData: NSDictionary, callBack: @escaping (_ message : [[String : Any]], _ error : NSError? ) -> Void) {
         
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         let urlString = URL(string: urlString)
@@ -448,23 +448,24 @@ class XPWebService
         let session = URLSession.shared
         
         let dataTask = session.dataTask(with: requestedURL) { (data, response, error) in
-            if (data != nil && error == nil) {
+            if (data != nil && error == nil)
+            {
                 print("You will get the Response")
                 do {
                     let jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     print(jsonData)
+                    
+                    
                     let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
                     
                     if (jsonResponseValue == "Failed") {
                         return
-                    } else {
-                        let responseData : NSArray = jsonData.value(forKey: "data") as! NSArray
+                    } else
+                    {
+                        let responseData  = jsonData["data"] as! [[String : Any]]
+                        
                         print(responseData)
-                        
-                        //                        for responseValue in responseData {
-                        //
-                        //                        }
-                        
+                                               
                         callBack(responseData, nil)
                         
                     }
