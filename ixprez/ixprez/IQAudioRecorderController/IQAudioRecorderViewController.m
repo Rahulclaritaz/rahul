@@ -81,6 +81,8 @@
     NSTimer *audioTimer;
     int countDownTime;
     UILabel *countdownLabel;
+    NSBundle* bundle;
+    NSBundle *resourcesBundle;
     
     //Crop/Delete controls
 //    UIBarButtonItem *_cropOrDeleteButton;
@@ -125,7 +127,7 @@
     {
         if (self.barStyle == UIBarStyleDefault)
         {
-            return [UIColor colorWithRed:0 green:0.5 blue:1.0 alpha:1.0];
+            return [UIColor whiteColor];
         }
         else
         {
@@ -151,7 +153,7 @@
     {
         if (self.barStyle == UIBarStyleDefault)
         {
-            return [UIColor colorWithRed:255.0/255.0 green:64.0/255.0 blue:64.0/255.0 alpha:1.0];
+            return [UIColor whiteColor];
         }
         else
         {
@@ -191,9 +193,9 @@
     }
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0]}];
-    NSBundle* bundle = [NSBundle bundleForClass:self.class];
+     bundle = [NSBundle bundleForClass:self.class];
     if (bundle == nil)  bundle = [NSBundle mainBundle];
-    NSBundle *resourcesBundle = [NSBundle bundleWithPath:[bundle pathForResource:@"IQAudioRecorderController" ofType:@"bundle"]];
+    resourcesBundle = [NSBundle bundleWithPath:[bundle pathForResource:@"IQAudioRecorderController" ofType:@"bundle"]];
     visualEffectView = [[UIVisualEffectView alloc] initWithEffect:nil];
     visualEffectView.frame =  [UIScreen mainScreen].bounds;
     self.view = visualEffectView;
@@ -217,38 +219,7 @@
     userProfileView.layer.masksToBounds = true;
     [visualEffectView addSubview:userProfileView];
     
-    if (resourcesBundle == nil) resourcesBundle = bundle;
-
-    {
-        viewMicrophoneDenied = [[IQMessageDisplayView alloc] initWithFrame:visualEffectView.bounds];
-        viewMicrophoneDenied.translatesAutoresizingMaskIntoConstraints = NO;
-        viewMicrophoneDenied.delegate = self;
-        viewMicrophoneDenied.alpha = 0.0;
-        
-        if (self.barStyle == UIBarStyleDefault)
-        {
-            viewMicrophoneDenied.tintColor = [UIColor darkGrayColor];
-        }
-        else
-        {
-            viewMicrophoneDenied.tintColor = [UIColor whiteColor];
-        }
-        viewMicrophoneDenied.image = [[UIImage imageNamed:@"microphone_access" inBundle:resourcesBundle compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        viewMicrophoneDenied.title = @"Microphone Access Denied!";
-        viewMicrophoneDenied.message = @"Unable to access microphone. Please enable microphone access in Settings.";
-        viewMicrophoneDenied.buttonTitle = @"Go to Settings";
-        [visualEffectView addSubview:viewMicrophoneDenied];
-        
-    }
-    
-    {
-        musicFlowView = [[SCSiriWaveformView alloc] initWithFrame:visualEffectView.bounds];
-        musicFlowView.translatesAutoresizingMaskIntoConstraints = NO;
-        musicFlowView.alpha = 0.0;
-        [visualEffectView addSubview:musicFlowView];
-        musicFlowView.backgroundColor = [UIColor clearColor];
-        
-    }
+ 
     
  /*   {
         NSLayoutConstraint *constraintRatio = [NSLayoutConstraint constraintWithItem:musicFlowView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:musicFlowView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
@@ -277,61 +248,7 @@
     
     }
     
-    // Define the recorder setting
-    {
-        NSMutableDictionary *recordSettings = [[NSMutableDictionary alloc] init];
-
-        NSString *globallyUniqueString = [NSProcessInfo processInfo].globallyUniqueString;
-
-        if (self.audioFormat == IQAudioFormatDefault || self.audioFormat == IQAudioFormat_m4a)
-        {
-            _recordingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.m4a",globallyUniqueString]];
-
-            recordSettings[AVFormatIDKey] = @(kAudioFormatMPEG4AAC);
-        }
-        else if (self.audioFormat == IQAudioFormat_caf)
-        {
-            _recordingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.caf",globallyUniqueString]];
-
-            recordSettings[AVFormatIDKey] = @(kAudioFormatAppleLossless);
-        }
-        
-        if (self.sampleRate > 0.0f)
-        {
-            recordSettings[AVSampleRateKey] = @(self.sampleRate);
-        }
-        else
-        {
-            recordSettings[AVSampleRateKey] = @44100.0f;
-        }
-        
-        if (self.numberOfChannels >0)
-        {
-            recordSettings[AVNumberOfChannelsKey] = @(self.numberOfChannels);
-        }
-        else
-        {
-            recordSettings[AVNumberOfChannelsKey] = @1;
-        }
-
-        if (self.audioQuality != IQAudioQualityDefault)
-        {
-            recordSettings[AVEncoderAudioQualityKey] = @(self.audioQuality);
-        }
-
-        if (self.bitRate > 0)
-        {
-            recordSettings[AVEncoderBitRateKey] = @(self.bitRate);
-        }
-        
-        // Initiate and prepare the recorder
-        _audioRecorder = [[AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath:_recordingFilePath] settings:recordSettings error:nil];
-        _audioRecorder.delegate = self;
-        _audioRecorder.meteringEnabled = YES;
-        
-        musicFlowView.primaryWaveLineWidth = 3.0f;
-        musicFlowView.secondaryWaveLineWidth = 1.0;
-    }
+   
 
     //Navigation Bar Settings
     {
@@ -340,14 +257,7 @@
 //            self.navigationItem.title = @"Audio Recorder";
 //        }
 
-        _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
-        self.navigationItem.leftBarButtonItem = _cancelButton;
         
-        self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-        [_cancelButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                                               [UIColor whiteColor],UITextAttributeTextColor,[UIFont fontWithName:@"MoskMedium500" size:16.0f],UITextAttributeFont,
-                                               nil] forState:UIControlStateNormal];
-        self.navigationItem.leftBarButtonItem = _cancelButton;
 //        _doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
 //        _doneButton.enabled = NO;
 //        self.navigationItem.rightBarButtonItem = _doneButton;
@@ -391,6 +301,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self audioWaveEquilizer];
     countDownTime = 40;
     countdownLabel = [[UILabel alloc] initWithFrame:CGRectMake(155, 270, 100, 40)];
     countdownLabel.text = @"00 : 40";
@@ -467,6 +378,105 @@
 //    }
 }
 
+-(void) audioWaveEquilizer {
+    if (resourcesBundle == nil) resourcesBundle = bundle;
+    
+    {
+        viewMicrophoneDenied = [[IQMessageDisplayView alloc] initWithFrame:visualEffectView.bounds];
+        viewMicrophoneDenied.translatesAutoresizingMaskIntoConstraints = NO;
+        viewMicrophoneDenied.delegate = self;
+        viewMicrophoneDenied.alpha = 0.0;
+        
+        if (self.barStyle == UIBarStyleDefault)
+        {
+            viewMicrophoneDenied.tintColor = [UIColor darkGrayColor];
+        }
+        else
+        {
+            viewMicrophoneDenied.tintColor = [UIColor whiteColor];
+        }
+        viewMicrophoneDenied.image = [[UIImage imageNamed:@"microphone_access" inBundle:resourcesBundle compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        viewMicrophoneDenied.title = @"Microphone Access Denied!";
+        viewMicrophoneDenied.message = @"Unable to access microphone. Please enable microphone access in Settings.";
+        viewMicrophoneDenied.buttonTitle = @"Go to Settings";
+        [visualEffectView addSubview:viewMicrophoneDenied];
+        
+    }
+    
+    {
+        musicFlowView = [[SCSiriWaveformView alloc] initWithFrame:visualEffectView.bounds];
+        musicFlowView.translatesAutoresizingMaskIntoConstraints = NO;
+        musicFlowView.alpha = 0.0;
+        [visualEffectView addSubview:musicFlowView];
+        musicFlowView.backgroundColor = [UIColor clearColor];
+        
+    }
+    
+    // Define the recorder setting
+    {
+        NSMutableDictionary *recordSettings = [[NSMutableDictionary alloc] init];
+        
+        NSString *globallyUniqueString = [NSProcessInfo processInfo].globallyUniqueString;
+        
+        if (self.audioFormat == IQAudioFormatDefault || self.audioFormat == IQAudioFormat_m4a)
+        {
+            _recordingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.m4a",globallyUniqueString]];
+            
+            recordSettings[AVFormatIDKey] = @(kAudioFormatMPEG4AAC);
+        }
+        else if (self.audioFormat == IQAudioFormat_caf)
+        {
+            _recordingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.caf",globallyUniqueString]];
+            
+            recordSettings[AVFormatIDKey] = @(kAudioFormatAppleLossless);
+        }
+        
+        if (self.sampleRate > 0.0f)
+        {
+            recordSettings[AVSampleRateKey] = @(self.sampleRate);
+        }
+        else
+        {
+            recordSettings[AVSampleRateKey] = @44100.0f;
+        }
+        
+        if (self.numberOfChannels >0)
+        {
+            recordSettings[AVNumberOfChannelsKey] = @(self.numberOfChannels);
+        }
+        else
+        {
+            recordSettings[AVNumberOfChannelsKey] = @1;
+        }
+        
+        if (self.audioQuality != IQAudioQualityDefault)
+        {
+            recordSettings[AVEncoderAudioQualityKey] = @(self.audioQuality);
+        }
+        
+        if (self.bitRate > 0)
+        {
+            recordSettings[AVEncoderBitRateKey] = @(self.bitRate);
+        }
+        
+        // Initiate and prepare the recorder
+        _audioRecorder = [[AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath:_recordingFilePath] settings:recordSettings error:nil];
+        _audioRecorder.delegate = self;
+        _audioRecorder.meteringEnabled = YES;
+        
+        musicFlowView.primaryWaveLineWidth = 3.0f;
+        musicFlowView.secondaryWaveLineWidth = 1.0;
+    }
+    _cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction:)];
+    self.navigationItem.leftBarButtonItem = _cancelButton;
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [_cancelButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                                           [UIColor whiteColor],UITextAttributeTextColor,[UIFont fontWithName:@"MoskMedium500" size:16.0f],UITextAttributeFont,
+                                           nil] forState:UIControlStateNormal];
+    self.navigationItem.leftBarButtonItem = _cancelButton;
+}
+
 - (void)countDownTimer  {
     if (countDownTime > 0) {
         countDownTime = countDownTime - 1;
@@ -499,6 +509,7 @@
     [audioTimer invalidate];
     [self stopUpdatingMeter];
     [pulsrator stop ];
+    [musicFlowView removeFromSuperview];
     
     [UIApplication sharedApplication].idleTimerDisabled = _wasIdleTimerDisabled;
 }
@@ -516,7 +527,7 @@
         musicFlowView.waveColor = [self _highlightedTintColor];
         [musicFlowView updateWithLevel:normalizedValue];
         
-        self.navigationItem.title = [NSString timeStringForTimeInterval:_audioRecorder.currentTime];
+//        self.navigationItem.title = [NSString timeStringForTimeInterval:_audioRecorder.currentTime];
     }
     else if (_audioPlayer)
     {
