@@ -20,6 +20,10 @@ class XPAudioStopViewController: UIViewController {
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     @IBOutlet weak var pulseAnimationView: UIView!
+    @IBOutlet weak var userProfileView = UIImageView ()
+    let dashBoardCommonService = XPWebService()
+    let userPrifileURL = URLDirectory.UserProfile()
+    var userEmail = String ()
     var titleLabel = String ()
     var audioRecordURLString : URL?
     var registrationPage = RegistrationViewController ()
@@ -36,6 +40,11 @@ class XPAudioStopViewController: UIViewController {
         print(audioPage.defaultValue.string(forKey: "pickerStatus"))
         print(audioPage.defaultValue.string(forKey: "countryName"))
         print(audioPage.defaultValue.string(forKey: "languageName"))
+        
+        userProfileView?.layer.cornerRadius = (userProfileView?.frame.size.width)!/2
+        userProfileView?.layer.masksToBounds = true
+        userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
+        self.getUserProfile()
         // this will remove the back button from the navigation bar
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
@@ -73,6 +82,41 @@ class XPAudioStopViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         pulsrator.stop()
+    }
+    
+    func getUserProfile() {
+        
+        let parameter = [ "email_id" : userEmail]
+        
+        dashBoardCommonService.getUserProfileWebService(urlString: userPrifileURL.url(), dicData: parameter as NSDictionary, callback: {(userprofiledata , error) in
+            let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
+            print(imageURL)
+            
+            var urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+            
+            let url = NSURL(string: urlString)
+            
+            let session = URLSession.shared
+            
+            let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
+                
+                if (data != nil)
+                {
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.userProfileView?.image = UIImage(data: data!)
+                        
+                    }
+                }
+            })
+            
+            
+            taskData.resume()
+        })
+        
+        
+        
     }
     
     @IBAction func retryButtonAction (sender : Any) {
