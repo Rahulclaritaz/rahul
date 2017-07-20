@@ -83,6 +83,11 @@
     UILabel *countdownLabel;
     NSBundle* bundle;
     NSBundle *resourcesBundle;
+    NSString *userEmail;
+    NSData *profileimgData;
+    
+    
+    
     
     //Crop/Delete controls
 //    UIBarButtonItem *_cropOrDeleteButton;
@@ -191,6 +196,9 @@
     {
         _navigationTitle = self.title;
     }
+    userEmail = [NSString alloc].init;
+    userEmail = [[NSUserDefaults standardUserDefaults] objectForKey:@"emailAddress"];
+    [self getUserProfileImage];
     [self.navigationController.navigationBar
      setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor], NSFontAttributeName: [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0]}];
      bundle = [NSBundle bundleForClass:self.class];
@@ -248,29 +256,109 @@
     
     }
     
-   
+}
 
-    //Navigation Bar Settings
-    {
-//        if (self.title.length == 0 && self.navigationItem.title.length == 0)
-//        {
-//            self.navigationItem.title = @"Audio Recorder";
-//        }
-
-        
-//        _doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)];
-//        _doneButton.enabled = NO;
-//        self.navigationItem.rightBarButtonItem = _doneButton;
-    }
+-(void)getUserProfileImage
+{
     
-    //Player Duration View
- /*   {
-        _viewPlayerDuration = [[IQPlaybackDurationView alloc] init];
-        _viewPlayerDuration.delegate = self;
-        _viewPlayerDuration.tintColor = [self _highlightedTintColor];
-        _viewPlayerDuration.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        _viewPlayerDuration.backgroundColor = [UIColor whiteColor];
-    } */
+    NSURL *url = [NSURL URLWithString:@"http://183.82.33.232:3000/commandService/getProfileImage"];
+    
+    NSDictionary *dicData = @{@"email_id":userEmail};
+    
+    [self getProfileImage:url dicvalue:dicData onloadData: ^(NSDictionary *ddd,NSError *error){
+        
+        if( ddd != nil)
+        {
+            
+            
+            NSString *strData = [ddd objectForKey:@"profile_image"];
+            
+            NSString *fullData = [strData stringByReplacingOccurrencesOfString:@"/root/cpanel3-skel/public_html/Xpress" withString:@"http://103.235.104.118:3000"];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                
+                NSURL *imgurl = [NSURL URLWithString:fullData];
+                profileimgData = [NSData  dataWithContentsOfURL:imgurl];
+                
+                userProfileView =[UIImage imageWithData:profileimgData];
+                
+                
+                
+//                dispatch_sync(dispatch_get_main_queue(),^{
+//                    
+//                    [_tableview reloadData];
+//                    
+//                });
+                
+                
+                
+            });
+            
+            
+        }
+        else
+        {
+            userProfileView.backgroundColor = [UIColor purpleColor];
+            
+        }
+        
+        
+    }];
+    
+    
+    
+}
+
+
+
+-(void)getProfileImage:(NSURL *)url dicvalue:(NSDictionary *)dicData onloadData:(void (^)(NSDictionary *, NSError *))callback
+{
+    
+    NSData *data1 = [NSJSONSerialization dataWithJSONObject:dicData options:0 error:nil];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:30];
+    
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:data1];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    [[session dataTaskWithRequest:request completionHandler: ^(NSData *data, NSURLResponse *response,NSError *error){
+        
+        if( error == nil)
+        {
+            
+            NSDictionary *dicDataValue = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+            
+            NSLog(@"get image %@",dicDataValue);
+            
+            if( [[dicDataValue objectForKey:@"status"] isEqualToString: @"Failed" ])
+            {
+                callback(nil,nil);
+            }
+            else
+            {
+                
+                NSDictionary *dicLastData = [dicDataValue objectForKey:@"data"];
+                
+                callback(dicLastData,nil);
+                
+            }
+        }
+        else
+        {
+            
+            NSLog(@"network connection error");
+            
+            
+        }
+        
+    }]resume];
+    
+    
+    
 }
 
 -(void)setBarStyle:(UIBarStyle)barStyle

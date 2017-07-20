@@ -73,6 +73,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
         dashboardXpressionCount()  // This will return the dashboard heart, private upload and notification count
         getIcarouselFeaturesVideo() // This will return the carousel video
         getTrendingResponse()  // This will return the treanding video (most like video)
@@ -110,7 +111,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
         self.navigationItem.titleView = imageView
-        userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
+        
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
@@ -144,7 +145,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         pulseAnimationView?.layer.addSublayer(pulsrator)
         
         
-        getUserProfile()
+        
       //  activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge, color: .darkGray, placeInTheCenterOf: self.xpressTableView!)
 //        self.activityIndicator.startAnimating()
         DispatchQueue.main.async(execute: {
@@ -708,6 +709,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func viewWillAppear(_ animated: Bool) {
         // This will return the dashboard heart, private upload and notification count
+        getUserProfile()
         dashboardXpressionCount()
         // This will create the number of circle animation and radius
         pulsrator.numPulse = 5
@@ -757,6 +759,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         dashBoardCommonService.getUserProfileWebService(urlString: userPrifileURL.url(), dicData: parameter as NSDictionary, callback: {(userprofiledata , error) in
             let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
             print(imageURL)
+            self.userProfileImageResponseURl = imageURL
             
            // self.userProfileImageResponseURl = imageURL.replacingOccurrences(of: localPath , with:localUrl )
 
