@@ -78,6 +78,9 @@
     Pulsator *pulsrator;
     UIView *pulsratorView;
     UIImageView *userProfileView;
+    NSTimer *audioTimer;
+    int countDownTime;
+    UILabel *countdownLabel;
     
     //Crop/Delete controls
 //    UIBarButtonItem *_cropOrDeleteButton;
@@ -196,19 +199,19 @@
     self.view = visualEffectView;
     self.view.backgroundColor = [UIColor colorWithRed:92.0/255.0 green:60.0/255.0 blue:237.0/255.0 alpha:1.0];
     
-    labelString = [[UILabel alloc] initWithFrame:CGRectMake(120, 110, 250, 40)];
+    labelString = [[UILabel alloc] initWithFrame:CGRectMake(120, 100, 250, 40)];
     labelString.text = @"Don't hold back";
     labelString.textColor = [UIColor whiteColor];
     labelString.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
     [visualEffectView addSubview:labelString];
     
-    labelStringXprez = [[UILabel alloc] initWithFrame:CGRectMake(150, 150, 150, 40)];
+    labelStringXprez = [[UILabel alloc] initWithFrame:CGRectMake(150, 130, 150, 40)];
     labelStringXprez.text = @"Xprez it!";
     labelStringXprez.textColor = [UIColor whiteColor];
     labelStringXprez.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
     [visualEffectView addSubview:labelStringXprez];
     
-    userProfileView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 200, 80, 80)];
+    userProfileView = [[UIImageView alloc] initWithFrame:CGRectMake(150, 180, 80, 80)];
     userProfileView.backgroundColor = [UIColor purpleColor];
     userProfileView.layer.cornerRadius = userProfileView.frame.size.width/2;
     userProfileView.layer.masksToBounds = true;
@@ -351,13 +354,13 @@
     }
     
     //Player Duration View
-    {
+ /*   {
         _viewPlayerDuration = [[IQPlaybackDurationView alloc] init];
         _viewPlayerDuration.delegate = self;
         _viewPlayerDuration.tintColor = [self _highlightedTintColor];
         _viewPlayerDuration.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _viewPlayerDuration.backgroundColor = [UIColor whiteColor];
-    }
+    } */
 }
 
 -(void)setBarStyle:(UIBarStyle)barStyle
@@ -388,6 +391,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    countDownTime = 40;
+    countdownLabel = [[UILabel alloc] initWithFrame:CGRectMake(155, 270, 100, 40)];
+    countdownLabel.text = @"00 : 40";
+    countdownLabel.textColor = [UIColor whiteColor];
+    countdownLabel.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
+    [visualEffectView addSubview:countdownLabel];
+    
     // This will create the number of circle animation and radius
     pulsrator = [[Pulsator alloc] init];
     pulsrator.numPulse = 5;
@@ -396,7 +406,7 @@
     pulsrator.backgroundColor = [UIColor colorWithRed:211.0/255.0 green:211.0/255.0 blue:211.0/255.0 alpha:1.0].CGColor;
     [pulsrator start];
     
-    pulsratorView = [[UIView alloc] initWithFrame:CGRectMake(187, 610, 20, 20)];
+    pulsratorView = [[UIView alloc] initWithFrame:CGRectMake(187, 620, 20, 20)];
     pulsratorView.backgroundColor = [UIColor whiteColor];
     [pulsratorView.layer addSublayer:pulsrator];
     [visualEffectView addSubview:pulsratorView];
@@ -404,7 +414,7 @@
     //Recording controls
     _startRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_startRecordingButton addTarget:self action:@selector(recordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    _startRecordingButton.frame = CGRectMake(157, 580, 62, 62);
+    _startRecordingButton.frame = CGRectMake(157, 590, 62, 62);
     _startRecordingButton.layer.cornerRadius = _startRecordingButton.layer.frame.size.width/2;
     [_startRecordingButton setImage:[UIImage imageNamed:@"MicrophoneImage"] forState:UIControlStateNormal];
     _startRecordingButton.layer.masksToBounds = true;
@@ -413,7 +423,7 @@
     
     _stopRecordingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_stopRecordingButton addTarget:self action:@selector(stopRecordingButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    _stopRecordingButton.frame = CGRectMake(157, 580, 62 , 62);
+    _stopRecordingButton.frame = CGRectMake(157, 590, 62 , 62);
     _stopRecordingButton.layer.cornerRadius = _stopRecordingButton.layer.frame.size.width/2;
     [_stopRecordingButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
     _stopRecordingButton.layer.masksToBounds = true;
@@ -457,20 +467,36 @@
 //    }
 }
 
+- (void)countDownTimer  {
+    if (countDownTime > 0) {
+        countDownTime = countDownTime - 1;
+        NSString *countTimeString = [NSString stringWithFormat:@"%d", countDownTime];
+        countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
+    } else {
+        [audioTimer invalidate];
+        [_audioRecorder stop];
+        _audioRecorder = nil;
+        countdownLabel.text = nil;
+        UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        XPAudioStopViewController *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
+        [self.navigationController pushViewController:stopView animated:true];
+    }
+}
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
     
-    _audioPlayer.delegate = nil;
-    [_audioPlayer stop];
-    _audioPlayer = nil;
+//    _audioPlayer.delegate = nil;
+//    [_audioPlayer stop];
+//    _audioPlayer = nil;
     
     _audioRecorder.delegate = nil;
     [_audioRecorder stop];
     _audioRecorder = nil;
-    
+    [audioTimer invalidate];
     [self stopUpdatingMeter];
     [pulsrator stop ];
     
@@ -552,7 +578,7 @@
     }
 }
 
-- (void)playAction:(UIBarButtonItem *)item
+/* - (void)playAction:(UIBarButtonItem *)item
 {
     _oldSessionCategory = [AVAudioSession sharedInstance].category;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
@@ -597,7 +623,7 @@
         playProgressDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updatePlayProgress)];
         [playProgressDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
     }
-}
+} */
 
 //-(void)pausePlayingAction:(UIBarButtonItem*)item
 //{
@@ -668,6 +694,8 @@
     /*
      Create the recorder
      */
+    audioTimer = [[NSTimer alloc] init];
+    audioTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countDownTimer) userInfo:nil repeats:true];
     if ([[NSFileManager defaultManager] fileExistsAtPath:_recordingFilePath])
     {
         [[NSFileManager defaultManager] removeItemAtPath:_recordingFilePath error:nil];
@@ -716,14 +744,12 @@
     _stopRecordingButton.hidden = true;
     _isRecordingPaused = NO;
     [_audioRecorder stop];
-//    UIStoryboard *storyboardStop = [[UIStoryboard alloc] instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
+    countdownLabel.text = nil;
     
     UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     XPAudioStopViewController *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
     
     [self.navigationController pushViewController:stopView animated:true];
-//    XPAudioStopViewController *infoController = [self.storyboard instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
-//    [self.navigationController pushViewController:infoController animated:YES];
 }
 
 -(void)cancelRecordingAction:(UIBarButtonItem*)item
