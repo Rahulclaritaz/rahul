@@ -43,6 +43,8 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     let  myImage = UIImageView()
     
+    var addContactList = [ContactList]()
+    
  
     lazy var refershController : UIRefreshControl = {
         
@@ -66,10 +68,10 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
         super.viewDidLoad()
         
+     
          userEmail = nsuerDefault.string(forKey: "emailAddress")
         
-        
-
+         
         if Reachability.isConnectedToNetwork() == true
         {
             print("Internet connection OK")
@@ -240,6 +242,25 @@ func getRefersh( action : UIRefreshControl)
             
             privatecell.lblPrivateTitleDescription.text = privateData["from_email"] as? String
             
+            
+            let checkIsContact = privateData["from_email"] as! String
+            
+            
+            if deviceEmailID.contains(checkIsContact)
+            {
+            privatecell.contentView.backgroundColor = UIColor.clear
+                
+                
+            }
+            else
+            {
+                
+               
+    privatecell.contentView.backgroundColor = UIColor.red
+                
+                
+            }
+            
         
             let string1 : String = privateData["updatedAt"] as! String
             
@@ -338,7 +359,7 @@ func getRefersh( action : UIRefreshControl)
 
   }
         
-        if ( getData.isEqual("Noo Records"))
+        if ( getData.isEqual("No Records"))
         {
             privatecell.isHidden = true
             

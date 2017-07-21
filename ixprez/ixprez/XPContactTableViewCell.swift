@@ -39,11 +39,11 @@ class XPContactTableViewCell: UITableViewCell {
         setCircularAvatar()
     }
     
-    func configureWithContactEntry(_ contact: ContactEntry) {
-        contactUserName?.text = contact.name
-        contactUserEmail?.text = contact.email ?? ""
-        //        contactPhoneLabel.text = contact.phone ?? ""
-        contactUserProfile?.image = contact.image ?? UIImage(named: "defaultUser")
+    func configureWithContactEntry(_ contact: ContactList)
+    {
+        contactUserName?.text = contact.userName
+        contactUserEmail?.text = contact.emailId!
+        contactUserProfile?.image = contact.imageData!
         setCircularAvatar()
     }
 

@@ -10,6 +10,7 @@
 		130A47551F0BBBBD0096F5EE /* XPSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */; };
 		130FD8E71EB8819F00026975 /* URLDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FD8E61EB8819F00026975 /* URLDirectory.swift */; };
 		130FD8EA1EB887CB00026975 /* XPWebService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130FD8E91EB887CB00026975 /* XPWebService.swift */; };
+		13110CE11F222BDC001DD214 /* ContactList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13110CE01F222BDC001DD214 /* ContactList.swift */; };
 		13111E741EB1F0ED003661C2 /* moskmedium500.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5B1EB1EF87003661C2 /* moskmedium500.ttf */; };
 		13111E751EB1F0F0003661C2 /* mosksemibold600.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5C1EB1EF87003661C2 /* mosksemibold600.ttf */; };
 		13111E761EB1F0F2003661C2 /* proximanova-black-webfont_0.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5D1EB1EF87003661C2 /* proximanova-black-webfont_0.ttf */; };
@@ -133,6 +134,7 @@
 		130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchViewController.swift; sourceTree = "<group>"; };
 		130FD8E61EB8819F00026975 /* URLDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLDirectory.swift; sourceTree = "<group>"; };
 		130FD8E91EB887CB00026975 /* XPWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPWebService.swift; sourceTree = "<group>"; };
+		13110CE01F222BDC001DD214 /* ContactList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactList.swift; sourceTree = "<group>"; };
 		13111E5A1EB1EF87003661C2 /* mosklight300.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mosklight300.ttf; sourceTree = "<group>"; };
 		13111E5B1EB1EF87003661C2 /* moskmedium500.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = moskmedium500.ttf; sourceTree = "<group>"; };
 		13111E5C1EB1EF87003661C2 /* mosksemibold600.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = mosksemibold600.ttf; sourceTree = "<group>"; };
@@ -449,6 +451,7 @@
 		859A22EF1EB1ADDB008DD7F7 /* ixprez */ = {
 			isa = PBXGroup;
 			children = (
+				13110CE01F222BDC001DD214 /* ContactList.swift */,
 				85879EC61EC5988400337011 /* ixprez.entitlements */,
 				130FD8E81EB887A900026975 /* Model */,
 				130FD8E51EB8816600026975 /* Base */,
@@ -678,6 +681,7 @@
 				8552EFE41F15E8A5004DC638 /* XPDashboardTutorialViewController.swift in Sources */,
 				131703E31F06247200101221 /* XPFollowHeaderTableViewCell.swift in Sources */,
 				85525F121EEACD27008C5C9B /* XPHelpViewController.swift in Sources */,
+				13110CE11F222BDC001DD214 /* ContactList.swift in Sources */,
 				85525F131EEACD27008C5C9B /* XPSupportViewController.swift in Sources */,
 				1314C6E81ED7E81300FD0A8F /* DateExtension.swift in Sources */,
 				85A572AC1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift in Sources */,
