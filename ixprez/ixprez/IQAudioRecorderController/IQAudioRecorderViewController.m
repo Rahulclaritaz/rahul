@@ -45,6 +45,7 @@
     AVAudioRecorder *_audioRecorder;
     SCSiriWaveformView *musicFlowView;
     NSString *_recordingFilePath;
+    NSURL *recordingFileURL;
     CADisplayLink *meterUpdateDisplayLink;
     
     //Playing
@@ -280,15 +281,12 @@
                 NSURL *imgurl = [NSURL URLWithString:fullData];
                 profileimgData = [NSData  dataWithContentsOfURL:imgurl];
                 
-                userProfileView =[UIImage imageWithData:profileimgData];
                 
-                
-                
-//                dispatch_sync(dispatch_get_main_queue(),^{
-//                    
-//                    [_tableview reloadData];
-//                    
-//                });
+                dispatch_sync(dispatch_get_main_queue(),^{
+                    
+                   userProfileView.image =[UIImage imageWithData:profileimgData];
+                    
+                });
                 
                 
                 
@@ -519,6 +517,8 @@
             recordSettings[AVFormatIDKey] = @(kAudioFormatAppleLossless);
         }
         
+        recordingFileURL = [NSURL URLWithString:_recordingFilePath];
+        
         if (self.sampleRate > 0.0f)
         {
             recordSettings[AVSampleRateKey] = @(self.sampleRate);
@@ -548,7 +548,7 @@
         }
         
         // Initiate and prepare the recorder
-        _audioRecorder = [[AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath:_recordingFilePath] settings:recordSettings error:nil];
+        _audioRecorder = [[AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath: _recordingFilePath] settings:recordSettings error:nil];
         _audioRecorder.delegate = self;
         _audioRecorder.meteringEnabled = YES;
         
@@ -847,7 +847,7 @@
     
     UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     XPAudioStopViewController *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
-    
+    stopView.audioRecordURLString = recordingFileURL;
     [self.navigationController pushViewController:stopView animated:true];
 }
 

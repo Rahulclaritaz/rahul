@@ -26,12 +26,14 @@ class XPAudioStopViewController: UIViewController {
     var userEmail = String ()
     var titleLabel = String ()
     var audioRecordURLString : URL?
+    var audioData = NSData ()
     var registrationPage = RegistrationViewController ()
     var audioPage = XPAudioViewController ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        titleLabel = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
         self.title = titleLabel
         print(registrationPage.defaults.string(forKey: "emailAddress"))
          print(audioPage.defaultValue.string(forKey: "toEmailAddress"))
@@ -137,8 +139,12 @@ class XPAudioStopViewController: UIViewController {
     
     func sendRequestToWebService () {
         
+        do {
+             audioData = try NSData(contentsOf: audioRecordURLString!)
+        } catch {
+            print("your audio data have problem.")
+        }
         
-        var audioData = NSData(contentsOf: audioRecordURLString!)
         
         //        var parameter = ["fileupload": audioData,"from_email" : "jnjaga24@gmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"] as [String : Any]
         
