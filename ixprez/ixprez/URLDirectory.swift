@@ -257,7 +257,15 @@ struct URLDirectory
         }
     }
 
-    
+    struct  contactData
+    {
+        func getXpressContact() -> String
+        {
+            return localURL + "queryService/getIxpressContactList"
+            
+        }
+    }
+
     
     
 }
