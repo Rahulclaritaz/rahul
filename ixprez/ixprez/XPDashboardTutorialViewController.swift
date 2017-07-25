@@ -16,11 +16,11 @@ class XPDashboardTutorialViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
-//        tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeTutorialView(sender:)))
-        swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(removeTutorialView(sender:)))
-        swipeGesture.direction = .down
-//        self.view.addGestureRecognizer(tapGesture)
-        self.view.addGestureRecognizer(swipeGesture)
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeTutorialView(sender:)))
+//        swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(removeTutorialView(sender:)))
+//        swipeGesture.direction = .down
+        self.view.addGestureRecognizer(tapGesture)
+//        self.view.addGestureRecognizer(swipeGesture)
 
         // Do any additional setup after loading the view.
     }
