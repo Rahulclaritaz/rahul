@@ -340,9 +340,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         thumbnailUrl?.replace("/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
         
        // thumbnailUrl?.replace( localPath, with: localUrl )
-      
-        print("check thumbnail ",thumbnailUrl!)
-        
+    
         itemView.getImageFromUrl(thumbnailUrl!)
         
         itemView.clipsToBounds = true
