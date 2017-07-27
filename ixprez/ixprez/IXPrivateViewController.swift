@@ -11,9 +11,10 @@ import AVKit
 import AVFoundation
 
 class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,sectionData
-    
 {
     //Declaration 
+    var typeCon: ContactType?
+    
     var isFromMenu = Bool()
     var recordPrivateData = [[String : Any]]()
 
@@ -44,8 +45,9 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     let  myImage = UIImageView()
     
     var addContactList = [ContactList]()
+    var checkAcceptUser : Bool!
     
- 
+    
     lazy var refershController : UIRefreshControl = {
         
       let refersh = UIRefreshControl()
@@ -68,7 +70,10 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
         super.viewDidLoad()
         
-     
+         getContact()
+        
+        checkAcceptUser = false
+        
          userEmail = nsuerDefault.string(forKey: "emailAddress")
         
          
@@ -119,7 +124,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         
         privateTableView.backgroundColor = UIColor.clear
         
-       // self.getPrivateData()
+        self.getPrivateData()
         // Do any additional setup after loading the view.
     }
    
@@ -163,6 +168,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
             {
                 (dicc,myData,erro) in
                 
+                print("check private web service data",dicc)
                 
                 self.recordPrivateData = dicc as [[String : Any]]
                 
@@ -186,9 +192,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
 
 func getRefersh( action : UIRefreshControl)
 {
-    
-    
-    
+  
     refershController.beginRefreshing()
     
     
@@ -244,22 +248,32 @@ func getRefersh( action : UIRefreshControl)
             
             
             let checkIsContact = privateData["from_email"] as! String
+            let username =  privateData["title"] as? String
             
+            /*
+             
+             if deviceEmailID.contains(myEmail) == false
+             {
+             
+             if self.typeCon  == .addressBookContact
+             {
+             
+             createAddressBookContactWithFirstName(myUserName, lastName: "", email:  myEmail , phone: "", image: imagData)
+             }
+             else if self.typeCon == .cnContact
+             {
+             
+             createCNContactWithFirstName( myUserName , lastName: "", email:  myEmail , phone: "", image: imagData)
+             }
+             else
+             {
+             print("No Contact")
+             }
+             
+             }
+             */
+
             
-            if deviceEmailID.contains(checkIsContact)
-            {
-            privatecell.contentView.backgroundColor = UIColor.clear
-                
-                
-            }
-            else
-            {
-                
-               
-    privatecell.contentView.backgroundColor = UIColor.red
-                
-                
-            }
             
         
             let string1 : String = privateData["updatedAt"] as! String
@@ -328,8 +342,6 @@ func getRefersh( action : UIRefreshControl)
                 
                 print("privatethumbnailPath",privatethumbnailPath!)
                 
-                
-                
                 privatecell.imgPrivateVideoAudio.getImageFromUrl(privatethumbnailPath!)
                 
             
@@ -352,6 +364,45 @@ func getRefersh( action : UIRefreshControl)
             privatecell.btnPrivatePlay.tag = indexPath.section
             
             privatecell.btnPrivatePlay.addTarget(self, action: #selector(playVideoAudio(passUrl:)), for: .touchUpInside)
+            
+            
+            if deviceEmailID.contains(checkIsContact)
+            {
+                privatecell.contentView.backgroundColor = UIColor.clear
+                
+            }
+            else
+            {
+                
+                if checkAcceptUser == false
+                {
+                    privatecell.contentView.backgroundColor = UIColor.red
+                    
+                }
+                else
+                    
+                {
+                    
+                    if !deviceEmailID.contains(checkIsContact)
+                    {
+                        createAddressBookContactWithFirstName(username!, lastName: "", email:  checkIsContact , phone: "", image: UIImage(named: "bg_reg.png" ))
+                        
+                        getContact()
+                        
+                    }
+                    else
+                    {
+                        
+                        privatecell.contentView.backgroundColor = UIColor.clear
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+            }
+
             
         
         return privatecell
@@ -747,6 +798,7 @@ func getRefersh( action : UIRefreshControl)
 
         
     }
+    
  
     func getAcceptAction()
     {
@@ -754,6 +806,8 @@ func getRefersh( action : UIRefreshControl)
     let message = "It’s your turn now to Press! Want to replay right now and press yourself back to them ? Do it"
     let cancelButtonTitle = "Cancel"
     let otherButtonTitle = "Xpress it"
+    let otherButtonTitle1 = "Add Contact"
+    let otherBottonTitle2 = "Report SPAM"
 
   print(self.privatefromEmail)
     print(self.privateIdValue)
@@ -831,6 +885,35 @@ func getRefersh( action : UIRefreshControl)
         })
         
         
+        let otherAction1 = DOAlertAction(title: otherButtonTitle1, style: .default, handler: { action in
+            
+            self.checkAcceptUser = true
+            
+            DispatchQueue.main.async {
+                
+                /* for  i  in 0...self.recordPrivateData.count
+                 {
+                let indexPath = IndexPath(row: 0, section: i)
+                
+                self.privateTableView.rectForRow(at: indexPath)
+                }*/
+                
+                self.privateTableView.reloadData()
+                
+                
+            }
+         
+            print("add")
+        })
+        
+        let otherAction2 = DOAlertAction(title: otherBottonTitle2, style: .default, handler: { action in
+            
+        })
+        
+        customAlertController.addAction(otherAction1)
+        
+        customAlertController.addAction(otherAction2)
+        
         customAlertController.addAction(cancelAction)
         
         customAlertController.addAction(otherAction)
@@ -865,6 +948,14 @@ func getRefersh( action : UIRefreshControl)
     customAlertController.buttonFont[.default] = UIFont(name: "Mosk", size: 15.0)
     
     customAlertController.buttonBgColor[.default] = UIColor.getOrangeColor()
+        
+     customAlertController.buttonBgColor[.destructive] = UIColor.red
+    customAlertController.buttonFont[.destructive] = UIFont.xprezMediumFontOfsize(size: 15.0)
+        
+        //customAlertController.buttons
+        
+        
+
  
     }
     

@@ -9,12 +9,265 @@
 
 import UIKit
 import ContactsUI
+import AddressBook
+
+var saveContactList = [ContactList]()
 
 var deviceEmailID = [String]()
 
 var recentEmailID = [String]()
 
+var contactStore = CNContactStore()
+
+var contactss = [ContactEntry]()
+
+ let contact = CNContact ()
+
+enum ContactType
+{
+    case addressBookContact
+    case cnContact
+}
+
+func requestAccessToContacts(_ completion: @escaping (_ success: Bool) -> Void) {
+    let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
+    
+    switch authorizationStatus {
+    case .authorized: completion(true)
+    // authorized previously
+    case .denied, .notDetermined:
+        // needs to ask for authorization
+        contactStore.requestAccess(for: CNEntityType.contacts, completionHandler: { (accessGranted, error) -> Void in
+            completion(accessGranted)
+        })
+    default: // not authorized.
+        completion(false)
+    }
+}
+
+func retrieveContacts(_ completion: (_ success: Bool, _ contacts: [ContactEntry]?) -> Void) {
+    var contacts = [ContactEntry]()
+    do {
+        let contactsFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactGivenNameKey as CNKeyDescriptor, CNContactFamilyNameKey as CNKeyDescriptor, CNContactImageDataKey as CNKeyDescriptor, CNContactImageDataAvailableKey as CNKeyDescriptor, CNContactPhoneNumbersKey as CNKeyDescriptor, CNContactEmailAddressesKey as CNKeyDescriptor])
+        try contactStore.enumerateContacts(with: contactsFetchRequest, usingBlock: { (cnContact, error) in
+            if let contact = ContactEntry(cnContact: cnContact)
+            {
+                contacts.append(contact)
+                
+            }
+        })
+        completion(true, contacts)
+    }
+    catch
+    {
+        completion(false, nil)
+    }
+}
+
+
+
+func getContact()
+{
+    requestAccessToContacts { (success) in
+        if success {
+             retrieveContacts({ (success, contacts) in
+                
+                print("retrieve Contacts",contacts!)
+                
+                if success && (contacts?.count)! > 0
+                {
+                    contactss = contacts!
+                    
+                    saveContactList.removeAll()
+                
+                    for ccc in  contacts!
+                    {
+                     
+                        if (ccc.email != nil)  && (ccc.name != nil)
+                            
+                        {
+                            let cont = ContactList()
+                            
+                            if (ccc.image != nil)
+                            {
+                                
+                                
+                                cont.userName = ccc.name
+                                
+                                cont.emailId = ccc.email
+                                
+                                cont.imageData = ccc.image
+                                
+                                saveContactList.append(cont)
+                                
+                                deviceEmailID.append(ccc.email!)
+                             
+                               // deviceName.append(ccc.name!)
+                            }
+                            else
+                            {
+                                cont.userName = ccc.name
+                                
+                                cont.emailId = ccc.email
+                                
+                                cont.imageData =  ccc.image ?? UIImage(named: "UploadSmileyOrange")!
+                                
+                                saveContactList.append(cont)
+                                
+                                deviceEmailID.append(ccc.email!)
+                                
+                                //deviceName.append(ccc.name!)
+                            }
+                            
+                            
+                            
+                        }
+                        else
+                            
+                        {
+                            
+                        }
+                        
+                        
+                    }
+                    
+                   /* DispatchQueue.main.async
+                        {
+                        contactTableView?.reloadData()
+                            
+                    }*/
  
+                    
+                } else {
+                    
+                    print("Unable to get contacts...")
+                }
+            })
+        }
+    }
+    
+   // getWebServiceContact()
+    
+}
+
+// create contact
+func createAddressBookContactWithFirstName(_ firstName: String, lastName: String, email: String?, phone: String?, image: UIImage?)
+{
+    // first check permissions.
+    let abAuthStatus = ABAddressBookGetAuthorizationStatus()
+    if abAuthStatus == .denied || abAuthStatus == .restricted {
+        //self.showAlertMessage("Sorry, you are not authorize to access the contacts.")
+        return
+    }
+    
+    // get addressbook reference.
+    let addressBookRef = ABAddressBookCreateWithOptions(nil, nil).takeRetainedValue()
+    // now let's create the contact.
+    let newContact: ABRecord = ABPersonCreate().takeRetainedValue()
+    
+    // first name
+    if !ABRecordSetValue(newContact, kABPersonFirstNameProperty, firstName as CFTypeRef, nil)
+    {
+        //self.showAlertMessage("Error setting first name for the new contact")
+        return
+    }
+    // last name
+    if !ABRecordSetValue(newContact, kABPersonLastNameProperty, lastName as CFTypeRef, nil)
+    {
+        //self.showAlertMessage("Error setting last name for the new contact")
+        return
+    }
+    // email
+    if email != nil
+    {
+        let emails: ABMutableMultiValue =
+            ABMultiValueCreateMutable(ABPropertyType(kABMultiStringPropertyType)).takeRetainedValue()
+        ABMultiValueAddValueAndLabel(emails, email! as CFTypeRef!, kABHomeLabel, nil)
+        if !ABRecordSetValue(newContact, kABPersonEmailProperty, emails, nil) {
+           // self.showAlertMessage("Error setting email for the new contact")
+            return
+        }
+        
+    }
+    
+    // phone number
+    if phone != nil {
+        let phoneNumbers: ABMutableMultiValue =
+            ABMultiValueCreateMutable(ABPropertyType(kABMultiStringPropertyType)).takeRetainedValue()
+        ABMultiValueAddValueAndLabel(phoneNumbers, phone! as CFTypeRef!, kABPersonPhoneMainLabel, nil)
+        if !ABRecordSetValue(newContact, kABPersonPhoneProperty, phoneNumbers, nil) {
+            //self.showAlertMessage("Error setting phone number for the new contact")
+            return
+        }
+    }
+    
+    // image
+    if image != nil {
+        let imageData = UIImageJPEGRepresentation(image!, 0.9)
+        if !ABPersonSetImageData(newContact, imageData as CFData!, nil) {
+            //self.showAlertMessage("Error setting image for the new contact")
+            return
+        }
+    }
+    
+    // finally, store person and save addressbook
+    var errorSavingContact = false
+    if ABAddressBookAddRecord(addressBookRef, newContact, nil) { // stored. Now save addressbook.
+        if ABAddressBookHasUnsavedChanges(addressBookRef){
+            if !ABAddressBookSave(addressBookRef, nil) {
+                errorSavingContact = true
+            }
+        }
+    }
+    
+    if errorSavingContact
+    {
+       // self.showAlertMessage("There was an error storing your new contact. Please try again.")
+    }
+    else
+    {
+        // self.presentingViewController?.dismiss(animated: true, completion: nil)
+    }
+}
+
+
+func createCNContactWithFirstName(_ firstName: String, lastName: String, email: String?, phone: String?, image: UIImage?)
+{
+    // create contact with mandatory values: first and last name
+    let newContact = CNMutableContact()
+    newContact.givenName = firstName
+    newContact.familyName = lastName
+    
+    // email
+    if email != nil {
+        let contactEmail = CNLabeledValue(label: CNLabelHome, value: email! as NSString)
+        newContact.emailAddresses = [contactEmail]
+    }
+    // phone
+    if phone != nil {
+        let contactPhone = CNLabeledValue(label: CNLabelHome, value: CNPhoneNumber(stringValue: phone!))
+        newContact.phoneNumbers = [contactPhone]
+    }
+    
+    // image
+    if image != nil {
+        newContact.imageData = UIImageJPEGRepresentation(image!, 0.9)
+    }
+    
+    do {
+        let newContactRequest = CNSaveRequest()
+        newContactRequest.add(newContact, toContainerWithIdentifier: nil)
+        try CNContactStore().execute(newContactRequest)
+        
+        //self.presentingViewController?.dismiss(animated: true, completion: nil)
+    } catch
+    {
+        //self.showAlertMessage("I was unable to create the new contact. An error occurred.")
+    }
+}
+
+
+
 protocol contactEmailDelegate
 {
     func passEmailToAudioAndVideo (email : String)
@@ -22,6 +275,9 @@ protocol contactEmailDelegate
 
 class XPContactViewController: UIViewController, CNContactPickerDelegate, UISearchBarDelegate
 {
+    
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var searchHight: NSLayoutConstraint!
     @IBOutlet weak var contactSegmentationController: UISegmentedControl!
     var classReference : ContactList!
     
@@ -29,11 +285,11 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     
     var isFromMenu = Bool()
     var cnPicker = CNContactPickerViewController()
-    var contact = CNContact ()
+    var saveContactList1 = [ContactList]()
     let appDelegate = AppDelegate ()
+    
     // data
-    var contactStore = CNContactStore()
-    var contacts = [ContactEntry]()
+   var typeCon: ContactType?
     var isFiltered : Bool!
     var emailDelegate : contactEmailDelegate?
     var userEmail = String ()
@@ -43,27 +299,24 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     
     
     //var deviceName = [String]()
-    
-    var saveContactList = [ContactList]()
-    
     var filterData = [ContactList]()
     
     var isRecent : Bool!
     
     
     @IBOutlet weak var contactTableView = UITableView ()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         isFiltered = false
         isRecent = false
-        
-        
-     deviceEmailID.append("mathan6@gmail.com")
+     
         
      recentEmailID.append("kavin6@gmail.com")
-        recentEmailID.append("kavinarush6@gmail.com")
+        
+     recentEmailID.append("kavinarush6@gmail.com")
         
         
         
@@ -79,7 +332,9 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         cnPicker.delegate = self as CNContactPickerDelegate
         
         
-        getContact()
+         getContact()
+         getWebServiceContact()
+        
          
     }
     
@@ -87,114 +342,37 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     {
         if (sender as AnyObject).selectedSegmentIndex == 0
         {
-            getContact()
             
             isRecent = false
             
+            self.view.layoutIfNeeded()
+            
+            searchHight.constant = 44
+            
+            self.view.layoutIfNeeded()
         }
         else
         {
             isRecent = true
-          //  getContact()
+          
             
+            
+            self.view.layoutIfNeeded()
+            
+            searchHight.constant = 0
+            
+            self.view.layoutIfNeeded()
         }
 
         
     }
     
-    
-    func getContact()
+    override func viewWillAppear(_ animated: Bool)
     {
-        requestAccessToContacts { (success) in
-            if success {
-                self.retrieveContacts({ (success, contacts) in
-                  
-                    print("retrieve Contacts",contacts!)
-                    
-                    if success && (contacts?.count)! > 0
-                    {
-                        
-                        
-                        self.contacts = contacts!
-                        
-                      self.saveContactList.removeAll()
-                        
-                      
-                        
-                    for ccc in self.contacts
-                    {
-                        
-                        
-                        if (ccc.email != nil)  && (ccc.name != nil)
-                            
-                        {
-                            let cont = ContactList()
-
-                            if (ccc.image != nil)
-                            {
-                                
-                                
-                                cont.userName = ccc.name
-                                
-                                cont.emailId = ccc.email
-                                
-                                cont.imageData = ccc.image
-                                
-                                self.saveContactList.append(cont)
-                                
-                                deviceEmailID.append(ccc.email!)
-                                
-                                    self.deviceName.append(ccc.name!)
-                            }
-                            else
-                            {
-                                
-                                
-                                
-                                cont.userName = ccc.name
-                                
-                                cont.emailId = ccc.email
-                                
-                                cont.imageData =  ccc.image ?? UIImage(named: "UploadSmileyOrange")!
-                                
-                                self.saveContactList.append(cont)
-                                
-                                deviceEmailID.append(ccc.email!)
-                                
-                                self.deviceName.append(ccc.name!)
-                            }
-                            
-                            
-                            
-                        }
-                        else
-                            
-                        {
-                            
-                        }
-                        
-                        
-                    }
-                    
-                    DispatchQueue.main.async
-                        {
-                            self.contactTableView?.reloadData()
-                            
-                    }
-                    
-                } else {
-                    
-                    print("Unable to get contacts...")
-                }
-            })
-        }
+        
+       // getWebServiceContact()
+        
     }
-
-    getWebServiceContact()
-
-}
-
-
     
     
     override func didReceiveMemoryWarning()
@@ -220,6 +398,8 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     {
         print("emmmm",deviceEmailID)
         
+        
+        
    let para = { ["contactList" :  deviceEmailID ] }
         
         webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
@@ -227,25 +407,34 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
             
             let getIxpressContactList = myData["data"] as! [[String:Any]]
             
-            var imagData = UIImage()
+            
             
        if  getIxpressContactList.isEmpty
        {
         print("No Data")
-        
-       }
+        }
         
         else
         {
             for xpressContactList in getIxpressContactList
             {
+               
+                let newData = ContactList()
+                 print("name mathan",xpressContactList["user_name"] as! String)
+                newData.userName = xpressContactList["user_name"] as! String
                 
-                let imgString = xpressContactList["profile_image"] as! String
+                newData.emailId = xpressContactList["email_id"] as! String
                 
                 
-                DispatchQueue.global(qos: .background).async
+                
+                
+           // saveContactList.insert(newData, at: 1)
+                
+                   let imageString = xpressContactList["profile_image"] as! String
+                
+            DispatchQueue.global(qos: .background).async
                     {
-                        let url = URL(string: imgString)
+                        let url = URL(string: imageString)
                         
                         let sess = URLSession.shared
                         
@@ -255,28 +444,21 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
                             DispatchQueue.main.async
                                 {
                                     
-                                    imagData = UIImage(data: data!)!
-                                    
+                                newData.imageData = UIImage(data: data!)!
+                         
                             }
+                            
                             
                         })
                         
                         dataTask.resume()
                         
-                        
+                       // saveContactList.insert(newData, at: 0)
+ 
                 }
-              
-                let newData = ContactList()
-                
-                newData.userName = xpressContactList["user_name"] as! String
-                
-                newData.emailId = xpressContactList["email_id"] as! String
-                
-                newData.imageData = imagData
-                
-                self.saveContactList.insert(newData, at: 0)
-            
+       saveContactList.insert(newData, at: 0)
             }
+            
       
         }
             DispatchQueue.main.async {
@@ -297,40 +479,8 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         
     }
     
-    func requestAccessToContacts(_ completion: @escaping (_ success: Bool) -> Void) {
-        let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
-        
-        switch authorizationStatus {
-        case .authorized: completion(true)
-        // authorized previously
-        case .denied, .notDetermined:
-            // needs to ask for authorization
-            self.contactStore.requestAccess(for: CNEntityType.contacts, completionHandler: { (accessGranted, error) -> Void in
-                completion(accessGranted)
-            })
-        default: // not authorized.
-            completion(false)
-        }
-    }
     
-    func retrieveContacts(_ completion: (_ success: Bool, _ contacts: [ContactEntry]?) -> Void) {
-        var contacts = [ContactEntry]()
-        do {
-            let contactsFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactGivenNameKey as CNKeyDescriptor, CNContactFamilyNameKey as CNKeyDescriptor, CNContactImageDataKey as CNKeyDescriptor, CNContactImageDataAvailableKey as CNKeyDescriptor, CNContactPhoneNumbersKey as CNKeyDescriptor, CNContactEmailAddressesKey as CNKeyDescriptor])
-            try contactStore.enumerateContacts(with: contactsFetchRequest, usingBlock: { (cnContact, error) in
-                if let contact = ContactEntry(cnContact: cnContact)
-                {
-                    contacts.append(contact)
-                 
-                }
-            })
-            completion(true, contacts)
-        } catch {
-            completion(false, nil)
-        }
-    }
-    
-    // This method will search the contact
+      // This method will search the contact
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool
     {
         
@@ -399,57 +549,55 @@ extension XPContactViewController : UITableViewDataSource
            
             return saveContactList.count
         }
+    
+    
+    
     }
     
   
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        if isRecent == true
-        {
+        
+        
         let cellIdentifier = "XPContactTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactTableViewCell
-        if isFiltered == false
+        
+        if isRecent == false
         {
-        let entry = saveContactList[indexPath.row]
-        cell.configureWithContactEntry(entry)
-        cell.layoutIfNeeded()
-        return cell
-        }
-        else
-        {
+            
+            if isFiltered == false
+            {
+                let entry = saveContactList[indexPath.row]
+                cell.configureWithContactEntry(entry)
+                cell.layoutIfNeeded()
+                return cell
+            }
+            else
+            {
             let entry = filterData[indexPath.row]
             cell.configureWithContactEntry(entry)
             cell.layoutIfNeeded()
             return cell
-        }
+            }
             
         }
         else
         {
-            let cellIdentifier = "XPContactTableViewCell"
+           
+            
+            /*let cellIdentifier = "XPContactTableViewCell"
             let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactTableViewCell
                 let entry = saveContactList[indexPath.row]
                 cell.configureWithContactEntry(entry)
                 cell.layoutIfNeeded()
- 
+ */
+            
                 return cell
         }
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cellIdentifier = "XPContactHeaderTableViewCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactHeaderTableViewCell
-        cell.searchBar?.delegate = self
-        
-        return cell.contentView
-    
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
-    }
-    
+         
 }
 
 extension XPContactViewController : UITableViewDelegate {

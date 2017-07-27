@@ -43,7 +43,7 @@ class XPContactTableViewCell: UITableViewCell {
     {
         contactUserName?.text = contact.userName
         contactUserEmail?.text = contact.emailId!
-        contactUserProfile?.image = contact.imageData!
+        contactUserProfile?.image = contact.imageData ?? UIImage(named: "intro_bg.png")
         setCircularAvatar()
     }
 
