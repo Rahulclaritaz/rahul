@@ -48,7 +48,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var isAutoPoplatedContact : Bool = false
     var rowInCell = Int ()
     var selectContactEmail : Bool = false
-//    var contactView = XPContactViewController ()
+    var contactModeView = XPContactModeViewController ()
 //    var cellIndexPath = XPAudioXpressTableViewCell()
 //    var delegateCell : cellTextValidateDelegate?
     
@@ -105,6 +105,11 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     override func viewWillAppear(_ animated: Bool) {
 //        contactView.emailDelegate = self
+//        if (selectContactEmail == true) {
+//            contactModeView.emailModeDelegate = self
+//            selectContactEmail = false
+//        }
+            
         pulsrator.numPulse = 5
         pulsrator.radius = 150
         pulsrator.animationDuration = 6
@@ -475,5 +480,12 @@ extension XPAudioViewController : contactEmailDelegate {
 }
 
 
+
+//extension XPAudioViewController : contactModeEmailDelegate {
+//    func passEmailToAudio(email: String) {
+//        self.selectContactEmail = true
+//        emailAddressLabel.text = email
+//    }
+//}
 
 

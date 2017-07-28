@@ -21,6 +21,8 @@ var contactStore = CNContactStore()
 
 var contactss = [ContactEntry]()
 
+var contactModeSelection = XPContactModeViewController ()
+
  let contact = CNContact ()
 
 enum ContactType
@@ -624,10 +626,19 @@ extension XPContactViewController : UITableViewDelegate {
             return
         }
         
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
-        storyBoard.selectContactEmail = true
-        storyBoard.emailAddressLabel.text = userEmail
-        self.navigationController?.pushViewController(storyBoard, animated: true)
+        let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPContactModeViewController") as! XPContactModeViewController
+        self.addChildViewController(popController)
+        popController.contactUserEmail = userEmail
+        popController.view.frame = self.view.frame
+        self.view.addSubview(popController.view)
+        popController.didMove(toParentViewController: self)
+        
+        
+        
+//        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
+//        storyBoard.selectContactEmail = true
+//        storyBoard.emailAddressLabel.text = userEmail
+//        self.navigationController?.pushViewController(storyBoard, animated: true)
         //self.dismiss(animated: true, completion: nil)
         
     }
