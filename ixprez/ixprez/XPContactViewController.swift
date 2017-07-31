@@ -286,6 +286,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     @IBOutlet weak var contactHeaderView: UIView!
     
     var isFromMenu = Bool()
+    var isFromAudio = Bool ()
     var cnPicker = CNContactPickerViewController()
     var saveContactList1 = [ContactList]()
     let appDelegate = AppDelegate ()
@@ -621,6 +622,22 @@ extension XPContactViewController : UITableViewDelegate {
         }
         
         guard (isFromMenu) else {
+            
+            guard (isFromAudio) else {
+//                let videoVC = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+//                videoVC.selectedUserEmail = userEmail
+//                videoVC.contactVideo = true
+                
+                let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+                storyboard.selectedUserEmail = userEmail
+                storyboard.contactVideo = true
+                let navigation = UINavigationController.init(rootViewController: storyboard)
+                self.navigationController?.present(navigation, animated: true, completion: nil)
+//                self.navigationController?.popViewController(animated: true)
+//                emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+//                self.navigationController?.pushViewController(videoVC, animated: true)
+                return
+            }
             self.navigationController?.popViewController(animated: true)
             emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
             return

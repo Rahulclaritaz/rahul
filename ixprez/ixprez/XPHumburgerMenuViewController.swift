@@ -73,7 +73,11 @@ class XPHumburgerMenuViewController: UIViewController {
     
     // This method will logout the application
     @IBAction func signOutButton (sender : Any) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        exit(0)
         
+//        UserDefaults.standard.removeObject(forKey: "emailAddress")
+//        UserDefaults.standard.synchronize()
     }
     // This method will navigate to  the setting page
     @IBAction func settingButton (sender : Any) {
@@ -160,7 +164,7 @@ extension XPHumburgerMenuViewController : UITableViewDataSource {
             cell.menuLabel?.text = "Private Xpressions"
             return cell
         case 3:
-            cell.menuLabel?.text = "Help"
+            cell.menuLabel?.text = "Share ixprez"
             return cell
         case 4:
             cell.menuLabel?.text = "About"
@@ -200,12 +204,14 @@ extension XPHumburgerMenuViewController : UITableViewDelegate {
             self.navigationController?.present(navigation, animated: true, completion: nil)
 //            self.navigationController?.pushViewController(storyboard, animated: true)
         case 3:
-            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPHelpViewController") as! XPHelpViewController
-            storyboard.isFromMenu = true
+            
+            print("Share Xprez")
+            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPShareXprezViewController") as! XPShareXprezViewController
+//            storyboard.isFromMenu = true
             let navigation = UINavigationController.init(rootViewController: storyboard)
             self.navigationController?.present(navigation, animated: true, completion: nil)
-//            self.present(storyboard, animated: true, completion: nil)
-//            self.navigationController?.pushViewController(storyboard, animated: true)
+            self.present(storyboard, animated: true, completion: nil)
+            self.navigationController?.pushViewController(storyboard, animated: true)
         case 4:
             let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPAboutViewController") as! XPAboutViewController
             storyboard.isFromMenu = true

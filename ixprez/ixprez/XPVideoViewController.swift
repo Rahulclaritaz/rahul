@@ -10,6 +10,10 @@ import UIKit
 import ContactsUI
 import AVFoundation
 
+//protocol videoViewEmailDelegate {
+//   func passVideoEmail(email : String)
+//}
+
 class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIPickerViewDataSource,UIPickerViewDelegate,UITextFieldDelegate,CNContactPickerDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVCaptureVideoDataOutputSampleBufferDelegate {
     
 
@@ -39,6 +43,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     let cameraSession = AVCaptureSession()
     var imagePicker = UIImagePickerController ()
     var contactUserEmail : Bool = false
+    var selectContactVideo = Bool ()
+//    var videoEmailDelegate : videoViewEmailDelegate?
     
     var picker: UIPickerView!
 
@@ -172,7 +178,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
-                if (contactUserEmail == true) {
+                if (contactUserEmail == true  || selectContactVideo == true) {
                     cell.expressTitleTextField?.text = emailAddressLabel.text
                 } else {
                     cell.expressTitleTextField?.text = "Email"
@@ -304,7 +310,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
 //        cnPicker.delegate = self as CNContactPickerDelegate
 //        self.present(cnPicker, animated: true, completion: nil)
         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
-//        storyboard.emailDelegate = self
+//        videoEmailDelegate?.passVideoEmail(email: "rahul@claritaz.com")
+        storyboard.emailDelegate = self
         self.navigationController?.pushViewController(storyboard, animated: true)
     }
     
@@ -430,10 +437,10 @@ extension XPVideoViewController : VideoTextFieldDelegate {
     
 }
 
-//extension XPVideoViewController : contactEmailDelegate {
-//    func passEmailToAudioAndVideo(email: String) {
-//        self.contactUserEmail = true
-//        self.emailAddressLabel.text = email
-//    }
-//}
+extension XPVideoViewController : contactEmailDelegate {
+    func passEmailToAudioAndVideo(email: String) {
+        self.contactUserEmail = true
+        self.emailAddressLabel.text = email
+    }
+}
 

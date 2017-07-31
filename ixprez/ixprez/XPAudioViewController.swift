@@ -329,6 +329,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         self.present(cnPicker, animated: true, completion: nil) */
         
         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
+        storyboard.isFromAudio = true
         storyboard.emailDelegate = self
         self.navigationController?.pushViewController(storyboard, animated: true)
     }

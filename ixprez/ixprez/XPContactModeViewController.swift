@@ -46,6 +46,8 @@ class XPContactModeViewController: UIViewController {
     @IBAction func videoButtonAction(sender : UIButton) {
          print("You click on video")
         let videoViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+        videoViewController.selectedUserEmail = contactUserEmail
+        videoViewController.contactVideo = true
         self.navigationController?.pushViewController(videoViewController, animated: true)
         self.view.removeFromSuperview()
 
