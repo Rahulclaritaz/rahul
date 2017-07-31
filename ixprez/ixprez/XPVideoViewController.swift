@@ -304,7 +304,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
 //        cnPicker.delegate = self as CNContactPickerDelegate
 //        self.present(cnPicker, animated: true, completion: nil)
         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPContactViewController") as! XPContactViewController
-        storyboard.emailDelegate = self
+//        storyboard.emailDelegate = self
         self.navigationController?.pushViewController(storyboard, animated: true)
     }
     
@@ -430,10 +430,10 @@ extension XPVideoViewController : VideoTextFieldDelegate {
     
 }
 
-extension XPVideoViewController : contactEmailDelegate {
-    func passEmailToAudioAndVideo(email: String) {
-        self.contactUserEmail = true
-        self.emailAddressLabel.text = email
-    }
-}
+//extension XPVideoViewController : contactEmailDelegate {
+//    func passEmailToAudioAndVideo(email: String) {
+//        self.contactUserEmail = true
+//        self.emailAddressLabel.text = email
+//    }
+//}
 

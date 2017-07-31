@@ -17,7 +17,7 @@ class XPDashBoardHeartXpressionCountViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeTheView(sender:)))
         self.view.addGestureRecognizer(tapGesture)
         self.countExpressionLabel?.text = String(countExpression)

@@ -48,7 +48,9 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var isAutoPoplatedContact : Bool = false
     var rowInCell = Int ()
     var selectContactEmail : Bool = false
-//    var contactView = XPContactViewController ()
+    var selectContactAudio : Bool = false
+    var selectContactVideo : Bool = false
+    var contactModeView = XPContactModeViewController ()
 //    var cellIndexPath = XPAudioXpressTableViewCell()
 //    var delegateCell : cellTextValidateDelegate?
     
@@ -60,6 +62,10 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var shareTitle  = [String]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (selectContactAudio) {
+            print(emailAddressLabel)
+        }
+            
 //        self.delegateCell = self as? cellTextValidateDelegate
         print(emailAddressLabel)
 //        contactView.emailDelegate = self
@@ -104,7 +110,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     
     
     override func viewWillAppear(_ animated: Bool) {
-//        contactView.emailDelegate = self
+            
         pulsrator.numPulse = 5
         pulsrator.radius = 150
         pulsrator.animationDuration = 6
@@ -145,6 +151,8 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         
     }
     
+    
+    
     // MARK: Tableview Datasource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -156,7 +164,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
             if (indexPath.row == 0) {
                 cell.addContactButon?.isHidden = false
                 cell.labelCell?.text = "Express your feelings with"
-                if (selectContactEmail == true) {
+                if (selectContactEmail == true || selectContactAudio == true) {
                     cell.expressTitleTextField?.text = emailAddressLabel.text
                 } else {
                   cell.expressTitleTextField?.text = "Email"
@@ -473,7 +481,4 @@ extension XPAudioViewController : contactEmailDelegate {
     }
     
 }
-
-
-
 
