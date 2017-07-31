@@ -8,17 +8,12 @@
 
 import UIKit
 
-protocol contactModeEmailDelegate {
-    func passEmailToAudio(email : String)
-    func passEmailToVideo(email : String)
-}
- 
+
 class XPContactModeViewController: UIViewController {
     
   @IBOutlet weak  var audioButton = UIButton ()
   @IBOutlet weak  var videoButton = UIButton ()
     var contactUserEmail = String ()
-    var emailModeDelegate  : contactModeEmailDelegate?
     
 
     override func viewDidLoad() {
@@ -39,7 +34,8 @@ class XPContactModeViewController: UIViewController {
     @IBAction func audioButtonAction(sender : UIButton) {
         print("You click on audio")
     let audioViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
-        emailModeDelegate?.passEmailToAudio(email: contactUserEmail)
+        audioViewController.emailAddressLabel.text = contactUserEmail
+        audioViewController.selectContactAudio = true
         self.navigationController?.pushViewController(audioViewController, animated: true)
         self.view.removeFromSuperview()
 
@@ -50,7 +46,6 @@ class XPContactModeViewController: UIViewController {
     @IBAction func videoButtonAction(sender : UIButton) {
          print("You click on video")
         let videoViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
-        emailModeDelegate?.passEmailToVideo(email: contactUserEmail)
         self.navigationController?.pushViewController(videoViewController, animated: true)
         self.view.removeFromSuperview()
 
