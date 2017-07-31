@@ -985,17 +985,21 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
     {
         let cellIdentifier = "XPDashboardTableViewCell"
         let cell : XPDashboardTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPDashboardTableViewCell
-        let thumbImageURLString = self.trendingThumbnail[indexPath.row] as! String
-        cell.thumbNailImage?.clipsToBounds = true
-        cell.thumbNailImage?.layer.masksToBounds = true
-        cell.thumbNailImage?.layer.cornerRadius = 1.0
-        cell.thumbNailImage?.contentMode = .scaleAspectFit
+        if  let thumbImageURLString = self.trendingThumbnail[indexPath.row] as? String {
+            cell.thumbNailImage?.clipsToBounds = true
+            cell.thumbNailImage?.layer.masksToBounds = true
+            cell.thumbNailImage?.layer.cornerRadius = 1.0
+            cell.thumbNailImage?.contentMode = .scaleAspectFit
+            
+            // let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: localPath, with: localUrl )
+            
+            cell.thumbNailImage?.image = nil
+            
+            cell.thumbNailImage?.getImageFromUrl(thumbImageURLString)
+        } else {
+            print("You have null value in thumbnail url")
+        }
         
-       // let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: localPath, with: localUrl )
-        
-        cell.thumbNailImage?.image = nil
-        
-        cell.thumbNailImage?.getImageFromUrl(thumbImageURLString)
         if (self.treadingFileType[indexPath.row] as! String == "video/mp4") {
             cell.imgVA.image = UIImage(named: "SearchVideoOn")
         } else {

@@ -13,13 +13,19 @@ import AVFoundation
 
 class XPCameraBaseViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDelegate {
 
-    var  popController = UIViewController()
+    var  popController = XPVideoViewController()
     var cameraSession =  AVCaptureSession ()
     var imagePicker = UIImagePickerController ()
+    var selectedUserEmail = String ()
+    var contactVideo = Bool ()
+    var contactUserEmail = Bool ()
+    var emailAddressLabel = UILabel ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(selectedUserEmail)
         self.title = "Xpress"
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target:nil, action:nil)
         setupCameraSession()
@@ -29,13 +35,20 @@ class XPCameraBaseViewController: UIViewController,AVCaptureVideoDataOutputSampl
     }
     
     @IBAction func backButtonAction (_ sender : Any) {
-        self.navigationController?.popViewController(animated: true)
+        guard (contactVideo) else {
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         popController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPVideoViewController") as! XPVideoViewController
         self.addChildViewController(popController)
+//        popController.videoEmailDelegate = self
         popController.view.frame = self.view.frame
+        popController.emailAddressLabel.text = selectedUserEmail
+        popController.selectContactVideo = contactVideo
         self.view.addSubview(popController.view)
         self.didMove(toParentViewController: self)
         
@@ -100,4 +113,19 @@ class XPCameraBaseViewController: UIViewController,AVCaptureVideoDataOutputSampl
     }
     */
 
+}
+
+//extension XPCameraBaseViewController : videoViewEmailDelegate {
+//    func passVideoEmail(email: String) {
+//        self.contactUserEmail = true
+//        self.emailAddressLabel.text = email
+//    }
+//}
+
+extension XPCameraBaseViewController : contactEmailDelegate {
+    
+    func passEmailToAudioAndVideo(email: String) {
+        self.contactUserEmail = true
+        self.emailAddressLabel.text = email
+    }
 }
