@@ -26,7 +26,7 @@ class XPAudioStopViewController: UIViewController {
     var userEmail = String ()
     var titleLabel = String ()
     var audioRecordURLString : URL?
-    var audioData = NSData ()
+    var audioData = NSData()
     var registrationPage = RegistrationViewController ()
     var audioPage = XPAudioViewController ()
     
@@ -59,16 +59,18 @@ class XPAudioStopViewController: UIViewController {
         audioBGBorderImage?.isHidden = true
         audioBGAnimationOne?.isHidden = true
         audioBGAnimationTwo?.isHidden = true
+        
 //        audioBGBorderImage?.clipsToBounds = true
 //        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
 //        audioBGBorderImage?.clipsToBounds = true
-        //        audioBGAnimationOne?.clipsToBounds = true
-        //        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
-        //        audioBGAnimationOne?.clipsToBounds = true
+//        audioBGAnimationOne?.clipsToBounds = true
+//        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
+//        audioBGAnimationOne?.clipsToBounds = true
 //        audioBGAnimationTwo?.isHidden = true
 //        audioBGAnimationTwo?.clipsToBounds = true
 //        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
 //        audioBGAnimationTwo?.clipsToBounds = true
+        
         pulseAnimationView?.layer.addSublayer(pulsrator)
         
     }
@@ -94,7 +96,7 @@ class XPAudioStopViewController: UIViewController {
             let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
             print(imageURL)
             
-            var urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+            let urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
             
             let url = NSURL(string: urlString)
             
@@ -132,22 +134,26 @@ class XPAudioStopViewController: UIViewController {
 //        self.present(storyBoard!, animated: true, completion: nil)
     }
 
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func sendRequestToWebService () {
-        
-        do {
-             audioData = try NSData(contentsOf: audioRecordURLString!)
-        } catch {
-            print("your audio data have problem.")
-        }
-        
-        
-        //        var parameter = ["fileupload": audioData,"from_email" : "jnjaga24@gmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"] as [String : Any]
-        
+    func sendRequestToWebService ()
+    {
+   
+    do
+    {
+     audioData = try NSData(contentsOf: audioRecordURLString!)
+    }
+    
+    catch
+    {
+        print("your audio data have problem.")
+    }
+    
+                
         let myUrl = NSURL(string : commonWebUrl.url())
         var requestUrl = URLRequest(url: myUrl! as URL)
         
@@ -156,8 +162,8 @@ class XPAudioStopViewController: UIViewController {
         requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         // Add the parameter
-        //        requestUrl.httpBody = createBodyWithParameters(parameters: parameter as! [String : Any], boundary: boundary) as Data
-        var body = NSMutableData()
+         
+        let body = NSMutableData()
         
         // This is the From email parameter add in the web service.
         if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
@@ -174,34 +180,39 @@ class XPAudioStopViewController: UIViewController {
         
         
         // This is the to email parameter add in the web service.
-        if (audioPage.defaultValue.string(forKey: "toEmailAddress") == nil) {
+        if (audioPage.defaultValue.string(forKey: "toEmailAddress") == nil)
+        {
             print("You don't have email because u select public")
-        } else {
+        } else
+        {
             body.appendString("--\(boundary)\r\n")
             body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
             body.appendString(audioPage.defaultValue.string(forKey: "toEmailAddress")!)
             body.appendString("\r\n")
         }
-        
-        
-        
-        body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"title\"\r\n\r\n")
-        body.appendString(audioPage.defaultValue.string(forKey: "feelingsLabelValue")!)
-        body.appendString("\r\n")
-        
-        
-        if (audioPage.defaultValue.string(forKey: "moodLabelValue") == nil) {
+ 
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"title\"\r\n\r\n")
+            body.appendString(audioPage.defaultValue.string(forKey: "feelingsLabelValue")!)
+            body.appendString("\r\n")
+       
+        if (audioPage.defaultValue.string(forKey: "moodLabelValue") == nil)
+        {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"tags\"\r\n\r\n")
+            body.appendString("hello")
+            body.appendString("\r\n")
             print("You don't have tags because u select private")
-        } else {
+        } else
+        {
             body.appendString("--\(boundary)\r\n")
             body.appendString("Content-Disposition: form-data; name=\"tags\"\r\n\r\n")
             body.appendString(audioPage.defaultValue.string(forKey: "moodLabelValue")!)
             body.appendString("\r\n")
         }
-        
-        
         // This is the Picker status value  parameter add in the web service.
+        
+        
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"privacy\"\r\n\r\n")
         body.appendString(audioPage.defaultValue.string(forKey: "pickerStatus")!)
@@ -240,16 +251,23 @@ class XPAudioStopViewController: UIViewController {
         
         // This is the recorded audio parameter add in the web service.
         body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sound.wav\"\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"MyAudioMemo.wav\"\r\n")
         body.appendString("Content-Type: audio/wav\r\n\r\n")
-        var urlData = NSData(data: audioData as! Data)
-        body.append(urlData as Data)
+        //let urlData = NSData(data: audioData as Data)
+        body.append(audioData as Data)
         body.appendString("\r\n")
+        
+        body.appendString("--\(boundary)--\r\n")
+
         requestUrl.httpBody = body as Data
         
-        requestUrl.httpMethod = "POST";
+        requestUrl.httpMethod = "POST"
         
-        let session = URLSession.shared
+           // let contentType = String(format: "multipart/form-data; boundary=%@", boundary)
+            
+           // requestUrl.setValue(contentType, forHTTPHeaderField: "Content-Type")
+    
+            let session = URLSession.shared
         let dataTask = session.dataTask(with: requestUrl , completionHandler:
         {
             
@@ -261,35 +279,36 @@ class XPAudioStopViewController: UIViewController {
                     
                     let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     
-                    print(jsonData)
-                    var jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
-                    print(jsonResponseStatus)
+                    print("mathan check audio Video",jsonData)
+                    let jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
+                    print("mathan check audio Video",jsonResponseStatus)
                     
-                    if (jsonResponseStatus == "Failed") {
+                    if (jsonResponseStatus == "Failed")
+                    {
                         return
                     } else {
                         
                     }
-                } catch {
+                } catch
+                {
                     
                 }
                 
-            } else {
+            }
+            
+            else {
+                
+                print("Data Nil")
+                
                 return
             }
         })
         
         dataTask.resume()
-        //        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
-        //
-        //            print(audioResponseData)
-        //            print(error)
-        //
-        //        })
-        
-        
     }
     
+    
+        
     func generateBoundaryString() -> String {
         return "Boundary-\(NSUUID().uuidString)"
     }

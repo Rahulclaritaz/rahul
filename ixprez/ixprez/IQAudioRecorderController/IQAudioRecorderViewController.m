@@ -21,6 +21,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+/*
+ 
+ NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject],@"MyAudioMemo.wav",nil] ;
+ // NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject],@"MyAudioMemo.mp3",nil] ;
+ outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];*/
 
 
 @import AVFoundation;
@@ -62,7 +67,7 @@
     //Toolbar
     UIBarButtonItem *_flexItem;
 
-    //Playing controls
+//    Playing controls
 //    UIBarButtonItem *_playButton;
 //    UIBarButtonItem *_pauseButton;
 //    UIBarButtonItem *_stopPlayButton;
@@ -90,7 +95,7 @@
     
     
     
-    //Crop/Delete controls
+//   Crop/Delete controls
 //    UIBarButtonItem *_cropOrDeleteButton;
     
     //Access
@@ -354,10 +359,8 @@
         }
         
     }]resume];
-    
-    
-    
 }
+
 
 -(void)setBarStyle:(UIBarStyle)barStyle
 {
@@ -499,7 +502,17 @@
     }
     
     // Define the recorder setting
+    
+    /*
+     
+     NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject],@"MyAudioMemo.wav",nil] ;
+     // NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject],@"MyAudioMemo.mp3",nil] ;
+     outputFileURL = [NSURL fileURLWithPathComponents:pathComponents];
+     */
+
+    
     {
+        /*
         NSMutableDictionary *recordSettings = [[NSMutableDictionary alloc] init];
         
         NSString *globallyUniqueString = [NSProcessInfo processInfo].globallyUniqueString;
@@ -516,41 +529,76 @@
             
             recordSettings[AVFormatIDKey] = @(kAudioFormatAppleLossless);
         }
+        else if (self.audioFormat == IQAudioQualityMin)
+        {
+            _recordingFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.m4a",globallyUniqueString]];
+        
+        }
+        else if (self.audioFormat == IQAudioFormat_wav)
+        {
+            _recordingFilePath = [NSTemporaryDirectory()stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.wav",globallyUniqueString]];
+            
+            
+        }
+         
         
         recordingFileURL = [NSURL URLWithString:_recordingFilePath];
+         */
         
-        if (self.sampleRate > 0.0f)
-        {
-            recordSettings[AVSampleRateKey] = @(self.sampleRate);
-        }
-        else
-        {
-            recordSettings[AVSampleRateKey] = @44100.0f;
-        }
+//
+//        if (self.sampleRate > 0.0f)
+//        {
+//            recordSettings[AVSampleRateKey] = @(self.sampleRate);
+//        }
+//        else
+//        {
+//            recordSettings[AVSampleRateKey] = @44100.0f;
+//        }
+//        
+//        if (self.numberOfChannels >0)
+//        {
+//            recordSettings[AVNumberOfChannelsKey] = @(self.numberOfChannels);
+//        }
+//        else
+//        {
+//            recordSettings[AVNumberOfChannelsKey] = @1;
+//        }
+//        
+//        if (self.audioQuality != IQAudioQualityDefault)
+//        {
+//            recordSettings[AVEncoderAudioQualityKey] = @(self.audioQuality);
+//        }
+//        
+//        if (self.bitRate > 0)
+//        {
+//            recordSettings[AVEncoderBitRateKey] = @(self.bitRate);
+//        }
+//        
+//        // Initiate and prepare the recorder
+//        _audioRecorder = [[AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath: _recordingFilePath] settings:recordSettings error:nil];
+//        _audioRecorder.delegate = self;
+//        _audioRecorder.meteringEnabled = YES;
         
-        if (self.numberOfChannels >0)
-        {
-            recordSettings[AVNumberOfChannelsKey] = @(self.numberOfChannels);
-        }
-        else
-        {
-            recordSettings[AVNumberOfChannelsKey] = @1;
-        }
+        NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject],@"MyAudioMemo.wav",nil] ;
+        // NSArray *pathComponents = [NSArray arrayWithObjects:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject],@"MyAudioMemo.mp3",nil] ;
+        recordingFileURL = [NSURL fileURLWithPathComponents:pathComponents];
         
-        if (self.audioQuality != IQAudioQualityDefault)
-        {
-            recordSettings[AVEncoderAudioQualityKey] = @(self.audioQuality);
-        }
-        
-        if (self.bitRate > 0)
-        {
-            recordSettings[AVEncoderBitRateKey] = @(self.bitRate);
-        }
-        
-        // Initiate and prepare the recorder
-        _audioRecorder = [[AVAudioRecorder alloc] initWithURL:[NSURL fileURLWithPath: _recordingFilePath] settings:recordSettings error:nil];
-        _audioRecorder.delegate = self;
-        _audioRecorder.meteringEnabled = YES;
+         NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc]init];
+         [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatLinearPCM] forKey:AVFormatIDKey];
+         // [recordSetting setValue:[NSNumber numberWithInt:kAudioFormatMPEGLayer3] forKey:AVFormatIDKey];
+         [recordSetting setValue:[NSNumber numberWithFloat:44100.0] forKey:AVSampleRateKey];
+         [recordSetting setValue:[NSNumber numberWithInt:2] forKey:AVNumberOfChannelsKey];
+         [recordSetting setValue:[NSNumber numberWithInt:16] forKey:AVLinearPCMBitDepthKey];
+         // [recordSetting setValue:[NSNumber numberWithInt: AVAudioQualityHigh] forKey: AVEncoderAudioQualityKey];
+         
+         [recordSetting setValue:[NSNumber numberWithInt: AVAudioQualityMin] forKey: AVEncoderAudioQualityKey];
+         //Initiate and prepare the record
+         
+         _audioRecorder = [[AVAudioRecorder alloc]initWithURL:recordingFileURL settings:recordSetting error:nil];
+         _audioRecorder.delegate = self;
+         _audioRecorder.meteringEnabled = YES;
+         [_audioRecorder prepareToRecord];
+ 
         
         musicFlowView.primaryWaveLineWidth = 3.0f;
         musicFlowView.secondaryWaveLineWidth = 1.0;
