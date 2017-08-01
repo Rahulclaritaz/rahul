@@ -9,7 +9,8 @@
 import UIKit
 
 class XPHumburgerMenuViewController: UIViewController {
-
+    var customActivityView : UIActivityViewController?
+    var shareTextField = UITextField ()
     @IBOutlet weak var humburgerMenuTableView : UITableView?
     @IBOutlet weak var humburgerMenuUserProfile : UIImageView?
     @IBOutlet weak var humburgerMenuUserName : UILabel?
@@ -204,14 +205,14 @@ extension XPHumburgerMenuViewController : UITableViewDelegate {
             self.navigationController?.present(navigation, animated: true, completion: nil)
 //            self.navigationController?.pushViewController(storyboard, animated: true)
         case 3:
+           // This will open the default activity view 
+            customActivityView = UIActivityViewController(activityItems: [shareTextField.text as! NSString], applicationActivities: nil)
+            present(customActivityView!, animated: true, completion: nil)
+//            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPShareXprezViewController") as! XPShareXprezViewController
             
-            print("Share Xprez")
-            let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPShareXprezViewController") as! XPShareXprezViewController
-//            storyboard.isFromMenu = true
-            let navigation = UINavigationController.init(rootViewController: storyboard)
-            self.navigationController?.present(navigation, animated: true, completion: nil)
-            self.present(storyboard, animated: true, completion: nil)
-            self.navigationController?.pushViewController(storyboard, animated: true)
+//            let navigation = UINavigationController.init(rootViewController: storyboard)
+//            self.navigationController?.present(navigation, animated: true, completion: nil)
+ 
         case 4:
             let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPAboutViewController") as! XPAboutViewController
             storyboard.isFromMenu = true
