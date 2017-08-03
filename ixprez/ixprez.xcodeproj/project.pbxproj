@@ -21,6 +21,7 @@
 		13111E7B1EB1FC09003661C2 /* mosklight300.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13111E5A1EB1EF87003661C2 /* mosklight300.ttf */; };
 		13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */; };
 		13111E821EB20C42003661C2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13111E811EB20C42003661C2 /* UIKit.framework */; };
+		1311E8EE1F331DE200CEFA43 /* RecentContactList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1311E8ED1F331DE200CEFA43 /* RecentContactList.swift */; };
 		1314C6D71ED7E6F900FD0A8F /* IXPrivateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6CF1ED7E6F900FD0A8F /* IXPrivateViewController.swift */; };
 		1314C6DA1ED7E6F900FD0A8F /* XPMyUploadPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6D21ED7E6F900FD0A8F /* XPMyUploadPlayViewController.swift */; };
 		1314C6DB1ED7E6F900FD0A8F /* XPMyUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1314C6D31ED7E6F900FD0A8F /* XPMyUploadViewController.swift */; };
@@ -154,6 +155,7 @@
 		13111E6A1EB1F0C5003661C2 /* ProximaNova-Light_0.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ProximaNova-Light_0.otf"; path = "../Approved Templates/Fonts/ProximaNova-Light_0.otf"; sourceTree = "<group>"; };
 		13111E7D1EB20B0C003661C2 /* OTPVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTPVerificationViewController.swift; sourceTree = "<group>"; };
 		13111E811EB20C42003661C2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1311E8ED1F331DE200CEFA43 /* RecentContactList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecentContactList.swift; sourceTree = "<group>"; };
 		1314C6CF1ED7E6F900FD0A8F /* IXPrivateViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IXPrivateViewController.swift; sourceTree = "<group>"; };
 		1314C6D21ED7E6F900FD0A8F /* XPMyUploadPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPMyUploadPlayViewController.swift; sourceTree = "<group>"; };
 		1314C6D31ED7E6F900FD0A8F /* XPMyUploadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPMyUploadViewController.swift; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 		859A22EF1EB1ADDB008DD7F7 /* ixprez */ = {
 			isa = PBXGroup;
 			children = (
+				1311E8ED1F331DE200CEFA43 /* RecentContactList.swift */,
 				13110CE01F222BDC001DD214 /* ContactList.swift */,
 				85879EC61EC5988400337011 /* ixprez.entitlements */,
 				130FD8E81EB887A900026975 /* Model */,
@@ -705,6 +708,7 @@
 				859407C81ECEF14C000A6A80 /* XPPopOverViewController.swift in Sources */,
 				131A2F961F17AC3D00D0E9EC /* PopupAlert.swift in Sources */,
 				13A0F1671EB9D79B0069ABDD /* TextfieldExtension.swift in Sources */,
+				1311E8EE1F331DE200CEFA43 /* RecentContactList.swift in Sources */,
 				1314C6F01ED7EDA100FD0A8F /* HeaderMyuploadCollectionReusableView.swift in Sources */,
 				8592909F1F00FD22006A488D /* IQCropSelectionEndView.m in Sources */,
 				1314C6F41ED7EDA100FD0A8F /* UploadsEmotionsTableViewCell.swift in Sources */,

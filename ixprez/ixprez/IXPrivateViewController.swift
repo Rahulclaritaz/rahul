@@ -1,10 +1,10 @@
-//
+
 //  IXPrivateViewController.swift
 //  ixprez
-//
+
 //  Created by Quad on 5/8/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
-//
+
 
 import UIKit
 import AVKit
@@ -13,6 +13,12 @@ import AVFoundation
 class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,sectionData
 {
     //Declaration 
+    
+    
+    var getEmotionUrl = URLDirectory.MyUpload()
+    
+    var getEmotionWebService = MyUploadWebServices()
+    
     var typeCon: ContactType?
     
     var isFromMenu = Bool()
@@ -45,7 +51,11 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     let  myImage = UIImageView()
     
     var addContactList = [ContactList]()
+    
     var checkAcceptUser : Bool!
+    
+    var showAddContact : Bool!
+    
     
     
     lazy var refershController : UIRefreshControl = {
@@ -73,6 +83,8 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
          getContact()
         
         checkAcceptUser = false
+        showAddContact = false
+        
         
          userEmail = nsuerDefault.string(forKey: "emailAddress")
         
@@ -171,8 +183,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
                 print("check private web service data",dicc)
                 
                 self.recordPrivateData = dicc as [[String : Any]]
-                
-                
+               
                 DispatchQueue.main.async{
                     
                     self.refershController.beginRefreshing()
@@ -249,37 +260,9 @@ func getRefersh( action : UIRefreshControl)
             
             let checkIsContact = privateData["from_email"] as! String
             let username =  privateData["title"] as? String
-            
-            /*
-             
-             if deviceEmailID.contains(myEmail) == false
-             {
-             
-             if self.typeCon  == .addressBookContact
-             {
-             
-             createAddressBookContactWithFirstName(myUserName, lastName: "", email:  myEmail , phone: "", image: imagData)
-             }
-             else if self.typeCon == .cnContact
-             {
-             
-             createCNContactWithFirstName( myUserName , lastName: "", email:  myEmail , phone: "", image: imagData)
-             }
-             else
-             {
-             print("No Contact")
-             }
-             
-             }
-             */
-
-            
-            
-        
+       
             let string1 : String = privateData["updatedAt"] as! String
-            
-          
-            
+        
             let dataStringFormatter = DateFormatter()
             
             dataStringFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -387,6 +370,8 @@ func getRefersh( action : UIRefreshControl)
                     {
                         createAddressBookContactWithFirstName(username!, lastName: "", email:  checkIsContact , phone: "", image: UIImage(named: "bg_reg.png" ))
                         
+                         privatecell.contentView.backgroundColor = UIColor.clear
+                        
                         getContact()
                         
                     }
@@ -447,6 +432,8 @@ func getRefersh( action : UIRefreshControl)
         privateIndexPathLength = indexPath.section
         
         
+        print("check mathan email_id",self.privatefromEmail)
+        
         
         print(privateIndexPathLength)
         
@@ -469,8 +456,15 @@ func getRefersh( action : UIRefreshControl)
         {
             (action,index) in
           
-            
-            
+        
+            if deviceEmailID.contains(self.privatefromEmail)
+            {
+                self.showAddContact = true
+            }
+            else
+            {
+                self.showAddContact = false
+            }
             print("block")
         
             self.getBlockAction()
@@ -619,10 +613,15 @@ func getRefersh( action : UIRefreshControl)
     func getBlockAction()
     {
         
+        if showAddContact == false
+        {
+        
         let title = self.privatefromEmail
         let message = "can’t Express themselves to you anymore. Sure you want ro proceed?"
         let cancelButtonTitle = "Cancel"
         let otherButtonTitle = "Reject & Block"
+        let otherButtonTitle1 = "Add Contact"
+        let otherBottonTitle2 = "Report SPAM"
        
         print(self.privatefromEmail)
         print(self.privateIdValue)
@@ -697,6 +696,125 @@ func getRefersh( action : UIRefreshControl)
             
         })
         
+        let otherAction1 = DOAlertAction(title: otherButtonTitle1, style: .default, handler: { action in
+            
+            self.checkAcceptUser = true
+            
+            DispatchQueue.main.async {
+                
+                /* for  i  in 0...self.recordPrivateData.count
+                 {
+                 let indexPath = IndexPath(row: 0, section: i)
+                 
+                 self.privateTableView.rectForRow(at: indexPath)
+                 }*/
+                
+                self.privateTableView.reloadData()
+                
+                
+            }
+            
+            print("add")
+        })
+        
+        let otherAction2 = DOAlertAction(title: otherBottonTitle2, style: .default, handler: { action in
+            
+            
+            self.dismiss(animated:true, completion: {
+                
+                () -> Void in
+                
+                
+                
+                let title = "Report Abuse"
+                //let message = "A message should be a short, complete sentence."
+                let cancelButtonTitle = "DISCARD"
+                let otherButtonTitle = "POST"
+                
+                self.customAlertController = DOAlertController(title: title, message: nil, preferredStyle: .alert)
+                
+                self.changecustomAlertController()
+                
+                // Add the text field for text entry.
+                
+                
+                // alert.addTextField(configurationHandler: textFieldHandler)
+                
+                self.customAlertController.addTextFieldWithConfigurationHandler { textField in
+                    
+                    
+                    textField?.frame.size = CGSize(width: 240.0, height: 30.0)
+                    textField?.font = UIFont(name: "Mosk", size: 15.0)
+                    textField?.textColor = UIColor.blue
+                    textField?.keyboardAppearance = UIKeyboardAppearance.dark
+                    textField?.returnKeyType = UIReturnKeyType.send
+                    
+                    // textfield1 = textField!
+                    
+                    // textField?.delegate = self as! UITextFieldDelegate
+                    
+                    // If you need to customize the text field, you can do so here.
+                }
+                
+                // Create the actions.
+                let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel) { action in
+                    NSLog("The \"Text Entry\" alert's cancel action occured.")
+                }
+                
+                let otherAction = DOAlertAction(title: otherButtonTitle, style: .default) { action in
+                    NSLog("The \"Text Entry\" alert's other action occured.")
+                    
+                    
+                    let textFields = self.customAlertController.textFields as? Array<UITextField>
+                    
+                    
+                    if textFields != nil {
+                        for textField: UITextField in textFields! {
+                            print("mathan Check",textField.text!)
+                            
+                            let dicData = [ "user_email" :self.privatefromEmail , "description"  : textField.text! , "file_id" : self.privateIdValue , "file_type" : self.privateType] as [String : Any]
+                            
+                            self.getEmotionWebService.getReportMyUploadWebService(urlString: self.getEmotionUrl.uploadReportAbuse(), dicData: dicData as NSDictionary, callback: {
+                                (dicc,erro) in
+                                
+                                print(dicc)
+                                
+                                
+                            })
+                            
+                            
+                        }
+                    }
+                    
+                    
+                }
+                
+                // Add the actions.
+                self.customAlertController.addAction(cancelAction)
+                self.customAlertController.addAction(otherAction)
+                
+                self.present(self.customAlertController , animated: true, completion: nil)
+
+                
+                
+                
+            })
+            
+            
+            
+            
+
+            
+        })
+        
+        
+        
+        customAlertController.addAction(otherAction1)
+        
+        customAlertController.addAction(otherAction2)
+        
+        
+
         
         customAlertController.addAction(cancelAction)
         
@@ -705,7 +823,96 @@ func getRefersh( action : UIRefreshControl)
         
         self.present(customAlertController, animated: true, completion: nil)
         
-        
+        }
+        else
+        {
+          
+            let title = self.privatefromEmail
+            let message = "can’t Express themselves to you anymore. Sure you want ro proceed?"
+            let cancelButtonTitle = "Cancel"
+            let otherButtonTitle = "Reject & Block"
+            
+            print(self.privatefromEmail)
+            print(self.privateIdValue)
+            print(self.privateType)
+            
+            customAlertController = DOAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            self.changecustomAlertController()
+            
+            // customAlertController.overlayColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.1)
+            
+            let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel, handler: {
+                action in
+                
+                print("hi")
+            })
+            
+            let otherAction = DOAlertAction(title: otherButtonTitle, style: .default, handler:{
+                
+                action in
+                
+                
+                
+                let dicValue = [ "user_email" : self.userEmail , "blocked_email": self.privatefromEmail ]
+                
+                
+                self.getPrivateWebData.getPrivateAcceptRejectWebService(urlString: self.getPrivateURL.privateBlockAudioVideo(), dicData: dicValue as NSDictionary, callback: {
+                    
+                    (dicc, erro) in
+                    
+                    
+                    
+                    
+                    
+                    DispatchQueue.main.async {
+                        
+                        self.privateTableView.beginUpdates()
+                        // Remove item from the array
+                        self.recordPrivateData.remove(at: self.privateIndexPathLength)
+                        
+                        
+                        // Delete the row from the table view
+                        
+                        self.privateTableView.deleteSections([self.privateIndexPathLength], with: .fade)
+                        
+                        self.privateTableView.endUpdates()
+                        
+                    }
+                    
+                    
+                    if ((dicc["status"] as! String).isEqual("OK"))
+                        
+                    {
+                        let dicValue = [ "id" : self.privateIdValue , "video_type" : self.privateType , "feedback" : "0"]
+                        
+                        
+                        self.getPrivateWebData.getPrivateAcceptRejectWebService(urlString: self.getPrivateURL.privateAcceptRejectAudioVideo(), dicData: dicValue as NSDictionary, callback:{
+                            
+                            (dicc,err)  in
+                            
+                        })
+                        
+                        
+                        
+                        
+                    }
+                    
+                    
+                })
+                
+                
+                
+            })
+           
+            
+            customAlertController.addAction(cancelAction)
+            
+            customAlertController.addAction(otherAction)
+            
+            
+            self.present(customAlertController, animated: true, completion: nil)
+        }
         
    
         
@@ -806,8 +1013,7 @@ func getRefersh( action : UIRefreshControl)
     let message = "It’s your turn now to Press! Want to replay right now and press yourself back to them ? Do it"
     let cancelButtonTitle = "Cancel"
     let otherButtonTitle = "Xpress it"
-    let otherButtonTitle1 = "Add Contact"
-    let otherBottonTitle2 = "Report SPAM"
+    
 
   print(self.privatefromEmail)
     print(self.privateIdValue)
@@ -885,34 +1091,6 @@ func getRefersh( action : UIRefreshControl)
         })
         
         
-        let otherAction1 = DOAlertAction(title: otherButtonTitle1, style: .default, handler: { action in
-            
-            self.checkAcceptUser = true
-            
-            DispatchQueue.main.async {
-                
-                /* for  i  in 0...self.recordPrivateData.count
-                 {
-                let indexPath = IndexPath(row: 0, section: i)
-                
-                self.privateTableView.rectForRow(at: indexPath)
-                }*/
-                
-                self.privateTableView.reloadData()
-                
-                
-            }
-         
-            print("add")
-        })
-        
-        let otherAction2 = DOAlertAction(title: otherBottonTitle2, style: .default, handler: { action in
-            
-        })
-        
-        customAlertController.addAction(otherAction1)
-        
-        customAlertController.addAction(otherAction2)
         
         customAlertController.addAction(cancelAction)
         

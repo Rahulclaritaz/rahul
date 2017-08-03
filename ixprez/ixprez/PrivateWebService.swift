@@ -192,7 +192,71 @@ class  PrivateWebService
         
     }
 
+    func  getPrivateAcceptRejectWebService2(urlString : String ,dicData : [String : [String]] , callback : @escaping (_ dic : NSDictionary , _ error : Error?) -> Void)
+    {
+        
+        
+        
+        let datadic = try! JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        
+        
+        let url = URL(string: urlString )
+        
+        var request = URLRequest(url: url!)
+        
+        request.httpBody = datadic
+        
+        request.httpMethod = "POST"
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let session = URLSession.shared
+        
+        
+        let taskData1 = session.dataTask(with: request, completionHandler:
+        {(data,response,error ) in
+            
+            if data != nil && error == nil
+                
+            {
+                
+                var  jsonDic : Any?
+                
+                
+                do
+                {
+                    
+                    jsonDic  = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
+                    
+                    
+                    print(jsonDic!)
+                    
+                    
+                }
+                    
+                catch
+                {
+                    print("Data No")
+                }
+                
+                let sendBackDic = jsonDic as! NSDictionary
+                
+                
+                callback(sendBackDic, error)
+                
+            }
+            else
+                
+            {
+                print("Not data ")
+            }
+        })
+        
+        taskData1.resume()
+        
+    }
     
+
     
     // This method will will return the fllower and Fllowing user data from the server in [setting page]
     func  getPrivateData(urlString : String ,dicData : [String:Any] , callback : @escaping (_ dic : [String:Any] , _ error : Error?) -> Void)

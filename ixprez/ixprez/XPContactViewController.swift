@@ -1,29 +1,30 @@
-//
+
 //  XPContactViewController.swift
 //  ixprez
-//
 //  Created by Claritaz Techlabs on 14/06/17.
 //  Copyright © 2017 Claritaz Techlabs. All rights reserved.
-//
+
 
 
 import UIKit
+
 import ContactsUI
+
 import AddressBook
+
+var expressEmailId = [String]()
 
 var saveContactList = [ContactList]()
 
 var deviceEmailID = [String]()
 
-var recentEmailID = [String]()
-
 var contactStore = CNContactStore()
 
 var contactss = [ContactEntry]()
 
-var contactModeSelection = XPContactModeViewController ()
+var contactModeSelection = XPContactModeViewController()
 
- let contact = CNContact ()
+let contact = CNContact()
 
 enum ContactType
 {
@@ -34,7 +35,8 @@ enum ContactType
 func requestAccessToContacts(_ completion: @escaping (_ success: Bool) -> Void) {
     let authorizationStatus = CNContactStore.authorizationStatus(for: CNEntityType.contacts)
     
-    switch authorizationStatus {
+    switch authorizationStatus
+    {
     case .authorized: completion(true)
     // authorized previously
     case .denied, .notDetermined:
@@ -47,7 +49,8 @@ func requestAccessToContacts(_ completion: @escaping (_ success: Bool) -> Void) 
     }
 }
 
-func retrieveContacts(_ completion: (_ success: Bool, _ contacts: [ContactEntry]?) -> Void) {
+func retrieveContacts(_ completion: (_ success: Bool, _ contacts: [ContactEntry]?) -> Void)
+{
     var contacts = [ContactEntry]()
     do {
         let contactsFetchRequest = CNContactFetchRequest(keysToFetch: [CNContactGivenNameKey as CNKeyDescriptor, CNContactFamilyNameKey as CNKeyDescriptor, CNContactImageDataKey as CNKeyDescriptor, CNContactImageDataAvailableKey as CNKeyDescriptor, CNContactPhoneNumbersKey as CNKeyDescriptor, CNContactEmailAddressesKey as CNKeyDescriptor])
@@ -66,8 +69,6 @@ func retrieveContacts(_ completion: (_ success: Bool, _ contacts: [ContactEntry]
     }
 }
 
-
-
 func getContact()
 {
     requestAccessToContacts { (success) in
@@ -82,9 +83,10 @@ func getContact()
                     
                     saveContactList.removeAll()
                 
+                  
                     for ccc in  contacts!
                     {
-                     
+                
                         if (ccc.email != nil)  && (ccc.name != nil)
                             
                         {
@@ -92,8 +94,7 @@ func getContact()
                             
                             if (ccc.image != nil)
                             {
-                                
-                                
+                           
                                 cont.userName = ccc.name
                                 
                                 cont.emailId = ccc.email
@@ -104,7 +105,7 @@ func getContact()
                                 
                                 deviceEmailID.append(ccc.email!)
                              
-                               // deviceName.append(ccc.name!)
+                                
                             }
                             else
                             {
@@ -112,7 +113,10 @@ func getContact()
                                 
                                 cont.emailId = ccc.email
                                 
-                                cont.imageData =  ccc.image ?? UIImage(named: "UploadSmileyOrange")!
+                                cont.imageData = UIImage(named: "")
+                                
+                                    
+                                    //ccc.image ?? UIImage(named: "UploadSmileyOrange")!
                                 
                                 saveContactList.append(cont)
                                 
@@ -132,12 +136,7 @@ func getContact()
                         
                         
                     }
-                    
-                   /* DispatchQueue.main.async
-                        {
-                        contactTableView?.reloadData()
-                            
-                    }*/
+                
  
                     
                 } else {
@@ -156,6 +155,7 @@ func getContact()
 func createAddressBookContactWithFirstName(_ firstName: String, lastName: String, email: String?, phone: String?, image: UIImage?)
 {
     // first check permissions.
+    
     let abAuthStatus = ABAddressBookGetAuthorizationStatus()
     if abAuthStatus == .denied || abAuthStatus == .restricted {
         //self.showAlertMessage("Sorry, you are not authorize to access the contacts.")
@@ -270,14 +270,17 @@ func createCNContactWithFirstName(_ firstName: String, lastName: String, email: 
 
 
 
-protocol contactEmailDelegate
-{
+    protocol contactEmailDelegate
+    {
     func passEmailToAudioAndVideo (email : String)
-}
+    }
 
 class XPContactViewController: UIViewController, CNContactPickerDelegate, UISearchBarDelegate
 {
     
+    var saveRecentContactList = [RecentContactList]()
+    
+    @IBOutlet weak var contactTableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchHight: NSLayoutConstraint!
     @IBOutlet weak var contactSegmentationController: UISegmentedControl!
@@ -292,7 +295,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     let appDelegate = AppDelegate ()
     
     // data
-   var typeCon: ContactType?
+    var typeCon: ContactType?
     var isFiltered : Bool!
     var emailDelegate : contactEmailDelegate?
     var userEmail = String ()
@@ -301,28 +304,29 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     var urlReference = URLDirectory.contactData()
     
     
-    //var deviceName = [String]()
-    var filterData = [ContactList]()
+    var getIxpressContactList  = [[String :Any]]()
     
+    //var deviceName = [String]()
+    
+    var filterData = [ContactList]()
     var isRecent : Bool!
     
     
-    @IBOutlet weak var contactTableView = UITableView ()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
+       // recentEmailId.append("jnjaga24@gmail.com ")
+        
+
         isFiltered = false
+        
         isRecent = false
      
+        self.navigationItem.title = "Contact"
         
-     recentEmailID.append("kavin6@gmail.com")
-        
-     recentEmailID.append("kavinarush6@gmail.com")
-        
-        
-        
+     
         self.navigationItem.title = "Contact"
         
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -337,34 +341,52 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         
          getContact()
          getWebServiceContact()
+       // getRecentWebServiceContact()
         
-         
     }
     
     @IBAction func segmentAction(_ sender: Any)
     {
         if (sender as AnyObject).selectedSegmentIndex == 0
         {
-            
             isRecent = false
+             getContact()
+             getWebServiceContact()
             
             self.view.layoutIfNeeded()
             
-            searchHight.constant = 44
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
+               
+                self.searchHight.constant = 44
+                
+                self.view.layoutIfNeeded()
+  
+                
+            }, completion: nil)
             
-            self.view.layoutIfNeeded()
-        }
+            
+       }
         else
         {
             isRecent = true
-          
             
-            
-            self.view.layoutIfNeeded()
-            
-            searchHight.constant = 0
+             getContact()
+            getWebServiceContact()
+            getRecentWebServiceContact()
             
             self.view.layoutIfNeeded()
+            
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut, animations: {
+                
+                self.searchHight.constant = 0
+                
+                self.view.layoutIfNeeded()
+                
+            }, completion: nil)
+            
+            
+           
+            
         }
 
         
@@ -392,7 +414,8 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         self.dismiss(animated: true, completion: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool)
+    {
         super.viewDidAppear(animated)
         
         
@@ -401,37 +424,78 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     {
         print("emmmm",deviceEmailID)
         
+        var setData = Set<String>()
+        
+        for email in deviceEmailID
+        {
+        
+        setData.insert(email)
+            
+        }
+        
+        var newEmail = [String]()
         
         
-   let para = { ["contactList" :  deviceEmailID ] }
+        for data in setData
+        {
+        
+        newEmail.append(data)
+            
+        
+        }
+        
+        print("with out dupliacte data",setData)
+        
+        
+        print("with out dupliacte data in array",newEmail)
+        
+        
+   let para = { ["contactList" :  newEmail ] }
         
         webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
             
             
-            let getIxpressContactList = myData["data"] as! [[String:Any]]
+           self.getIxpressContactList = myData["data"] as! [[String:Any]]
             
             
             
-       if  getIxpressContactList.isEmpty
+       if  self.getIxpressContactList.isEmpty
        {
         print("No Data")
         }
         
         else
         {
-            for xpressContactList in getIxpressContactList
+            for xpressContactList in self.getIxpressContactList
             {
                
                 let newData = ContactList()
+                
+                let newData1 = RecentContactList()
+                
+                
                  print("name mathan",xpressContactList["user_name"] as! String)
+                
                 newData.userName = xpressContactList["user_name"] as! String
                 
                 newData.emailId = xpressContactList["email_id"] as! String
                 
                 
                 
+                newData1.userNameRecent = xpressContactList["user_name"] as! String
                 
-           // saveContactList.insert(newData, at: 1)
+                newData1.emailIdRecent = xpressContactList["email_id"] as! String
+
+                
+                
+                expressEmailId.append(xpressContactList["email_id"] as! String)
+                
+                
+                
+                newData.imageData = nil
+                
+                newData1.imageDataRecent = nil
+                
                 
                    let imageString = xpressContactList["profile_image"] as! String
                 
@@ -448,7 +512,10 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
                                 {
                                     
                                 newData.imageData = UIImage(data: data!)!
-                         
+                                    
+                                    newData1.imageDataRecent = UIImage(data: data!)!
+                                    
+                                self.contactTableView?.reloadData()
                             }
                             
                             
@@ -456,44 +523,153 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
                         
                         dataTask.resume()
                         
-                       // saveContactList.insert(newData, at: 0)
- 
+                        
                 }
-       saveContactList.insert(newData, at: 0)
+                     saveContactList.insert(newData, at: 0)
+                
+                    self.saveRecentContactList.append(newData1)
+                
+                
             }
             
-      
+            print("mathan cmathan check",expressEmailId)
+ 
+           }
+        
+        })
+    
+    }
+    
+    func getRecentWebServiceContact()
+    {
+        
+        isRecent = true
+        
+      let emailIdData = "mathan6@gmail.com"
+        
+    saveContactList1 = saveContactList.filter({
+        
+        
+            
+    return $0.emailId.lowercased().range(of: emailIdData) != nil
+             
+        })
+        
+        DispatchQueue.main.async {
+            
+            self.contactTableView.reloadData()
+            
         }
-            DispatchQueue.main.async {
-                
-                self.contactTableView?.reloadData()
-                
-            }
+        
+       
+        //$0.emailId.lowercased().range(of: searchText.lowercased(), options: .caseInsensitive) != nil
+    //})
 
+    
+        /*
+  let recentEmailId = ["mathan6@gmail.com","kuralms@gmail.com"]
+  
+    if ( recentEmailId.count != 0 )
+    {
+    let para1 = { ["contactList" :  recentEmailId ] }
         
+    webReference.getPrivateAcceptRejectWebService2(urlString: urlReference.getXpressContact(), dicData: para1() , callback: { (myData ,error)   in
         
-            print("wwwww",myData)
+    let getIxpressContactList1 = myData["data"] as! [[String:Any]]
+       
+                    if  getIxpressContactList1.isEmpty
+                    {
+                        print("No Data")
+                    }
+       
+                    else
+                    {
+                for xpressContactList in getIxpressContactList1
+                        {
+                    
+                            let newRecentData = RecentContactList()
+                    
+                            print("name mathan",xpressContactList["user_name"] as! String)
+                    
+                            newRecentData.userNameRecent = xpressContactList["user_name"] as! String
+                    
+                            newRecentData.emailIdRecent = xpressContactList["email_id"] as! String
+               
+                    
+                            let imageString = xpressContactList["profile_image"] as! String
+                    
+                            DispatchQueue.global(qos: .background).async
+                                {
+                                    let url = URL(string: imageString)
+                            
+                                    let sess = URLSession.shared
+                            
+                                    let dataTask = sess.dataTask(with: url!, completionHandler:
+                                    { ( data,response,error) in
+                                
+                                        DispatchQueue.main.async
+                                            {
+                                        
+                                        newRecentData.imageDataRecent = UIImage(data: data!)!
+                                        
+                                        self.contactTableView?.reloadData()
+                                            }
+                            
+                                    })
+                            
+                            dataTask.resume()
+                   
+                    }
+                 
+                     self.saveRecentContactList.append(newRecentData)
+                 
+                }
+              
+            }
+            
+            
+            print("mathan check", self.saveRecentContactList.count)
+            print("totoda data",self.saveRecentContactList)
+            
             
         })
             
-        
-                       //getPrivateAcceptRejectWebService
+            
+            
+        }
+            
+       
+     */
         
         
     }
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar)
+    {
+        
+        searchBar.resignFirstResponder()
+        
+    }
+
     
       // This method will search the contact
     func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool
     {
         
         searchBar.resignFirstResponder()
-        DispatchQueue.main.async {
+        DispatchQueue.main.async
+            {
             
             self.contactTableView?.reloadData()
         }
         
         return true
+    }
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar)
+    {
+        
+        searchBar.resignFirstResponder()
+        
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String)
@@ -502,6 +678,12 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         if searchText.characters.count == 0
         {
             isFiltered = false
+            
+            DispatchQueue.main.async
+                {
+                    self.contactTableView?.reloadData()
+            }
+ 
             
         }
         else
@@ -524,53 +706,63 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar)
     {
+        
+    searchBar.resignFirstResponder()
       
     }
-    
-
 }
-
 extension XPContactViewController : UITableViewDataSource
 {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         if isRecent == false
         {
-        if isFiltered == false
-        {
-        return saveContactList.count
-        }
-        else
-        {
-        return filterData.count
-        }
+            if isFiltered == false
+            {
+                return saveContactList.count
+            }
+            else
+            {
+                return filterData.count
+            }
             
         }
         else
         {
-           
-            return saveContactList.count
+            return saveContactList1.count
         }
-    
-    
-    
-    }
-    
-  
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+      
+}
+ 
+func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        
-        
+    
         let cellIdentifier = "XPContactTableViewCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactTableViewCell
+     
+        cell.contactType?.image = UIImage(named: "bg_reg.png")
+        
+        
         
         if isRecent == false
         {
+    
+//            if indexPath.row < getIxpressContactList.count
+//            {
+//                cell.contactType?.image =  UIImage(named: "ExpressContact")
+//            }
+//            
+//            else{
+//                cell.contactType?.image =  UIImage(named: "ContactUser")
+//                
+//            }
+            
+            
             
             if isFiltered == false
             {
+                
+                
                 let entry = saveContactList[indexPath.row]
                 cell.configureWithContactEntry(entry)
                 cell.layoutIfNeeded()
@@ -587,17 +779,20 @@ extension XPContactViewController : UITableViewDataSource
         }
         else
         {
-           
+        
+            let entry1  = saveContactList1[indexPath.row]
+        
+               cell.configureWithContactEntry1(entry1)
             
-            /*let cellIdentifier = "XPContactTableViewCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! XPContactTableViewCell
-                let entry = saveContactList[indexPath.row]
-                cell.configureWithContactEntry(entry)
                 cell.layoutIfNeeded()
- */
+ 
             
                 return cell
+           
         }
+         
+        
+        return cell
     }
     
          
@@ -605,21 +800,28 @@ extension XPContactViewController : UITableViewDataSource
 
 extension XPContactViewController : UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+    {
         
-        let entry = saveContactList[indexPath.row]
+        if isRecent == false
+        {
+            if isFiltered != true
+            {
+                let entry = saveContactList[indexPath.row]
         
-        print("chech tableview Data",entry)
+                print("chech tableview Data",entry)
         
-        let email = entry.emailId
-        if (email == nil) {
-            userEmail = "No Email"
-        } else {
+                let email = entry.emailId
+                if (email == nil)
+                {
+                    userEmail = "No Email"
+                } else
+                {
             userEmail = email!
             
-            deviceEmailID.append(email!)
+           // deviceEmailID.append(email!)
             
-        }
+                }
         
         guard (isFromMenu) else {
             
@@ -641,7 +843,7 @@ extension XPContactViewController : UITableViewDelegate {
             self.navigationController?.popViewController(animated: true)
             emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
             return
-        }
+                }
         
         let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPContactModeViewController") as! XPContactModeViewController
         self.addChildViewController(popController)
@@ -658,7 +860,133 @@ extension XPContactViewController : UITableViewDelegate {
 //        self.navigationController?.pushViewController(storyBoard, animated: true)
         //self.dismiss(animated: true, completion: nil)
         
+          }
+            
+        else
+        {
+             let entry = filterData[indexPath.row]
+            
+            print("chech tableview Data",entry)
+            
+            let email = entry.emailId
+            if (email == nil)
+            {
+                userEmail = "No Email"
+            } else
+            {
+                userEmail = email!
+                
+                // deviceEmailID.append(email!)
+                
+            }
+            
+            guard (isFromMenu) else {
+                
+                guard (isFromAudio) else {
+                    //                let videoVC = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+                    //                videoVC.selectedUserEmail = userEmail
+                    //                videoVC.contactVideo = true
+                    
+                    let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+                    storyboard.selectedUserEmail = userEmail
+                    storyboard.contactVideo = true
+                    let navigation = UINavigationController.init(rootViewController: storyboard)
+                    self.navigationController?.present(navigation, animated: true, completion: nil)
+                    //                self.navigationController?.popViewController(animated: true)
+                    //                emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+                    //                self.navigationController?.pushViewController(videoVC, animated: true)
+                    return
+                }
+                self.navigationController?.popViewController(animated: true)
+                emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+                return
+            }
+
+            
+            
+//            guard (isFromMenu) else {
+//                self.navigationController?.popViewController(animated: true)
+//                emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+//                return
+//            }
+            
+//            let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
+//            storyBoard.selectContactEmail = true
+//            storyBoard.emailAddressLabel.text = userEmail
+//            self.navigationController?.pushViewController(storyBoard, animated: true)
+            
+            
+            
+            let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPContactModeViewController") as! XPContactModeViewController
+            self.addChildViewController(popController)
+            popController.contactUserEmail = userEmail
+            popController.view.frame = self.view.frame
+            self.view.addSubview(popController.view)
+            popController.didMove(toParentViewController: self)
+            
+            
+        }
+    }
+        
+    
+    else
+    {
+    let entry = saveContactList1[indexPath.row]
+    
+    print("chech tableview Data",entry)
+    
+    let email = entry.emailId
+    if (email == nil)
+    {
+    userEmail = "No Email"
+    } else
+    {
+    userEmail = email!
+    
+    // deviceEmailID.append(email!)
+    
     }
     
-}
+    guard (isFromMenu) else {
+    
+    guard (isFromAudio) else {
+    //                let videoVC = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+    //                videoVC.selectedUserEmail = userEmail
+    //                videoVC.contactVideo = true
+    
+    let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+    storyboard.selectedUserEmail = userEmail
+    storyboard.contactVideo = true
+    let navigation = UINavigationController.init(rootViewController: storyboard)
+    self.navigationController?.present(navigation, animated: true, completion: nil)
+    //                self.navigationController?.popViewController(animated: true)
+    //                emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+    //                self.navigationController?.pushViewController(videoVC, animated: true)
+    return
+    }
+    self.navigationController?.popViewController(animated: true)
+    emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+    return
+    }
+    
+    let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPContactModeViewController") as! XPContactModeViewController
+    self.addChildViewController(popController)
+    popController.contactUserEmail = userEmail
+    popController.view.frame = self.view.frame
+    self.view.addSubview(popController.view)
+    popController.didMove(toParentViewController: self)
+    
+    
+    
+    //        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
+    //        storyBoard.selectContactEmail = true
+    //        storyBoard.emailAddressLabel.text = userEmail
+    //        self.navigationController?.pushViewController(storyBoard, animated: true)
+    //self.dismiss(animated: true, completion: nil)
 
+    
+    }
+        
+  }
+
+}

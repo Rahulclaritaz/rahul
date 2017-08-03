@@ -41,10 +41,65 @@ class XPContactTableViewCell: UITableViewCell {
     
     func configureWithContactEntry(_ contact: ContactList)
     {
-        contactUserName?.text = contact.userName
-        contactUserEmail?.text = contact.emailId!
-        contactUserProfile?.image = contact.imageData ?? UIImage(named: "intro_bg.png")
+        contactUserProfile?.image = nil
+        
+        setCircularAvatar()
+        
+        
+        if expressEmailId.contains(contact.emailId)
+        {
+            contactType?.image =  UIImage(named: "ExpressUser")
+        }
+            
+        else{
+            contactType?.image =  UIImage(named: "ContactUser")
+            
+        }
+        
+        
+        if contact.imageData != nil
+        {
+            
+            contactUserName?.text = contact.userName
+            contactUserEmail?.text = contact.emailId!
+            contactUserProfile?.image = contact.imageData
+            
+        }
+        else
+        {
+            
+            
+            contactUserName?.text = contact.userName
+            contactUserEmail?.text = contact.emailId!
+            contactUserProfile?.image = UIImage(named: "")
+            
+            
+        }
+        
+    }
+    
+    func configureWithContactEntry1(_ contact : ContactList)
+    {
+        
+        contactType?.image =  UIImage(named: "ExpressUser")
+         
+        if contact.imageData != nil
+        {
+         
+            contactUserName?.text = contact.userName
+            contactUserEmail?.text = contact.emailId!
+            contactUserProfile?.image = contact.imageData
+            
+        }
+        else
+        {
+            contactUserName?.text = contact.userName
+            contactUserEmail?.text = contact.emailId!
+            contactUserProfile?.image = UIImage(named: "")
+        }
+        
         setCircularAvatar()
     }
+    
 
 }
