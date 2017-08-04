@@ -401,17 +401,16 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         self.view.layoutIfNeeded()
         
-        UIView.animate(withDuration: 0.3, animations: {
-            
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
             self.navigationController?.navigationBar.isHidden = false
             
             self.collectionViewWidth.constant = 160
             
             self.view.layoutIfNeeded()
-            
-            
-        })
+        }, completion: nil)
         
+       
         searchBar.resignFirstResponder()
         
         
@@ -802,6 +801,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
              let checkUserLike = publicData["isUserLiked"] as! Int
             
             let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
+            
+         
+            
+
             
             playViewController.playTitle = playTitle
             
@@ -1216,12 +1219,13 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
     self.view.layoutIfNeeded()
     
-    UIView.animate(withDuration: 0.3, animations: {
-        self.navigationController?.navigationBar.isHidden = true
+    UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut, animations: {
+        self.navigationController?.navigationBar.isHidden = false
+        
         self.collectionViewWidth.constant = -160
         
         self.view.layoutIfNeeded()
-    })
+    }, completion: nil)
     
     
                return true
@@ -1246,12 +1250,14 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     
         self.view.layoutIfNeeded()
         
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseIn, animations: {
             self.navigationController?.navigationBar.isHidden = false
+            
             self.collectionViewWidth.constant = 160
             
             self.view.layoutIfNeeded()
-        })
+        }, completion: nil)
+        
         
         
         searchBar.resignFirstResponder()

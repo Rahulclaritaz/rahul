@@ -353,6 +353,8 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
              getContact()
              getWebServiceContact()
             
+            DispatchQueue.main.async {
+            
             self.view.layoutIfNeeded()
             
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
@@ -364,6 +366,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
                 
             }, completion: nil)
             
+            }
             
        }
         else
@@ -373,6 +376,9 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
              getContact()
             getWebServiceContact()
             getRecentWebServiceContact()
+            
+            DispatchQueue.main.async {
+            
             
             self.view.layoutIfNeeded()
             
@@ -385,7 +391,9 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
             }, completion: nil)
             
             
-           
+            }
+            
+            
             
         }
 
@@ -545,13 +553,10 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         
         isRecent = true
         
-      let emailIdData = "mathan6@gmail.com"
         
     saveContactList1 = saveContactList.filter({
-        
-        
-            
-    return $0.emailId.lowercased().range(of: emailIdData) != nil
+      
+    return $0.emailId.lowercased().range(of: UserDefaults.standard.object(forKey: "toEmailAddress") as! String) != nil
              
         })
         
@@ -561,86 +566,10 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
             
         }
         
-       
-        //$0.emailId.lowercased().range(of: searchText.lowercased(), options: .caseInsensitive) != nil
-    //})
-
-    
-        /*
-  let recentEmailId = ["mathan6@gmail.com","kuralms@gmail.com"]
-  
-    if ( recentEmailId.count != 0 )
-    {
-    let para1 = { ["contactList" :  recentEmailId ] }
         
-    webReference.getPrivateAcceptRejectWebService2(urlString: urlReference.getXpressContact(), dicData: para1() , callback: { (myData ,error)   in
+        print("mathan check",saveContactList1)
         
-    let getIxpressContactList1 = myData["data"] as! [[String:Any]]
        
-                    if  getIxpressContactList1.isEmpty
-                    {
-                        print("No Data")
-                    }
-       
-                    else
-                    {
-                for xpressContactList in getIxpressContactList1
-                        {
-                    
-                            let newRecentData = RecentContactList()
-                    
-                            print("name mathan",xpressContactList["user_name"] as! String)
-                    
-                            newRecentData.userNameRecent = xpressContactList["user_name"] as! String
-                    
-                            newRecentData.emailIdRecent = xpressContactList["email_id"] as! String
-               
-                    
-                            let imageString = xpressContactList["profile_image"] as! String
-                    
-                            DispatchQueue.global(qos: .background).async
-                                {
-                                    let url = URL(string: imageString)
-                            
-                                    let sess = URLSession.shared
-                            
-                                    let dataTask = sess.dataTask(with: url!, completionHandler:
-                                    { ( data,response,error) in
-                                
-                                        DispatchQueue.main.async
-                                            {
-                                        
-                                        newRecentData.imageDataRecent = UIImage(data: data!)!
-                                        
-                                        self.contactTableView?.reloadData()
-                                            }
-                            
-                                    })
-                            
-                            dataTask.resume()
-                   
-                    }
-                 
-                     self.saveRecentContactList.append(newRecentData)
-                 
-                }
-              
-            }
-            
-            
-            print("mathan check", self.saveRecentContactList.count)
-            print("totoda data",self.saveRecentContactList)
-            
-            
-        })
-            
-            
-            
-        }
-            
-       
-     */
-        
         
     }
     
@@ -692,7 +621,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
            
             filterData = saveContactList.filter({
              
-         return $0.emailId.lowercased().range(of: searchText.lowercased(), options: .caseInsensitive) != nil
+         return $0.userName.lowercased().range(of: searchText.lowercased(), options: .caseInsensitive) != nil
             })
             
             DispatchQueue.main.async
@@ -746,19 +675,7 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
         
         if isRecent == false
         {
-    
-//            if indexPath.row < getIxpressContactList.count
-//            {
-//                cell.contactType?.image =  UIImage(named: "ExpressContact")
-//            }
-//            
-//            else{
-//                cell.contactType?.image =  UIImage(named: "ContactUser")
-//                
-//            }
-            
-            
-            
+      
             if isFiltered == false
             {
                 
@@ -790,7 +707,6 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
                 return cell
            
         }
-         
         
         return cell
     }
