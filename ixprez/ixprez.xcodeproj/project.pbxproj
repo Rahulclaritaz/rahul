@@ -57,9 +57,11 @@
 		13B06F311EB214BA00BD439C /* ChangeEmailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F301EB214BA00BD439C /* ChangeEmailViewController.swift */; };
 		13B06F351EB30AE500BD439C /* intro_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 13B06F341EB30AE500BD439C /* intro_bg.png */; };
 		13B06F3B1EB3502600BD439C /* WelcomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13B06F3A1EB3502600BD439C /* WelcomePageViewController.swift */; };
+		5185B6636F44DED900A9A377 /* libPods-ixprez.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A9BF2112B88836AA53894E /* libPods-ixprez.a */; };
 		8501FC731F163D4A00C94926 /* XPDashBoardHeartXpressionCountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8501FC721F163D4A00C94926 /* XPDashBoardHeartXpressionCountViewController.swift */; };
 		850A98401F1669C200AF81F2 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 850A983D1F1669C200AF81F2 /* UIBarButtonItem+Badge.m */; };
 		850A98411F1669C200AF81F2 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 850A983F1F1669C200AF81F2 /* UIButton+Badge.m */; };
+		85348C2F1F35CD590030D692 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85348C2E1F35CD590030D692 /* GoogleService-Info.plist */; };
 		8542F2481F03AFA6006FFCE5 /* StretchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */; };
 		8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */; };
 		8542F24D1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */; };
@@ -133,6 +135,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		10F0D17684697CE120F68291 /* Pods-ixprez.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ixprez.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ixprez/Pods-ixprez.debug.xcconfig"; sourceTree = "<group>"; };
 		130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchViewController.swift; sourceTree = "<group>"; };
 		130FD8E61EB8819F00026975 /* URLDirectory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLDirectory.swift; sourceTree = "<group>"; };
 		130FD8E91EB887CB00026975 /* XPWebService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPWebService.swift; sourceTree = "<group>"; };
@@ -196,6 +199,7 @@
 		850A983D1F1669C200AF81F2 /* UIBarButtonItem+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Badge.m"; sourceTree = "<group>"; };
 		850A983E1F1669C200AF81F2 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		850A983F1F1669C200AF81F2 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
+		85348C2E1F35CD590030D692 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeader.swift; sourceTree = "<group>"; };
 		8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeaderOptions.swift; sourceTree = "<group>"; };
 		8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashBoardProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -283,7 +287,9 @@
 		85BCA1F01EE2B5DB009C4B02 /* XPSearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSearchTableViewCell.swift; sourceTree = "<group>"; };
 		85C4343D1F0644580046EE25 /* ContactEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactEntry.swift; sourceTree = "<group>"; };
 		85DE17A61EC70E1E00CD9671 /* XPAudioRecordingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPAudioRecordingViewController.swift; sourceTree = "<group>"; };
+		C0A9BF2112B88836AA53894E /* libPods-ixprez.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ixprez.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2351C501EC10A4500289865 /* XPLanguageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPLanguageTableViewCell.swift; sourceTree = "<group>"; };
+		E702E0D2D5D1DCEAC990113C /* Pods-ixprez.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ixprez.release.xcconfig"; path = "Pods/Target Support Files/Pods-ixprez/Pods-ixprez.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,6 +300,7 @@
 				8558BF571ECC7FCD00270E1F /* ContactsUI.framework in Frameworks */,
 				8573CE9A1EC18CB900E42CD6 /* CoreTelephony.framework in Frameworks */,
 				13111E821EB20C42003661C2 /* UIKit.framework in Frameworks */,
+				5185B6636F44DED900A9A377 /* libPods-ixprez.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +365,7 @@
 				13111E681EB1F0C5003661C2 /* proximanova-regular-webfont_0.ttf */,
 				13111E691EB1F0C5003661C2 /* ProximaNovaSoft-Bold.otf */,
 				13111E6A1EB1F0C5003661C2 /* ProximaNova-Light_0.otf */,
+				C0A9BF2112B88836AA53894E /* libPods-ixprez.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -441,6 +449,7 @@
 				859A22EF1EB1ADDB008DD7F7 /* ixprez */,
 				859A22EE1EB1ADDB008DD7F7 /* Products */,
 				13111E621EB1F0C4003661C2 /* Frameworks */,
+				CA522B52497A0FBE01914592 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -455,6 +464,7 @@
 		859A22EF1EB1ADDB008DD7F7 /* ixprez */ = {
 			isa = PBXGroup;
 			children = (
+				85348C2E1F35CD590030D692 /* GoogleService-Info.plist */,
 				1311E8ED1F331DE200CEFA43 /* RecentContactList.swift */,
 				13110CE01F222BDC001DD214 /* ContactList.swift */,
 				85879EC61EC5988400337011 /* ixprez.entitlements */,
@@ -593,6 +603,15 @@
 			name = Extension;
 			sourceTree = "<group>";
 		};
+		CA522B52497A0FBE01914592 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				10F0D17684697CE120F68291 /* Pods-ixprez.debug.xcconfig */,
+				E702E0D2D5D1DCEAC990113C /* Pods-ixprez.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -600,9 +619,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 859A22FF1EB1ADDB008DD7F7 /* Build configuration list for PBXNativeTarget "ixprez" */;
 			buildPhases = (
+				CB0340E42963381B05BCD21E /* [CP] Check Pods Manifest.lock */,
 				859A22E91EB1ADDB008DD7F7 /* Sources */,
 				859A22EA1EB1ADDB008DD7F7 /* Frameworks */,
 				859A22EB1EB1ADDB008DD7F7 /* Resources */,
+				AD18A3CBA2F87972E86ADBE2 /* [CP] Embed Pods Frameworks */,
+				7ADEA231DCFC710B95BE4258 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -625,12 +647,18 @@
 				TargetAttributes = {
 					859A22EC1EB1ADDB008DD7F7 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 2RSE6PT96Q;
+						DevelopmentTeam = H56VR3YM9B;
 						LastSwiftMigration = 0830;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Keychain = {
 								enabled = 0;
+							};
+							com.apple.Push = {
+								enabled = 1;
 							};
 						};
 					};
@@ -661,6 +689,7 @@
 			files = (
 				13111E7A1EB1F101003661C2 /* ProximaNovaSoft-Bold.otf in Resources */,
 				13B06F351EB30AE500BD439C /* intro_bg.png in Resources */,
+				85348C2F1F35CD590030D692 /* GoogleService-Info.plist in Resources */,
 				13111E791EB1F0FE003661C2 /* proximanova-regular-webfont_0.ttf in Resources */,
 				13111E771EB1F0F6003661C2 /* proximanova-extrabold-webfont_0.ttf in Resources */,
 				859290A41F00FD22006A488D /* IQAudioRecorderController.bundle in Resources */,
@@ -677,6 +706,57 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7ADEA231DCFC710B95BE4258 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ixprez/Pods-ixprez-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AD18A3CBA2F87972E86ADBE2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ixprez/Pods-ixprez-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CB0340E42963381B05BCD21E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ixprez-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		859A22E91EB1ADDB008DD7F7 /* Sources */ = {
@@ -913,12 +993,14 @@
 		};
 		859A23001EB1ADDB008DD7F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 10F0D17684697CE120F68291 /* Pods-ixprez.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ixprez/ixprez.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2RSE6PT96Q;
+				DEVELOPMENT_TEAM = H56VR3YM9B;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Claritaz-Techlabs.ixprez";
@@ -932,12 +1014,14 @@
 		};
 		859A23011EB1ADDB008DD7F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E702E0D2D5D1DCEAC990113C /* Pods-ixprez.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ixprez/ixprez.entitlements;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2RSE6PT96Q;
+				DEVELOPMENT_TEAM = H56VR3YM9B;
 				INFOPLIST_FILE = ixprez/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Claritaz-Techlabs.ixprez";
