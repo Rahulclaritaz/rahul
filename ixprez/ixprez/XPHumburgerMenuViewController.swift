@@ -16,6 +16,10 @@ class XPHumburgerMenuViewController: UIViewController {
     @IBOutlet weak var humburgerMenuUserName : UILabel?
     let dashBoardCommonService = XPWebService()
     let userPrifileURL = URLDirectory.UserProfile()
+    let getMenuHeartCountWebService  = PrivateWebService()
+    let menuHeartScreenCount = URLDirectory.Setting()
+    var dashboardCountData = [String : AnyObject]()
+    var heartButtonBadgeCount = Int()
     var userEmail = String ()
     var imageGesture =  UITapGestureRecognizer()
     
@@ -27,6 +31,7 @@ class XPHumburgerMenuViewController: UIViewController {
         
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
         humburgerMenuUserName?.text = UserDefaults.standard.value(forKey: "userName") as! String
+        self.menuXpressionCount()
          self.getUserProfile()
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
@@ -34,8 +39,7 @@ class XPHumburgerMenuViewController: UIViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-        self.navigationItem.leftBarButtonItem?.badgeValue = "757"
-        
+    
         humburgerMenuUserProfile?.layer.masksToBounds = true
         humburgerMenuUserProfile?.layer.cornerRadius = (self.humburgerMenuUserProfile?.frame.size.width)!/2
         humburgerMenuUserProfile?.clipsToBounds = true
@@ -69,7 +73,23 @@ class XPHumburgerMenuViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-       
+       self.navigationItem.leftBarButtonItem?.badgeValue = String(self.heartButtonBadgeCount)
+    }
+    
+    // This method will call when clik on the trending button
+    
+    func menuXpressionCount() {
+        
+        let parameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress"), "PreviousCount" : 0 ]
+        
+        getMenuHeartCountWebService.getPrivateData(urlString: menuHeartScreenCount.getPrivateData(), dicData: parameter) { (response, error) in
+            print("the dashboard count is \(response)")
+            self.dashboardCountData = response["data"] as! [String : AnyObject]
+            self.heartButtonBadgeCount = self.dashboardCountData["TotalNumberofrecords"] as! Int
+            print("The dashboard heart expression count is \(self.heartButtonBadgeCount)")
+           
+        }
+        
     }
     
     // This method will logout the application
