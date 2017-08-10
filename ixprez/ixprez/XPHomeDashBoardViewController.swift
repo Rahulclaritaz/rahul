@@ -8,7 +8,7 @@
 
 import UIKit
 
-class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate,SWRevealViewControllerDelegate,UIScrollViewDelegate {
+class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCarouselDelegate,SWRevealViewControllerDelegate,UIScrollViewDelegate,DashBoardHeartButtonDelegate {
     
 
     var trendingLikeCount = NSArray ()
@@ -27,6 +27,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
     var userProfileImageResponseURl = String ()
+    var isHeartButtonTapped = Bool()
     @IBOutlet weak var xpressBGView = UIView ()
     @IBOutlet var carousel: iCarousel?
     @IBOutlet weak var xpressScrollView = UIScrollView ()
@@ -209,13 +210,24 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
    @IBAction func xpressionHeartButtonAction (sender : AnyObject) {
     
-   let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPDashBoardHeartXpressionCountViewController") as! XPDashBoardHeartXpressionCountViewController
-    popController.countExpression = self.dashboardHeartButtonCount
-    self.addChildViewController(popController)
-    popController.view.frame = self.view.frame
-    self.view.addSubview(popController.view)
-    popController.didMove(toParentViewController: self)
+    guard isHeartButtonTapped else {
+        let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPDashBoardHeartXpressionCountViewController") as! XPDashBoardHeartXpressionCountViewController
+        popController.countExpression = self.dashboardHeartButtonCount
+        isHeartButtonTapped = true
+        popController.delegate = self
+        self.addChildViewController(popController)
+        popController.view.frame = self.view.frame
+        self.view.addSubview(popController.view)
+        popController.didMove(toParentViewController: self)
+        return
+    }
+    
+   
         
+    }
+    // This is the delegate function will check for heartbutton clicked or not
+    func dashBoardHeartButtonCount(isTapped: Bool) {
+         isHeartButtonTapped  = isTapped
     }
     
     func gotoSettingView(gesture: UIGestureRecognizer )
@@ -1067,8 +1079,8 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
         
       
         // This will add the icarousel in tableviewcell.
-        cellDashBoard.cellCarousel?.type = .rotary
-        cellDashBoard.cellCarousel?.autoscroll = 0.4
+        cellDashBoard.cellCarousel?.type = .coverFlow
+        cellDashBoard.cellCarousel?.autoscroll = 0.25
         
         
         xpressTableView?.tableHeaderView = cellDashBoard
