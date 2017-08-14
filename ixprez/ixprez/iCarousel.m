@@ -648,8 +648,8 @@ NSComparisonResult compareViewDepth(UIView *view1, UIView *view2, iCarousel *sel
                 }
             }
             
-            CGFloat x = (clampedOffset * 0.5 * tilt + offset * spacing) * _itemWidth;
-            CGFloat z = fabs(clampedOffset) * -_itemWidth * 0.5;
+            CGFloat x = (clampedOffset * 0.6 * tilt + offset * spacing) * _itemWidth;
+            CGFloat z = fabs(clampedOffset) * -_itemWidth * 2.0;
             
             if (_vertical)
             {

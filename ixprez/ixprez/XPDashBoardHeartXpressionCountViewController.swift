@@ -8,12 +8,17 @@
 
 import UIKit
 
+protocol DashBoardHeartButtonDelegate {
+    func dashBoardHeartButtonCount (isTapped : Bool)
+}
+
 class XPDashBoardHeartXpressionCountViewController: UIViewController {
     
     var tapGesture = UITapGestureRecognizer ()
   @IBOutlet weak var countExpressionLabel = UILabel ()
     @IBOutlet weak var imageView = UIImageView ()
     var countExpression = Int ()
+     var delegate : DashBoardHeartButtonDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +26,7 @@ class XPDashBoardHeartXpressionCountViewController: UIViewController {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeTheView(sender:)))
         self.view.addGestureRecognizer(tapGesture)
         self.countExpressionLabel?.text = String(countExpression)
+       
         
         
 
@@ -40,6 +46,7 @@ class XPDashBoardHeartXpressionCountViewController: UIViewController {
  
     func removeTheView (sender: AnyObject) {
         print("you click on the xpression heart touch screen")
+        delegate?.dashBoardHeartButtonCount(isTapped: false)
        self.view.removeFromSuperview()
     }
     
