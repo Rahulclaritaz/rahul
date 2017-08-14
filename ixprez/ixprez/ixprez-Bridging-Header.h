@@ -7,4 +7,5 @@
 #import "SWRevealViewController.h"
 #import "IQAudioRecorderViewController.h"
 #import "UIBarButtonItem+Badge.h"
+#import "CameraDemoViewController.h"
 
