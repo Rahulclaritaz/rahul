@@ -78,7 +78,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Or Foes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1St-eQ-KZL">
-                                <rect key="frame" x="151" y="520" width="73" height="30"/>
+                                <rect key="frame" x="151.5" y="520" width="73" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="rKs-tb-HDT"/>
                                 </constraints>
@@ -489,15 +489,95 @@
                         <viewControllerLayoutGuide type="top" id="T3Z-oO-G3B"/>
                         <viewControllerLayoutGuide type="bottom" id="tEd-ol-I5i"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="NXl-3m-xex">
+                    <view key="view" contentMode="scaleToFill" id="NXl-3m-xex" customClass="GLKView">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oao-KX-iNV">
+                                <rect key="frame" x="0.0" y="487" width="375" height="180"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:40" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MsO-cI-oha">
+                                        <rect key="frame" x="87" y="7" width="200" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="22"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jMe-bb-xW2">
+                                        <rect key="frame" x="156" y="102" width="62" height="62"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.3294117647" green="0.77647058820000003" blue="0.90588235289999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Bl-0X-PT7">
+                                        <rect key="frame" x="165" y="111" width="44" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="VideoCameraIcon"/>
+                                        <state key="selected" image="MicrophonePlayingImage"/>
+                                        <connections>
+                                            <action selector="videoRecordStartButtonAction:" destination="uur-rf-FLj" eventType="touchUpInside" id="Mkr-QC-IrK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHp-A8-nlx">
+                                        <rect key="frame" x="2" y="118" width="65" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="16"/>
+                                        <state key="normal" title="Reset">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tp3-ol-RnD">
+                                        <rect key="frame" x="238" y="118" width="65" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="16"/>
+                                        <state key="normal" title="Invert">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wrc-tS-7tW">
+                                        <rect key="frame" x="308" y="118" width="65" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="16"/>
+                                        <state key="normal" title="Texture">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4j0-Oi-8uU">
+                                        <rect key="frame" x="72" y="118" width="65" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="MoskMedium500" family="Mosk" pointSize="16"/>
+                                        <state key="normal" title="Instant">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fU7-Sq-1PC">
+                                        <rect key="frame" x="321" y="9" width="30" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="SelfiCameraIcon"/>
+                                        <connections>
+                                            <action selector="cameraSwitchButtonAction:" destination="uur-rf-FLj" eventType="touchUpInside" id="QrN-su-aUm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="bottonFilterView" destination="oao-KX-iNV" id="gr1-TP-Tvw"/>
+                        <outlet property="countdownLabel" destination="MsO-cI-oha" id="pE4-zn-7nS"/>
+                        <outlet property="videoButton" destination="9Bl-0X-PT7" id="cJK-9o-hcI"/>
+                        <outlet property="videoButtonBG" destination="jMe-bb-xW2" id="ovU-ae-Wh7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="86L-qB-hLH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5206" y="-564"/>
+            <point key="canvasLocation" x="5205.6000000000004" y="-564.46776611694156"/>
         </scene>
         <!--Camera Stop View Controller-->
         <scene sceneID="Vjz-96-FC3">
@@ -1487,7 +1567,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDo-wh-bqB">
-                                                    <rect key="frame" x="98" y="0.0" width="54" height="60"/>
+                                                    <rect key="frame" x="98.5" y="0.0" width="54" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="mOH-Mi-9o5"/>
                                                     </constraints>
@@ -1496,7 +1576,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AudioRightImage" translatesAutoresizingMaskIntoConstraints="NO" id="suB-Y7-uUv">
-                                                    <rect key="frame" x="159.5" y="20" width="20" height="20"/>
+                                                    <rect key="frame" x="160" y="20" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="At2-zM-n5G"/>
                                                         <constraint firstAttribute="height" constant="20" id="LZd-DD-st6"/>
@@ -4667,7 +4747,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UploadSmiley" translatesAutoresizingMaskIntoConstraints="NO" id="FcE-h2-8wP">
-                                                                    <rect key="frame" x="72" y="4" width="13" height="13"/>
+                                                                    <rect key="frame" x="71.5" y="4" width="13" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="13" id="exK-sW-JTu"/>
                                                                         <constraint firstAttribute="height" constant="13" id="giY-6Y-FIl"/>
@@ -4683,7 +4763,7 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duN-Xn-qJ0">
-                                                                    <rect key="frame" x="87" y="5.5" width="20" height="10.5"/>
+                                                                    <rect key="frame" x="86.5" y="5.5" width="20" height="10.5"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" secondItem="duN-Xn-qJ0" secondAttribute="height" multiplier="13:7" id="qEH-vz-OqQ"/>
                                                                     </constraints>

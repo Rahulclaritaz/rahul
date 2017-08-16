@@ -459,6 +459,25 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		85730F091F41DAF60054272A /* CameraFilter */ = {
+			isa = PBXGroup;
+			children = (
+				8549E4791F417AC8005FF246 /* demoUtils.h */,
+				8549E47A1F417AC8005FF246 /* demoUtils.m */,
+				8549E47B1F417AC8005FF246 /* FilterDemoViewController.h */,
+				8549E47C1F417AC8005FF246 /* FilterDemoViewController.m */,
+				8549E47D1F417AC8005FF246 /* CameraDemoViewController.h */,
+				8549E47E1F417AC8005FF246 /* CameraDemoViewController.m */,
+				8549E47F1F417AC8005FF246 /* PlayerDemoController.h */,
+				8549E4801F417AC8005FF246 /* PlayerDemoController.m */,
+				8549E4811F417AC8005FF246 /* GifDemoViewController.h */,
+				8549E4821F417AC8005FF246 /* GifDemoViewController.m */,
+				8549E4831F417AC8005FF246 /* SimpleTestCasesViewController.h */,
+				8549E4841F417AC8005FF246 /* SimpleTestCasesViewController.m */,
+			);
+			name = CameraFilter;
+			sourceTree = "<group>";
+		};
 		859290821F00FD21006A488D /* IQAudioRecorderController */ = {
 			isa = PBXGroup;
 			children = (
@@ -568,18 +587,7 @@
 				8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */,
 				8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */,
 				8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */,
-				8549E4791F417AC8005FF246 /* demoUtils.h */,
-				8549E47A1F417AC8005FF246 /* demoUtils.m */,
-				8549E47B1F417AC8005FF246 /* FilterDemoViewController.h */,
-				8549E47C1F417AC8005FF246 /* FilterDemoViewController.m */,
-				8549E47D1F417AC8005FF246 /* CameraDemoViewController.h */,
-				8549E47E1F417AC8005FF246 /* CameraDemoViewController.m */,
-				8549E47F1F417AC8005FF246 /* PlayerDemoController.h */,
-				8549E4801F417AC8005FF246 /* PlayerDemoController.m */,
-				8549E4811F417AC8005FF246 /* GifDemoViewController.h */,
-				8549E4821F417AC8005FF246 /* GifDemoViewController.m */,
-				8549E4831F417AC8005FF246 /* SimpleTestCasesViewController.h */,
-				8549E4841F417AC8005FF246 /* SimpleTestCasesViewController.m */,
+				85730F091F41DAF60054272A /* CameraFilter */,
 			);
 			name = Dashboard;
 			sourceTree = "<group>";

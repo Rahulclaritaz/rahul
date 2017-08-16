@@ -10,23 +10,26 @@
 #import "cgeVideoCameraViewHandler.h"
 #import "demoUtils.h"
 #import "cgeCustomFilters.h"
+#import <ixprez-Swift.h>
 
 #define SHOW_FULLSCREEN 0
 #define RECORD_WIDTH 480
 #define RECORD_HEIGHT 640
+#define NAVIGATION_HEIGHT 64
+#define BOTTOMFILTER_HEIGHTBG 200
 
 #define _MYAVCaptureSessionPreset(w, h) AVCaptureSessionPreset ## w ## x ## h
 #define MYAVCaptureSessionPreset(w, h) _MYAVCaptureSessionPreset(w, h)
 
 static const char* const s_functionList[] = {
     "mask", //0
-    "Pause", //1
+    //"Pause", //1
     "Beautify", //2
-    "PreCalc", //3
-    "TakeShot", //4
-    "Torch", //5
+    //"PreCalc", //3
+    //"TakeShot", //4
+    //"Torch", //5
     "Resolution", //6
-    "CropRec", //7
+    //"CropRec", //7
     "MyFilter0", //8
     "MyFilter1", //9
     "MyFilter2", //10
@@ -44,6 +47,13 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 @property (nonatomic) GLKView* glkView;
 @property (nonatomic) int currentFilterIndex;
 @property (nonatomic) NSURL* movieURL;
+@property (nonatomic)IBOutlet UIView* bottonFilterView;
+@property (nonatomic) IBOutlet UIView* videoButtonBG;
+@property (nonatomic) IBOutlet UIButton* videoButton;
+@property (nonatomic) BOOL isVideoButtonSelected;
+@property (nonatomic) NSTimer* videoTimer;
+@property (nonatomic) int countDownTime;
+@property (nonatomic)IBOutlet UILabel* countdownLabel;
 @end
 
 @implementation CameraDemoViewController
@@ -125,7 +135,8 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     [super viewDidLoad];
     
     _movieURL = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"]];
-    
+    _videoButtonBG.layer.cornerRadius = _videoButtonBG.frame.size.width/2;
+    _videoButtonBG.clipsToBounds = true;
     CGRect rt = [[UIScreen mainScreen] bounds];
     
     CGRect sliderRT = [_intensitySlider bounds];
@@ -148,7 +159,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     x = (rt.size.width - w) / 2.0;
     y = (rt.size.height - h) / 2.0;
     
-    _glkView = [[GLKView alloc] initWithFrame: CGRectMake(x, y, w, h)];
+    _glkView = [[GLKView alloc] initWithFrame: CGRectMake(x, NAVIGATION_HEIGHT, w, RECORD_HEIGHT)];
     
 #endif
 
@@ -167,10 +178,21 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
         [alert show];
     }
     [self.view addSubview:_glkView];
-//    [self.view insertSubview:_glkView belowSubview:_quitBtn];
+    _bottonFilterView.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.1];
+    [self.view bringSubviewToFront:_bottonFilterView];
+
+    // This will create the bottom view.
+//    _bottonFilterView = [[UIView alloc] initWithFrame:CGRectMake(rt.origin.x, rt.size.height - 200, rt.size.width, BOTTOMFILTER_HEIGHTBG)];
+//    _bottonFilterView.backgroundColor = [UIColor grayColor];
+//    [self.view addSubview:_bottonFilterView];
+//    [self.view bringSubviewToFront:_bottonFilterView];
+//    UILabel *timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(rt.size.width/2 - 40.0, 10.0, 80.0, 50.0)];
+//    timerLabel.text = @"00:40";
+//    [_bottonFilterView addSubview:timerLabel];
+    
     
     CGRect scrollRT = rt;
-    scrollRT.origin.y = scrollRT.size.height - 60;
+    scrollRT.origin.y = scrollRT.size.height - 140;
     scrollRT.size.height = 50;
     _myScrollView = [[UIScrollView alloc] initWithFrame:scrollRT];
     
@@ -192,23 +214,23 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     
     frame.size.width = 70;
     
-    for(int i = 0; i != g_configNum; ++i)
-    {
-        MyButton* btn = [[MyButton alloc] initWithFrame:frame];
-        
-        if(i == 0)
-            [btn setTitle:@"Origin" forState:UIControlStateNormal];
-        else
-            [btn setTitle:[NSString stringWithFormat:@"filter%d", i] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [btn.layer setBorderColor:[UIColor blueColor].CGColor];
-        [btn.layer setBorderWidth:1.5f];
-        [btn.layer setCornerRadius:10.0f];
-        [btn setIndex:i];
-        [btn addTarget:self action:@selector(filterButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_myScrollView addSubview:btn];
-        frame.origin.x += frame.size.width;
-    }
+//    for(int i = 0; i != g_configNum; ++i)
+//    {
+//        MyButton* btn = [[MyButton alloc] initWithFrame:frame];
+//        
+//        if(i == 0)
+//            [btn setTitle:@"Origin" forState:UIControlStateNormal];
+//        else
+//            [btn setTitle:[NSString stringWithFormat:@"filter%d", i] forState:UIControlStateNormal];
+//        [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//        [btn.layer setBorderColor:[UIColor blueColor].CGColor];
+//        [btn.layer setBorderWidth:1.5f];
+//        [btn.layer setCornerRadius:10.0f];
+//        [btn setIndex:i];
+//        [btn addTarget:self action:@selector(filterButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+//        [_myScrollView addSubview:btn];
+//        frame.origin.x += frame.size.width;
+//    }
     
     _myScrollView.contentSize = CGSizeMake(frame.origin.x, 50);
     
@@ -226,6 +248,14 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     [[_myCameraViewHandler cameraRecorder] setPictureHighResolution:YES];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    _countDownTime = 40;
+//    _countdownLabel = [[UILabel alloc] initWithFrame:CGRectMake(155, 270, 100, 40)];
+    _countdownLabel.text = @"00 : 40";
+    _countdownLabel.textColor = [UIColor whiteColor];
+    _countdownLabel.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -236,6 +266,52 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 {
     [super viewDidDisappear:animated];
     NSLog(@"view disappear.");
+}
+
+-(IBAction) cameraSwitchButtonAction : (UIButton*)sender {
+    
+}
+
+-(IBAction)videoRecordStartButtonAction: (UIButton*)sender {
+    
+    if(_isVideoButtonSelected) {
+        [_videoTimer invalidate];
+        _countdownLabel.text = nil;
+        UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
+        [self.navigationController pushViewController:stopView animated:true];
+        
+    } else {
+        _videoButtonBG.backgroundColor = [UIColor orangeColor];
+        _isVideoButtonSelected = true;
+//        [_videoButton setBackgroundImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
+        [_videoButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
+        _videoTimer = [[NSTimer alloc] init];
+        _videoTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countDownTimer) userInfo:nil repeats:true];
+        
+    }
+        
+    
+}
+
+-(void)videoRecordingStopButtonAction: (UIButton*)sender {
+    
+}
+
+-(void)countDownTimer {
+    
+    if (_countDownTime > 0) {
+        _countDownTime = _countDownTime - 1;
+        NSString *countTimeString = [NSString stringWithFormat:@"%d", _countDownTime];
+        _countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
+    } else {
+        [_videoTimer invalidate];
+        _countdownLabel.text = nil;
+        UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+       XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
+        [self.navigationController pushViewController:stopView animated:true];
+    }
+    
 }
 
 - (void)filterButtonClicked: (MyButton*)sender
@@ -442,19 +518,19 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
         case 0:
             [self setMask];
             break;
+//        case 1:
+//            if([[_myCameraViewHandler cameraDevice] captureIsRunning])
+//            {
+//                [[_myCameraViewHandler cameraDevice] stopCameraCapture];
+//                [sender setTitle:@"Start Cam" forState:UIControlStateNormal];
+//            }
+//            else
+//            {
+//                [[_myCameraViewHandler cameraDevice] startCameraCapture];
+//                [sender setTitle:@"Stop Cam" forState:UIControlStateNormal];
+//            }
+//            break;
         case 1:
-            if([[_myCameraViewHandler cameraDevice] captureIsRunning])
-            {
-                [[_myCameraViewHandler cameraDevice] stopCameraCapture];
-                [sender setTitle:@"Start Cam" forState:UIControlStateNormal];
-            }
-            else
-            {
-                [[_myCameraViewHandler cameraDevice] startCameraCapture];
-                [sender setTitle:@"Stop Cam" forState:UIControlStateNormal];
-            }
-            break;
-        case 2:
             
             //美颜
             if([_myCameraViewHandler isGlobalFilterEnabled])
@@ -470,7 +546,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
             }
 
             break;
-        case 3:
+/*        case 3:
             if([[_myCameraViewHandler cameraRecorder] processingDelegate] == nil)
             {
                 [[_myCameraViewHandler cameraRecorder] setProcessingDelegate:self];
@@ -501,26 +577,26 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
             
         case 5:
             [self switchTorchMode];
-            break;
-        case 6:
+            break; */
+        case 2:
             [self switchResolution];
             break;
-        case 7:
-            [self cropRecording:sender];
-            break;
-        case 8:
+//        case 7:
+//            [self cropRecording:sender];
+//            break;
+        case 3:
             [self setCustomFilter:CGE_CUSTOM_FILTER_0];
             break;
-        case 9:
+        case 4:
             [self setCustomFilter:CGE_CUSTOM_FILTER_1];
             break;
-        case 10:
+        case 5:
             [self setCustomFilter:CGE_CUSTOM_FILTER_2];
             break;
-        case 11:
+        case 6:
             [self setCustomFilter:CGE_CUSTOM_FILTER_3];
             break;
-        case 12:
+        case 7:
             [self setCustomFilter:CGE_CUSTOM_FILTER_4];
             break;
         default:
