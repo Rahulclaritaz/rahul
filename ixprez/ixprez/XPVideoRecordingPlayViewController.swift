@@ -333,7 +333,7 @@ class XPVideoRecordingPlayViewController: UIViewController,UINavigationControlle
         self.stopRecording()
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPVideoRecordingStopViewController") as! XPVideoRecordingStopViewController
         let countStopValue : String = (timerLabel?.text)!
-           storyBoard.videoFileURLPath = videoURLPath
+           storyBoard.videoFileURLPath = videoURLPath as URL
 //        storyBoard.titleLabel = titleString
 //        storyBoard.countLabelString = countStopValue as String
         self.navigationController?.pushViewController(storyBoard, animated: true)

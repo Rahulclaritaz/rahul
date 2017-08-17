@@ -70,12 +70,6 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     float currentIntensity = [sender value] * 3.0f - 1.0f; //[-1, 2]
     [_myCameraViewHandler setFilterIntensity: currentIntensity];
 }
-- (IBAction)switchCameraClicked:(id)sender {
-    [_myCameraViewHandler switchCamera :YES]; //Pass YES to mirror the front camera.
-
-    CMVideoDimensions dim = [[[_myCameraViewHandler cameraDevice] inputCamera] activeFormat].highResolutionStillImageDimensions;
-    NSLog(@"Max Photo Resolution: %d, %d\n", dim.width, dim.height);
-}
 
 - (IBAction)takePicture:(id)sender {
     [_myCameraViewHandler takePicture:^(UIImage* image){
@@ -130,11 +124,35 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     [_myCameraViewHandler setCameraFlashMode:flashLightList[flashLightIndex]];
 }
 
+
+-(IBAction)resetButtonAction:(id)sender {
+    
+}
+
+
+-(IBAction)instantButtonAction:(id)sender {
+    
+    [self setCustomFilter:CGE_CUSTOM_FILTER_3];
+    
+}
+
+-(IBAction)invertButtonAction:(id)sender {
+    [self setCustomFilter:CGE_CUSTOM_FILTER_1];
+}
+
+
+-(IBAction)textureButtonAction:(id)sender {
+    
+    [self setCustomFilter:CGE_CUSTOM_FILTER_2];
+}
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    _movieURL = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"]];
+    _movieURL = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Movie.mp4"]];
     _videoButtonBG.layer.cornerRadius = _videoButtonBG.frame.size.width/2;
     _videoButtonBG.clipsToBounds = true;
     CGRect rt = [[UIScreen mainScreen] bounds];
@@ -180,17 +198,6 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     [self.view addSubview:_glkView];
     _bottonFilterView.backgroundColor = [UIColor.blackColor colorWithAlphaComponent:0.1];
     [self.view bringSubviewToFront:_bottonFilterView];
-
-    // This will create the bottom view.
-//    _bottonFilterView = [[UIView alloc] initWithFrame:CGRectMake(rt.origin.x, rt.size.height - 200, rt.size.width, BOTTOMFILTER_HEIGHTBG)];
-//    _bottonFilterView.backgroundColor = [UIColor grayColor];
-//    [self.view addSubview:_bottonFilterView];
-//    [self.view bringSubviewToFront:_bottonFilterView];
-//    UILabel *timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(rt.size.width/2 - 40.0, 10.0, 80.0, 50.0)];
-//    timerLabel.text = @"00:40";
-//    [_bottonFilterView addSubview:timerLabel];
-    
-    
     CGRect scrollRT = rt;
     scrollRT.origin.y = scrollRT.size.height - 140;
     scrollRT.size.height = 50;
@@ -268,26 +275,64 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     NSLog(@"view disappear.");
 }
 
+// This method will switch the camera postion Front to rear
 -(IBAction) cameraSwitchButtonAction : (UIButton*)sender {
+    [_myCameraViewHandler switchCamera :YES]; //Pass YES to mirror the front camera.
     
+    CMVideoDimensions dim = [[[_myCameraViewHandler cameraDevice] inputCamera] activeFormat].highResolutionStillImageDimensions;
+    NSLog(@"Max Photo Resolution: %d, %d\n", dim.width, dim.height);
 }
 
+
+// This method will check video recording is playing or not.
 -(IBAction)videoRecordStartButtonAction: (UIButton*)sender {
     
     if(_isVideoButtonSelected) {
         [_videoTimer invalidate];
+        _isVideoButtonSelected = false;
         _countdownLabel.text = nil;
+        _videoButtonBG.backgroundColor = [UIColor colorWithRed:84.0/255.0 green:198.0/255.0 blue:231.0/255.0 alpha:1.0];
+        [_videoButton setImage:[UIImage imageNamed:@"VideoCameraIcon"] forState:UIControlStateNormal];
         UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
+        stopView.videoFileURLPath = _movieURL;
         [self.navigationController pushViewController:stopView animated:true];
         
     } else {
         _videoButtonBG.backgroundColor = [UIColor orangeColor];
         _isVideoButtonSelected = true;
-//        [_videoButton setBackgroundImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
+        //        [_videoButton setBackgroundImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
         [_videoButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
         _videoTimer = [[NSTimer alloc] init];
         _videoTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countDownTimer) userInfo:nil repeats:true];
+        
+        // Video will start record
+        [sender setEnabled:NO];
+        if([_myCameraViewHandler isRecording])
+        {
+            void (^finishBlock)(void) = ^{
+                NSLog(@"End recording...\n");
+                
+                [CGESharedGLContext mainASyncProcessingQueue:^{
+                    //                    [sender setTitle:@"Rec OK" forState:UIControlStateNormal];
+                    [sender setEnabled:YES];
+                }];
+                
+                // [DemoUtils saveVideo:_movieURL];
+                
+            };
+            
+            //        [_myCameraViewHandler endRecording:nil];
+            //        finishBlock();
+            [_myCameraViewHandler endRecording:finishBlock withCompressionLevel:0];
+        }
+        else
+        {
+            unlink([_movieURL.path UTF8String]);
+            [_myCameraViewHandler startRecording:_movieURL size:CGSizeMake(RECORD_WIDTH, RECORD_HEIGHT)];
+            // [sender setTitle:@"Recording" forState:UIControlStateNormal];
+            [sender setEnabled:YES];
+        }
         
     }
         
