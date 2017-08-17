@@ -21,20 +21,21 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     var cameraSession = AVCaptureSession ()
     var deviceInput = AVCaptureDeviceInput ()
     var urlData = NSData ()
+    var videoData = NSData()
     
     var countLabelString = String ()
     var titleLabel = String ()
     var registrationPage = RegistrationViewController ()
     var videoPage = XPVideoViewController ()
    @IBOutlet weak var bootomToolBarView = UIView ()
-    var videoFileURLPath = NSURL()
+    var videoFileURLPath : URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         print("The url path of the video file is \(videoFileURLPath)")
         self.title = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
-        self.countLabel?.text = countLabelString
+//        self.countLabel?.text = countLabelString
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         retryButton?.layer.cornerRadius = 25.0
@@ -43,19 +44,19 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         videoBGImage?.layer.cornerRadius = (videoBGImage?.frame.size.height)!/2
         videoBGImage?.layer.masksToBounds = false
         // this will create the thumbnail image for the video.
-        var err: NSError? = nil
-        let asset = AVURLAsset(url: videoFileURLPath as URL)
-        let imgGenerator = AVAssetImageGenerator(asset: asset)
-        //        let cgImage = imgGenerator.copyCGImageAtTime(CMTimeMake(0, 1), actualTime: nil, error: &err)
-        do {
-            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
-            thumbImageView = UIImage(cgImage: cgImage)
-            //            thumbImageView = UIImageView(image: uiImage)
-        } catch {
-            
-        }
-        videoThumbnailImage = UIImagePNGRepresentation(thumbImageView)! as NSData
-        urlData = NSData(data: videoThumbnailImage as Data )
+//        var err: NSError? = nil
+//        let asset = AVURLAsset(url: videoFileURLPath as URL)
+//        let imgGenerator = AVAssetImageGenerator(asset: asset)
+//        //        let cgImage = imgGenerator.copyCGImageAtTime(CMTimeMake(0, 1), actualTime: nil, error: &err)
+//        do {
+//            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
+//            thumbImageView = UIImage(cgImage: cgImage)
+//            //            thumbImageView = UIImageView(image: uiImage)
+//        } catch {
+//            
+//        }
+//        videoThumbnailImage = UIImagePNGRepresentation(thumbImageView)! as NSData
+//        urlData = NSData(data: videoThumbnailImage as Data )
         
         setupCameraSession()
         cameraSession.startRunning()
@@ -124,7 +125,17 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     }
     
     func uploadVideoToWebService () {
-         var videoData = NSData(contentsOf: videoFileURLPath as URL)
+        
+        do {
+           videoData = try NSData(contentsOf: videoFileURLPath!)
+        }
+        
+        catch {
+            print(" video data have problem.")
+        }
+        
+        
+//         var videoData = try NSData(contentsOf: videoFileURLPath!)
         
 //        var videoData = NSData(contentsOf: videoRecordURLString!)
         
@@ -222,9 +233,9 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         
         // This is the recorded Video parameter add in the web service.
         body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sampleVideo.mp4\"\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Movie.mp4\"\r\n")
         body.appendString("Content-Type: video/mp4\r\n\r\n")
-        let urlData = NSData(data: videoData! as Data)
+        let urlData = NSData(data: videoData as Data)
         body.append(urlData as Data)
         body.appendString("\r\n")
         
