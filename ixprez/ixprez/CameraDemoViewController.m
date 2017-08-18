@@ -22,19 +22,35 @@
 #define MYAVCaptureSessionPreset(w, h) _MYAVCaptureSessionPreset(w, h)
 
 static const char* const s_functionList[] = {
-    "mask", //0
+//    "mask", //0
     //"Pause", //1
-    "Beautify", //2
+//    "Beautify", //2
     //"PreCalc", //3
     //"TakeShot", //4
     //"Torch", //5
-    "Resolution", //6
+//    "Resolution", //6
     //"CropRec", //7
-    "MyFilter0", //8
-    "MyFilter1", //9
-    "MyFilter2", //10
-    "MyFilter3", //11
-    "MyFilter4", //12
+    "Antique", //8
+    "Lomo", //9
+    "Darker", //10
+    "Process", //11
+    "Chrome", //12
+    "Blur",
+    "Dync Wave",
+    "Stat Wave",
+    "Sketch",
+    "Contrast",
+    "Dotted",
+    "Charcoal",
+//    "Wave",
+    "Fire",
+  //  "Pencil",
+    "Hatch",
+    "Thermal",
+    "Sepia",
+    "Aqua",
+    "Black&White",
+    
 };
 
 static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList);
@@ -127,6 +143,8 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 
 -(IBAction)resetButtonAction:(id)sender {
     
+//    const char* reset = g_effectConfig[0];
+    [_myCameraViewHandler setFilterWithConfig:nil];
 }
 
 
@@ -155,6 +173,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     _movieURL = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Movie.mp4"]];
     _videoButtonBG.layer.cornerRadius = _videoButtonBG.frame.size.width/2;
     _videoButtonBG.clipsToBounds = true;
+    self.title = [[NSUserDefaults standardUserDefaults] valueForKey:@"feelingsLabelValue"];
     CGRect rt = [[UIScreen mainScreen] bounds];
     
     CGRect sliderRT = [_intensitySlider bounds];
@@ -203,16 +222,19 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     scrollRT.size.height = 50;
     _myScrollView = [[UIScrollView alloc] initWithFrame:scrollRT];
     
-    CGRect frame = CGRectMake(0, 0, 95, 50);
+    CGRect frame = CGRectMake(0, 0, 110, 50);
     
     for(int i = 0; i != s_functionNum; ++i)
     {
         MyButton* btn = [[MyButton alloc] initWithFrame:frame];
         [btn setTitle:[NSString stringWithUTF8String:s_functionList[i]] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-        [btn.layer setBorderColor:[UIColor redColor].CGColor];
-        [btn.layer setBorderWidth:2.0f];
-        [btn.layer setCornerRadius:11.0f];
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [btn.layer setBorderColor:[UIColor redColor].CGColor];
+        [btn.layer setBorderWidth:1.0f];
+        btn.titleLabel.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
+        btn.backgroundColor = [UIColor lightGrayColor];
+        btn.alpha = 0.5;
+//        [btn.layer setCornerRadius:11.0f];
         [btn setIndex:i];
         [btn addTarget:self action:@selector(functionButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [_myScrollView addSubview:btn];
@@ -560,9 +582,9 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     
     switch ([sender index])
     {
-        case 0:
-            [self setMask];
-            break;
+//        case 0:
+//            [self setMask];
+//            break;
 //        case 1:
 //            if([[_myCameraViewHandler cameraDevice] captureIsRunning])
 //            {
@@ -575,22 +597,22 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 //                [sender setTitle:@"Stop Cam" forState:UIControlStateNormal];
 //            }
 //            break;
-        case 1:
-            
-            //美颜
-            if([_myCameraViewHandler isGlobalFilterEnabled])
-            {
-                [_myCameraViewHandler enableFaceBeautify:NO];
-                [sender setTitle:@"Beautify" forState:UIControlStateNormal];
-            }
-            else
-            {
-                [_myCameraViewHandler enableFaceBeautify:YES];
+//        case 1:
+//            
+//            //美颜
+//            if([_myCameraViewHandler isGlobalFilterEnabled])
+//            {
+//                [_myCameraViewHandler enableFaceBeautify:NO];
+//                [sender setTitle:@"Beautify" forState:UIControlStateNormal];
+//            }
+//            else
+//            {
+//                [_myCameraViewHandler enableFaceBeautify:YES];
 //                [_myCameraViewHandler enableGlobalFilter:"@style halftone 1.2 "];
-                [sender setTitle:@"Beautifying" forState:UIControlStateNormal];
-            }
-
-            break;
+//                [sender setTitle:@"Beautifying" forState:UIControlStateNormal];
+//            }
+//
+//            break;
 /*        case 3:
             if([[_myCameraViewHandler cameraRecorder] processingDelegate] == nil)
             {
@@ -623,27 +645,124 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
         case 5:
             [self switchTorchMode];
             break; */
-        case 2:
-            [self switchResolution];
-            break;
+//        case 2:
+//            [self switchResolution];
+//            break;
 //        case 7:
 //            [self cropRecording:sender];
 //            break;
-        case 3:
+        case 0:
             [self setCustomFilter:CGE_CUSTOM_FILTER_0];
             break;
-        case 4:
+        case 1:
             [self setCustomFilter:CGE_CUSTOM_FILTER_1];
             break;
-        case 5:
+        case 2:
             [self setCustomFilter:CGE_CUSTOM_FILTER_2];
             break;
-        case 6:
+        case 3:
             [self setCustomFilter:CGE_CUSTOM_FILTER_3];
             break;
-        case 7:
+        case 4:
             [self setCustomFilter:CGE_CUSTOM_FILTER_4];
             break;
+        case 5:
+            _currentFilterIndex = [sender index];
+
+            const char* config = g_effectConfig[0];
+            [_myCameraViewHandler setFilterWithConfig:config];
+            break;
+        case 6:
+            _currentFilterIndex = [sender index];
+            
+            const char* config1 = g_effectConfig[1];
+            [_myCameraViewHandler setFilterWithConfig:config1];
+            break;
+        case 7:
+            _currentFilterIndex = [sender index];
+            
+            const char* config2 = g_effectConfig[2];
+            [_myCameraViewHandler setFilterWithConfig:config2];
+            break;
+        case 8:
+            _currentFilterIndex = [sender index];
+            
+            const char* config3 = g_effectConfig[3];
+            [_myCameraViewHandler setFilterWithConfig:config3];
+            break;
+        case 9:
+            _currentFilterIndex = [sender index];
+            
+            const char* config4 = g_effectConfig[4];
+            [_myCameraViewHandler setFilterWithConfig:config4];
+            break;
+        case 10:
+            _currentFilterIndex = [sender index];
+            
+            const char* config5 = g_effectConfig[5];
+            [_myCameraViewHandler setFilterWithConfig:config5];
+            break;
+        case 11:
+            _currentFilterIndex = [sender index];
+            
+            const char* config6 = g_effectConfig[6];
+            [_myCameraViewHandler setFilterWithConfig:config6];
+            break;
+        case 12:
+            _currentFilterIndex = [sender index];
+            
+            const char* config7 = g_effectConfig[7];
+            [_myCameraViewHandler setFilterWithConfig:config7];
+            break;
+//        case 13:
+//            _currentFilterIndex = [sender index];
+//            
+//            const char* config8 = g_effectConfig[8];
+//            [_myCameraViewHandler setFilterWithConfig:config8];
+//            break;
+        case 13:
+            _currentFilterIndex = [sender index];
+            
+            const char* config8 = g_effectConfig[8];
+            [_myCameraViewHandler setFilterWithConfig:config8];
+            break;
+//        case 15:
+//            _currentFilterIndex = [sender index];
+//            
+//            const char* config10 = g_effectConfig[10];
+//            [_myCameraViewHandler setFilterWithConfig:config10];
+//            break;
+        case 14:
+            _currentFilterIndex = [sender index];
+            
+            const char* config9 = g_effectConfig[9];
+            [_myCameraViewHandler setFilterWithConfig:config9];
+            break;
+        case 15:
+            _currentFilterIndex = [sender index];
+            
+            const char* config10 = g_effectConfig[10];
+            [_myCameraViewHandler setFilterWithConfig:config10];
+            break;
+        case 16:
+            _currentFilterIndex = [sender index];
+            
+            const char* config11 = g_effectConfig[11];
+            [_myCameraViewHandler setFilterWithConfig:config11];
+            break;
+        case 17:
+            _currentFilterIndex = [sender index];
+            
+            const char* config12 = g_effectConfig[12];
+            [_myCameraViewHandler setFilterWithConfig:config12];
+            break;
+        case 18:
+            _currentFilterIndex = [sender index];
+            
+            const char* config13 = g_effectConfig[13];
+            [_myCameraViewHandler setFilterWithConfig:config13];
+            break;
+            
         default:
             break;
     }
