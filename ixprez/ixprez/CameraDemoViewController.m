@@ -22,19 +22,12 @@
 #define MYAVCaptureSessionPreset(w, h) _MYAVCaptureSessionPreset(w, h)
 
 static const char* const s_functionList[] = {
-//    "mask", //0
-    //"Pause", //1
-//    "Beautify", //2
-    //"PreCalc", //3
-    //"TakeShot", //4
-    //"Torch", //5
-//    "Resolution", //6
-    //"CropRec", //7
-    "Antique", //8
-    "Lomo", //9
-    "Darker", //10
-    "Process", //11
-    "Chrome", //12
+
+    "Antique",
+    "Lomo",
+    "Darker",
+    "Process",
+    "Chrome",
     "Blur",
     "Dync Wave",
     "Stat Wave",
@@ -42,14 +35,12 @@ static const char* const s_functionList[] = {
     "Contrast",
     "Dotted",
     "Charcoal",
-//    "Wave",
     "Fire",
-  //  "Pencil",
     "Hatch",
     "Thermal",
     "Sepia",
     "Aqua",
-    "Black&White",
+    "Vintage",
     
 };
 
@@ -143,7 +134,6 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 
 -(IBAction)resetButtonAction:(id)sender {
     
-//    const char* reset = g_effectConfig[0];
     [_myCameraViewHandler setFilterWithConfig:nil];
 }
 
@@ -222,7 +212,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     scrollRT.size.height = 50;
     _myScrollView = [[UIScrollView alloc] initWithFrame:scrollRT];
     
-    CGRect frame = CGRectMake(0, 0, 110, 50);
+    CGRect frame = CGRectMake(0, 0, 95, 45);
     
     for(int i = 0; i != s_functionNum; ++i)
     {
@@ -231,7 +221,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
         [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 //        [btn.layer setBorderColor:[UIColor redColor].CGColor];
         [btn.layer setBorderWidth:1.0f];
-        btn.titleLabel.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
+        btn.titleLabel.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:16.0];
         btn.backgroundColor = [UIColor lightGrayColor];
         btn.alpha = 0.5;
 //        [btn.layer setCornerRadius:11.0f];
@@ -582,75 +572,6 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     
     switch ([sender index])
     {
-//        case 0:
-//            [self setMask];
-//            break;
-//        case 1:
-//            if([[_myCameraViewHandler cameraDevice] captureIsRunning])
-//            {
-//                [[_myCameraViewHandler cameraDevice] stopCameraCapture];
-//                [sender setTitle:@"Start Cam" forState:UIControlStateNormal];
-//            }
-//            else
-//            {
-//                [[_myCameraViewHandler cameraDevice] startCameraCapture];
-//                [sender setTitle:@"Stop Cam" forState:UIControlStateNormal];
-//            }
-//            break;
-//        case 1:
-//            
-//            //美颜
-//            if([_myCameraViewHandler isGlobalFilterEnabled])
-//            {
-//                [_myCameraViewHandler enableFaceBeautify:NO];
-//                [sender setTitle:@"Beautify" forState:UIControlStateNormal];
-//            }
-//            else
-//            {
-//                [_myCameraViewHandler enableFaceBeautify:YES];
-//                [_myCameraViewHandler enableGlobalFilter:"@style halftone 1.2 "];
-//                [sender setTitle:@"Beautifying" forState:UIControlStateNormal];
-//            }
-//
-//            break;
-/*        case 3:
-            if([[_myCameraViewHandler cameraRecorder] processingDelegate] == nil)
-            {
-                [[_myCameraViewHandler cameraRecorder] setProcessingDelegate:self];
-                [sender setTitle:@"Processing" forState:UIControlStateNormal];
-            }
-            else
-            {
-                [[_myCameraViewHandler cameraRecorder] setProcessingDelegate:nil];
-                [sender setTitle:@"Stopped" forState:UIControlStateNormal];
-            }
-            break;
-        case 4:
-        {
-            [_myCameraViewHandler takeShot:^(UIImage *image) {
-                
-                if(image != nil)
-                {
-                    [DemoUtils saveImage:image];
-                    NSLog(@"TakeShot OK, saved to the album!!\n");
-                }
-                else
-                {
-                    NSLog(@"Take shot failed!!!");
-                }
-            }];
-        }
-            break;
-            
-        case 5:
-            [self switchTorchMode];
-            break; */
-//        case 2:
-//            [self switchResolution];
-//            break;
-//        case 7:
-//            [self cropRecording:sender];
-//            break;
         case 0:
             [self setCustomFilter:CGE_CUSTOM_FILTER_0];
             break;
