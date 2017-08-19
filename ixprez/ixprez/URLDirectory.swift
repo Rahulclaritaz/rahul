@@ -265,6 +265,12 @@ struct URLDirectory
             
         }
     }
+    
+    struct notificationData {
+        func getNotificationData() -> String {
+            return localURL + "queryService/getPrivateFollowList"
+        }
+    }
 
     
     

@@ -544,7 +544,6 @@ class XPWebService
                 print("You will get the Response")
                 let jsonData: NSDictionary = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                 print(jsonData)
-                
                 let  jsonStatusValue : String  = jsonData.value(forKey: "status") as! String
                 if ( jsonStatusValue == "Failed") {
                     return
@@ -640,6 +639,55 @@ class XPWebService
                         return
                     } else {
                      callBack("1", nil)
+                        
+                    }
+                    
+                } catch {
+                    
+                }
+            }else {
+                print("You will not get the Response any Error Occour")
+                return
+            }
+            
+        }
+        dataTask.resume()
+        
+        
+    }
+    
+    
+    // This method will update the notification
+    
+    func getNotificationData (urlString : String , dicData : NSDictionary, callBack : @escaping (_ countData : Any, _ error : NSError?) -> Void) {
+        
+        guard let urlStringData = URL(string : urlString) else {
+            print("We didn't get the Url")
+            return
+        }
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        var requestedURL = URLRequest(url: urlStringData as URL)
+        requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestedURL.httpBody = jsonData
+        requestedURL.httpMethod = "POST"
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: requestedURL) { (data, response, error) in
+            if (data != nil && error == nil) {
+                print("You will get the Response")
+                do {
+                    let jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(jsonData)
+                    
+                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
+                    
+                    if (jsonResponseValue == "Failed") {
+                        return
+                    } else {
+                        let jsonDictResponse : NSDictionary = jsonData.value(forKey: "data") as! NSDictionary
+                        let jsonArrayValue : NSArray = jsonDictResponse.value(forKey: "Records") as! NSArray
+                        print(jsonArrayValue)
+                        callBack(jsonArrayValue, nil)
                         
                     }
                     
