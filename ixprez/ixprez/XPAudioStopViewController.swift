@@ -284,9 +284,59 @@ class XPAudioStopViewController: UIViewController {
                     print("mathan check audio Video",jsonResponseStatus)
                     
                     if (jsonResponseStatus == "Failed")
+                        
                     {
+                        let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
+                        
+                        let attributedString1 = NSAttributedString(string: "Audio failed to uploaded to the server, Please upload again", attributes: [
+                            NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                            NSForegroundColorAttributeName : UIColor.white
+                            ])
+                        
+                        alert.setValue(attributedString1, forKey: "attributedMessage")
+                        
+                        let subView1 = alert.view.subviews.first! as UIView
+                        let subView2 = subView1.subviews.first! as UIView
+                        let view = subView2.subviews.first! as UIView
+                        
+                        
+                        view.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
+                        
+                        alert.view.clipsToBounds = true
+                        
+                        DispatchQueue.main.async
+                            {
+                                
+                                alert.show()
+                        }
                         return
                     } else {
+                        let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
+                        
+                        
+                        
+                        let attributedString1 = NSAttributedString(string: "Audio Successfully uploaded to the server", attributes: [
+                            NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                            NSForegroundColorAttributeName : UIColor.white
+                            ])
+                        
+                        alert.setValue(attributedString1, forKey: "attributedMessage")
+                        
+                        let subView1 = alert.view.subviews.first! as UIView
+                        let subView2 = subView1.subviews.first! as UIView
+                        let view = subView2.subviews.first! as UIView
+                        
+                        
+                        view.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
+                        
+                        alert.view.clipsToBounds = true
+                        
+                        DispatchQueue.main.async
+                            {
+                                
+                                alert.show()
+                        }
+
                         
                     }
                 } catch
