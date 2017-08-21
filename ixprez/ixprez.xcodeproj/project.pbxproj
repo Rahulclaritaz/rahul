@@ -429,7 +429,6 @@
 			children = (
 				85A3DFF21ED7F99E006E81ED /* Tabbar */,
 				85A3DFF11ED7F950006E81ED /* Menubar */,
-				856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */,
 				85A3DFEB1ED7F612006E81ED /* XPHelpDetailsViewController.swift */,
 				85A3DFEE1ED7F774006E81ED /* Registration */,
 				85A3DFF01ED7F82A006E81ED /* Cell */,
@@ -655,10 +654,11 @@
 		85A3DFF21ED7F99E006E81ED /* Tabbar */ = {
 			isa = PBXGroup;
 			children = (
-				130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */,
-				131703DD1F061FE200101221 /* XPFolllowsViewController.swift */,
-				131703DE1F061FE200101221 /* XPSettingPhotoViewController.swift */,
 				1314C6CF1ED7E6F900FD0A8F /* IXPrivateViewController.swift */,
+				130A47541F0BBBBD0096F5EE /* XPSearchViewController.swift */,
+				131703DE1F061FE200101221 /* XPSettingPhotoViewController.swift */,
+				856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */,
+				131703DD1F061FE200101221 /* XPFolllowsViewController.swift */,
 				85525F061EEAC685008C5C9B /* XPSettingLanguageCountryViewController.swift */,
 				1314C6D51ED7E6F900FD0A8F /* XPSettingsViewController.swift */,
 			);

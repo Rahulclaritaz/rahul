@@ -659,7 +659,7 @@ class XPWebService
     
     // This method will update the notification
     
-    func getNotificationData (urlString : String , dicData : NSDictionary, callBack : @escaping (_ countData : Any, _ error : NSError?) -> Void) {
+    func getNotificationData (urlString : String , dicData : NSDictionary, callBack : @escaping (_ countData : [[String : Any]], [String : Any], _ error : NSError?) -> Void) {
         
         guard let urlStringData = URL(string : urlString) else {
             print("We didn't get the Url")
@@ -676,18 +676,20 @@ class XPWebService
             if (data != nil && error == nil) {
                 print("You will get the Response")
                 do {
-                    let jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    let jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                     print(jsonData)
                     
-                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
+                    let jsonResponseValue : String = (jsonData as AnyObject).value(forKey: "status") as! String
                     
                     if (jsonResponseValue == "Failed") {
                         return
                     } else {
-                        let jsonDictResponse : NSDictionary = jsonData.value(forKey: "data") as! NSDictionary
-                        let jsonArrayValue : NSArray = jsonDictResponse.value(forKey: "Records") as! NSArray
+                        let jsonDictResponse  = jsonData as! [String : Any]
+                        print(jsonDictResponse)
+                        let jsonDictDataValue = jsonDictResponse["data"] as! [String : Any]
+                        let jsonArrayValue  = jsonDictDataValue["Records"] as! [[String : Any]]
                         print(jsonArrayValue)
-                        callBack(jsonArrayValue, nil)
+                        callBack(jsonArrayValue,jsonDictDataValue, nil)
                         
                     }
                     
