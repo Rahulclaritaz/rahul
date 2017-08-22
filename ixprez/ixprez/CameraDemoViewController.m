@@ -160,7 +160,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 {
     [super viewDidLoad];
     
-    _movieURL = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Movie.mp4"]];
+    _movieURL = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/Movie.mp4"]];
     _videoButtonBG.layer.cornerRadius = _videoButtonBG.frame.size.width/2;
     _videoButtonBG.clipsToBounds = true;
     self.title = [[NSUserDefaults standardUserDefaults] valueForKey:@"feelingsLabelValue"];
@@ -299,7 +299,47 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 // This method will check video recording is playing or not.
 -(IBAction)videoRecordStartButtonAction: (UIButton*)sender {
     
-    if(_isVideoButtonSelected) {
+    if([_myCameraViewHandler isRecording])
+    {
+        void (^finishBlock)(void) = ^{
+            NSLog(@"End recording...\n");
+            
+            [CGESharedGLContext mainASyncProcessingQueue:^{
+                [sender setTitle:@"Rec OK" forState:UIControlStateNormal];
+                [sender setEnabled:YES];
+            }];
+            [DemoUtils saveVideo:_movieURL];
+            [_videoTimer invalidate];
+            _isVideoButtonSelected = false;
+            _countdownLabel.text = nil;
+            _videoButtonBG.backgroundColor = [UIColor colorWithRed:84.0/255.0 green:198.0/255.0 blue:231.0/255.0 alpha:1.0];
+            [_videoButton setImage:[UIImage imageNamed:@"VideoCameraIcon"] forState:UIControlStateNormal];
+            UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
+            stopView.videoFileURLPath = _movieURL;
+            [self.navigationController pushViewController:stopView animated:true];
+            
+        };
+        
+        //        [_myCameraViewHandler endRecording:nil];
+        //        finishBlock();
+        [_myCameraViewHandler endRecording:finishBlock withCompressionLevel:0];
+    }
+    else
+    {
+        unlink([_movieURL.path UTF8String]);
+        [_myCameraViewHandler startRecording:_movieURL size:CGSizeMake(RECORD_WIDTH, RECORD_HEIGHT)];
+        [sender setTitle:@"Recording" forState:UIControlStateNormal];
+        [sender setEnabled:YES];
+        _videoButtonBG.backgroundColor = [UIColor orangeColor];
+        _isVideoButtonSelected = true;
+        //        [_videoButton setBackgroundImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
+        [_videoButton setImage:[UIImage imageNamed:@"MicrophonePlayingImage"] forState:UIControlStateNormal];
+        _videoTimer = [[NSTimer alloc] init];
+        _videoTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countDownTimer) userInfo:nil repeats:true];
+    }
+    
+  /*  if(_isVideoButtonSelected) {
         [_videoTimer invalidate];
         _isVideoButtonSelected = false;
         _countdownLabel.text = nil;
@@ -346,7 +386,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
             [sender setEnabled:YES];
         }
         
-    }
+    } */
         
     
 }

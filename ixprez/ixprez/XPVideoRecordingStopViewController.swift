@@ -233,7 +233,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         
         // This is the recorded Video parameter add in the web service.
         body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Movie.mp4\"\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Documents/Movie.mp4\"\r\n")
         body.appendString("Content-Type: video/mp4\r\n\r\n")
         let urlData = NSData(data: videoData as Data)
         body.append(urlData as Data)
