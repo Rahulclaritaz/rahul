@@ -131,7 +131,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     [_myCameraViewHandler setCameraFlashMode:flashLightList[flashLightIndex]];
 }
 
-
+// This method will reset the video filter 
 -(IBAction)resetButtonAction:(id)sender {
     
     [_myCameraViewHandler setFilterWithConfig:nil];
@@ -366,6 +366,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
         _countdownLabel.text = nil;
         UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
        XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
+        stopView.videoFileURLPath = _movieURL;
         [self.navigationController pushViewController:stopView animated:true];
     }
     
