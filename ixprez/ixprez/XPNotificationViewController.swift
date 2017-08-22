@@ -466,7 +466,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
                 
             })
             
-            followUser.backgroundColor = UIColor(patternImage: UIImage(named: "DashboardUnFollowIcon")!)
+            followUser.backgroundColor = UIColor(patternImage: UIImage(named: "NotificationUnfollowImage")!)
             
             
 //             followUser.backgroundColor = UIColor.blue
