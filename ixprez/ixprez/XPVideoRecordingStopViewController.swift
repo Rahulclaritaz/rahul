@@ -12,6 +12,7 @@ import AVFoundation
 class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOutputSampleBufferDelegate {
     var commonRequsetResponseService = XPWebService ()
     var commonWebURL = URLDirectory.videoDataUpload()
+//    var commonWebUrl = URLDirectory.audioDataUpload ()
     @IBOutlet weak var retryButton = UIButton()
     @IBOutlet weak var xpressButton = UIButton()
     @IBOutlet weak var videoBGImage = UIImageView()
@@ -120,26 +121,50 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     @IBAction func xpressButtonAction (sender : Any) {
         
         uploadVideoToWebService()
-//                let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPHomeDashBoardViewController")
-//                self.present(storyBoard!, animated: true, completion: nil)
+
     }
     
-    func uploadVideoToWebService () {
+    // This method will create the thumbnail image.
+    func getThumbnailImage(forUrl url: URL) -> UIImage? {
+        let asset: AVAsset = AVAsset(url: url)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
         
         do {
-           videoData = try NSData(contentsOf: videoFileURLPath!)
+            let thumbnailImage = try imageGenerator.copyCGImage(at: CMTimeMake(1, 60) , actualTime: nil)
+            return UIImage(cgImage: thumbnailImage)
+        } catch let error {
+            print(error)
         }
         
-        catch {
-            print(" video data have problem.")
+        return nil
+    }
+    
+    
+    func uploadVideoToWebService()
+    {
+        
+        do
+        {
+            videoData = try NSData(contentsOf: videoFileURLPath!)
+        }
+            
+        catch
+        {
+            print("your audio data have problem.")
+        }
+        
+      thumbImageView =  getThumbnailImage(forUrl: videoFileURLPath!)!
+        
+        if (thumbImageView != nil) {
+            var imageThumbView = UIImageView(image: thumbImageView)
+            videoThumbnailImage  = (imageThumbView.image?.lowQualityJPEGNSData)! as NSData
+        } else {
+            var imageThumb : UIImage = UIImage(named: "bg_reg.png")!
+            var imageThumbView = UIImageView(image: imageThumb)
+            videoThumbnailImage  = (imageThumbView.image?.lowQualityJPEGNSData)! as NSData
         }
         
         
-//         var videoData = try NSData(contentsOf: videoFileURLPath!)
-        
-//        var videoData = NSData(contentsOf: videoRecordURLString!)
-        
-        //        var parameter = ["fileupload": audioData,"from_email" : "jnjaga24@gmail.com","to_email" : "rahulchennai213@gmail.com","title":"Awesome","tags":"AudioDemoCheck","privacy":"Public","country":"INDIA","language":"ENGLISH"] as [String : Any]
         
         let myUrl = NSURL(string : commonWebURL.url())
         var requestUrl = URLRequest(url: myUrl! as URL)
@@ -149,8 +174,8 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         // Add the parameter
-        //        requestUrl.httpBody = createBodyWithParameters(parameters: parameter as! [String : Any], boundary: boundary) as Data
-        var body = NSMutableData()
+        
+        let body = NSMutableData()
         
         // This is the From email parameter add in the web service.
         if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
@@ -167,34 +192,39 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         
         
         // This is the to email parameter add in the web service.
-        if (videoPage.defaultValue.string(forKey: "toEmailAddress") == nil) {
+        if (videoPage.defaultValue.string(forKey: "toEmailAddress") == nil)
+        {
             print("You don't have email because u select public")
-        } else {
+        } else
+        {
             body.appendString("--\(boundary)\r\n")
             body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
             body.appendString(videoPage.defaultValue.string(forKey: "toEmailAddress")!)
             body.appendString("\r\n")
         }
         
-        
-        
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"title\"\r\n\r\n")
         body.appendString(videoPage.defaultValue.string(forKey: "feelingsLabelValue")!)
         body.appendString("\r\n")
         
-        
-        if (videoPage.defaultValue.string(forKey: "moodLabelValue") == nil) {
+        if (videoPage.defaultValue.string(forKey: "moodLabelValue") == nil)
+        {
+            body.appendString("--\(boundary)\r\n")
+            body.appendString("Content-Disposition: form-data; name=\"tags\"\r\n\r\n")
+            body.appendString("hello")
+            body.appendString("\r\n")
             print("You don't have tags because u select private")
-        } else {
+        } else
+        {
             body.appendString("--\(boundary)\r\n")
             body.appendString("Content-Disposition: form-data; name=\"tags\"\r\n\r\n")
             body.appendString(videoPage.defaultValue.string(forKey: "moodLabelValue")!)
             body.appendString("\r\n")
         }
-        
-        
         // This is the Picker status value  parameter add in the web service.
+        
+        
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"privacy\"\r\n\r\n")
         body.appendString(videoPage.defaultValue.string(forKey: "pickerStatus")!)
@@ -231,43 +261,31 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
             body.appendString("\r\n")
         }
         
-        // This is the recorded Video parameter add in the web service.
+        // This is the recorded audio parameter add in the web service.
         body.appendString("--\(boundary)\r\n")
         body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Documents/Movie.mp4\"\r\n")
         body.appendString("Content-Type: video/mp4\r\n\r\n")
-        let urlData = NSData(data: videoData as Data)
-        body.append(urlData as Data)
+        //        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"MyAudioMemo.wav\"\r\n")
+        //        body.appendString("Content-Type: audio/wav\r\n\r\n")
+        //let urlData = NSData(data: audioData as Data)
+        body.append(videoData as Data)
         body.appendString("\r\n")
         
-        
-        // This is the recorded Video parameter add in the web service.
-        
-//        var err: NSError? = nil
-//        let asset = AVURLAsset(url: videoFileURLPath as URL)
-//        let imgGenerator = AVAssetImageGenerator(asset: asset)
-////        let cgImage = imgGenerator.copyCGImageAtTime(CMTimeMake(0, 1), actualTime: nil, error: &err)
-//        do {
-//        let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(0, 1), actualTime: nil)
-//            thumbImageView = UIImage(cgImage: cgImage)
-////            thumbImageView = UIImageView(image: uiImage)
-//        } catch {
-//            
-//        }
-//        
-//        videoThumbnailImage = UIImagePNGRepresentation(thumbImageView)! as NSData
-        // !! check the error before proceeding
-//        let uiImage = UIImage(CGImage: cgImage)
-//        let imageView = UIImageView(image: uiImage)
-        // lay out this image view, or if it already exists, set its image property to uiImage
         body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"thumbnail\"; filename=\"s.jpg\"\r\n")
-        body.appendString("Content-Type: image/png\r\n\r\n")
-        body.append((urlData as NSData) as Data)
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sample.jpg\"\r\n")
+        body.appendString("Content-Type: image/jpg\r\n\r\n")
+        body.append(videoThumbnailImage as Data)
         body.appendString("\r\n")
+        
+        body.appendString("--\(boundary)--\r\n")
         
         requestUrl.httpBody = body as Data
         
-        requestUrl.httpMethod = "POST";
+        requestUrl.httpMethod = "POST"
+        
+        // let contentType = String(format: "multipart/form-data; boundary=%@", boundary)
+        
+        // requestUrl.setValue(contentType, forHTTPHeaderField: "Content-Type")
         
         let session = URLSession.shared
         let dataTask = session.dataTask(with: requestUrl , completionHandler:
@@ -281,12 +299,13 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
                     
                     let jsonData : NSDictionary  = try! JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     
-                    print(jsonData)
-                    var jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
-                    print(jsonResponseStatus)
+                    print("mathan check audio Video",jsonData)
+                    let jsonResponseStatus : String =  jsonData.value(forKey: "status") as! String
+                    print("mathan check audio Video",jsonResponseStatus)
                     
-                    if (jsonResponseStatus == "Failed") {
+                    if (jsonResponseStatus == "Failed")
                         
+                    {
                         let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
                         
                         let attributedString1 = NSAttributedString(string: "Video failed to uploaded to the server, Please upload again", attributes: [
@@ -310,10 +329,11 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
                                 
                                 alert.show()
                         }
-
                         return
                     } else {
                         let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
+                        
+                        
                         
                         let attributedString1 = NSAttributedString(string: "Video Successfully uploaded to the server", attributes: [
                             NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
@@ -336,29 +356,27 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
                                 
                                 alert.show()
                         }
- 
+                        
+                        
                     }
-                } catch {
+                } catch
+                {
                     
                 }
                 
-            } else {
+            }
+                
+            else {
+                
+                print("Data Nil")
+                
                 return
             }
         })
         
         dataTask.resume()
-        //        commonRequestWebService.getAudioResponse(urlString: commonWebUrl.url() , dictData: parameter as NSDictionary, callBack: {(audioResponseData , error) in
-        //
-        //            print(audioResponseData)
-        //            print(error)
-        //
-        //        })
-        
-        
-        
-        
     }
+    
     
     func generateBoundaryString() -> String {
         return "Boundary-\(NSUUID().uuidString)"
