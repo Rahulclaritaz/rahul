@@ -46,7 +46,10 @@ static const char* const s_functionList[] = {
 
 static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList);
 
-@interface CameraDemoViewController() <CGEFrameProcessingDelegate>
+@interface CameraDemoViewController() <CGEFrameProcessingDelegate> {
+    CMTime time;
+    UIImage *thumbnailVideo;
+}
 @property (weak, nonatomic) IBOutlet UIButton *quitBtn;
 @property (weak, nonatomic) IBOutlet UISlider *intensitySlider;
 @property CGECameraViewHandler* myCameraViewHandler;
@@ -61,6 +64,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 @property (nonatomic) NSTimer* videoTimer;
 @property (nonatomic) int countDownTime;
 @property (nonatomic)IBOutlet UILabel* countdownLabel;
+
 @end
 
 @implementation CameraDemoViewController
@@ -287,6 +291,16 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     NSLog(@"view disappear.");
 }
 
+-(UIImage *)loadImage : (NSURL*)url {
+    
+    AVAsset *asset = [AVAsset assetWithURL:url];
+    AVAssetImageGenerator *imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+     time.value =  1.0;
+    CGImageRef imgData = [imageGenerator copyCGImageAtTime:time actualTime:NULL error:NULL];
+    thumbnailVideo = [UIImage imageWithCGImage:imgData];
+    return thumbnailVideo;
+}
+
 // This method will switch the camera postion Front to rear
 -(IBAction) cameraSwitchButtonAction : (UIButton*)sender {
     [_myCameraViewHandler switchCamera :YES]; //Pass YES to mirror the front camera.
@@ -305,19 +319,22 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
             NSLog(@"End recording...\n");
             
             [CGESharedGLContext mainASyncProcessingQueue:^{
-                [sender setTitle:@"Rec OK" forState:UIControlStateNormal];
+//                [sender setTitle:@"Rec OK" forState:UIControlStateNormal];
                 [sender setEnabled:YES];
+                [_videoTimer invalidate];
+                _isVideoButtonSelected = false;
+                _countdownLabel.text = nil;
+                _videoButtonBG.backgroundColor = [UIColor colorWithRed:84.0/255.0 green:198.0/255.0 blue:231.0/255.0 alpha:1.0];
+                [_videoButton setImage:[UIImage imageNamed:@"VideoCameraIcon"] forState:UIControlStateNormal];
+                UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
+                stopView.videoFileURLPath = _movieURL;
+                stopView.thumbImageView = thumbnailVideo;
+                [self.navigationController pushViewController:stopView animated:true];
             }];
             [DemoUtils saveVideo:_movieURL];
-            [_videoTimer invalidate];
-            _isVideoButtonSelected = false;
-            _countdownLabel.text = nil;
-            _videoButtonBG.backgroundColor = [UIColor colorWithRed:84.0/255.0 green:198.0/255.0 blue:231.0/255.0 alpha:1.0];
-            [_videoButton setImage:[UIImage imageNamed:@"VideoCameraIcon"] forState:UIControlStateNormal];
-            UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
-            stopView.videoFileURLPath = _movieURL;
-            [self.navigationController pushViewController:stopView animated:true];
+//            [self loadImage:_movieURL];
+            
             
         };
         
@@ -329,7 +346,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     {
         unlink([_movieURL.path UTF8String]);
         [_myCameraViewHandler startRecording:_movieURL size:CGSizeMake(RECORD_WIDTH, RECORD_HEIGHT)];
-        [sender setTitle:@"Recording" forState:UIControlStateNormal];
+//        [sender setTitle:@"Recording" forState:UIControlStateNormal];
         [sender setEnabled:YES];
         _videoButtonBG.backgroundColor = [UIColor orangeColor];
         _isVideoButtonSelected = true;
@@ -402,12 +419,35 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
         NSString *countTimeString = [NSString stringWithFormat:@"%d", _countDownTime];
         _countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
     } else {
-        [_videoTimer invalidate];
-        _countdownLabel.text = nil;
-        UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-       XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
-        stopView.videoFileURLPath = _movieURL;
-        [self.navigationController pushViewController:stopView animated:true];
+        if([_myCameraViewHandler isRecording])
+        {
+            void (^finishBlock)(void) = ^{
+                NSLog(@"End recording...\n");
+                
+                [CGESharedGLContext mainASyncProcessingQueue:^{
+                    //                [sender setTitle:@"Rec OK" forState:UIControlStateNormal];
+//                    [sender setEnabled:YES];
+                    [_videoTimer invalidate];
+                    _isVideoButtonSelected = false;
+                    _countdownLabel.text = nil;
+                    _videoButtonBG.backgroundColor = [UIColor colorWithRed:84.0/255.0 green:198.0/255.0 blue:231.0/255.0 alpha:1.0];
+                    [_videoButton setImage:[UIImage imageNamed:@"VideoCameraIcon"] forState:UIControlStateNormal];
+                    UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    XPVideoRecordingStopViewController  *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPVideoRecordingStopViewController"];
+                    stopView.videoFileURLPath = _movieURL;
+                    stopView.thumbImageView = thumbnailVideo;
+                    [self.navigationController pushViewController:stopView animated:true];
+                }];
+                [DemoUtils saveVideo:_movieURL];
+//                [self loadImage:_movieURL];
+                
+                
+            };
+            
+            //        [_myCameraViewHandler endRecording:nil];
+            //        finishBlock();
+            [_myCameraViewHandler endRecording:finishBlock withCompressionLevel:0];
+        }
     }
     
 }
