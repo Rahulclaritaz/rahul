@@ -54,6 +54,10 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction  func backButton (_sender : Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     func getValueFromService() {
         let parameter : NSDictionary = ["user_email" :userEmail,"limit" : "30","index":"0","notificationCount":"1"]
         commomWebService.getNotificationData(urlString: commonWebUrl.getNotificationData(), dicData: parameter, callBack: {

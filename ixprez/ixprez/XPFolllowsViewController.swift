@@ -63,6 +63,10 @@ class XPFolllowsViewController: UIViewController
         
         followTableView.addSubview(refershController)
         self.title = userName
+        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+
+        self.navigationController?.navigationBar.tintColor = UIColor.white
+        
 
         activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge, spinColor: .white, bgColor: .clear, placeInTheCenterOf: followTableView)
         
@@ -95,7 +99,9 @@ class XPFolllowsViewController: UIViewController
         
     }
     
-    
+    @IBAction func backButton (_ sender : Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
     
     override func didReceiveMemoryWarning()
     {
