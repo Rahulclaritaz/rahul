@@ -1001,7 +1001,7 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
             cell.thumbNailImage?.clipsToBounds = true
             cell.thumbNailImage?.layer.masksToBounds = true
             cell.thumbNailImage?.layer.cornerRadius = 1.0
-            cell.thumbNailImage?.contentMode = .scaleAspectFit
+            cell.thumbNailImage?.contentMode = .scaleAspectFill
             
             // let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: localPath, with: localUrl )
             

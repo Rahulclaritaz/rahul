@@ -132,6 +132,8 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         print("myPlay")
         print(playUrlString)
         self.navigationItem.title = playTitle
+        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         
         naviBar.tintColor = UIColor.getXprezBlueColor()
         
@@ -171,6 +173,10 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
          playVideoAudio()
         
 
+    }
+    
+    @IBAction func  backButton (_ sender : Any) {
+       self.navigationController?.popViewController(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

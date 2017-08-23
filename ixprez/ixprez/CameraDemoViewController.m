@@ -332,7 +332,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
                 stopView.thumbImageView = thumbnailVideo;
                 [self.navigationController pushViewController:stopView animated:true];
             }];
-            [DemoUtils saveVideo:_movieURL];
+//            [DemoUtils saveVideo:_movieURL];
 //            [self loadImage:_movieURL];
             
             
