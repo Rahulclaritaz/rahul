@@ -141,7 +141,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
     @IBAction func saveChangeEmailData(_ sender: Any)
     {
       
-  
+       UserDefaults.standard.set(txtReEnterEmail.text, forKey: "emailAddress")
             if  (txtReEnterEmail.text?.isValidEmail() != true)
             {
                 txtReEnterEmail.textFieldBoarder(txtColor: .getLightBlueColor(), txtWidth: 1.0)
