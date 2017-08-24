@@ -64,7 +64,7 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
         
      subView.isHidden = true
         
-       
+       self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.naviBar.barTintColor = UIColor.getXprezBlueColor()
     
         
@@ -74,6 +74,10 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
         
         
 
+    }
+    
+    @IBAction func backButton (_ sender : Any) {
+        self.navigationController?.popViewController(animated: true)
     }
     
  

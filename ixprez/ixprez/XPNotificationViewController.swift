@@ -8,7 +8,7 @@
 
 import UIKit
 
-class XPNotificationViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class XPNotificationViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,sectionData {
     var userEmail = String()
     var getEmotionUrl = URLDirectory.MyUpload()
     var getEmotionWebService = MyUploadWebServices()
@@ -545,7 +545,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
             
             playViewController.sectionNo = passUrl.tag
             
-            playViewController.delegate = self as! sectionData
+            playViewController.delegate = self
             
             
             
