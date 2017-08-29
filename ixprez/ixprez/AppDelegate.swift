@@ -11,6 +11,7 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import FirebaseAuth
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDelegate {
@@ -42,27 +43,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         systemName = UIDevice.current.systemName
         print(systemName)
         
+        application.registerForRemoteNotifications()
+        
+//        FirebaseApp.configure()
+        
         if #available(iOS 10.0, *) {
             // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = self
-            
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_, _ in })
-            
+//            UNUserNotificationCenter.current().delegate = self
+//            
+//            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+//            UNUserNotificationCenter.current().requestAuthorization(
+//                options: authOptions,
+//                completionHandler: {_, _ in })
+//            application.registerForRemoteNotifications()
+            FirebaseApp.configure()
+            UNUserNotificationCenter.current().requestAuthorization(options: [.badge,.sound,.alert], completionHandler: { (granted, error) in })
+            application.registerForRemoteNotifications()
             // For iOS 10 data message (sent via FCM)
             //FIRMessaging.messaging().remoteMessageDelegate = self
             
         } else {
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
+//            let settings: UIUserNotificationSettings =
+//                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+//            UIApplication.shared.registerUserNotificationSettings(settings)
+//            UIApplication.shared.registerForRemoteNotifications()
+//            application.registerUserNotificationSettings(settings)
+//            application.registerForRemoteNotifications()
+            let notificationSettings = UIUserNotificationSettings(types: [.badge,.sound,.alert], categories: nil)
+            UIApplication.shared.registerUserNotificationSettings(notificationSettings)
+            UIApplication.shared.registerForRemoteNotifications()
         }
-        
-        application.registerForRemoteNotifications()
-        
-        FirebaseApp.configure()
         
         // Here will check app is going to launch is first time.
         if (checkEmail.value(forKey: "emailAddress") == nil) {
@@ -98,6 +108,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         print("Registration succeeded! Token: ", token)
         let FCMtoken = Messaging.messaging().fcmToken
         print("FCM token: \(FCMtoken ?? "")")
+        // Pass device token to auth
+        Auth.auth().setAPNSToken(deviceToken, type: AuthAPNSTokenType.prod)
+    }
+    
+    func application(_ application: UIApplication,
+                     didReceiveRemoteNotification notification: [AnyHashable : Any],
+                     fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if Auth.auth().canHandleNotification(notification) {
+            completionHandler(.noData)
+            return
+        }
+        //UIBackgroundFetchResultNoData
+        // This notification is not auth related, developer should handle it.
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {

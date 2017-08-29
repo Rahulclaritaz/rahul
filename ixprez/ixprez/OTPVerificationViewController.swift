@@ -8,6 +8,7 @@
 //Confirmation code has been send to mathan6@gmail.complease Click resend if the mail failed to deliver.
 
 import UIKit
+import FirebaseAuth
 
 class OTPVerificationViewController: UIViewController,UITextFieldDelegate
 {
@@ -243,7 +244,20 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         }
         else
         {
-        let dicData : [String:Any] = [ "email_id" :emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
+            let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: UserDefaults.standard.string(forKey: "authVID")! , verificationCode: txtOTP.text!)
+            Auth.auth().signIn(with: credential, completion: { (user, error) in
+                if error != nil {
+                    print("error : \(error?.localizedDescription)")
+                    
+                } else {
+                    print("phone number : \(user?.phoneNumber)")
+                    let userInfo = user?.providerData[0]
+                    print("Provided Id : \(user?.providerID)")
+                    self.appDelegate.changeInitialViewController()
+                }
+            })
+            
+       /* let dicData : [String:Any] = [ "email_id" :emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
     
             getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary, callback: {
                 (dicc , err ) in
@@ -303,10 +317,11 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
             
                 
           
-        }
+        } */
         
         
         
+    }
     }
     
     
@@ -319,14 +334,14 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
 
     @IBAction func changeEmailView(_ sender: Any)
     {
-     
-        let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
-        
-        gotoChangeEmailPage.userName = userName
-        gotoChangeEmailPage.country = country
-        gotoChangeEmailPage.language = language
-        gotoChangeEmailPage.mobileNumber = mobileNumber
-        self.present(gotoChangeEmailPage, animated: true, completion: nil)
+     self.dismiss(animated: true, completion: nil)
+//        let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
+//        
+//        gotoChangeEmailPage.userName = userName
+//        gotoChangeEmailPage.country = country
+//        gotoChangeEmailPage.language = language
+//        gotoChangeEmailPage.mobileNumber = mobileNumber
+//        self.present(gotoChangeEmailPage, animated: true, completion: nil)
         
         
     }
