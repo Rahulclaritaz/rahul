@@ -4,4 +4,5 @@
 target 'ixprez' do
  pod ‘Firebase/Core’
  pod ‘Firebase/Messaging’
+ pod ‘Firebase/Auth’
 end

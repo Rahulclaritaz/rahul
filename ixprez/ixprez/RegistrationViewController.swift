@@ -8,6 +8,9 @@
 
 import UIKit
 import CoreTelephony
+import FirebaseAuth
+import UserNotifications
+import CloudKit
 
 class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource{
    
@@ -322,7 +325,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
                     
                 print( autoCountryCompleteDic["ph_code"] as! String)
                     
-              self.mobileNumberTextField?.text = String(format: "%@-", (autoCountryCompleteDic["ph_code"] as? String)!)
+              self.mobileNumberTextField?.text = String(format: "+%@", (autoCountryCompleteDic["ph_code"] as? String)!)
                     
                  
                 
@@ -415,7 +418,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             for arrData in myData
             {
                 
-                self.mobileNumberTextField?.text = String(format: "%@-", arrData["ph_code"] as! String)
+                self.mobileNumberTextField?.text = String(format: "+%@", arrData["ph_code"] as! String)
                 
              
             }
@@ -529,12 +532,44 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             defaults.set(languageTextField.text, forKey: "languageName")
             defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
             
+//            let alert = UIAlertController(title: "Phone Number", message: "Is this your Phone Number \(mobileNumberTextField?.text)", preferredStyle: .alert)
+//            
+//            let action = UIAlertAction(title: "Yes", style: .default, handler: {(UIAlertAction) in
+                PhoneAuthProvider.provider().verifyPhoneNumber((self.mobileNumberTextField?.text)!, completion: { (verificationID, error) in
+                    
+                    if error != nil {
+                        print("error \(error?.localizedDescription)")
+                    } else {
+                        let defaults = UserDefaults.standard.set(verificationID, forKey: "authVID")
+                        print("OTP is \(verificationID)")
+                        let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+                        self.present(verifyOTPView, animated: true, completion: nil)
+                        
+                    }
+                })
+//            })
             
+//            let action = UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in
+//                PhoneAuthProvider.provider().verifyPhoneNumber((self.mobileNumberTextField?.text)!, completion: { (verificationID, error) in
+//                    
+//                    if error != nil {
+//                        print("error \(error?.localizedDescription)")
+//                    } else {
+//                       let defaults = UserDefaults.standard.set(verificationID, forKey: "authVID")
+//                    }
+//                })
+//            })
+          
+//            let cancel = UIAlertAction(title: "NO", style: .cancel, handler: nil)
+//            alert.addAction(action)
+//            alert.addAction(cancel)
+//            self.present(alert, animated: true, completion: nil)
+         
             
             let parameter = ["user_name":self.nameTextField?.text!,"email_id": emailTextField?.text! ,"phone_number":self.mobileNumberTextField?.text!,"country":self.countryTextField.text!,"language": self.languageTextField.text!,"device_id":appdelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"] as [String : Any]
         
             
-        getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
+      /*  getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
             (dicc ,err) in
             
             
@@ -566,7 +601,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             print(dicc)
             
             
-        })
+        }) */
         
        }//end else
 }// end save function

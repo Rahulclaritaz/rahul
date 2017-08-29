@@ -87,6 +87,7 @@
 		85525F121EEACD27008C5C9B /* XPHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F0F1EEACD26008C5C9B /* XPHelpViewController.swift */; };
 		85525F131EEACD27008C5C9B /* XPSupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F101EEACD26008C5C9B /* XPSupportViewController.swift */; };
 		85525F151EEACDD3008C5C9B /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85525F141EEACDD3008C5C9B /* UIImageExtension.swift */; };
+		8552BC531F55AAC900566F22 /* AlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8552BC521F55AAC900566F22 /* AlertControllerExtension.swift */; };
 		8552EFE41F15E8A5004DC638 /* XPDashboardTutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8552EFE31F15E8A5004DC638 /* XPDashboardTutorialViewController.swift */; };
 		85561F391F2B6C6C0013A588 /* XPContactModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85561F381F2B6C6C0013A588 /* XPContactModeViewController.swift */; };
 		8558BF571ECC7FCD00270E1F /* ContactsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8558BF561ECC7FCD00270E1F /* ContactsUI.framework */; };
@@ -254,6 +255,7 @@
 		85525F0F1EEACD26008C5C9B /* XPHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHelpViewController.swift; sourceTree = "<group>"; };
 		85525F101EEACD26008C5C9B /* XPSupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSupportViewController.swift; sourceTree = "<group>"; };
 		85525F141EEACDD3008C5C9B /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		8552BC521F55AAC900566F22 /* AlertControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertControllerExtension.swift; sourceTree = "<group>"; };
 		8552EFE31F15E8A5004DC638 /* XPDashboardTutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashboardTutorialViewController.swift; sourceTree = "<group>"; };
 		85561F381F2B6C6C0013A588 /* XPContactModeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPContactModeViewController.swift; sourceTree = "<group>"; };
 		8558BF561ECC7FCD00270E1F /* ContactsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ContactsUI.framework; path = System/Library/Frameworks/ContactsUI.framework; sourceTree = SDKROOT; };
@@ -671,6 +673,7 @@
 				131A2F951F17AC3D00D0E9EC /* PopupAlert.swift */,
 				131703ED1F0629E000101221 /* IXValidation.swift */,
 				131703E51F0625AA00101221 /* AlertExtension.swift */,
+				8552BC521F55AAC900566F22 /* AlertControllerExtension.swift */,
 				131703E61F0625AA00101221 /* FontExtension.swift */,
 				131703E71F0625AA00101221 /* UINavigationBar+Alpha.swift */,
 				131703E81F0625AA00101221 /* UIScrollView+ScalableCover.swift */,
@@ -924,6 +927,7 @@
 				1314C6E41ED7E7BF00FD0A8F /* DOAlertController.swift in Sources */,
 				131703E41F06247200101221 /* XPFollowsTableViewCell.swift in Sources */,
 				856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */,
+				8552BC531F55AAC900566F22 /* AlertControllerExtension.swift in Sources */,
 				1314C6DB1ED7E6F900FD0A8F /* XPMyUploadViewController.swift in Sources */,
 				131703EA1F0625AA00101221 /* FontExtension.swift in Sources */,
 				85A572AE1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift in Sources */,
