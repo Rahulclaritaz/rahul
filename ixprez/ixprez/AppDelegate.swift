@@ -108,6 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         print("Registration succeeded! Token: ", token)
         let FCMtoken = Messaging.messaging().fcmToken
         print("FCM token: \(FCMtoken ?? "")")
+        UserDefaults.standard.set(FCMtoken, forKey: "FCMToken")
         // Pass device token to auth
         Auth.auth().setAPNSToken(deviceToken, type: AuthAPNSTokenType.prod)
     }

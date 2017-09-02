@@ -28,11 +28,12 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     var emailId : String = ""
     var country : String = ""
     var language : String = ""
-    var mobileNumber : String = ""
+    var phoneNumber : String = ""
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     let getOTPClass = XPWebService()
-    let getOTPUrl = URLDirectory.OTPVerification()
+//    let getOTPUrl = URLDirectory.OTPVerification()
+    let getOTPUrl       = URLDirectory.RegistrationData()
     let getOTPResendUrl = URLDirectory.ResendOTP()
     
     let userDefaultData = UserDefaults.standard
@@ -40,6 +41,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     var email : String!
     
     let userDefault = UserDefaults.standard
+
     
     
 
@@ -172,11 +174,34 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     @IBAction func reSendOTP(_ sender: Any)
     {
         
+        PhoneAuthProvider.provider().verifyPhoneNumber(userDefault.string(forKey: "mobileNumber")!, completion: { (verificationID, error) in
+            
+            if error != nil {
+                print("error \(error?.localizedDescription)")
+                self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
+            } else {
+                self.alertViewControlerWithOkAndCancel(headerTitle: "Conformation", bodyMessage: "Is this your Phone Number \(self.userDefault.string(forKey: "mobileNumber"))!")
+                
+            }
+        })
+//        let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: UserDefaults.standard.string(forKey: "authVID")! , verificationCode: txtOTP.text!)
+//        Auth.auth().signIn(with: credential, completion: { (user, error) in
+//            if error != nil {
+//                print("error : \(error?.localizedDescription)")
+//                self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
+//                
+//            } else {
+//                print("phone number : \(user?.phoneNumber)")
+//                self.phoneNumber = (user?.phoneNumber)!
+//                self.alertViewControlerWithOkAndCancel(headerTitle: "Conformation", bodyMessage: "Is this your \( self.phoneNumber ) phone number")
+//                
+//            }
+//        })
         
       //status = OK
         
         
-        let dicOtpResend  = [ "email_id" : self.emailId , "device_id" : appDelegate.deviceUDID]
+    /*    let dicOtpResend  = [ "email_id" : self.emailId , "device_id" : appDelegate.deviceUDID]
         getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: dicOtpResend as NSDictionary, callBack: {
             (dic ,err)  in
             
@@ -230,7 +255,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
             }
             
             
-        })
+        }) */
         
     }
     
@@ -248,12 +273,51 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
             Auth.auth().signIn(with: credential, completion: { (user, error) in
                 if error != nil {
                     print("error : \(error?.localizedDescription)")
+                    self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
                     
                 } else {
                     print("phone number : \(user?.phoneNumber)")
                     let userInfo = user?.providerData[0]
                     print("Provided Id : \(user?.providerID)")
-                    self.appDelegate.changeInitialViewController()
+                    
+                    let parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":self.userDefault.string(forKey: "FCMToken"),"is_edit":"0"] as [String : Any]
+                    
+                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
+                        (dicc ,err) in
+                        
+                        
+                        
+                        if ( (dicc["status"] as! String) == "OK" )
+                        {
+                            
+                            DispatchQueue.main.async
+                                {
+                                    
+                                    self.appDelegate.changeInitialViewController()
+                                    
+//                                    let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+//                                    
+//                                    self.present(verifyOTPView, animated: true, completion: nil)
+                                    
+                            }
+                            
+                            
+                        }
+                        else
+                        {
+                            
+                            print("error")
+                            
+                        }
+                        
+                        
+                        print(dicc)
+                        
+                        
+                    })
+                    
+                    
+                    
                 }
             })
             
