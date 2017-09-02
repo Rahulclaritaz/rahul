@@ -539,6 +539,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
                     
                     if error != nil {
                         print("error \(error?.localizedDescription)")
+                        self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)! + " Add country code with + symbole if not added.  ")
                     } else {
                         let defaults = UserDefaults.standard.set(verificationID, forKey: "authVID")
                         print("OTP is \(verificationID)")
