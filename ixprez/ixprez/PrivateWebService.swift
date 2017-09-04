@@ -271,8 +271,14 @@ class  PrivateWebService
         requestData.httpBody = datadic
         
         requestData.httpMethod = "POST"
-        
+        let authtoken = UserDefaults.standard.value(forKey: "authtoken")
+        print("The authtoken is \(authtoken)")
         requestData.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        requestData.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        // This will add the authentication token on the header of the API.
+//        let authtoken = UserDefaults.standard.value(forKey: "authtoken")
+//        requestData.setValue("authtoken \(authtoken)", forHTTPHeaderField: "authtoken")
+        //        requestData.addValue(authtoken as! String, forHTTPHeaderField:"Authorization")
         
         let session1 = URLSession.shared
         

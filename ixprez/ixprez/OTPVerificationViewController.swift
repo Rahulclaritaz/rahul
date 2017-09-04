@@ -24,6 +24,9 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     
     @IBOutlet var txtOTP: UITextField!
     
+    var authtoken = String()
+    
+    var parameter = [String : Any]()
     var userName : String = ""
     var emailId : String = ""
     var country : String = ""
@@ -280,24 +283,32 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                     let userInfo = user?.providerData[0]
                     print("Provided Id : \(user?.providerID)")
                     
-                    let parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":self.userDefault.string(forKey: "FCMToken"),"is_edit":"0"] as [String : Any]
+                    let fcmToken = self.userDefault.string(forKey: "FCMToken")
+                    if (fcmToken == nil) {
+                        self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id": "DDD454564" ,"is_edit":"0"] as [String : Any]
+                        
+                    } else {
+                        self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":fcmToken ,"is_edit":"0"] as [String : Any]
+                    }
                     
-                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
+                    
+                    
+                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: self.parameter as NSDictionary, callback: {
                         (dicc ,err) in
                         
                         
                         
                         if ( (dicc["status"] as! String) == "OK" )
                         {
+                            let dicArrayValue : NSArray = dicc["data"] as! NSArray
+                            let token = dicArrayValue.value(forKey: "token")
+                            self.userDefault.setValue(token, forKey: "authtoken")
+                            print("The authentication token is \(token)")
                             
                             DispatchQueue.main.async
                                 {
                                     
                                     self.appDelegate.changeInitialViewController()
-                                    
-//                                    let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-//                                    
-//                                    self.present(verifyOTPView, animated: true, completion: nil)
                                     
                             }
                             
@@ -305,8 +316,8 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                         }
                         else
                         {
-                            
                             print("error")
+                            self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: "Error has occour.")
                             
                         }
                         

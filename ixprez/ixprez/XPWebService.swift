@@ -442,6 +442,9 @@ class XPWebService
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         let urlString = URL(string: urlString)
         var requestedURL = URLRequest(url: urlString! as URL)
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authtoken")
+        requestedURL.addValue("authtoken \(authtoken)", forHTTPHeaderField:"Authorization")
         requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
         requestedURL.httpBody = jsonData
         requestedURL.httpMethod = "POST"
@@ -491,6 +494,8 @@ class XPWebService
         let jsonData = try? JSONSerialization.data(withJSONObject: parameter, options: .prettyPrinted)
         let urlString = URL(string: urlString)
         var requestedURL = URLRequest(url: urlString! as URL)
+        let authtoken = UserDefaults.standard.value(forKey: "authtoken")
+        requestedURL.addValue("authtoken \(authtoken)", forHTTPHeaderField:"Authorization")
         requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
         requestedURL.httpBody = jsonData
         requestedURL.httpMethod = "POST"
