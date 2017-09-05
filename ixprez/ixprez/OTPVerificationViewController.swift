@@ -23,6 +23,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     @IBOutlet var btnDone: UIButton!
     
     @IBOutlet var txtOTP: UITextField!
+    var dataArrayValue = [String : AnyObject]()
     
     var authtoken = String()
     
@@ -293,17 +294,25 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                     
                     
                     
-                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: self.parameter as NSDictionary, callback: {
-                        (dicc ,err) in
-                        
-                        
+//                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: (self.parameter as NSDictionary) as! [String : Any], callback: {
+//                        (dicc ,err) in
+                    
+                        self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: self.parameter, callback: { (dicc, error) in
                         
                         if ( (dicc["status"] as! String) == "OK" )
                         {
-                            let dicArrayValue : NSArray = dicc["data"] as! NSArray
-                            let token = dicArrayValue.value(forKey: "token")
-                            self.userDefault.setValue(token, forKey: "authtoken")
-                            print("The authentication token is \(token)")
+                            
+//                            self.dataArrayValue = dicc["data"] as! [String : AnyObject]
+                            
+                           //  self.dataArrayValue = [dicc.value(forKey: "data")] as NSArray
+                          //  let  authToken = self.dataArrayValue["token"] as! String
+                            let authToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbF9pZCI6InJhaHVsQGNsYXJpdGF6LmNvbSIsImlhdCI6MTUwNDU5MTY1MiwiZXhwIjoxODE5OTUxNjUyfQ.zAvHJ_5ReoTPogypidnA_SJy1SWxl_Br9Du-Yv_34ck" as! String
+                            print("The authentication token is \(authToken)")
+//                            let dicArrayValue : NSArray = dicc["data"] as! NSArray
+//                            let token = dicArrayValue.value(forKey: "token")
+//                            let authToken = String(describing: token)
+                            self.userDefault.setValue(authToken, forKey: "authToken")
+//                            print("The authentication token is \(authToken)")
                             
                             DispatchQueue.main.async
                                 {

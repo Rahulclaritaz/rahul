@@ -75,7 +75,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     override func awakeFromNib() {
         super.awakeFromNib()
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
-        dashboardXpressionCount()  // This will return the dashboard heart, private upload and notification count
+//        dashboardXpressionCount()  // This will return the dashboard heart, private upload and notification count
         getIcarouselFeaturesVideo() // This will return the carousel video
         getTrendingResponse()  // This will return the treanding video (most like video)
 //        getRecentResponse()
@@ -1012,33 +1012,49 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
             print("You have null value in thumbnail url")
         }
         
-        if (self.treadingFileType[indexPath.row] as! String == "video/mp4") {
-            cell.imgVA.image = UIImage(named: "SearchVideoOn")
-        } else {
-            cell.imgVA.image = UIImage(named: "privateAudio")
+        if ((self.treadingFileType[indexPath.row] as? String) != nil) {
+            if (self.treadingFileType[indexPath.row] as! String == "video/mp4") {
+                cell.imgVA.image = UIImage(named: "SearchVideoOn")
+            } else {
+                cell.imgVA.image = UIImage(named: "privateAudio")
+            }
         }
         
-        cell.titleLabel?.text = self.trendingTitle[indexPath.row] as? String
+        if ((self.trendingTitle[indexPath.row] as? String) != nil) {
+            cell.titleLabel?.text = self.trendingTitle[indexPath.row] as? String
+        }
 //        if (self.trendingLikeCount[indexPath.row] as! NSInteger == nul) {
 //            
 //        } else {
+        
+        if ((self.trendingLikeCount[indexPath.row] as? String) != nil){
             let likeCount: NSInteger = self.trendingLikeCount[indexPath.row] as! NSInteger
             cell.likeCountLabel?.text = String(likeCount) + " " + "Likes"
+        }
+        
 //        }
         
+        if ((self.trendingEmotionCount[indexPath.row] as? String) != nil){
+            let emotionCount: NSInteger = self.trendingEmotionCount[indexPath.row] as! NSInteger
+            cell.emotionCountLabel?.text = String(emotionCount) + " " + "React"
+        }
         
-        let emotionCount: NSInteger = self.trendingEmotionCount[indexPath.row] as! NSInteger
-        cell.emotionCountLabel?.text = String(emotionCount) + " " + "React"
-        let viewCountText: String = (trendingViewCount[indexPath.row] as? String)!
-        cell.ViewCountLabel?.text = viewCountText + " " + "Views"
+        if ((self.trendingViewCount[indexPath.row] as? String) != nil){
+            let viewCountText: String = (trendingViewCount[indexPath.row] as? String)!
+            cell.ViewCountLabel?.text = viewCountText + " " + "Views"
+        }
+        
+        
         cell.playButton?.tag = indexPath.row
         cell.playButton?.addTarget(self, action: #selector(TreandingVideoAudioPlayButtonAction(sender:)), for: UIControlEvents.touchUpInside)
-        cell.isUserFollowing = self.dashboardUserfollowing[indexPath.row] as! NSInteger
         
-        if (cell.isUserFollowing == 0) {
-            cell.followerUserImage?.image = UIImage(named: "DashboardFollowIcon")
-        }else {
-           cell.followerUserImage?.image = UIImage(named: "DashboardUnFollowIcon")
+        if ((self.dashboardUserfollowing[indexPath.row] as? String) != nil){
+            cell.isUserFollowing = self.dashboardUserfollowing[indexPath.row] as! NSInteger
+            if (cell.isUserFollowing == 0) {
+                cell.followerUserImage?.image = UIImage(named: "DashboardFollowIcon")
+            }else {
+                cell.followerUserImage?.image = UIImage(named: "DashboardUnFollowIcon")
+            }
         }
         
         cell.followUserButton?.tag = indexPath.row

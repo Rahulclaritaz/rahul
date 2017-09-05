@@ -27,6 +27,10 @@ class  PrivateWebService
         request.httpMethod = "POST"
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
 
         let session = URLSession.shared
         
@@ -91,6 +95,10 @@ class  PrivateWebService
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        
         let session = URLSession.shared
         
         
@@ -151,6 +159,10 @@ class  PrivateWebService
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        
         let session = URLSession.shared
         
         
@@ -209,6 +221,10 @@ class  PrivateWebService
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         
         let session = URLSession.shared
         
@@ -271,13 +287,14 @@ class  PrivateWebService
         requestData.httpBody = datadic
         
         requestData.httpMethod = "POST"
-        let authtoken = UserDefaults.standard.value(forKey: "authtoken")
-        print("The authtoken is \(authtoken)")
         requestData.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
         requestData.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         // This will add the authentication token on the header of the API.
 //        let authtoken = UserDefaults.standard.value(forKey: "authtoken")
-//        requestData.setValue("authtoken \(authtoken)", forHTTPHeaderField: "authtoken")
+//requestData.addValue("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbF9pZCI6InJhaHVsQGNsYXJpdGF6LmNvbSIsImlhdCI6MTUwNDU5MTY1MiwiZXhwIjoxODE5OTUxNjUyfQ.zAvHJ_5ReoTPogypidnA_SJy1SWxl_Br9Du-Yv_34ck", forHTTPHeaderField: "authtoken")
         //        requestData.addValue(authtoken as! String, forHTTPHeaderField:"Authorization")
         
         let session1 = URLSession.shared

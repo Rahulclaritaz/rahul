@@ -155,7 +155,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
                 "notification":"1","remainder":"1","mobile_os":appdelegate.deviceOS, "mobile_version":appdelegate.deviceName,"mobile_modelname":appdelegate.deviceModel,"gcm_id":"DDD454564" ]
 
     
-                getAddData.getAddContact(urlString: getAddDataUrl.url(), dicData: dicData, callback:
+                getAddData.getAddContact(urlString: getAddDataUrl.url(), dicData: dicData as! [String : Any], callback:
                     { (dicc ,err) in
                         
                     if (dicc["status"] as! String == "OK")

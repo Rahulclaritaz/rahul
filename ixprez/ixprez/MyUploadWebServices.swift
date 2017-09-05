@@ -26,6 +26,10 @@ class MyUploadWebServices
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        
         let session = URLSession.shared
         let taskData1 = session.dataTask(with: request, completionHandler: {
             (data,response,error) -> Void in
@@ -89,6 +93,10 @@ class MyUploadWebServices
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        
         
         let session = URLSession.shared
 
@@ -149,6 +157,10 @@ class MyUploadWebServices
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         
         
         let session = URLSession.shared
