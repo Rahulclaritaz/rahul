@@ -23,7 +23,11 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     @IBOutlet var btnDone: UIButton!
     
     @IBOutlet var txtOTP: UITextField!
+    var dataArrayValue = [String : AnyObject]()
     
+    var authtoken = String()
+    
+    var parameter = [String : Any]()
     var userName : String = ""
     var emailId : String = ""
     var country : String = ""
@@ -280,24 +284,40 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                     let userInfo = user?.providerData[0]
                     print("Provided Id : \(user?.providerID)")
                     
-                    let parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":self.userDefault.string(forKey: "FCMToken"),"is_edit":"0"] as [String : Any]
+                    let fcmToken = self.userDefault.string(forKey: "FCMToken")
+                    if (fcmToken == nil) {
+                        self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id": "DDD454564" ,"is_edit":"0"] as [String : Any]
+                        
+                    } else {
+                        self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":fcmToken ,"is_edit":"0"] as [String : Any]
+                    }
                     
-                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
-                        (dicc ,err) in
-                        
-                        
+                    
+                    
+//                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: (self.parameter as NSDictionary) as! [String : Any], callback: {
+//                        (dicc ,err) in
+                    
+                        self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: self.parameter, callback: { (dicc, error) in
                         
                         if ( (dicc["status"] as! String) == "OK" )
                         {
+                            
+//                            self.dataArrayValue = dicc["data"] as! [String : AnyObject]
+                            
+                           //  self.dataArrayValue = [dicc.value(forKey: "data")] as NSArray
+                          //  let  authToken = self.dataArrayValue["token"] as! String
+                            let authToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbF9pZCI6InJhaHVsQGNsYXJpdGF6LmNvbSIsImlhdCI6MTUwNDU5MTY1MiwiZXhwIjoxODE5OTUxNjUyfQ.zAvHJ_5ReoTPogypidnA_SJy1SWxl_Br9Du-Yv_34ck" as! String
+                            print("The authentication token is \(authToken)")
+//                            let dicArrayValue : NSArray = dicc["data"] as! NSArray
+//                            let token = dicArrayValue.value(forKey: "token")
+//                            let authToken = String(describing: token)
+                            self.userDefault.setValue(authToken, forKey: "authToken")
+//                            print("The authentication token is \(authToken)")
                             
                             DispatchQueue.main.async
                                 {
                                     
                                     self.appDelegate.changeInitialViewController()
-                                    
-//                                    let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-//                                    
-//                                    self.present(verifyOTPView, animated: true, completion: nil)
                                     
                             }
                             
@@ -305,8 +325,8 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                         }
                         else
                         {
-                            
                             print("error")
+                            self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: "Error has occour.")
                             
                         }
                         

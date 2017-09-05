@@ -19,7 +19,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     let pulsrator = Pulsator()
     var isAudioButtonSelected : Bool = false
     let commomWebService = XPWebService()
-    let commonWebURL = URLDirectory.audioDataUpload()
+   // let commonWebURL = URLDirectory.audioDataUpload()
     @IBOutlet weak var audioBGImage = UIImageView()
     @IBOutlet weak var audioBGBorderImage = UIImageView()
     @IBOutlet weak var audioBGAnimationOne = UIImageView()

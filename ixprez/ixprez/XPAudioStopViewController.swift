@@ -160,6 +160,10 @@ class XPAudioStopViewController: UIViewController {
         // Setting the Content - type in HTTP header
         let boundary = generateBoundaryString()
         requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        print("The authtoken is \(authtoken)")
+        requestUrl.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         
         // Add the parameter
          

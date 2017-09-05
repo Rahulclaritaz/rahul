@@ -257,7 +257,7 @@ class XPWebService
     }
     
     
-    func getAddContact(urlString: String, dicData: NSDictionary,callback: @escaping (_ dic: NSDictionary,_ error: Error?) -> Void)
+    func getAddContact(urlString: String, dicData: [String:Any],callback: @escaping (_ dic: [String : Any],_ error: Error?) -> Void)
         
     {
         
@@ -279,13 +279,12 @@ class XPWebService
             
             if(data != nil && error == nil)
             {
-                var myData = NSDictionary()
+                var myData = [String : Any]()
                 
                 do
                 {
                     
-                    myData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
-                    
+                    myData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
                     
                     print(myData)
                     
@@ -295,7 +294,7 @@ class XPWebService
                     
                 }
                 
-                callback(myData , nil)
+                callback(myData, nil)
                 
                 
             }
@@ -312,6 +311,10 @@ class XPWebService
         var requestUrl = URLRequest(url: urlString! as URL)
         //        var requestUrl = URLRequest(url : urlString as! URL)
         requestUrl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        requestUrl.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         requestUrl.httpBody = jsonData
         requestUrl.httpMethod = "POST"
         let session = URLSession.shared
@@ -443,6 +446,11 @@ class XPWebService
         let urlString = URL(string: urlString)
         var requestedURL = URLRequest(url: urlString! as URL)
         requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        print("The authtoken is \(authtoken)")
+        requestedURL.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         requestedURL.httpBody = jsonData
         requestedURL.httpMethod = "POST"
         let session = URLSession.shared
@@ -492,6 +500,10 @@ class XPWebService
         let urlString = URL(string: urlString)
         var requestedURL = URLRequest(url: urlString! as URL)
         requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        requestedURL.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         requestedURL.httpBody = jsonData
         requestedURL.httpMethod = "POST"
         let session = URLSession.shared
@@ -535,6 +547,10 @@ class XPWebService
         let urlString = NSURL(string: urlString)
         var requestedURl = URLRequest(url: urlString as! URL)
         requestedURl.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        requestedURl.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         requestedURl.httpMethod = "POST"
         requestedURl.httpBody = jsonData
         let session = URLSession.shared
@@ -623,6 +639,10 @@ class XPWebService
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         var requestedURL = URLRequest(url: urlStringData as URL)
         requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        requestedURL.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         requestedURL.httpBody = jsonData
         requestedURL.httpMethod = "POST"
         let session = URLSession.shared
@@ -668,6 +688,10 @@ class XPWebService
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         var requestedURL = URLRequest(url: urlStringData as URL)
         requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        requestedURL.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         requestedURL.httpBody = jsonData
         requestedURL.httpMethod = "POST"
         let session = URLSession.shared
