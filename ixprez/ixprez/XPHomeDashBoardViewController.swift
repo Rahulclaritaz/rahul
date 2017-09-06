@@ -23,6 +23,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var treadingUserName = NSArray ()
     var dashboardUserfollowing = NSArray ()
     var followingUserDP = NSArray ()
+    var followingUserID = NSArray()
     var activityIndicator = UIActivityIndicatorView ()
     var buttonTrendingSelected = Bool ()
     var buttonRecentSelected = Bool ()
@@ -269,19 +270,25 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         print("you click on the \(index) index")
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
         
-        let cellIndexPath = sender.tag
+        let cellIndexPath: Int = sender.tag
         
-        let urlPath = trendingFileURLPath[cellIndexPath] as! String
         
-        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        let urlPath: String  = trendingFileURLPath[cellIndexPath] as! String
         
-        storyBoard.playUrlString = finalURlPath
+//        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+        if (urlPath ==  "null") {
+            print("There is no play url path")
+        } else {
+            storyBoard.playUrlString = urlPath as! String
+        }
+        
+        
         storyBoard.nextID = trendingFeaturesId[cellIndexPath] as! String
         let labelLikeCount: NSInteger = trendingLikeCount[cellIndexPath] as! NSInteger
         storyBoard.playLike = labelLikeCount
         let labelSmileyCount: NSInteger = trendingEmotionCount[cellIndexPath] as! NSInteger
         storyBoard.playSmiley = labelSmileyCount
-        let labelPlayView: NSInteger = (Int)((trendingViewCount[cellIndexPath] as? String)!)!
+        let labelPlayView: NSInteger = trendingViewCount[cellIndexPath] as! NSInteger
         storyBoard.playView = labelPlayView
         
         storyBoard.playTitle = trendingTitle[cellIndexPath] as! String
@@ -849,20 +856,21 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         self.activityIndicator.startAnimating()
         let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress") ,"emotion":"like","index":"0","limit":"30"]
         dashBoardCommonService.getTreandingVideoResponse(urlString: treandingVideoURL.url(), parameter: requestParameter as NSDictionary) { (treandingResponse, error) in
-            print(treandingResponse)
+       //     print(treandingResponse)
             if (error == nil) {
                 self.trendingLikeCount = treandingResponse.value(forKey: "likeCount") as! NSArray
                 self.trendingEmotionCount = treandingResponse.value(forKey: "emotionCount") as! NSArray
                 self.trendingViewCount = treandingResponse.value(forKey: "view_count") as! NSArray
                 self.trendingTitle = treandingResponse.value(forKey: "title") as! NSArray
-                self.trendingThumbnail = treandingResponse.value(forKey: "thumbnailPath") as! NSArray
-                self.trendingFileURLPath = treandingResponse.value(forKey: "fileuploadPath") as! NSArray
+                self.trendingThumbnail = treandingResponse.value(forKey: "thumbtokenizedUrl") as! NSArray
+                self.trendingFileURLPath = treandingResponse.value(forKey: "tokenizedUrl") as! NSArray
                 self.trendingFeaturesId = treandingResponse.value(forKey: "_id") as! NSArray
                 self.treadingFileType = treandingResponse.value(forKey: "filemimeType") as! NSArray
                 self.treadingUserEmail = treandingResponse.value(forKey: "from_email") as! NSArray
                 self.treadingUserName = treandingResponse.value(forKey: "from_user") as! NSArray
                 self.dashboardUserfollowing = treandingResponse.value(forKey: "isuerfollowing") as! NSArray
                 self.followingUserDP = treandingResponse.value(forKey: "mydp") as! NSArray
+                self.followingUserID = treandingResponse.value(forKey: "user_id") as! NSArray
              
               //  XPDashboardTableViewCell
                 DispatchQueue.main.async(execute: {
@@ -885,19 +893,20 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         self.activityIndicator.startAnimating()
         let requestParameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress"),"emotion":"like","index":"0","limit":"30","language":"English","country":"India"]
         dashBoardCommonService.getRecentAudioVideoResponse(urlString: recentAudioVideoURL.url(), dictParameter: requestParameter as NSDictionary) { (recentResponse, error) in
-            print(recentResponse)
+         //   print(recentResponse)
             self.trendingLikeCount = recentResponse.value(forKey: "likeCount") as! NSArray
             self.trendingEmotionCount = recentResponse.value(forKey: "emotionCount") as! NSArray
             self.trendingViewCount = recentResponse.value(forKey: "view_count") as! NSArray
             self.trendingTitle = recentResponse.value(forKey: "title") as! NSArray
-            self.trendingThumbnail = recentResponse.value(forKey: "thumbnailPath") as! NSArray
-            self.trendingFileURLPath = recentResponse.value(forKey: "fileuploadPath") as! NSArray
+            self.trendingThumbnail = recentResponse.value(forKey: "thumbtokenizedUrl") as! NSArray
+            self.trendingFileURLPath = recentResponse.value(forKey: "tokenizedUrl") as! NSArray
             self.trendingFeaturesId = recentResponse.value(forKey: "_id") as! NSArray
             self.treadingFileType = recentResponse.value(forKey: "filemimeType") as! NSArray
             self.treadingUserEmail = recentResponse.value(forKey: "from_email") as! NSArray
             self.treadingUserName = recentResponse.value(forKey: "from_user") as! NSArray
             self.dashboardUserfollowing = recentResponse.value(forKey: "isuerfollowing") as! NSArray
             self.followingUserDP = recentResponse.value(forKey: "mydp") as! NSArray
+            self.followingUserID = recentResponse.value(forKey: "user_id") as! NSArray
             
             DispatchQueue.main.async(execute: {
                 self.xpressTableView?.reloadData()
@@ -922,6 +931,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         // to whom going to follow that user user name
         followView.userName = treadingUserName[sender.tag] as! String
         
+        followView.followingUserId = followingUserID[sender.tag] as! String
+        
         // to whom going to follow that user thumbnail Image
         let thumbImageURLString = self.trendingThumbnail[sender.tag] as! String
        // let finalThumbNailImageURL = thumbImageURLString.replacingOccurrences(of: localPath , with: localUrl )
@@ -935,7 +946,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         let userThumbNailImage = UIImageView()
         userThumbNailImage.getImageFromUrl(thumbImageURLString)
-        followView.userPhoto = userThumbNailImage.image!
+//        followView.userPhoto = userThumbNailImage.image!
         
 //        let followingUserProfileImage = UIImageView ()
 //        followingUserProfileImage.getImageFromUrl(followingUserProfileURL)
@@ -1027,28 +1038,28 @@ extension XPHomeDashBoardViewController : UITableViewDataSource {
 //            
 //        } else {
         
-        if ((self.trendingLikeCount[indexPath.row] as? String) != nil){
+        if ((self.trendingLikeCount[indexPath.row] as? Int) != nil){
             let likeCount: NSInteger = self.trendingLikeCount[indexPath.row] as! NSInteger
             cell.likeCountLabel?.text = String(likeCount) + " " + "Likes"
         }
         
 //        }
         
-        if ((self.trendingEmotionCount[indexPath.row] as? String) != nil){
+        if ((self.trendingEmotionCount[indexPath.row] as? Int) != nil){
             let emotionCount: NSInteger = self.trendingEmotionCount[indexPath.row] as! NSInteger
             cell.emotionCountLabel?.text = String(emotionCount) + " " + "React"
         }
         
-        if ((self.trendingViewCount[indexPath.row] as? String) != nil){
-            let viewCountText: String = (trendingViewCount[indexPath.row] as? String)!
-            cell.ViewCountLabel?.text = viewCountText + " " + "Views"
+        if ((self.trendingViewCount[indexPath.row] as? Int) != nil){
+            let viewCountText: NSInteger = self.trendingViewCount[indexPath.row] as! NSInteger
+            cell.ViewCountLabel?.text = String(viewCountText) + " " + "Views"
         }
         
         
         cell.playButton?.tag = indexPath.row
         cell.playButton?.addTarget(self, action: #selector(TreandingVideoAudioPlayButtonAction(sender:)), for: UIControlEvents.touchUpInside)
         
-        if ((self.dashboardUserfollowing[indexPath.row] as? String) != nil){
+        if ((self.dashboardUserfollowing[indexPath.row] as? Int) != nil){
             cell.isUserFollowing = self.dashboardUserfollowing[indexPath.row] as! NSInteger
             if (cell.isUserFollowing == 0) {
                 cell.followerUserImage?.image = UIImage(named: "DashboardFollowIcon")
@@ -1179,7 +1190,7 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
         let labelSmileyCount: NSInteger = trendingEmotionCount[indexPath.row] as! NSInteger
         storyBoard.playSmiley = labelSmileyCount
         storyBoard.playTitle = trendingTitle[indexPath.row] as! String
-        let labelPlayView: NSInteger = (Int)((trendingViewCount[indexPath.row] as? String)!)!
+        let labelPlayView: NSInteger = trendingViewCount[indexPath.row] as! NSInteger
         storyBoard.playView = labelPlayView + 1
         
         print("the carousel video url path is \(storyBoard.playUrlString)")

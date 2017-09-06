@@ -43,6 +43,8 @@ class XPFolllowsViewController: UIViewController
 
     var followersEmail = String()
     
+    var followingUserId = String()
+    
     var activityIndicator = UIActivityIndicatorView()
     
     // This will add the pull refresh in th etable view
@@ -187,14 +189,14 @@ extension XPFolllowsViewController : UITableViewDataSource
         
         cell.imgProfileImage.layer.cornerRadius = 4.0
         cell.imgProfileImage.layer.masksToBounds = true
-        let viewCount : Int = Int(followData["view_count"] as! String)!
+        let viewCount : Int = followData["view_count"] as! Int
         cell.lblViewCount.text = String(format: "%d Views", viewCount)
         
         
-        var thumbPath = followData["thumbnailPath"] as? String
+        var thumbPath = followData["thumbtokenizedUrl"] as? String
         
         
-        thumbPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//        thumbPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
         
         
         cell.imgProfileImage.getImageFromUrl(thumbPath!)
@@ -265,7 +267,7 @@ extension XPFolllowsViewController : UITableViewDelegate
         if (isUserFollowing == 0)
         {
             // orignator - to whom going to follow & follower - who is going to follow.
-            let followDic = ["orignator": followersEmail  ,"followers": UserDefaults.standard.value(forKey: "emailAddress")]
+            let followDic = ["user_id":followingUserId]
             
             self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.follower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
                 
@@ -286,7 +288,7 @@ extension XPFolllowsViewController : UITableViewDelegate
         {
             
             // orignator - to whom going to follow & follower - who is going to follow.
-            let followDic = ["orignator": followersEmail  ,"followers": UserDefaults.standard.value(forKey: "emailAddress")]
+            let followDic = ["user_id":followingUserId]
             
             self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.unFollower(), dicData: followDic as NSDictionary, callback: { (dic, err) in
                 
@@ -343,7 +345,7 @@ extension XPFolllowsViewController : UITableViewDelegate
             }
         }
         
-        let urlPath = recordFollowData["fileuploadPath"] as! String
+        let urlPath = recordFollowData["tokenizedUrl"] as! String
         
         var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
         
@@ -354,7 +356,7 @@ extension XPFolllowsViewController : UITableViewDelegate
         let labelSmileyCount: NSInteger = recordFollowData["emotionCount"] as! NSInteger
         storyBoard.playSmiley = labelSmileyCount
         storyBoard.playTitle = recordFollowData["title"] as! String
-        let labelPlayView: NSInteger = (Int)((recordFollowData["view_count"] as? String)!)!
+        let labelPlayView: NSInteger = recordFollowData["view_count"] as! NSInteger
         storyBoard.playView = labelPlayView + 1
         
         print("the carousel video url path is \(storyBoard.playUrlString)")

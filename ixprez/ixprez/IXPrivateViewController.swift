@@ -56,6 +56,8 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     var showAddContact : Bool!
     
+    var userID: String!
+    
     
     
     lazy var refershController : UIRefreshControl = {
@@ -174,7 +176,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     {
         
         
-        let privateDic : NSDictionary = ["index":0,"user_email": userEmail,"limit":30 ]
+        let privateDic : NSDictionary = ["index":0,"user_id": userEmail,"limit":30 ]
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {
