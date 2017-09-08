@@ -640,7 +640,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         let playLikeCount = playData["likeCount"] as! Int
         
-        let playViewCount = Int(playData["view_count"] as! String)
+        let playViewCount = playData["view_count"] as! Int
         
         let playSmiley = playData["smailyCount"] as! Int
         
@@ -655,7 +655,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         playViewController.playLike = playLikeCount
         
-        playViewController.playView = playViewCount! + 1
+        playViewController.playView = playViewCount + 1
         
         playViewController.playSmiley = playSmiley
         
@@ -840,7 +840,6 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                      
             DispatchQueue.main.async {
               self.carousel?.reloadData()
-                
                 self.xpressTableView?.reloadData()
                 
             }

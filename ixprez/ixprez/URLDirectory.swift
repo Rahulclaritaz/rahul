@@ -8,6 +8,7 @@
 
 import Foundation
 
+var UniversalURL : String = "http://34.234.11.46:3000/" // universal
 var localURL : String = "http://183.82.33.232:3000/"   //local
 var LiveURL : String = "http://103.235.104.118:3000/"   //Live
 

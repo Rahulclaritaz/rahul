@@ -18,6 +18,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
     
     var getPrivateURL = URLDirectory.PrivateData()
     var recordPrivateData = [[String : Any]]()
+    var recordMessageStatus = String()
     var checkAcceptUser : Bool!
     var showAddContact : Bool!
     let  myImage = UIImageView()
@@ -61,22 +62,36 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
     func getValueFromService() {
         let parameter : NSDictionary = ["user_email" :userEmail,"limit" : "30","index":"0","notificationCount":"1"]
         commomWebService.getNotificationData(urlString: commonWebUrl.getNotificationData(), dicData: parameter, callBack: {
-            (dicc,myData,erro) in
+            (dicc,dic,erro) in
             
             print("check private web service data",dicc)
-            self.recordPrivateData = dicc as [[String : Any]]
+            let messageCode : String = dic.value(forKey: "code") as! String
             
-//            self.recordPrivateData = [myData as! [String : Any]]
+            if (messageCode == "200") {
+               self.recordPrivateData = dicc.value(forKey: "Records") as! [[String : Any]]
+            } else {
+                self.recordMessageStatus = dicc.value(forKey: "msg") as! String
+                
+            }
             
             DispatchQueue.main.async{
                 
-//                self.refershController.beginRefreshing()
-//                
+                //                self.refershController.beginRefreshing()
+                //
                 self.notificationTableView.reloadData()
-//                
-//                self.refershController.endRefreshing()
+                //
+                //                self.refershController.endRefreshing()
                 
             }
+
+            
+            
+            
+//            self.recordPrivateData = dicc as [[String : Any]]
+            
+//            self.recordPrivateData = [myData as! [String : Any]]
+            
+           
             
         })
         
@@ -121,7 +136,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
         let privatecell = tableView.dequeueReusableCell(withIdentifier: "privatecell", for: indexPath) as! PrivateAudioVideoTableViewCell
         
         
-        guard let getData = privateData["msg"] as? String else
+      /*  guard let getData = self.recordMessageStatus as? String else
         {
             privatecell.isHidden = false
             privatecell.lblPrivateTitle.text = privateData["title"] as? String
@@ -129,6 +144,12 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
             privatecell.lblPrivateTitle.textColor = UIColor.getLightBlueColor()
             
             privatecell.lblPrivateTitleDescription.text = privateData["from_email"] as? String
+            
+            if (privatecell.lblPrivateTitleDescription.text == nil) {
+                
+                print("There is no data in the notification")
+            
+            } else {
             
             
             let checkIsContact = privateData["from_email"] as! String
@@ -259,16 +280,16 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
 //                    
 //                }
                 
+                }
+            
             }
-            
-            
             
             return privatecell
             
             
-        }
+        } */
         
-        if ( getData.isEqual("No Records"))
+        if ( self.recordMessageStatus == "No Records")
         {
             privatecell.isHidden = true
             
@@ -279,10 +300,159 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
             // noDataLabel.textAlignment    = .center
             // noDataLabel.textColor  = UIColor.white
             // noDataLabel.font = UIFont(name: "Mosk", size: 20)
-            notificationTableView.backgroundView = myImage
+            notificationTableView.backgroundView = self.myImage
             
             notificationTableView.separatorStyle = .none
             
+        } else {
+            privatecell.isHidden = false
+            privatecell.lblPrivateTitle.text = privateData["title"] as? String
+            
+            privatecell.lblPrivateTitle.textColor = UIColor.getLightBlueColor()
+            
+            privatecell.lblPrivateTitleDescription.text = privateData["from_email"] as? String
+            
+            if (privatecell.lblPrivateTitleDescription.text == nil) {
+                
+                print("There is no data in the notification")
+                
+            } else {
+                
+                
+                let checkIsContact = privateData["from_email"] as! String
+                let username =  privateData["title"] as? String
+                
+                let string1 : String = privateData["updatedAt"] as! String
+                
+                let dataStringFormatter = DateFormatter()
+                
+                dataStringFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+                
+                let date1 = dataStringFormatter.date(from: string1)
+                
+                
+                print("first formate date1",date1!)
+                
+                
+                let dataStringFormatterTime = DateFormatter()
+                
+                dataStringFormatterTime.dateFormat = "hh:mm"
+                
+                let time1 : String = dataStringFormatterTime.string(from: date1!)
+                
+                print("time data",time1)
+                
+                
+                let dataStringFormatterDay = DateFormatter()
+                
+                dataStringFormatterDay.dateFormat = "MMM d, YYYY"
+                
+                let day1 : String = dataStringFormatterDay.string(from: date1!)
+                
+                print("day data",day1)
+                
+                
+                privatecell.lblPrivateTime.text = time1
+                
+                privatecell.lblPrivateDate.text =  day1
+                
+                privatecell.layer.cornerRadius = 5.0
+                
+                
+                privatecell.layer.masksToBounds = true
+                
+                privatecell.imgPrivateVideoAudio.layer.cornerRadius = 5.0
+                
+                
+                privatecell.backgroundColor = UIColor.getPrivateCellColor()
+                
+                
+                let privatefilemimeType = privateData["filemimeType"] as? String
+                
+                
+                if privatefilemimeType == "video/mp4"
+                {
+                    let btnplayVideo = UIImage(named: "privateplay")
+                    
+                    //privatecell.btnPrivatePlay.setImage(btnplayVideo, for: .normal)
+                    
+                    privatecell.imgAV.image = btnplayVideo
+                    
+                    
+                    var privatethumbnailPath = privateData["thumbnailPath"] as? String
+                    
+                    
+                    privatethumbnailPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+                    
+                    print("privatethumbnailPath",privatethumbnailPath!)
+                    
+                    privatecell.imgPrivateVideoAudio.getImageFromUrl(privatethumbnailPath!)
+                    
+                    
+                    
+                }
+                else
+                {
+                    
+                    let btnplayaudio = UIImage(named: "privateAudio" )
+                    
+                    // privatecell.btnPrivatePlay.setImage( btnplayaudio , for:UIControlState.normal)
+                    
+                    privatecell.imgAV.image = btnplayaudio
+                    
+                    privatecell.imgPrivateVideoAudio.backgroundColor = UIColor.getLightBlueColor()
+                    
+                }
+                
+                
+                privatecell.btnPrivatePlay.tag = indexPath.section
+                
+                privatecell.btnPrivatePlay.addTarget(self, action: #selector(playVideoAudio(passUrl:)), for: .touchUpInside)
+                
+                
+                if deviceEmailID.contains(checkIsContact)
+                {
+                    privatecell.contentView.backgroundColor = UIColor.clear
+                    
+                }
+                else
+                {
+                    
+                    //                if checkAcceptUser == false
+                    //                {
+                    //                    privatecell.contentView.backgroundColor = UIColor.red
+                    //
+                    //                }
+                    //                else
+                    //
+                    //                {
+                    //
+                    //                    if !deviceEmailID.contains(checkIsContact)
+                    //                    {
+                    //                        createAddressBookContactWithFirstName(username!, lastName: "", email:  checkIsContact , phone: "", image: UIImage(named: "bg_reg.png" ))
+                    //                        
+                    //                        privatecell.contentView.backgroundColor = UIColor.clear
+                    //                        
+                    //                        getContact()
+                    //                        
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        
+                    //                        privatecell.contentView.backgroundColor = UIColor.clear
+                    //                        
+                    //                    }
+                    //                    
+                    //                    
+                    //                    
+                    //                }
+                    
+                }
+                
+            }
+            
+            return privatecell
+
         }
         
         

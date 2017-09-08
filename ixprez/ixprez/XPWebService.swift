@@ -679,7 +679,7 @@ class XPWebService
     
     // This method will update the notification
     
-    func getNotificationData (urlString : String , dicData : NSDictionary, callBack : @escaping (_ countData : [[String : Any]], [String : Any], _ error : NSError?) -> Void) {
+    func getNotificationData (urlString : String , dicData : NSDictionary, callBack : @escaping (_ countData : NSDictionary,_ responseData : NSDictionary, _ error : NSError?) -> Void) {
         
         guard let urlStringData = URL(string : urlString) else {
             print("We didn't get the Url")
@@ -700,20 +700,22 @@ class XPWebService
             if (data != nil && error == nil) {
                 print("You will get the Response")
                 do {
-                    let jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    let jsonData: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     print(jsonData)
                     
-                    let jsonResponseValue : String = (jsonData as AnyObject).value(forKey: "status") as! String
+                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
                     
                     if (jsonResponseValue == "Failed") {
                         return
                     } else {
-                        let jsonDictResponse  = jsonData as! [String : Any]
-                        print(jsonDictResponse)
-                        let jsonDictDataValue = jsonDictResponse["data"] as! [String : Any]
-                        let jsonArrayValue  = jsonDictDataValue["Records"] as! [[String : Any]]
-                        print(jsonArrayValue)
-                        callBack(jsonArrayValue,jsonDictDataValue, nil)
+                        let jsonDataValue : NSDictionary = (jsonData as AnyObject)["data"] as! NSDictionary
+//                        let jsonRecordsValue : String = jsonDataValue.value(forKey: "msg") as! String
+//                        let jsonDictResponse  = jsonData as! [String : Any]
+//                        print(jsonDictResponse)
+//                        let jsonDictDataValue = jsonDictResponse["data"] as! [String : Any]
+//                        let jsonArrayValue  = jsonDictDataValue["Records"] as! [[String : Any]]
+//                        print(jsonArrayValue)
+                        callBack(jsonDataValue,jsonData, nil)
                         
                     }
                     

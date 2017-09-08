@@ -14,7 +14,7 @@ class  PrivateWebService
 
 
     
-    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: [[String :Any]] ,[String : Any],_ error : Error?) -> Void)
+    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: NSArray,_ error : Error?) -> Void)
         
     {
         let privateData = try! JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
@@ -39,31 +39,53 @@ class  PrivateWebService
             
             if( data != nil && error == nil)
             {
-                var privateDictionary : Any?
+//                var privateDictionary : Any?
                 
                 do
                 {
         
-                    privateDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    let  jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
                     
-                    print(privateDictionary!)
+                    print(jsonData)
               
+                    let jsonResponseValue : String = (jsonData as AnyObject).value(forKey: "status") as! String
                     
+                    if(jsonResponseValue == "Failed") {
+                        return
+                    } else {
+                        return
+                        
+//                        let jsonArrayValue : NSArray = (jsonData as AnyObject).value(forKey: "Records") as! NSArray
+//                        
+//                        if (jsonArrayValue == nil) {
+//                            print("Record have No value to display in serach ")
+//                            return
+//                        } else {
+//                           callback(jsonArrayValue,nil)
+//                        }
+                        
+//                        let jsonDictResponse = jsonData as! [String : Any]
+//                        print(jsonDictResponse)
+//                        let jsonDictDataValue = jsonDictResponse["data"] as! [String : Any]
+//                        let jsonArrayValue = jsonDictDataValue["Records"] as! [[String : Any]]
+                        
+                    }
                 }
                 
                 catch
                 {
                 }
                 
-                let myPrivateDictionary = privateDictionary  as! [ String : Any]
                 
-                let dataPrivate = myPrivateDictionary["data"] as! [ String : Any]
-                
-                let recordPrivate = dataPrivate["Records"] as! [[String : Any]]
-                
-                print(recordPrivate)
-         
-                callback(recordPrivate,myPrivateDictionary,error)
+//                let myPrivateDictionary = privateDictionary  as! [ String : Any]
+//                
+//                let dataPrivate = myPrivateDictionary["data"] as! [ String : Any]
+//                
+//                let recordPrivate = dataPrivate["Records"] as! [[String : Any]]
+//                
+//                print(recordPrivate)
+//         
+//                callback(recordPrivate,myPrivateDictionary,error)
          
                 
             }

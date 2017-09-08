@@ -196,17 +196,17 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         let dicData = ["tags":myString,"index": Index - 1 ,"limit": 30,"sort":"like","user_email": userEmail] as [String : Any]
         
-        getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic,dataValue, err ) in
+        getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic, err ) in
       
            
-         let myData = dataValue["data"] as! [ String : Any]
+         let myData = dic as! [ String : Any]
             
-            print("sssss",dataValue["code"] as! String)
-            
-            
+//            print("sssss",dataValue["code"] as! String)
             
             
-        if (dataValue["code"] as! String) != "202"
+            
+            
+   /*     if (dataValue["code"] as! String) != "202"
         {
             
             self.isFiltered = true
@@ -252,8 +252,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
            
             
             
-            }
-            else
+            } */
+         /*   else
            {
             self.isFiltered = false
             
@@ -303,7 +303,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             }, completion: nil)
         
             
-            }
+            } */
    
             DispatchQueue.main.async
                 {
@@ -323,11 +323,11 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     {
         let dicData = ["user_email": userEmail]
         
-        getWebService.getPrivateDataWebService(urlString: getSearchURL.searchPopularVideo() , dicData: dicData as NSDictionary, callback: {(dicc, myData, err) in
+        getWebService.getPrivateDataWebService(urlString: getSearchURL.searchPopularVideo() , dicData: dicData as NSDictionary, callback: {(dicc, err) in
           
             if ( err == nil)
             {
-            self.recordPopularVideo = dicc
+            self.recordPopularVideo = dicc as! [[String : Any]]
                 
                 print ( "Popular Video", self.recordPopularVideo)
                 
@@ -1003,13 +1003,13 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
       let popularData = recordPopularVideo[indexPath.item]
         
-      cell.lblPopularTitle.text = popularData["title"] as? String
-        
-      cell.lblPopularLike.text =  String(format: "%d Likes", arguments: [popularData["likeCount"] as! Int])
-        
-      cell.lblPopularEmotion.text = String(format: "%d Reactions", arguments: [popularData["emotionCount"] as! Int])
-        
-      cell.lblPopularViews.text = popularData["view_count"] as? String
+//      cell.lblPopularTitle.text = popularData["title"] as? String
+//        
+//      cell.lblPopularLike.text =  String(format: "%d Likes", arguments: [popularData["likeCount"] as! Int])
+//        
+//      cell.lblPopularEmotion.text = String(format: "%d Reactions", arguments: [popularData["emotionCount"] as! Int])
+//        
+//      cell.lblPopularViews.text = popularData["view_count"] as? String
         
         
         
