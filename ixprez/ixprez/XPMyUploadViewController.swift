@@ -999,11 +999,11 @@ func deleteVideo(sender : UIButton)
        playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
     
             let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
-            let playUploadViewCount = Int(myUploadPlayData["view_count"] as! String)
+            let playUploadViewCount = myUploadPlayData["view_count"] as! Int
             let playUploadSmiley = myUploadPlayData["emotionCount"] as! Int
  
         
-    
+     
         let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController" ) as! XPMyUploadPlayViewController
         
         
@@ -1012,7 +1012,7 @@ func deleteVideo(sender : UIButton)
         playViewController.playUrlString = playUploadVideoPath!
         
         playViewController.playLike = playUploadLikeCount
-        playViewController.playView = playUploadViewCount!
+        playViewController.playView = playUploadViewCount
         playViewController.playSmiley = playUploadSmiley
             
         playViewController.nextID = playID
@@ -1043,7 +1043,7 @@ func deleteVideo(sender : UIButton)
             let playID = myUploadPlayData["_id"] as! String
             
             let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
-            let playUploadViewCount =  Int(myUploadPlayData["view_count"] as! String)
+            let playUploadViewCount = myUploadPlayData["view_count"] as! Int
             let playUploadSmiley = myUploadPlayData["emotionCount"] as! Int
             
             let checkUserLike = myUploadPlayData["isUserLiked"] as! Int
@@ -1060,7 +1060,7 @@ func deleteVideo(sender : UIButton)
             
             playViewController.playUrlString    = playUploadVideoPath!
             playViewController.playLike         = playUploadLikeCount
-            playViewController.playView         = playUploadViewCount!
+            playViewController.playView         = playUploadViewCount
             playViewController.playSmiley       = playUploadSmiley
             
             playViewController.nextID = playID

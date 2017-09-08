@@ -180,11 +180,11 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {
-                (dicc,myData,erro) in
+                (dicc,erro) in
                 
                 print("check private web service data",dicc)
                 
-                self.recordPrivateData = dicc as [[String : Any]]
+                self.recordPrivateData = dicc as! [[String : Any]]
                
                 DispatchQueue.main.async{
                     
