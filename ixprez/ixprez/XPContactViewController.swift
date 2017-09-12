@@ -18,6 +18,8 @@ var saveContactList = [ContactList]()
 
 var deviceEmailID = [String]()
 
+var devicePhoneNumber = [String]()
+
 var contactStore = CNContactStore()
 
 var contactss = [ContactEntry]()
@@ -87,7 +89,7 @@ func getContact()
                     for ccc in  contacts!
                     {
                         
-                        if (ccc.email != nil)  && (ccc.name != nil)
+                        if (ccc.phone != nil)  && (ccc.name != nil)
                             
                         {
                             let cont = ContactList()
@@ -101,11 +103,16 @@ func getContact()
                                 
                                 cont.imageData = ccc.image
                                 
+                                cont.phoneNumber = ccc.phone
+                                
                                 saveContactList.append(cont)
                                 
-                                deviceEmailID.append(ccc.email!)
+                            // This will add the email id in contact.
                                 
+//                                deviceEmailID.append(ccc.email!)
                                 
+                                devicePhoneNumber.append(ccc.phone!)
+                                print("The Total number of phone number in device With user image is  \(devicePhoneNumber.count)")
                             }
                             else
                             {
@@ -115,14 +122,21 @@ func getContact()
                                 
                                 cont.imageData = UIImage(named: "")
                                 
+                                cont.phoneNumber = ccc.phone
+                                
                                 
                                 //ccc.image ?? UIImage(named: "UploadSmileyOrange")!
                                 
                                 saveContactList.append(cont)
+                               
+                                // This will add the email id in contact.
                                 
-                                deviceEmailID.append(ccc.email!)
+//                                deviceEmailID.append(ccc.email!)
+                                
+                                devicePhoneNumber.append(ccc.phone!)
                                 
                                 //deviceName.append(ccc.name!)
+                                print("The Total number of phone number in device With out user image is  \(devicePhoneNumber.count)")
                             }
                             
                             
@@ -131,7 +145,7 @@ func getContact()
                         else
                             
                         {
-                            
+                            print("Email or name is nil")
                         }
                         
                         
@@ -272,7 +286,7 @@ func createCNContactWithFirstName(_ firstName: String, lastName: String, email: 
 
 protocol contactEmailDelegate
 {
-    func passEmailToAudioAndVideo (email : String)
+    func passEmailToAudioAndVideo (email : String, name : String)
 }
 
 class XPContactViewController: UIViewController, CNContactPickerDelegate, UISearchBarDelegate
@@ -299,6 +313,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     var isFiltered : Bool!
     var emailDelegate : contactEmailDelegate?
     var userEmail = String ()
+    var userName = String ()
     var webReference = PrivateWebService()
     var deviceName = [String]()
     var urlReference = URLDirectory.contactData()
@@ -430,24 +445,43 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     }
     func getWebServiceContact()
     {
-        print("emmmm",deviceEmailID)
+//        print("emmmm",deviceEmailID)
+        print("The contact of the phone list is",devicePhoneNumber)
         
         var setData = Set<String>()
         
-        for email in deviceEmailID
+//        for email in deviceEmailID
+//        {
+//            
+//            setData.insert(email)
+//            
+//        }
+//        
+//        var newEmail = [String]()
+//        
+//        
+//        for data in setData
+//        {
+//            
+//            newEmail.append(data)
+//            
+//            
+//        }
+        
+        for phoneNumber in devicePhoneNumber
         {
             
-            setData.insert(email)
+            setData.insert(phoneNumber)
             
         }
         
-        var newEmail = [String]()
+        var newPhoneNumber = [String]()
         
         
         for data in setData
         {
             
-            newEmail.append(data)
+            newPhoneNumber.append(data)
             
             
         }
@@ -455,10 +489,10 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         print("with out dupliacte data",setData)
         
         
-        print("with out dupliacte data in array",newEmail)
+        print("with out dupliacte data in array",newPhoneNumber)
         
         
-        let para = { ["contactList" :  newEmail ] }
+        let para = { ["contactList" :  newPhoneNumber ] }
         
         webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
             
@@ -482,18 +516,18 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
                     let newData1 = RecentContactList()
                     
                     
-                    print("name mathan",xpressContactList["user_name"] as! String)
+                    print("The iXprez user name is ",xpressContactList["user_name"] as! String)
                     
                     newData.userName = xpressContactList["user_name"] as! String
                     
-                    newData.emailId = xpressContactList["email_id"] as! String
-                    
+//                    newData.emailId = xpressContactList["email_id"] as! String
+                    newData.phoneNumber = xpressContactList["email_id"] as! String
                     
                     
                     newData1.userNameRecent = xpressContactList["user_name"] as! String
                     
-                    newData1.emailIdRecent = xpressContactList["email_id"] as! String
-                    
+//                    newData1.emailIdRecent = xpressContactList["email_id"] as! String
+                    newData1.phoneNumberRecent  = xpressContactList["email_id"] as! String
                     
                     
                     expressEmailId.append(xpressContactList["email_id"] as! String)
@@ -536,8 +570,11 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
                     
                     // This will delete the expressuser contact from contact list already appear in the contact list. to avoid the duplicasy with expressUser and device contact user
                     for(index, element ) in saveContactList.enumerated() {
-                        let expressUserEmail = newData.emailId
-                        let contactUserEmail = saveContactList[index].emailId
+                        let expressUserEmail = newData.phoneNumber
+                        let contactUserEmail = saveContactList[index].phoneNumber
+                        print("The contact user phonenumber is \(saveContactList[index].phoneNumber) at index \(index)")
+                        let contactUserName = saveContactList[index].userName
+                        print("The contact user name is \(saveContactList[index].userName) at index \(index)")
                         
                         if (expressUserEmail == contactUserEmail) {
                             saveContactList.remove(at: index)
@@ -565,14 +602,14 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
     {
         isRecent = true
         
-        if ((UserDefaults.standard.object(forKey: "toEmailAddress")) != nil) {
-            saveContactList1 = saveContactList.filter({
-                
-                return $0.emailId.lowercased().range(of: UserDefaults.standard.object(forKey: "toEmailAddress") as! String) != nil
-                
-            })
-            
-        }
+//        if ((UserDefaults.standard.object(forKey: "toEmailAddress")) != nil) {
+//            saveContactList1 = saveContactList.filter({
+//                
+//                return $0.emailId.lowercased().range(of: UserDefaults.standard.object(forKey: "toEmailAddress") as! String) != nil
+//                
+//            })
+//            
+//        }
         
         DispatchQueue.main.async {
             
@@ -734,13 +771,15 @@ extension XPContactViewController : UITableViewDelegate {
                 
                 print("chech tableview Data",entry)
                 
-                let email = entry.emailId
+                let email = entry.phoneNumber
+                let name = entry.userName
                 if (email == nil)
                 {
-                    userEmail = "No Email"
+                    userEmail = "No Phone-Number"
                 } else
                 {
                     userEmail = email!
+                    userName = name!
                     
                     // deviceEmailID.append(email!)
                     
@@ -754,23 +793,25 @@ extension XPContactViewController : UITableViewDelegate {
                         //                videoVC.contactVideo = true
                         
                         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
-                        storyboard.selectedUserEmail = userEmail
+                        storyboard.selectedUserEmail = userName+" - "+userEmail
+//                        storyboard.selectedUserName = userName
                         storyboard.contactVideo = true
                         let navigation = UINavigationController.init(rootViewController: storyboard)
                         self.navigationController?.present(navigation, animated: true, completion: nil)
-                        //                self.navigationController?.popViewController(animated: true)
-                        //                emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+//                                        self.navigationController?.popViewController(animated: true)
+//                                        emailDelegate?.passEmailToAudioAndVideo(email: userEmail, name: userName)
                         //                self.navigationController?.pushViewController(videoVC, animated: true)
                         return
                     }
                     self.navigationController?.popViewController(animated: true)
-                    emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+                    emailDelegate?.passEmailToAudioAndVideo(email: userEmail, name: userName)
                     return
                 }
                 
                 let  popController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPContactModeViewController") as! XPContactModeViewController
                 self.addChildViewController(popController)
                 popController.contactUserEmail = userEmail
+                popController.contactUserName = userName
                 popController.view.frame = self.view.frame
                 self.view.addSubview(popController.view)
                 popController.didMove(toParentViewController: self)
@@ -791,10 +832,10 @@ extension XPContactViewController : UITableViewDelegate {
                 
                 print("chech tableview Data",entry)
                 
-                let email = entry.emailId
+                let email = entry.phoneNumber
                 if (email == nil)
                 {
-                    userEmail = "No Email"
+                    userEmail = "No Phone-Number"
                 } else
                 {
                     userEmail = email!
@@ -811,7 +852,7 @@ extension XPContactViewController : UITableViewDelegate {
                         //                videoVC.contactVideo = true
                         
                         let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
-                        storyboard.selectedUserEmail = userEmail
+                        storyboard.selectedUserEmail = userName+" - "+userEmail
                         storyboard.contactVideo = true
                         let navigation = UINavigationController.init(rootViewController: storyboard)
                         self.navigationController?.present(navigation, animated: true, completion: nil)
@@ -821,7 +862,7 @@ extension XPContactViewController : UITableViewDelegate {
                         return
                     }
                     self.navigationController?.popViewController(animated: true)
-                    emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+                    emailDelegate?.passEmailToAudioAndVideo(email: userEmail, name: userName)
                     return
                 }
                 
@@ -878,7 +919,7 @@ extension XPContactViewController : UITableViewDelegate {
                     //                videoVC.contactVideo = true
                     
                     let storyboard = self.storyboard?.instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
-                    storyboard.selectedUserEmail = userEmail
+                    storyboard.selectedUserEmail = userEmail+" - "+userName
                     storyboard.contactVideo = true
                     let navigation = UINavigationController.init(rootViewController: storyboard)
                     self.navigationController?.present(navigation, animated: true, completion: nil)
@@ -888,7 +929,7 @@ extension XPContactViewController : UITableViewDelegate {
                     return
                 }
                 self.navigationController?.popViewController(animated: true)
-                emailDelegate?.passEmailToAudioAndVideo(email: userEmail)
+                emailDelegate?.passEmailToAudioAndVideo(email: userEmail, name: userName)
                 return
             }
             

@@ -15,6 +15,7 @@ class XPContactTableViewCell: UITableViewCell {
     @IBOutlet weak var contactUserEmail = UILabel()
     @IBOutlet weak var contactUserProfile = UIImageView ()
     @IBOutlet weak var contactType = UIImageView ()
+    @IBOutlet weak var contactUserPhoneNumber = UILabel()
     
     
     override func awakeFromNib() {
@@ -44,9 +45,12 @@ class XPContactTableViewCell: UITableViewCell {
         contactUserProfile?.image = nil
         
         setCircularAvatar()
+        guard (contact.phoneNumber != nil) else {
+            print("There is no phone number in this conatct")
+            return
+        }
         
-        
-        if expressEmailId.contains(contact.emailId)
+        if devicePhoneNumber.contains(contact.phoneNumber)
         {
             contactType?.image =  UIImage(named: "ExpressUser")
         }
@@ -61,7 +65,8 @@ class XPContactTableViewCell: UITableViewCell {
         {
             
             contactUserName?.text = contact.userName
-            contactUserEmail?.text = contact.emailId!
+//            contactUserEmail?.text = contact.emailId!
+            contactUserPhoneNumber?.text = contact.phoneNumber!
             contactUserProfile?.image = contact.imageData
             
         }
@@ -70,7 +75,8 @@ class XPContactTableViewCell: UITableViewCell {
             
             
             contactUserName?.text = contact.userName
-            contactUserEmail?.text = contact.emailId!
+//            contactUserEmail?.text = contact.emailId!
+            contactUserPhoneNumber?.text = contact.phoneNumber!
             contactUserProfile?.image = UIImage(named: "")
             
             
@@ -87,14 +93,16 @@ class XPContactTableViewCell: UITableViewCell {
         {
          
             contactUserName?.text = contact.userName
-            contactUserEmail?.text = contact.emailId!
+//            contactUserEmail?.text = contact.emailId!
+            contactUserPhoneNumber?.text = contact.phoneNumber!
             contactUserProfile?.image = contact.imageData
             
         }
         else
         {
             contactUserName?.text = contact.userName
-            contactUserEmail?.text = contact.emailId!
+//            contactUserEmail?.text = contact.emailId!
+            contactUserPhoneNumber?.text = contact.phoneNumber!
             contactUserProfile?.image = UIImage(named: "")
         }
         

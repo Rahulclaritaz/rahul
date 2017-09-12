@@ -262,7 +262,8 @@ struct URLDirectory
     {
         func getXpressContact() -> String
         {
-            return localURL + "queryService/getIxpressContactList"
+            return  localURL + "queryService/getIxpressMobileList"
+           // return localURL + "queryService/getIxpressContactList"
             
         }
     }

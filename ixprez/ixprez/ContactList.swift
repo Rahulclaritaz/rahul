@@ -13,6 +13,7 @@ class ContactList: NSObject
     var emailId : String!
     var userName : String!
     var imageData : UIImage!
+    var phoneNumber : String!
     
     /*
     init(email : String , name : String , image : UIImage)

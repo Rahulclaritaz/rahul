@@ -14,5 +14,6 @@ class RecentContactList: NSObject
     var emailIdRecent : String!
     var userNameRecent : String!
     var imageDataRecent : UIImage!
+    var phoneNumberRecent : String!
 
 }

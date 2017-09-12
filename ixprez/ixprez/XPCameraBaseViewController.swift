@@ -17,9 +17,12 @@ class XPCameraBaseViewController: UIViewController,AVCaptureVideoDataOutputSampl
     var cameraSession =  AVCaptureSession ()
     var imagePicker = UIImagePickerController ()
     var selectedUserEmail = String ()
+    var selectedUserName = String ()
+    var selectedNameAndNumber = String ()
     var contactVideo = Bool ()
     var contactUserEmail = Bool ()
     var emailAddressLabel = UILabel ()
+    var nameAndNumber = String ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,7 @@ class XPCameraBaseViewController: UIViewController,AVCaptureVideoDataOutputSampl
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style: .plain, target:nil, action:nil)
+        self.selectedNameAndNumber = selectedUserEmail
         setupCameraSession()
         cameraSession.startRunning()
         self.view.layer.addSublayer(previewLayer)
@@ -47,7 +51,7 @@ class XPCameraBaseViewController: UIViewController,AVCaptureVideoDataOutputSampl
         self.addChildViewController(popController)
 //        popController.videoEmailDelegate = self
         popController.view.frame = self.view.frame
-        popController.emailAddressLabel.text = selectedUserEmail
+        popController.emailAddressLabel.text = selectedNameAndNumber
         popController.selectContactVideo = contactVideo
         self.view.addSubview(popController.view)
         self.didMove(toParentViewController: self)
@@ -123,9 +127,9 @@ class XPCameraBaseViewController: UIViewController,AVCaptureVideoDataOutputSampl
 //}
 
 extension XPCameraBaseViewController : contactEmailDelegate {
-    
-    func passEmailToAudioAndVideo(email: String) {
+    func passEmailToAudioAndVideo(email: String, name: String) {
         self.contactUserEmail = true
+        self.nameAndNumber = name+" - "+email
         self.emailAddressLabel.text = email
     }
 }

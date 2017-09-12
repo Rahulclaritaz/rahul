@@ -33,6 +33,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var pickerNavBar = UINavigationBar ()
     
     var emailAddressLabel = UILabel ()
+    var nameAndNumber = String ()
     var moodLabel = UILabel()
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
@@ -438,9 +439,10 @@ extension XPVideoViewController : VideoTextFieldDelegate {
 }
 
 extension XPVideoViewController : contactEmailDelegate {
-    func passEmailToAudioAndVideo(email: String) {
+    func passEmailToAudioAndVideo(email: String, name: String) {
         self.contactUserEmail = true
-        self.emailAddressLabel.text = email
+        self.nameAndNumber = name+" - "+email
+        self.emailAddressLabel.text = self.nameAndNumber
     }
 }
 
