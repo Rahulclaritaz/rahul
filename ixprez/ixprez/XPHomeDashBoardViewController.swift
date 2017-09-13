@@ -45,6 +45,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     let recentAudioVideoURL = URLDirectory.recentURL()
     let followUpdateCountURL = URLDirectory.audioVideoViewCount()
     let dashboardScreenCount = URLDirectory.Setting()
+    let audioVideoPlayURLString = URLDirectory.audioVideoPlayURL ()
     let getDashBoardCountWebService = PrivateWebService()
     let heartDashboardXpressionButton = UIBarButtonItem ()
     var dashboardHeartButtonCount = Int ()
@@ -272,29 +273,36 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         let cellIndexPath: Int = sender.tag
         
-        
-        let urlPath: String  = trendingFileURLPath[cellIndexPath] as! String
-        
-//        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
-        if (urlPath ==  "null") {
-            print("There is no play url path")
-        } else {
-            storyBoard.playUrlString = urlPath as! String
+        let parameter = ["file_id" : trendingFeaturesId[cellIndexPath]]
+        dashBoardCommonService.videoAndAudioPlay(urlString: audioVideoPlayURLString.getAudioVideoPlayUrl(), dicData: parameter as NSDictionary) { (responceData, errror) in
+            print("\(responceData)")
+            storyBoard.playUrlString = responceData as! String
+            storyBoard.nextID = self.trendingFeaturesId[cellIndexPath] as! String
+            let labelLikeCount: NSInteger = self.trendingLikeCount[cellIndexPath] as! NSInteger
+            storyBoard.playLike = labelLikeCount
+            let labelSmileyCount: NSInteger = self.trendingEmotionCount[cellIndexPath] as! NSInteger
+            storyBoard.playSmiley = labelSmileyCount
+            let labelPlayView: NSInteger = self.trendingViewCount[cellIndexPath] as! NSInteger
+            storyBoard.playView = labelPlayView
+            
+            storyBoard.playTitle = self.trendingTitle[cellIndexPath] as! String
+            
+            print("the carousel video url path is \(storyBoard.playUrlString)")
+            self.navigationController?.pushViewController(storyBoard, animated: true)
+            
         }
         
+//        let urlPath: String  = trendingFileURLPath[cellIndexPath] as! String
         
-        storyBoard.nextID = trendingFeaturesId[cellIndexPath] as! String
-        let labelLikeCount: NSInteger = trendingLikeCount[cellIndexPath] as! NSInteger
-        storyBoard.playLike = labelLikeCount
-        let labelSmileyCount: NSInteger = trendingEmotionCount[cellIndexPath] as! NSInteger
-        storyBoard.playSmiley = labelSmileyCount
-        let labelPlayView: NSInteger = trendingViewCount[cellIndexPath] as! NSInteger
-        storyBoard.playView = labelPlayView
+//        var finalURlPath = urlPath.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//        if (urlPath ==  "null") {
+//            print("There is no play url path")
+//        } else {
+//            storyBoard.playUrlString = responceData as! String
+//        }
         
-        storyBoard.playTitle = trendingTitle[cellIndexPath] as! String
         
-        print("the carousel video url path is \(storyBoard.playUrlString)")
-        self.navigationController?.pushViewController(storyBoard, animated: true)
+        
         
         
     }

@@ -14,6 +14,8 @@ class XPContactModeViewController: UIViewController {
   @IBOutlet weak  var audioButton = UIButton ()
   @IBOutlet weak  var videoButton = UIButton ()
     var contactUserEmail = String ()
+    var contactUserName = String ()
+    var nameAndNumber = String ()
     
 
     override func viewDidLoad() {
@@ -24,6 +26,8 @@ class XPContactModeViewController: UIViewController {
         audioButton?.layer.masksToBounds = true
         videoButton?.layer.cornerRadius = (videoButton?.frame.size.width)!/2
         videoButton?.layer.masksToBounds = true
+        nameAndNumber = contactUserName+" - "+contactUserEmail
+        print("The name and number of user is \(nameAndNumber)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,7 +38,7 @@ class XPContactModeViewController: UIViewController {
     @IBAction func audioButtonAction(sender : UIButton) {
         print("You click on audio")
     let audioViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
-        audioViewController.emailAddressLabel.text = contactUserEmail
+        audioViewController.emailAddressLabel.text = self.nameAndNumber
         audioViewController.selectContactAudio = true
         self.navigationController?.pushViewController(audioViewController, animated: true)
         self.view.removeFromSuperview()
@@ -46,7 +50,7 @@ class XPContactModeViewController: UIViewController {
     @IBAction func videoButtonAction(sender : UIButton) {
          print("You click on video")
         let videoViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
-        videoViewController.selectedUserEmail = contactUserEmail
+        videoViewController.selectedUserEmail = self.nameAndNumber
         videoViewController.contactVideo = true
         self.navigationController?.pushViewController(videoViewController, animated: true)
         self.view.removeFromSuperview()

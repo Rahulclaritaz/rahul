@@ -33,6 +33,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     @IBOutlet weak var pickerNavBar = UINavigationBar ()
     
     var emailAddressLabel = UILabel ()
+    var nameAndNumber = String ()
+    var phoneNumberValidate = String ()
     var moodLabel = UILabel()
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
@@ -44,6 +46,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var imagePicker = UIImagePickerController ()
     var contactUserEmail : Bool = false
     var selectContactVideo = Bool ()
+    var webReference = PrivateWebService()
+    var urlReference = URLDirectory.contactData()
 //    var videoEmailDelegate : videoViewEmailDelegate?
     
     var picker: UIPickerView!
@@ -181,7 +185,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 if (contactUserEmail == true  || selectContactVideo == true) {
                     cell.expressTitleTextField?.text = emailAddressLabel.text
                 } else {
-                    cell.expressTitleTextField?.text = "Email"
+                    cell.expressTitleTextField?.text = "Phone Number"
                 }
                 
                 cell.indexPathRow = indexPath.row
@@ -238,7 +242,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 if (contactUserEmail == true) {
                     cell.expressTitleTextField?.text = emailAddressLabel.text
                 } else {
-                    cell.expressTitleTextField?.text = "Email"
+                    cell.expressTitleTextField?.text = "Phone Number"
                 }
                 cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
                 cell.indexPathRow = indexPath.row
@@ -334,16 +338,129 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
     }
     
+    func validateIxprezUser () {
+        
+        var phoneNumber = [String]()
+        phoneNumber = [self.emailAddressLabel.text!]
+    
+        let para = { ["contactList" :  phoneNumber ] }
+        
+        webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
+            
+            print("\(myData)")
+            
+      /*      self.getIxpressContactList = myData["data"] as! [[String:Any]]
+            
+            
+            
+            if  self.getIxpressContactList.isEmpty
+            {
+                print("No Data")
+            }
+                
+            else
+            {
+                for xpressContactList in self.getIxpressContactList
+                {
+                    
+                    let newData = ContactList()
+                    
+                    let newData1 = RecentContactList()
+                    
+                    
+                    print("The iXprez user name is ",xpressContactList["user_name"] as! String)
+                    
+                    newData.userName = xpressContactList["user_name"] as! String
+                    
+                    //                    newData.emailId = xpressContactList["email_id"] as! String
+                    newData.phoneNumber = xpressContactList["email_id"] as! String
+                    
+                    
+                    newData1.userNameRecent = xpressContactList["user_name"] as! String
+                    
+                    //                    newData1.emailIdRecent = xpressContactList["email_id"] as! String
+                    newData1.phoneNumberRecent  = xpressContactList["email_id"] as! String
+                    
+                    
+                    expressEmailId.append(xpressContactList["email_id"] as! String)
+                    
+                    
+                    
+                    newData.imageData = nil
+                    
+                    newData1.imageDataRecent = nil
+                    
+                    
+                    let imageString = xpressContactList["profile_image"] as! String
+                    
+                    DispatchQueue.global(qos: .background).async
+                        {
+                            let url = URL(string: imageString)
+                            
+                            let sess = URLSession.shared
+                            
+                            let dataTask = sess.dataTask(with: url!, completionHandler:
+                            { ( data,response,error) in
+                                
+                                DispatchQueue.main.async
+                                    {
+                                        
+                                        newData.imageData = UIImage(data: data!)!
+                                        
+                                        newData1.imageDataRecent = UIImage(data: data!)!
+                                        
+                                        self.contactTableView?.reloadData()
+                                }
+                                
+                                
+                            })
+                            
+                            dataTask.resume()
+                            
+                            
+                    }
+                    
+                    // This will delete the expressuser contact from contact list already appear in the contact list. to avoid the duplicasy with expressUser and device contact user
+                    for(index, element ) in saveContactList.enumerated() {
+                        let expressUserEmail = newData.phoneNumber
+                        let contactUserEmail = saveContactList[index].phoneNumber
+                        print("The contact user phonenumber is \(saveContactList[index].phoneNumber) at index \(index)")
+                        let contactUserName = saveContactList[index].userName
+                        print("The contact user name is \(saveContactList[index].userName) at index \(index)")
+                        
+                        if (expressUserEmail == contactUserEmail) {
+                            saveContactList.remove(at: index)
+                            break
+                        }
+                        
+                    }
+                    // This will save the expressuser in the device contact.
+                    saveContactList.insert(newData, at: 0)
+                    
+                    self.saveRecentContactList.append(newData1)
+                    
+                    
+                }
+                
+                print("mathan cmathan check",expressEmailId)
+                
+            } */
+            
+        })
+    }
+    
     @IBAction func NextViewScreenButtonAction (_ sender: Any) {
         defaultValue.set(shareTitleLabel.text, forKey: "pickerStatus")
         defaultValue.set(emailAddressLabel.text, forKey: "toEmailAddress")
         defaultValue.set(moodLabel.text , forKey: "moodLabelValue")
         defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
-        let alert = UIAlertController(title: "Alert", message: "Email and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
+        validateIxprezUser()
+        
+        let alert = UIAlertController(title: "Alert", message: "Phone Number and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
         if (shareTitleLabel.text == "Private") {
-            if ((emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
+            if ((emailAddressLabel.text == nil) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings!")) {
                 self.present(alert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
@@ -438,9 +555,11 @@ extension XPVideoViewController : VideoTextFieldDelegate {
 }
 
 extension XPVideoViewController : contactEmailDelegate {
-    func passEmailToAudioAndVideo(email: String) {
+    func passEmailToAudioAndVideo(email: String, name: String) {
         self.contactUserEmail = true
-        self.emailAddressLabel.text = email
+        self.phoneNumberValidate = email
+        self.nameAndNumber = name+" - "+email
+        self.emailAddressLabel.text = self.nameAndNumber
     }
 }
 

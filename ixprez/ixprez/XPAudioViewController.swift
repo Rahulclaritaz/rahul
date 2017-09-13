@@ -43,6 +43,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     @IBOutlet weak var audioBGAnimationOne = UIImageView()
     @IBOutlet weak var audioBGAnimationTwo = UIImageView()
     var emailAddressLabel = UILabel ()
+    var nameAndNumber = String ()
     var moodLabel = UILabel()
     var feelingsLabel = UILabel()
     var isAutoPoplatedContact : Bool = false
@@ -476,9 +477,10 @@ extension XPAudioViewController : AudioTextFieldDelegate {
 }
 
 extension XPAudioViewController : contactEmailDelegate {
-    func passEmailToAudioAndVideo(email: String) {
+    func passEmailToAudioAndVideo(email: String, name: String){
         self.selectContactEmail = true
-        emailAddressLabel.text = email
+        self.nameAndNumber = name+" - "+email
+        emailAddressLabel.text = self.nameAndNumber
     }
     
 }

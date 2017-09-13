@@ -262,7 +262,8 @@ struct URLDirectory
     {
         func getXpressContact() -> String
         {
-            return localURL + "queryService/getIxpressContactList"
+            return  localURL + "queryService/getIxpressMobileList"
+           // return localURL + "queryService/getIxpressContactList"
             
         }
     }
@@ -273,6 +274,11 @@ struct URLDirectory
         }
     }
 
-    
+    struct audioVideoPlayURL {
+        func getAudioVideoPlayUrl () -> String
+        {
+            return localURL  + "queryService/onclickplay"
+        }
+    }
     
 }
