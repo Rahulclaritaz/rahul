@@ -274,6 +274,11 @@ struct URLDirectory
         }
     }
 
-    
+    struct audioVideoPlayURL {
+        func getAudioVideoPlayUrl () -> String
+        {
+            return localURL  + "queryService/onclickplay"
+        }
+    }
     
 }
