@@ -48,6 +48,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     var selectContactVideo = Bool ()
     var webReference = PrivateWebService()
     var urlReference = URLDirectory.contactData()
+    var filteredString = String ()
+    var customAlertController = DOAlertController ()
 //    var videoEmailDelegate : videoViewEmailDelegate?
     
     var picker: UIPickerView!
@@ -340,113 +342,104 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     func validateIxprezUser () {
         
+        phoneNumberValidate = self.emailAddressLabel.text!
+        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        let filteredCharacters = phoneNumberValidate.characters.filter {
+            return numericSet.contains($0)
+        }
+        filteredString = String(filteredCharacters)
         var phoneNumber = [String]()
-        phoneNumber = [self.emailAddressLabel.text!]
-    
+        phoneNumber = [filteredString]
         let para = { ["contactList" :  phoneNumber ] }
         
         webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
             
             print("\(myData)")
+            let userPhoneNumber : NSArray = myData.value(forKey: "data") as! NSArray
+            print(userPhoneNumber)
             
-      /*      self.getIxpressContactList = myData["data"] as! [[String:Any]]
-            
-            
-            
-            if  self.getIxpressContactList.isEmpty
-            {
-                print("No Data")
-            }
-                
-            else
-            {
-                for xpressContactList in self.getIxpressContactList
-                {
+            DispatchQueue.main.async {
+                if (userPhoneNumber.count > 0) {
+                    let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
+                    self.navigationController?.pushViewController(storyBoard, animated: true)
+                } else {
                     
-                    let newData = ContactList()
+                    let message = "Oops! Look like \(self.filteredString) hasn't signed up for iXprez yet! Use his email ID to Xpress to him."
+                    let cancelButtonTitle = "Cancel"
+                    let otherButtonTitle = "Invite and xpress"
+                    self.customAlertController = DOAlertController(title: nil, message: message, preferredStyle: .alert)
+                    self.changecustomAlertController()
+                    let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel, handler: {
+                        action in
+                        
+                        print("You select the cancel button in pop up")
+                    })
                     
-                    let newData1 = RecentContactList()
-                    
-                    
-                    print("The iXprez user name is ",xpressContactList["user_name"] as! String)
-                    
-                    newData.userName = xpressContactList["user_name"] as! String
-                    
-                    //                    newData.emailId = xpressContactList["email_id"] as! String
-                    newData.phoneNumber = xpressContactList["email_id"] as! String
-                    
-                    
-                    newData1.userNameRecent = xpressContactList["user_name"] as! String
-                    
-                    //                    newData1.emailIdRecent = xpressContactList["email_id"] as! String
-                    newData1.phoneNumberRecent  = xpressContactList["email_id"] as! String
-                    
-                    
-                    expressEmailId.append(xpressContactList["email_id"] as! String)
-                    
-                    
-                    
-                    newData.imageData = nil
-                    
-                    newData1.imageDataRecent = nil
-                    
-                    
-                    let imageString = xpressContactList["profile_image"] as! String
-                    
-                    DispatchQueue.global(qos: .background).async
-                        {
-                            let url = URL(string: imageString)
-                            
-                            let sess = URLSession.shared
-                            
-                            let dataTask = sess.dataTask(with: url!, completionHandler:
-                            { ( data,response,error) in
-                                
-                                DispatchQueue.main.async
-                                    {
-                                        
-                                        newData.imageData = UIImage(data: data!)!
-                                        
-                                        newData1.imageDataRecent = UIImage(data: data!)!
-                                        
-                                        self.contactTableView?.reloadData()
-                                }
-                                
-                                
-                            })
-                            
-                            dataTask.resume()
-                            
-                            
+                    self.customAlertController.addTextFieldWithConfigurationHandler { textField in
+                        
+                        
+                        textField?.frame.size = CGSize(width: 240.0, height: 30.0)
+                        textField?.font = UIFont(name: "Mosk", size: 15.0)
+                        textField?.textColor = UIColor.blue
+                        textField?.keyboardAppearance = UIKeyboardAppearance.dark
+                        textField?.returnKeyType = UIReturnKeyType.send
+                        
+                        // textfield1 = textField!
+                        
+                        // textField?.delegate = self as! UITextFieldDelegate
+                        
+                        // If you need to customize the text field, you can do so here.
                     }
                     
-                    // This will delete the expressuser contact from contact list already appear in the contact list. to avoid the duplicasy with expressUser and device contact user
-                    for(index, element ) in saveContactList.enumerated() {
-                        let expressUserEmail = newData.phoneNumber
-                        let contactUserEmail = saveContactList[index].phoneNumber
-                        print("The contact user phonenumber is \(saveContactList[index].phoneNumber) at index \(index)")
-                        let contactUserName = saveContactList[index].userName
-                        print("The contact user name is \(saveContactList[index].userName) at index \(index)")
-                        
-                        if (expressUserEmail == contactUserEmail) {
-                            saveContactList.remove(at: index)
-                            break
-                        }
-                        
-                    }
-                    // This will save the expressuser in the device contact.
-                    saveContactList.insert(newData, at: 0)
+                    let otherAction = DOAlertAction(title: otherButtonTitle, style: .default, handler: { (UIAlertaction) in
+                        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
+                        self.navigationController?.pushViewController(storyBoard, animated: true)
+                    })
                     
-                    self.saveRecentContactList.append(newData1)
-                    
+                    self.customAlertController.addAction(cancelAction)
+                    self.customAlertController.addAction(otherAction)
+                    self.addChildViewController(self.customAlertController)
+                    self.customAlertController.view.frame = self.view.frame
+                    self.view.addSubview(self.customAlertController.view)
+                    self.customAlertController.didMove(toParentViewController: self)
+                    //                self.show(self.customAlertController, sender: nil)
+                    //                self.present(self.customAlertController, animated: true, completion: nil)
                     
                 }
-                
-                print("mathan cmathan check",expressEmailId)
-                
-            } */
+            }
+            
+            
+            
+           
             
         })
+    }
+    
+    
+    func changecustomAlertController()
+    {
+        
+        customAlertController.alertView.layer.cornerRadius = 6.0
+        
+        customAlertController.alertViewBgColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.7)
+        
+        customAlertController.titleFont = UIFont(name: "Mosk", size: 17.0)
+        customAlertController.titleTextColor = UIColor.green
+        
+        customAlertController.messageFont = UIFont(name: "Mosk", size: 15.0)
+        
+        customAlertController.messageTextColor = UIColor.black
+        
+        customAlertController.alertView.sizeToFit()
+        
+        customAlertController.buttonFont[.cancel] = UIFont(name: "Mosk", size: 15.0)
+        
+        customAlertController.buttonBgColor[.cancel] = UIColor.getLightBlueColor()
+        
+        customAlertController.buttonFont[.default] = UIFont(name: "Mosk", size: 15.0)
+        
+        customAlertController.buttonBgColor[.default] = UIColor.getOrangeColor()
+        
     }
     
     @IBAction func NextViewScreenButtonAction (_ sender: Any) {
@@ -454,11 +447,10 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         defaultValue.set(emailAddressLabel.text, forKey: "toEmailAddress")
         defaultValue.set(moodLabel.text , forKey: "moodLabelValue")
         defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
-        validateIxprezUser()
         
         let alert = UIAlertController(title: "Alert", message: "Phone Number and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
+//        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
         if (shareTitleLabel.text == "Private") {
             if ((emailAddressLabel.text == nil) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings!")) {
                 self.present(alert, animated: true, completion: nil)
@@ -469,8 +461,9 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 }else {
 //                    storyBoard.titleString = feelingsLabel.text!
                 }
+                validateIxprezUser()
                 
-                self.navigationController?.pushViewController(storyBoard, animated: true)
+//                self.navigationController?.pushViewController(storyBoard, animated: true)
             }
             
         } else if (shareTitleLabel.text == "Public") {
@@ -483,12 +476,13 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 }else {
 //                    storyBoard.titleString = feelingsLabel.text!
                 }
-                self.navigationController?.pushViewController(storyBoard, animated: true)
+                validateIxprezUser()
+//                self.navigationController?.pushViewController(storyBoard, animated: true)
             }
             
             
         } else if (shareTitleLabel.text == "Both") {
-            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true)) {
+            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil)) {
                 self.present(alert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
@@ -497,7 +491,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 }else {
 //                    storyBoard.titleString = feelingsLabel.text!
                 }
-                self.navigationController?.pushViewController(storyBoard, animated: true)
+                validateIxprezUser()
+//                self.navigationController?.pushViewController(storyBoard, animated: true)
             }
             
         }
@@ -557,7 +552,6 @@ extension XPVideoViewController : VideoTextFieldDelegate {
 extension XPVideoViewController : contactEmailDelegate {
     func passEmailToAudioAndVideo(email: String, name: String) {
         self.contactUserEmail = true
-        self.phoneNumberValidate = email
         self.nameAndNumber = name+" - "+email
         self.emailAddressLabel.text = self.nameAndNumber
     }

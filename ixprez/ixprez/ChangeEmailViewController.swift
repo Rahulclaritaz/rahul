@@ -158,17 +158,17 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
                 getAddData.getAddContact(urlString: getAddDataUrl.url(), dicData: dicData as! [String : Any], callback:
                     { (dicc ,err) in
                         
-                    if (dicc["status"] as! String == "OK")
-                    {
-                        DispatchQueue.main.async {
-                         
-                     let otpView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-                        
-                        self.present(otpView, animated: true, completion: nil)
-                        }
-                        
-                        
-                        }
+//                    if (dicc["status"] as! String == "OK")
+//                    {
+//                        DispatchQueue.main.async {
+//                         
+//                     let otpView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+//                        
+//                        self.present(otpView, animated: true, completion: nil)
+//                        }
+//                        
+//                        
+//                        }
                         
                 })
                 

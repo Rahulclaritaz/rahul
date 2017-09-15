@@ -219,6 +219,9 @@ class  PrivateWebService
                 
                 callback(sendBackDic, error)
                 
+            } else {
+                print("There is no Response data")
+                return
             }
         })
         
