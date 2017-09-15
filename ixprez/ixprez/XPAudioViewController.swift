@@ -52,6 +52,11 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     var selectContactAudio : Bool = false
     var selectContactVideo : Bool = false
     var contactModeView = XPContactModeViewController ()
+    var phoneNumberValidate = String ()
+    var webReference = PrivateWebService()
+    var urlReference = URLDirectory.contactData()
+    var filteredString = String ()
+    var customAlertController = DOAlertController ()
 //    var cellIndexPath = XPAudioXpressTableViewCell()
 //    var delegateCell : cellTextValidateDelegate?
     
@@ -168,7 +173,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                 if (selectContactEmail == true || selectContactAudio == true) {
                     cell.expressTitleTextField?.text = emailAddressLabel.text
                 } else {
-                  cell.expressTitleTextField?.text = "Email"
+                  cell.expressTitleTextField?.text = "Phone Number"
                 }
                 
                 cell.indexPathRow = indexPath.row
@@ -224,7 +229,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     if (selectContactEmail == true) {
                        cell.expressTitleTextField?.text = emailAddressLabel.text 
                     } else {
-                        cell.expressTitleTextField?.text = "Email"
+                        cell.expressTitleTextField?.text = "Phone Number"
                     }
                     cell.expressTitleTextField?.textColor = UIColor.init(colorLiteralRed: 254.0/255.0, green: 108.0/255.0, blue: 39.0/255.0, alpha: 1.0)
                     cell.indexPathRow = indexPath.row
@@ -361,17 +366,124 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 
     }
     
+    func validateIxprezUser () {
+        
+        if (self.emailAddressLabel.text != nil) {
+            phoneNumberValidate = self.emailAddressLabel.text!
+            let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            let filteredCharacters = phoneNumberValidate.characters.filter {
+                return numericSet.contains($0)
+            }
+            filteredString = String(filteredCharacters)
+            var phoneNumber = [String]()
+            phoneNumber = [filteredString]
+            let para = { ["contactList" :  phoneNumber ] }
+            
+            webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
+                
+                print("\(myData)")
+                let userPhoneNumber : NSArray = myData.value(forKey: "data") as! NSArray
+                print(userPhoneNumber)
+                
+                DispatchQueue.main.async {
+                    if (userPhoneNumber.count > 0) {
+                        //                    let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
+                        //                    self.navigationController?.pushViewController(storyBoard, animated: true)
+                    } else {
+                        
+                        let message = "Oops! Look like \(self.filteredString) hasn't signed up for iXprez yet! Use his email ID to Xpress to him."
+                        let cancelButtonTitle = "Cancel"
+                        let otherButtonTitle = "Invite and xpress"
+                        self.customAlertController = DOAlertController(title: nil, message: message, preferredStyle: .alert)
+                        self.changecustomAlertController()
+                        let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel, handler: {
+                            action in
+                            
+                            print("You select the cancel button in pop up")
+                        })
+                        
+                        self.customAlertController.addTextFieldWithConfigurationHandler { textField in
+                            
+                            
+                            textField?.frame.size = CGSize(width: 240.0, height: 30.0)
+                            textField?.font = UIFont(name: "Mosk", size: 15.0)
+                            textField?.textColor = UIColor.blue
+                            textField?.keyboardAppearance = UIKeyboardAppearance.dark
+                            textField?.returnKeyType = UIReturnKeyType.send
+                            
+                            // textfield1 = textField!
+                            
+                            // textField?.delegate = self as! UITextFieldDelegate
+                            
+                            // If you need to customize the text field, you can do so here.
+                        }
+                        
+                        let otherAction = DOAlertAction(title: otherButtonTitle, style: .default, handler: { (UIAlertaction) in
+                            //                        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
+                            //                        self.navigationController?.pushViewController(storyBoard, animated: true)
+                        })
+                        
+                        self.customAlertController.addAction(cancelAction)
+                        self.customAlertController.addAction(otherAction)
+                        self.addChildViewController(self.customAlertController)
+                        self.customAlertController.view.frame = self.view.frame
+                        self.view.addSubview(self.customAlertController.view)
+                        self.customAlertController.didMove(toParentViewController: self)
+                        //                self.show(self.customAlertController, sender: nil)
+                        //                self.present(self.customAlertController, animated: true, completion: nil)
+                        
+                    }
+                }
+                
+                
+                
+                
+                
+            })
+        }
+        
+    }
+    
+    
+    func changecustomAlertController()
+    {
+        
+        customAlertController.alertView.layer.cornerRadius = 6.0
+        
+        customAlertController.alertViewBgColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.7)
+        
+        customAlertController.titleFont = UIFont(name: "Mosk", size: 17.0)
+        customAlertController.titleTextColor = UIColor.green
+        
+        customAlertController.messageFont = UIFont(name: "Mosk", size: 15.0)
+        
+        customAlertController.messageTextColor = UIColor.black
+        
+        customAlertController.alertView.sizeToFit()
+        
+        customAlertController.buttonFont[.cancel] = UIFont(name: "Mosk", size: 15.0)
+        
+        customAlertController.buttonBgColor[.cancel] = UIColor.getLightBlueColor()
+        
+        customAlertController.buttonFont[.default] = UIFont(name: "Mosk", size: 15.0)
+        
+        customAlertController.buttonBgColor[.default] = UIColor.getOrangeColor()
+        
+    }
+    
+    
+    
     // This method will check the textfield validation and move to next Controller. 
     @IBAction func NextViewScreenButtonAvtion (sender: Any) {
         defaultValue.set(shareTitleLabel.text, forKey: "pickerStatus")
         defaultValue.set(emailAddressLabel.text, forKey: "toEmailAddress")
         defaultValue.set(moodLabel.text , forKey: "moodLabelValue")
         defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
-        let alert = UIAlertController(title: "Alert", message: "Email and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
+        let alert = UIAlertController(title: "Alert", message: "Phone Number and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
 //        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "XPAudioRecordingViewController") as! XPAudioRecordingViewController
         if (shareTitleLabel.text == "Private") {
-            if ((emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
+            if ((emailAddressLabel.text == nil) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
                 self.present(alert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
@@ -382,9 +494,10 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 //                    storyBoard.titleString = feelingsLabel.text!
                     controller.title = feelingsLabel.text!
                 }
+                validateIxprezUser()
                 
 //                self.navigationController?.pushViewController(storyBoard, animated: true)
-                presentBlurredAudioRecorderViewControllerAnimated(controller)
+//                presentBlurredAudioRecorderViewControllerAnimated(controller)
             }
             
         } else if (shareTitleLabel.text == "Public") {
@@ -399,13 +512,14 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 //                    storyBoard.titleString = feelingsLabel.text!
                     controller.title = feelingsLabel.text!
                 }
+                validateIxprezUser()
 //                self.navigationController?.pushViewController(storyBoard, animated: true)
-                presentBlurredAudioRecorderViewControllerAnimated(controller)
+//                presentBlurredAudioRecorderViewControllerAnimated(controller)
             }
             
             
         } else if (shareTitleLabel.text == "Both") {
-            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil) || (emailAddressLabel.text?.isValidEmail() != true)) {
+            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil)) {
                 self.present(alert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
@@ -416,12 +530,14 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
 //                    storyBoard.titleString = feelingsLabel.text!
                     controller.title = feelingsLabel.text!
                 }
+                validateIxprezUser()
 //                self.navigationController?.pushViewController(storyBoard, animated: true)
-                presentBlurredAudioRecorderViewControllerAnimated(controller)
+//                presentBlurredAudioRecorderViewControllerAnimated(controller)
             }
             
         }
        
+//        presentBlurredAudioRecorderViewControllerAnimated(controller)
     }
     
     

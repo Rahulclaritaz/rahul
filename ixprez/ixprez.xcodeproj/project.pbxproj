@@ -44,7 +44,6 @@
 		131703E01F061FE200101221 /* XPSettingPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703DE1F061FE200101221 /* XPSettingPhotoViewController.swift */; };
 		131703E31F06247200101221 /* XPFollowHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E11F06247200101221 /* XPFollowHeaderTableViewCell.swift */; };
 		131703E41F06247200101221 /* XPFollowsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E21F06247200101221 /* XPFollowsTableViewCell.swift */; };
-		131703E91F0625AA00101221 /* AlertExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E51F0625AA00101221 /* AlertExtension.swift */; };
 		131703EA1F0625AA00101221 /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E61F0625AA00101221 /* FontExtension.swift */; };
 		131703EB1F0625AA00101221 /* UINavigationBar+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E71F0625AA00101221 /* UINavigationBar+Alpha.swift */; };
 		131703EC1F0625AA00101221 /* UIScrollView+ScalableCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131703E81F0625AA00101221 /* UIScrollView+ScalableCover.swift */; };
@@ -205,7 +204,6 @@
 		131703DE1F061FE200101221 /* XPSettingPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPSettingPhotoViewController.swift; sourceTree = "<group>"; };
 		131703E11F06247200101221 /* XPFollowHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPFollowHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		131703E21F06247200101221 /* XPFollowsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPFollowsTableViewCell.swift; sourceTree = "<group>"; };
-		131703E51F0625AA00101221 /* AlertExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertExtension.swift; sourceTree = "<group>"; };
 		131703E61F0625AA00101221 /* FontExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		131703E71F0625AA00101221 /* UINavigationBar+Alpha.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Alpha.swift"; sourceTree = "<group>"; };
 		131703E81F0625AA00101221 /* UIScrollView+ScalableCover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+ScalableCover.swift"; sourceTree = "<group>"; };
@@ -672,7 +670,6 @@
 			children = (
 				131A2F951F17AC3D00D0E9EC /* PopupAlert.swift */,
 				131703ED1F0629E000101221 /* IXValidation.swift */,
-				131703E51F0625AA00101221 /* AlertExtension.swift */,
 				8552BC521F55AAC900566F22 /* AlertControllerExtension.swift */,
 				131703E61F0625AA00101221 /* FontExtension.swift */,
 				131703E71F0625AA00101221 /* UINavigationBar+Alpha.swift */,
@@ -903,7 +900,6 @@
 				1314C6E91ED7E81300FD0A8F /* UIImageViewExtension.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				8592909D1F00FD22006A488D /* IQAudioRecorderViewController.m in Sources */,
-				131703E91F0625AA00101221 /* AlertExtension.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
 				855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */,
 				859290A71F00FF5E006A488D /* SCSiriWaveformView.m in Sources */,

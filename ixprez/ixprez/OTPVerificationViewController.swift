@@ -25,7 +25,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     @IBOutlet var txtOTP: UITextField!
     var dataArrayValue = [String : AnyObject]()
     
-    var authtoken = String()
+    var authtoken : String = ""
     
     var parameter = [String : Any]()
     var userName : String = ""
@@ -45,6 +45,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     var email : String!
     
     let userDefault = UserDefaults.standard
+    var dictArrayValue = NSArray()
 
     
     
@@ -299,20 +300,37 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                     
                         self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: self.parameter, callback: { (dicc, error) in
                         
-                        if ( (dicc["status"] as! String) == "OK" )
-                        {
+//                        if ( (dicc["status"] as! String) == "OK" )
+//                        {
+//                            self.dictArrayValue = dicc.value(forKey: "data") as! NSArray
+                            let dictValue = String(describing: dicc.value(forKey: "token"))
+                            let dictValue1 = String(describing: dicc.value(forKey: "user_id"))
+                            let dictValue2 = String(describing: dicc.value(forKey: "phone_number"))
+                            print("the Authentication token get from the server is \(dictValue)")
+                            print("the Authentication token get from the server is \(dictValue1)")
+                            print("the Authentication token get from the server is \(dictValue2)")
+//                            self.authtoken = String(describing: dictValue)
+//                            print("The authentication token is \(self.authtoken)")
+                            
+                            
+//                            print("the Authentication token get from the server is \(self.authtoken)")
+//                            for dictValue in self.dictArrayValue {
+////                                let authToken = dictValue["token"] as! String
+//                                
+//                                print(dictValue)
+//                            }
                             
 //                            self.dataArrayValue = dicc["data"] as! [String : AnyObject]
                             
                            //  self.dataArrayValue = [dicc.value(forKey: "data")] as NSArray
                           //  let  authToken = self.dataArrayValue["token"] as! String
-                            let authToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbF9pZCI6InJhaHVsQGNsYXJpdGF6LmNvbSIsImlhdCI6MTUwNDU5MTY1MiwiZXhwIjoxODE5OTUxNjUyfQ.zAvHJ_5ReoTPogypidnA_SJy1SWxl_Br9Du-Yv_34ck" as! String
-                            print("The authentication token is \(authToken)")
+                            let authToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbF9pZCI6InJhaHVsQGNsYXJpdGF6LmNvbSIsImlhdCI6MTUwNTQ3MDI0MCwiZXhwIjoxODIwODMwMjQwfQ.bD_f9METmRzvsVJa4_4L8FvEcJThQ4fv53KQo61R1qk" as! String
+//                            print("The authentication token is \(authToken)")
 //                            let dicArrayValue : NSArray = dicc["data"] as! NSArray
 //                            let token = dicArrayValue.value(forKey: "token")
 //                            let authToken = String(describing: token)
                             self.userDefault.setValue(authToken, forKey: "authToken")
-//                            print("The authentication token is \(authToken)")
+                            
                             
                             DispatchQueue.main.async
                                 {
@@ -322,13 +340,13 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                             }
                             
                             
-                        }
-                        else
-                        {
-                            print("error")
-                            self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: "Error has occour.")
-                            
-                        }
+//                        }
+//                        else
+//                        {
+//                            print("error")
+//                            self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: "Error has occour.")
+//                            
+//                        }
                         
                         
                         print(dicc)

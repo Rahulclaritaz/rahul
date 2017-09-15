@@ -257,7 +257,7 @@ class XPWebService
     }
     
     
-    func getAddContact(urlString: String, dicData: [String:Any],callback: @escaping (_ dic: [String : Any],_ error: Error?) -> Void)
+    func getAddContact(urlString: String, dicData: [String:Any],callback: @escaping (_ dic: NSArray,_ error: Error?) -> Void)
         
     {
         
@@ -277,26 +277,29 @@ class XPWebService
         let dataTask = session.dataTask(with: request, completionHandler: {
             (data,response,error) -> Void in
             
-            if(data != nil && error == nil)
-            {
-                var myData = [String : Any]()
-                
-                do
-                {
+            if (data != nil && error == nil) {
+                print("You will get the Response")
+                do {
+                    let jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(jsonData)
+                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
                     
-                    myData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! [String : Any]
+                    if (jsonResponseValue == "Failed") {
+                        return
+                    } else {
+//                        let responseDataDictValue: NSDictionary = jsonData.value(forKey: "data") as! NSDictionary
+                        let responseDataArrayValue : NSArray = jsonData.value(forKey: "data") as! NSArray
+                        callback(responseDataArrayValue, nil)
+                        print(responseDataArrayValue)
+                        
+                    }
                     
-                    print(myData)
+                } catch {
                     
                 }
-                catch
-                {
-                    
-                }
-                
-                callback(myData, nil)
-                
-                
+            }else {
+                print("You will not get the Response any Error Occour")
+                return
             }
             
         })
