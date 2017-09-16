@@ -275,20 +275,25 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         let parameter = ["file_id" : trendingFeaturesId[cellIndexPath]]
         dashBoardCommonService.videoAndAudioPlay(urlString: audioVideoPlayURLString.getAudioVideoPlayUrl(), dicData: parameter as NSDictionary) { (responceData, errror) in
-            print("\(responceData)")
-            storyBoard.playUrlString = responceData as! String
-            storyBoard.nextID = self.trendingFeaturesId[cellIndexPath] as! String
-            let labelLikeCount: NSInteger = self.trendingLikeCount[cellIndexPath] as! NSInteger
-            storyBoard.playLike = labelLikeCount
-            let labelSmileyCount: NSInteger = self.trendingEmotionCount[cellIndexPath] as! NSInteger
-            storyBoard.playSmiley = labelSmileyCount
-            let labelPlayView: NSInteger = self.trendingViewCount[cellIndexPath] as! NSInteger
-            storyBoard.playView = labelPlayView
             
-            storyBoard.playTitle = self.trendingTitle[cellIndexPath] as! String
             
-            print("the carousel video url path is \(storyBoard.playUrlString)")
-            self.navigationController?.pushViewController(storyBoard, animated: true)
+            DispatchQueue.main.async {
+                print("\(responceData)")
+                storyBoard.playUrlString = responceData as! String
+                storyBoard.nextID = self.trendingFeaturesId[cellIndexPath] as! String
+                let labelLikeCount: NSInteger = self.trendingLikeCount[cellIndexPath] as! NSInteger
+                storyBoard.playLike = labelLikeCount
+                let labelSmileyCount: NSInteger = self.trendingEmotionCount[cellIndexPath] as! NSInteger
+                storyBoard.playSmiley = labelSmileyCount
+                let labelPlayView: NSInteger = self.trendingViewCount[cellIndexPath] as! NSInteger
+                storyBoard.playView = labelPlayView
+                
+                storyBoard.playTitle = self.trendingTitle[cellIndexPath] as! String
+                
+                print("the carousel video url path is \(storyBoard.playUrlString)")
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            }
+            
             
         }
         

@@ -29,11 +29,13 @@ class XPAudioStopViewController: UIViewController {
     var audioData = NSData()
     var registrationPage = RegistrationViewController ()
     var audioPage = XPAudioViewController ()
+    var unregisteredXprezUserEmail = String ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         titleLabel = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
+        unregisteredXprezUserEmail = UserDefaults.standard.value(forKey: "inviteXprezUser") as! String
         self.title = titleLabel
         print(registrationPage.defaults.string(forKey: "emailAddress"))
          print(audioPage.defaultValue.string(forKey: "toEmailAddress"))
@@ -42,7 +44,6 @@ class XPAudioStopViewController: UIViewController {
         print(audioPage.defaultValue.string(forKey: "pickerStatus"))
         print(audioPage.defaultValue.string(forKey: "countryName"))
         print(audioPage.defaultValue.string(forKey: "languageName"))
-        
         userProfileView?.layer.cornerRadius = (userProfileView?.frame.size.width)!/2
         userProfileView?.layer.masksToBounds = true
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
@@ -257,8 +258,8 @@ class XPAudioStopViewController: UIViewController {
         body.appendString("--\(boundary)\r\n")
 //        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Documents/Movie.mp4\"\r\n")
 //        body.appendString("Content-Type: video/mp4\r\n\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"MyAudioMemo.wav\"\r\n")
-        body.appendString("Content-Type: audio/wav\r\n\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"MyAudioMemo.mp3\"\r\n")
+        body.appendString("Content-Type: audio/mp3\r\n\r\n")
         //let urlData = NSData(data: audioData as Data)
         body.append(audioData as Data)
         body.appendString("\r\n")

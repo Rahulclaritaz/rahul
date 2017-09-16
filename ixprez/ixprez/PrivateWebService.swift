@@ -163,7 +163,7 @@ class  PrivateWebService
     }
     
     
-    func  getPrivateAcceptRejectWebService1(urlString : String ,dicData : [String : [String]] , callback : @escaping (_ dic : NSDictionary , _ error : Error?) -> Void)
+    func  getiXprezUserValidateWebService(urlString : String ,dicData : [String : [String]] , callback : @escaping (_ dic : NSDictionary , _ error : Error?) -> Void)
     {
         
         

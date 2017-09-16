@@ -494,7 +494,7 @@ class XPContactViewController: UIViewController, CNContactPickerDelegate, UISear
         
         let para = { ["contactList" :  newPhoneNumber ] }
         
-        webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
+        webReference.getiXprezUserValidateWebService(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
             
             
             self.getIxpressContactList = myData["data"] as! [[String:Any]]

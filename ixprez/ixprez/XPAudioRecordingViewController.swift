@@ -86,7 +86,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         let dirPaths = fileMgr.urls(for: .documentDirectory,
                                     in: .userDomainMask)
         
-        soundURL = dirPaths[0].appendingPathComponent("sound.wav")
+        soundURL = dirPaths[0].appendingPathComponent("sound.mp3")
         
         let recordSettings =
             [AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
@@ -275,7 +275,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     pulsrator.backgroundColor = UIColor(red: 211.0/255.0, green: 211.0/255.0, blue: 211.0/255.0, alpha: 1.0).cgColor
     pulsrator.start()
 //    self.stopAudioVisualizer()
-    presentBlurredAudioRecorderViewControllerAnimated(controller)
+//    presentBlurredAudioRecorderViewControllerAnimated(controller)
 //    presentAudioRecorderViewControllerAnimated(controller)
     
     }
@@ -286,7 +286,7 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
         let fileManager = FileManager.default
         let urls = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
         let documentDirectory = urls[0] as URL
-        soundURL = documentDirectory.appendingPathComponent("sound.wav")
+        soundURL = documentDirectory.appendingPathComponent("sound.mp3")
         print(soundURL)
         return soundURL as URL?
     }
