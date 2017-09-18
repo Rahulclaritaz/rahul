@@ -28,6 +28,8 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     var titleLabel = String ()
     var registrationPage = RegistrationViewController ()
     var videoPage = XPVideoViewController ()
+    var isUnregisteredUser = Bool ()
+    
    @IBOutlet weak var bootomToolBarView = UIView ()
     var videoFileURLPath : URL?
     
@@ -202,10 +204,21 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
             print("You don't have email because u select public")
         } else
         {
-            body.appendString("--\(boundary)\r\n")
-            body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
-            body.appendString(videoPage.defaultValue.string(forKey: "toEmailAddress")!)
-            body.appendString("\r\n")
+            
+            // Here will check register ixprez user or not. If not then will pass email id [Type in pop up] other wise will pass [ - phoneNumber] in to_email parameter.
+            isUnregisteredUser = (UserDefaults.standard.value(forKey: "isUnregisterXprezUser") != nil)
+            if (isUnregisteredUser) {
+                UserDefaults.standard.set(false, forKey: "isUnregisterXprezUser")
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
+                body.appendString(videoPage.defaultValue.string(forKey: "inviteXprezUser")!)
+                body.appendString("\r\n")
+            } else {
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
+                body.appendString(videoPage.defaultValue.string(forKey: "toEmailAddress")!)
+                body.appendString("\r\n")
+            }
         }
         
         body.appendString("--\(boundary)\r\n")

@@ -281,4 +281,11 @@ struct URLDirectory
         }
     }
     
+    struct followUserDetail {
+        func followUserDataDetailURL () -> String
+        {
+           return localURL  +  "queryService/followerscreen"
+        }
+    }
+    
 }

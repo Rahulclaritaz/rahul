@@ -416,6 +416,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
             if (textFields != nil) {
                 for textField: UITextField in textFields! {
                     print("mathan Check",textField.text!)
+                    UserDefaults.standard.set(true, forKey: "isUnregisterXprezUser")
                     UserDefaults.standard.set(textField.text!, forKey: "inviteXprezUser")
                     self.unregisterdXprezAudioUser()
                 }
@@ -534,7 +535,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
                     controller.title = feelingsLabel.text!
                 }
             }
-            
+            self.unregisterdXprezAudioUser()
             
         } else if (shareTitleLabel.text == "Both") {
             if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil)) {

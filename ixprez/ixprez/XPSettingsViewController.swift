@@ -147,8 +147,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
         
          imagePickerController.delegate = self
         
-        
-      
+        self.profileName.text = userName
+        getSettingDataResponse ()
         getPrivateData()
 
         
@@ -174,6 +174,10 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
             return
         }
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    func getSettingDataResponse () {
+        let dicData = ["country":"India","email_id":"rahul@claritaz.com","language":"English","notification":"1","phone_number":"8144813820","remainder":"1","user_name":"Rahul"]
     }
     
     

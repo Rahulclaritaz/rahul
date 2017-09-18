@@ -342,19 +342,14 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
     }
     
-    func xpressUserValidate(sender: UIButton)
-        
-    {
-        phoneNumberValidate = self.emailAddressLabel.text!
-        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-        let filteredCharacters = phoneNumberValidate.characters.filter {
-            return numericSet.contains($0)
-        }
-        filteredString = String(filteredCharacters)
-        var phoneNumber = [String]()
-        phoneNumber = [filteredString]
-        let para = { ["contactList" :  phoneNumber ] }
-        
+    // This method will pass the unregistered ixprez user mailid [as parameter] from pop up to uploadaudio web API.
+    func unregisterdXprezAudioUser (){
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+    }
+    
+    // This method will create the custom pop up.
+    func displayPopUpController () {
         let title = "Oops! Look like \(self.filteredString) hasn't signed up for iXprez yet! Use his email ID to Xpress to him."
         //let message = "A message should be a short, complete sentence."
         let cancelButtonTitle = "Cancel"
@@ -365,12 +360,9 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         changecustomAlertController()
         
         // Add the text field for text entry.
-        
-        
         // alert.addTextField(configurationHandler: textFieldHandler)
         
         customAlertController.addTextFieldWithConfigurationHandler { textField in
-            
             
             textField?.frame.size = CGSize(width: 240.0, height: 30.0)
             textField?.font = UIFont(name: "Mosk", size: 15.0)
@@ -393,38 +385,63 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let otherAction = DOAlertAction(title: otherButtonTitle, style: .default) { action in
             NSLog("The \"Text Entry\" alert's other action occured.")
             
-            
             let textFields = self.customAlertController.textFields as? Array<UITextField>
             
-            
-            if textFields != nil {
-//                for textField: UITextField in textFields! {
-//                    print("mathan Check",textField.text!)
-//                    
-//                    let dicData = [ "user_email" :self.userEmail , "description"  : textField.text! , "file_id" : self.ID , "file_type" : self.FileType] as [String : Any]
-//                    
-//                    self.getEmotionWebService.getReportMyUploadWebService(urlString: self.getEmotionUrl.uploadReportAbuse(), dicData: dicData as NSDictionary, callback: {
-//                        (dicc,erro) in
-//                        
-//                        print(dicc)
-//                        
-//                        
-//                    })
-//                    
-//                    
-//                }
+            if (textFields != nil) {
+                for textField: UITextField in textFields! {
+                    print("mathan Check",textField.text!)
+                    UserDefaults.standard.set(true, forKey: "isUnregisterXprezUser")
+                    UserDefaults.standard.set(textField.text!, forKey: "inviteXprezUser")
+                    self.unregisterdXprezAudioUser()
+                }
+            } else {
+                let alert = UIAlertController(title: "Alert", message: "Email- Id can not be blank.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
-            
-            
         }
-        
         // Add the actions.
         customAlertController.addAction(cancelAction)
         customAlertController.addAction(otherAction)
         
         present(customAlertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    func xpressUserValidate(sender: UIButton)
+        
+    {
+        phoneNumberValidate = self.emailAddressLabel.text!
+        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        let filteredCharacters = phoneNumberValidate.characters.filter {
+            return numericSet.contains($0)
+        }
+        filteredString = String(filteredCharacters)
+        var phoneNumber = [String]()
+        phoneNumber = [filteredString]
+        let para = { ["contactList" :  phoneNumber ] }
         
         
+        // This API will return the ixprez user list.
+        webReference.getiXprezUserValidateWebService(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
+            print(myData)
+            
+            print("\(myData)")
+            let userPhoneNumber : NSArray = myData.value(forKey: "data") as! NSArray
+            print(userPhoneNumber)
+            
+            DispatchQueue.main.async {
+                if (userPhoneNumber.count > 0) {
+                    print("This number is a iXprez verified Number")
+                    self.unregisterdXprezAudioUser()
+                    
+                } else {
+                    print("This number is not a iXprez verified Number")
+                    self.displayPopUpController()
+                }
+            }
+        })
     }
 
     func changecustomAlertController()
@@ -461,7 +478,6 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         let alert = UIAlertController(title: "Alert", message: "Phone Number and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-//        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
         if (shareTitleLabel.text == "Private") {
             if ((emailAddressLabel.text == nil) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings!")) {
                 self.present(alert, animated: true, completion: nil)
@@ -486,7 +502,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
 //                    storyBoard.titleString = feelingsLabel.text!
                 }
             }
-            
+            self.unregisterdXprezAudioUser()
             
         } else if (shareTitleLabel.text == "Both") {
             if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil)) {
