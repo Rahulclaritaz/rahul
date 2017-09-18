@@ -29,11 +29,14 @@ class XPAudioStopViewController: UIViewController {
     var audioData = NSData()
     var registrationPage = RegistrationViewController ()
     var audioPage = XPAudioViewController ()
+    var unregisteredXprezUserEmail = String ()
+    var isUnregisteredUser = Bool ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         titleLabel = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
+        unregisteredXprezUserEmail = UserDefaults.standard.value(forKey: "inviteXprezUser") as! String
         self.title = titleLabel
         print(registrationPage.defaults.string(forKey: "emailAddress"))
          print(audioPage.defaultValue.string(forKey: "toEmailAddress"))
@@ -42,7 +45,6 @@ class XPAudioStopViewController: UIViewController {
         print(audioPage.defaultValue.string(forKey: "pickerStatus"))
         print(audioPage.defaultValue.string(forKey: "countryName"))
         print(audioPage.defaultValue.string(forKey: "languageName"))
-        
         userProfileView?.layer.cornerRadius = (userProfileView?.frame.size.width)!/2
         userProfileView?.layer.masksToBounds = true
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
@@ -59,17 +61,6 @@ class XPAudioStopViewController: UIViewController {
         audioBGBorderImage?.isHidden = true
         audioBGAnimationOne?.isHidden = true
         audioBGAnimationTwo?.isHidden = true
-        
-//        audioBGBorderImage?.clipsToBounds = true
-//        audioBGBorderImage?.layer.cornerRadius = (self.audioBGBorderImage?.frame.size.width)!/2
-//        audioBGBorderImage?.clipsToBounds = true
-//        audioBGAnimationOne?.clipsToBounds = true
-//        audioBGAnimationOne?.layer.cornerRadius = (self.audioBGAnimationOne?.frame.size.width)!/2
-//        audioBGAnimationOne?.clipsToBounds = true
-//        audioBGAnimationTwo?.isHidden = true
-//        audioBGAnimationTwo?.clipsToBounds = true
-//        audioBGAnimationTwo?.layer.cornerRadius = (self.audioBGAnimationTwo?.frame.size.width)!/2
-//        audioBGAnimationTwo?.clipsToBounds = true
         
         pulseAnimationView?.layer.addSublayer(pulsrator)
         
@@ -173,7 +164,7 @@ class XPAudioStopViewController: UIViewController {
         if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
             body.appendString("--\(boundary)\r\n")
             body.appendString("Content-Disposition: form-data; name=\"from_email\"\r\n\r\n")
-            body.appendString("mathan6@gmail.com")
+            body.appendString("rahul@claritaz.com")
             body.appendString("\r\n")
         } else {
             body.appendString("--\(boundary)\r\n")
@@ -189,10 +180,21 @@ class XPAudioStopViewController: UIViewController {
             print("You don't have email because u select public")
         } else
         {
-            body.appendString("--\(boundary)\r\n")
-            body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
-            body.appendString(audioPage.defaultValue.string(forKey: "toEmailAddress")!)
-            body.appendString("\r\n")
+            // Here will check register ixprez user or not. If not then will pass email id [Type in pop up] other wise will pass [ - phoneNumber] in to_email parameter.
+            isUnregisteredUser = (UserDefaults.standard.value(forKey: "isUnregisterXprezUser") != nil)
+            if (isUnregisteredUser) {
+                UserDefaults.standard.set(false, forKey: "isUnregisterXprezUser")
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
+                body.appendString(audioPage.defaultValue.string(forKey: "inviteXprezUser")!)
+                body.appendString("\r\n")
+            } else {
+                body.appendString("--\(boundary)\r\n")
+                body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
+                body.appendString(audioPage.defaultValue.string(forKey: "toEmailAddress")!)
+                body.appendString("\r\n")
+            }
+            
         }
  
             body.appendString("--\(boundary)\r\n")
@@ -257,8 +259,8 @@ class XPAudioStopViewController: UIViewController {
         body.appendString("--\(boundary)\r\n")
 //        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Documents/Movie.mp4\"\r\n")
 //        body.appendString("Content-Type: video/mp4\r\n\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"MyAudioMemo.wav\"\r\n")
-        body.appendString("Content-Type: audio/wav\r\n\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"MyAudioMemo.mp3\"\r\n")
+        body.appendString("Content-Type: audio/mp3\r\n\r\n")
         //let urlData = NSData(data: audioData as Data)
         body.append(audioData as Data)
         body.appendString("\r\n")

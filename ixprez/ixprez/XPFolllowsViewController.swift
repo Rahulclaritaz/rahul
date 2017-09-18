@@ -216,7 +216,7 @@ extension XPFolllowsViewController : UITableViewDelegate
         
     {
         
-        return 150.0
+        return 165.0
         
     }
     
@@ -266,7 +266,7 @@ extension XPFolllowsViewController : UITableViewDelegate
     {
         if (isUserFollowing == 0)
         {
-            // orignator - to whom going to follow & follower - who is going to follow.
+            // orignator - To whom you are going to follow &   follower - who is follow you.
             let followDic = ["user_id":followingUserId]
             
             self.getUploadData.getDeleteMyUploadWebService(urlString: followURL.follower(), dicData: followDic as NSDictionary, callback: { (dic, err) in

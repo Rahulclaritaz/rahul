@@ -24,6 +24,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
     
     @IBOutlet weak var shareButton: UIButton!
     
+    @IBOutlet weak var nextButton: UIButton!
+    
     var textField = XPVideoExpressTableViewCell()
     
     @IBOutlet weak var pulsatorAnimationView: UIView!
@@ -340,8 +342,76 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
     }
     
-    func validateIxprezUser () {
+    // This method will pass the unregistered ixprez user mailid [as parameter] from pop up to uploadaudio web API.
+    func unregisterdXprezAudioUser (){
+        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+    }
+    
+    // This method will create the custom pop up.
+    func displayPopUpController () {
+        let title = "Oops! Look like \(self.filteredString) hasn't signed up for iXprez yet! Use his email ID to Xpress to him."
+        //let message = "A message should be a short, complete sentence."
+        let cancelButtonTitle = "Cancel"
+        let otherButtonTitle = "Invite and xpress"
         
+        customAlertController = DOAlertController(title: title, message: nil, preferredStyle: .alert)
+        
+        changecustomAlertController()
+        
+        // Add the text field for text entry.
+        // alert.addTextField(configurationHandler: textFieldHandler)
+        
+        customAlertController.addTextFieldWithConfigurationHandler { textField in
+            
+            textField?.frame.size = CGSize(width: 240.0, height: 30.0)
+            textField?.font = UIFont(name: "Mosk", size: 15.0)
+            textField?.textColor = UIColor.blue
+            textField?.keyboardAppearance = UIKeyboardAppearance.dark
+            textField?.returnKeyType = UIReturnKeyType.send
+            
+            // textfield1 = textField!
+            
+            // textField?.delegate = self as! UITextFieldDelegate
+            
+            // If you need to customize the text field, you can do so here.
+        }
+        
+        // Create the actions.
+        let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel) { action in
+            NSLog("The \"Text Entry\" alert's cancel action occured.")
+        }
+        
+        let otherAction = DOAlertAction(title: otherButtonTitle, style: .default) { action in
+            NSLog("The \"Text Entry\" alert's other action occured.")
+            
+            let textFields = self.customAlertController.textFields as? Array<UITextField>
+            
+            if (textFields != nil) {
+                for textField: UITextField in textFields! {
+                    print("mathan Check",textField.text!)
+                    UserDefaults.standard.set(true, forKey: "isUnregisterXprezUser")
+                    UserDefaults.standard.set(textField.text!, forKey: "inviteXprezUser")
+                    self.unregisterdXprezAudioUser()
+                }
+            } else {
+                let alert = UIAlertController(title: "Alert", message: "Email- Id can not be blank.", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        // Add the actions.
+        customAlertController.addAction(cancelAction)
+        customAlertController.addAction(otherAction)
+        
+        present(customAlertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    func xpressUserValidate(sender: UIButton)
+        
+    {
         phoneNumberValidate = self.emailAddressLabel.text!
         let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
         let filteredCharacters = phoneNumberValidate.characters.filter {
@@ -352,7 +422,10 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         phoneNumber = [filteredString]
         let para = { ["contactList" :  phoneNumber ] }
         
-        webReference.getPrivateAcceptRejectWebService1(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
+        
+        // This API will return the ixprez user list.
+        webReference.getiXprezUserValidateWebService(urlString: urlReference.getXpressContact(), dicData: para() , callback: { (myData ,error) in
+            print(myData)
             
             print("\(myData)")
             let userPhoneNumber : NSArray = myData.value(forKey: "data") as! NSArray
@@ -360,62 +433,17 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             
             DispatchQueue.main.async {
                 if (userPhoneNumber.count > 0) {
-                    let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
-                    self.navigationController?.pushViewController(storyBoard, animated: true)
+                    print("This number is a iXprez verified Number")
+                    self.unregisterdXprezAudioUser()
+                    
                 } else {
-                    
-                    let message = "Oops! Look like \(self.filteredString) hasn't signed up for iXprez yet! Use his email ID to Xpress to him."
-                    let cancelButtonTitle = "Cancel"
-                    let otherButtonTitle = "Invite and xpress"
-                    self.customAlertController = DOAlertController(title: nil, message: message, preferredStyle: .alert)
-                    self.changecustomAlertController()
-                    let cancelAction = DOAlertAction(title: cancelButtonTitle, style: .cancel, handler: {
-                        action in
-                        
-                        print("You select the cancel button in pop up")
-                    })
-                    
-                    self.customAlertController.addTextFieldWithConfigurationHandler { textField in
-                        
-                        
-                        textField?.frame.size = CGSize(width: 240.0, height: 30.0)
-                        textField?.font = UIFont(name: "Mosk", size: 15.0)
-                        textField?.textColor = UIColor.blue
-                        textField?.keyboardAppearance = UIKeyboardAppearance.dark
-                        textField?.returnKeyType = UIReturnKeyType.send
-                        
-                        // textfield1 = textField!
-                        
-                        // textField?.delegate = self as! UITextFieldDelegate
-                        
-                        // If you need to customize the text field, you can do so here.
-                    }
-                    
-                    let otherAction = DOAlertAction(title: otherButtonTitle, style: .default, handler: { (UIAlertaction) in
-                        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
-                        self.navigationController?.pushViewController(storyBoard, animated: true)
-                    })
-                    
-                    self.customAlertController.addAction(cancelAction)
-                    self.customAlertController.addAction(otherAction)
-                    self.addChildViewController(self.customAlertController)
-                    self.customAlertController.view.frame = self.view.frame
-                    self.view.addSubview(self.customAlertController.view)
-                    self.customAlertController.didMove(toParentViewController: self)
-                    //                self.show(self.customAlertController, sender: nil)
-                    //                self.present(self.customAlertController, animated: true, completion: nil)
-                    
+                    print("This number is not a iXprez verified Number")
+                    self.displayPopUpController()
                 }
             }
-            
-            
-            
-           
-            
         })
     }
-    
-    
+
     func changecustomAlertController()
     {
         
@@ -450,7 +478,6 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         let alert = UIAlertController(title: "Alert", message: "Phone Number and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-//        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "CameraDemoViewController") as! CameraDemoViewController
         if (shareTitleLabel.text == "Private") {
             if ((emailAddressLabel.text == nil) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings!")) {
                 self.present(alert, animated: true, completion: nil)
@@ -461,9 +488,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 }else {
 //                    storyBoard.titleString = feelingsLabel.text!
                 }
-                validateIxprezUser()
-                
-//                self.navigationController?.pushViewController(storyBoard, animated: true)
+                self.nextButton.addTarget(self, action: #selector(xpressUserValidate(sender:)), for: .touchUpInside)
             }
             
         } else if (shareTitleLabel.text == "Public") {
@@ -476,10 +501,8 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 }else {
 //                    storyBoard.titleString = feelingsLabel.text!
                 }
-                validateIxprezUser()
-//                self.navigationController?.pushViewController(storyBoard, animated: true)
             }
-            
+            self.unregisterdXprezAudioUser()
             
         } else if (shareTitleLabel.text == "Both") {
             if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil)) {
@@ -491,8 +514,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 }else {
 //                    storyBoard.titleString = feelingsLabel.text!
                 }
-                validateIxprezUser()
-//                self.navigationController?.pushViewController(storyBoard, animated: true)
+                self.nextButton.addTarget(self, action: #selector(xpressUserValidate(sender:)), for: .touchUpInside)
             }
             
         }
