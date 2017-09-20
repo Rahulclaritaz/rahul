@@ -299,7 +299,7 @@ class  PrivateWebService
     
 
     
-    // This method will will return the fllower and Fllowing user data from the server in [setting page]
+    // This method will will return the Originator [follow] and Fllowing user data from the server in [setting page]
     func  getPrivateData(urlString : String ,dicData : [String:Any] , callback : @escaping (_ dic : [String:Any] , _ error : Error?) -> Void)
     {
         

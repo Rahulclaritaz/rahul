@@ -134,6 +134,7 @@
 		859A22FB1EB1ADDB008DD7F7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859A22F91EB1ADDB008DD7F7 /* LaunchScreen.storyboard */; };
 		859A5E111ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */; };
 		859A5E131ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */; };
+		85A091B21F72BCD700CDA757 /* setting_Warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 85A091B11F72BCD700CDA757 /* setting_Warning.png */; };
 		85A3DFEC1ED7F612006E81ED /* XPHelpDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A3DFEB1ED7F612006E81ED /* XPHelpDetailsViewController.swift */; };
 		85A572AC1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */; };
 		85A572AE1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */; };
@@ -319,6 +320,7 @@
 		859A22FC1EB1ADDB008DD7F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoRecordingPlayViewController.swift; sourceTree = "<group>"; };
 		859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPVideoRecordingStopViewController.swift; sourceTree = "<group>"; };
+		85A091B11F72BCD700CDA757 /* setting_Warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = setting_Warning.png; sourceTree = "<group>"; };
 		85A3DFEB1ED7F612006E81ED /* XPHelpDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPHelpDetailsViewController.swift; sourceTree = "<group>"; };
 		85A572AB1EE6CFB000C40E55 /* XPDashboardTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashboardTableViewCell.swift; sourceTree = "<group>"; };
 		85A572AD1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashboardHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -556,6 +558,7 @@
 				859A22F21EB1ADDB008DD7F7 /* ViewController.swift */,
 				859A22F41EB1ADDB008DD7F7 /* Main.storyboard */,
 				859A22F71EB1ADDB008DD7F7 /* Assets.xcassets */,
+				85A091B11F72BCD700CDA757 /* setting_Warning.png */,
 				85730F061F41D5240054272A /* mask1.png */,
 				13B06F2E1EB212F000BD439C /* bg_reg.png */,
 				13B06F341EB30AE500BD439C /* intro_bg.png */,
@@ -801,6 +804,7 @@
 				859A22F81EB1ADDB008DD7F7 /* Assets.xcassets in Resources */,
 				13111E751EB1F0F0003661C2 /* mosksemibold600.ttf in Resources */,
 				13111E781EB1F0FC003661C2 /* ProximaNova-Light_0.otf in Resources */,
+				85A091B21F72BCD700CDA757 /* setting_Warning.png in Resources */,
 				859A22F61EB1ADDB008DD7F7 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

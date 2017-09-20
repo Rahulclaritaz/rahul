@@ -53,6 +53,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var dashboardPrivateButtonCount = Int ()
     var dashboardNotifiacationCount = Int ()
     var dashboardCountData = [String : AnyObject]()
+    var userVerifiedEmail = Int ()
     
     let pulsrator = Pulsator()
     var  popController = UIViewController()
@@ -63,6 +64,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     @IBOutlet weak var humburgerMenuIcon = UIBarButtonItem ()
     @IBOutlet weak var privateButton = UIBarButtonItem ()
     @IBOutlet weak var notificationButton = UIBarButtonItem ()
+    @IBOutlet weak var settingButton = UIBarButtonItem ()
     
     var imageGesture = UITapGestureRecognizer()
     
@@ -207,6 +209,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             print("The dashboard private  expression count is \(self.dashboardPrivateButtonCount)")
             self.dashboardNotifiacationCount = self.dashboardCountData["PrivateFollowCount"] as! Int
             print("The dashboard notification  expression count is \(self.dashboardNotifiacationCount)")
+            self.userVerifiedEmail = self.dashboardCountData["email_verified"] as! Int
+            print("User email verification code 0 = Not verified and 1 = Verified    \(self.userVerifiedEmail)")
         }
         
     }
@@ -765,6 +769,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         self.notificationButton?.badgeOriginX = 10.0
         self.notificationButton?.badgeOriginY = 10.0
         self.notificationButton?.badgeValue = String(self.dashboardNotifiacationCount)
+        if (self.userVerifiedEmail == 0) {
+            settingButton?.setBackgroundImage((UIImage(named: "setting_Warning.png")), for: .normal, barMetrics: .default)
+            print("Email Not verified")
+        } else {
+            settingButton?.setBackgroundImage((UIImage(named: "")), for: .normal, barMetrics: .default)
+            print("Email verified")
+        }
+        
         
        
     }
