@@ -298,131 +298,20 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
 //                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: (self.parameter as NSDictionary) as! [String : Any], callback: {
 //                        (dicc ,err) in
                     
-                        self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: self.parameter, callback: { (dicc, error) in
-                        
-//                        if ( (dicc["status"] as! String) == "OK" )
-//                        {
-//                            self.dictArrayValue = dicc.value(forKey: "data") as! NSArray
-                            let dictValue = String(describing: dicc.value(forKey: "token"))
-                            let dictValue1 = String(describing: dicc.value(forKey: "user_id"))
-                            let dictValue2 = String(describing: dicc.value(forKey: "phone_number"))
-                            print("the Authentication token get from the server is \(dictValue)")
-                            print("the Authentication token get from the server is \(dictValue1)")
-                            print("the Authentication token get from the server is \(dictValue2)")
-//                            self.authtoken = String(describing: dictValue)
-//                            print("The authentication token is \(self.authtoken)")
+                    self.getOTPClass.getaddDeviceWebService(urlString: self.getOTPUrl.url(), dicData: self.parameter as NSDictionary
+                        , callBack: { (responseData, tokenString, err) in
+                            let authToken : String = tokenString
                             
-                            
-//                            print("the Authentication token get from the server is \(self.authtoken)")
-//                            for dictValue in self.dictArrayValue {
-////                                let authToken = dictValue["token"] as! String
-//                                
-//                                print(dictValue)
-//                            }
-                            
-//                            self.dataArrayValue = dicc["data"] as! [String : AnyObject]
-                            
-                           //  self.dataArrayValue = [dicc.value(forKey: "data")] as NSArray
-                          //  let  authToken = self.dataArrayValue["token"] as! String
-                            let authToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbF9pZCI6InJhaHVsQGNsYXJpdGF6LmNvbSIsImlhdCI6MTUwNTQ3MDI0MCwiZXhwIjoxODIwODMwMjQwfQ.bD_f9METmRzvsVJa4_4L8FvEcJThQ4fv53KQo61R1qk" as! String
-//                            print("The authentication token is \(authToken)")
-//                            let dicArrayValue : NSArray = dicc["data"] as! NSArray
-//                            let token = dicArrayValue.value(forKey: "token")
-//                            let authToken = String(describing: token)
-                            self.userDefault.setValue(authToken, forKey: "authToken")
-                            
-                            
+                            self.userDefault.setValue(authToken , forKey: "authToken")
                             DispatchQueue.main.async
-                                {
-                                    
+                            {
                                     self.appDelegate.changeInitialViewController()
-                                    
                             }
-                            
-                            
-//                        }
-//                        else
-//                        {
-//                            print("error")
-//                            self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: "Error has occour.")
-//                            
-//                        }
-                        
-                        
-                        print(dicc)
-                        
-                        
                     })
                     
-                    
-                    
                 }
             })
             
-       /* let dicData : [String:Any] = [ "email_id" :emailId ,"device_id" :appDelegate.deviceUDID , "otp" : txtOTP.text!]
-    
-            getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: dicData as NSDictionary, callback: {
-                (dicc , err ) in
-                
-              if ( (dicc["status"] as! String) == "OK" )
-              {
-                
-                print(dicc)
-                
-                DispatchQueue.main.async {
-                    
-            
-                
-                self.appDelegate.changeInitialViewController()
-                
-                }
-                
-                }
-                else
-                {
-                    
-                  
-                    let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
-                    
-                   
-                    
-                    let attributedString = NSAttributedString(string: "wrong OTPFailed", attributes: [
-                        NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
-                        NSForegroundColorAttributeName : UIColor.white
-                        ])
-                    /*
-                     let subview =(alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
-                     
-                     subview.backgroundColor = UIColor(red: (145/255.0), green: (200/255.0), blue: (0/255.0), alpha: 1.0)
-                     
-                     alert.view.tintColor = UIColor.black
-                     */
-                    
-                  
-                    let alertView = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
-                    
-                    alertView.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
-
-                    
-                    alert.view.clipsToBounds = true
-                    
-                    alert.setValue(attributedString, forKey: "attributedMessage")
-                    
-                    DispatchQueue.main.async
-                        {
-                            
-                            alert.show()
-                    }
-
-                }
-            })
-            
-                
-          
-        } */
-        
-        
-        
     }
     }
     

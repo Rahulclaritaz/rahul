@@ -29,6 +29,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     var registrationPage = RegistrationViewController ()
     var videoPage = XPVideoViewController ()
     var isUnregisteredUser = Bool ()
+    var isPopUpHaveUserEmailEmpty = Bool ()
     
    @IBOutlet weak var bootomToolBarView = UIView ()
     var videoFileURLPath : URL?
@@ -177,7 +178,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         
         // This will add the authentication token on the header of the API.
         let authtoken = UserDefaults.standard.value(forKey: "authToken")
-        print("The authtoken is \(authtoken)")
+        print("The authtoken for this user is \(authtoken)")
         requestUrl.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         
         // Add the parameter
@@ -206,12 +207,21 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         {
             
             // Here will check register ixprez user or not. If not then will pass email id [Type in pop up] other wise will pass [ - phoneNumber] in to_email parameter.
-            isUnregisteredUser = (UserDefaults.standard.value(forKey: "isUnregisterXprezUser") != nil)
+            isUnregisteredUser = UserDefaults.standard.value(forKey: "isUnregisterXprezUser") as! Bool
             if (isUnregisteredUser) {
                 UserDefaults.standard.set(false, forKey: "isUnregisterXprezUser")
                 body.appendString("--\(boundary)\r\n")
                 body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
-                body.appendString(videoPage.defaultValue.string(forKey: "inviteXprezUser")!)
+                isPopUpHaveUserEmailEmpty = (videoPage.defaultValue.string(forKey: "inviteXprezUser")?.isEmpty)!
+                if (isPopUpHaveUserEmailEmpty) {
+                    let alert = UIAlertController(title: "Alert", message: "Pop-UP Email can not be blank. Please provide a valid Email.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                    
+                } else {
+                    body.appendString(videoPage.defaultValue.string(forKey: "inviteXprezUser")!)
+                }
                 body.appendString("\r\n")
             } else {
                 body.appendString("--\(boundary)\r\n")

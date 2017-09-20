@@ -108,14 +108,13 @@ class XPWebService
     }
     
     
-    func getaddDeviceWebService(urlString : String ,dicData : NSDictionary,callBack : @escaping(_ dic : NSDictionary, _ error : NSError?) -> Void)
+    func getaddDeviceWebService(urlString : String ,dicData : NSDictionary,callBack : @escaping(_ dic : NSArray, _ token : String, _ error : NSError?) -> Void)
         
     {
         
         let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
         
         let urlString = NSURL(string: urlString )
-        
         var request = URLRequest(url: urlString! as URL)
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -129,29 +128,33 @@ class XPWebService
         let dataTask = session.dataTask(with: request, completionHandler: {
             (data,response,error) -> Void in
             
-            
-            var myData =  NSDictionary()
-            
-            
-            if(data != nil && error == nil)
-            {
-                do
-                {
-                    myData  = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+            if (data != nil && error == nil) {
+                print("You will get the Response")
+                do {
+                    let jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(jsonData)
+                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
                     
+                    if (jsonResponseValue == "Failed") {
+                        return
+                    } else {
+                        let responseDataArrayValue : NSArray = jsonData.value(forKey: "data") as! NSArray
+                        let tokenStringValue : String = jsonData.value(forKey: "token") as! String
+                        
+                        callBack(responseDataArrayValue,tokenStringValue, nil)
+                        print(responseDataArrayValue)
+                        print(tokenStringValue)
+                        
+                    }
                     
+                } catch {
                     
                 }
-                catch
-                {
-                    
-                }
-                callBack(myData, nil)
-                
-                
-                
-                
+            }else {
+                print("You will not get the Response any Error Occour")
+                return
             }
+            
         })
         
         dataTask.resume()
@@ -452,7 +455,7 @@ class XPWebService
         
         // This will add the authentication token on the header of the API.
         let authtoken = UserDefaults.standard.value(forKey: "authToken")
-        print("The authtoken is \(authtoken)")
+        print("The authtoken for this user is \(authtoken)")
         requestedURL.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         requestedURL.httpBody = jsonData
         requestedURL.httpMethod = "POST"

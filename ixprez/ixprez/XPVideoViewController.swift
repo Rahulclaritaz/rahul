@@ -391,6 +391,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
                 for textField: UITextField in textFields! {
                     print("mathan Check",textField.text!)
                     UserDefaults.standard.set(true, forKey: "isUnregisterXprezUser")
+                    // This will store the pop up email TextField value
                     UserDefaults.standard.set(textField.text!, forKey: "inviteXprezUser")
                     self.unregisterdXprezAudioUser()
                 }
@@ -434,6 +435,7 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             DispatchQueue.main.async {
                 if (userPhoneNumber.count > 0) {
                     print("This number is a iXprez verified Number")
+                    UserDefaults.standard.set(false, forKey: "isUnregisterXprezUser")
                     self.unregisterdXprezAudioUser()
                     
                 } else {
