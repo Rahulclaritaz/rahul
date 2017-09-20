@@ -29,14 +29,15 @@ class XPAudioStopViewController: UIViewController {
     var audioData = NSData()
     var registrationPage = RegistrationViewController ()
     var audioPage = XPAudioViewController ()
-    var unregisteredXprezUserEmail = String ()
+//    var unregisteredXprezUserEmail = String ()
     var isUnregisteredUser = Bool ()
+    var isPopUpHaveUserEmailEmpty = Bool ()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         titleLabel = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
-        unregisteredXprezUserEmail = UserDefaults.standard.value(forKey: "inviteXprezUser") as! String
+//        unregisteredXprezUserEmail = UserDefaults.standard.value(forKey: "inviteXprezUser") as! String
         self.title = titleLabel
         print(registrationPage.defaults.string(forKey: "emailAddress"))
          print(audioPage.defaultValue.string(forKey: "toEmailAddress"))
@@ -153,7 +154,7 @@ class XPAudioStopViewController: UIViewController {
         requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         // This will add the authentication token on the header of the API.
         let authtoken = UserDefaults.standard.value(forKey: "authToken")
-        print("The authtoken is \(authtoken)")
+        print("The authtoken for this user is \(authtoken)")
         requestUrl.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
         
         // Add the parameter
@@ -181,12 +182,25 @@ class XPAudioStopViewController: UIViewController {
         } else
         {
             // Here will check register ixprez user or not. If not then will pass email id [Type in pop up] other wise will pass [ - phoneNumber] in to_email parameter.
-            isUnregisteredUser = (UserDefaults.standard.value(forKey: "isUnregisterXprezUser") != nil)
+            isUnregisteredUser = UserDefaults.standard.value(forKey: "isUnregisterXprezUser") as! Bool
             if (isUnregisteredUser) {
                 UserDefaults.standard.set(false, forKey: "isUnregisterXprezUser")
                 body.appendString("--\(boundary)\r\n")
                 body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
-                body.appendString(audioPage.defaultValue.string(forKey: "inviteXprezUser")!)
+                isPopUpHaveUserEmailEmpty = (audioPage.defaultValue.string(forKey: "inviteXprezUser")?.isEmpty)!
+                if (isPopUpHaveUserEmailEmpty) {
+//                    body.appendString("rahul@claritaz.com")
+                    
+                    let alert = UIAlertController(title: "Alert", message: "Pop-UP Email can not be blank. Please provide a valid Email.", preferredStyle: UIAlertControllerStyle.alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                    
+                } else {
+                    body.appendString(audioPage.defaultValue.string(forKey: "inviteXprezUser")!)
+                }
+                    
+                
                 body.appendString("\r\n")
             } else {
                 body.appendString("--\(boundary)\r\n")

@@ -150,31 +150,25 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
         
         else
             {
-                
+             let fcmToken = UserDefaults.standard.string(forKey: "FCMToken")
         let dicData : NSDictionary = ["user_name" : userName , "email_id" : txtReEnterEmail.text!, "phone_number" : mobileNumber ,"country" : country , "language":language,"device_id":appdelegate.deviceUDID,
-                "notification":"1","remainder":"1","mobile_os":appdelegate.deviceOS, "mobile_version":appdelegate.deviceName,"mobile_modelname":appdelegate.deviceModel,"gcm_id":"DDD454564" ]
+                "notification":"1","remainder":"1","mobile_os":appdelegate.deviceOS, "mobile_version":appdelegate.deviceName,"mobile_modelname":appdelegate.deviceModel,"gcm_id":fcmToken ]
 
-    
-                getAddData.getAddContact(urlString: getAddDataUrl.url(), dicData: dicData as! [String : Any], callback:
-                    { (dicc ,err) in
-                        
-//                    if (dicc["status"] as! String == "OK")
-//                    {
-//                        DispatchQueue.main.async {
-//                         
-//                     let otpView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-//                        
-//                        self.present(otpView, animated: true, completion: nil)
-//                        }
-//                        
-//                        
-//                        }
-                        
-                })
+               getAddData.getaddDeviceWebService(urlString: getAddDataUrl.url(), dicData: dicData, callBack: { (responseData, token, err) in
                 
-      
+                //                    if (responseData["status"] as! String == "OK")
+                //                    {
+                //                        DispatchQueue.main.async {
+                //
+                //                     let otpView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+                //
+                //                        self.present(otpView, animated: true, completion: nil)
+                //                        }
+                //                        
+                //                        
+                //                        }
                 
-                
+               })
                 
     }
     
