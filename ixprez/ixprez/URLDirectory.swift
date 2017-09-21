@@ -288,4 +288,18 @@ struct URLDirectory
         }
     }
     
+    struct getSettingPageDetails {
+        func settingPageUserDetailURL () -> String
+        {
+          return localURL  +  "commandService/details"  
+        }
+    }
+    
+    struct getSettingPageModificationDetails {
+        func settingPageModificationUserDetailURL () -> String
+        {
+            return localURL  +  "commandService/settings"
+        }
+    }
+    
 }

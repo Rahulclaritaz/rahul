@@ -48,12 +48,20 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     let audioVideoPlayURLString = URLDirectory.audioVideoPlayURL ()
     let followUserURLString = URLDirectory.followUserDetail ()
     let getDashBoardCountWebService = PrivateWebService()
+    let getSettingPageDetail = URLDirectory.getSettingPageDetails ()
     let heartDashboardXpressionButton = UIBarButtonItem ()
     var dashboardHeartButtonCount = Int ()
     var dashboardPrivateButtonCount = Int ()
     var dashboardNotifiacationCount = Int ()
     var dashboardCountData = [String : AnyObject]()
     var userVerifiedEmail = Int ()
+    var userNameSetting = NSArray ()
+    var userMobileSetting =  NSArray ()
+    var userEmailSetting =  NSArray ()
+    var userReminderSetting = NSArray ()
+    var userNotificationSetting = NSArray ()
+    var userLanguageSetting = NSArray ()
+    var userCountrySetting = NSArray ()
     
     let pulsrator = Pulsator()
     var  popController = UIViewController()
@@ -171,6 +179,46 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
      //   someBarButtonItem.image = UIImage(named:"myImage")?.withRenderingMode(.alwaysOriginal)
 
      //   Do any additional setup after loading the view.
+    }
+    
+    
+    func getSettingDataResponse () {
+        let phoneNumber : String = UserDefaults.standard.string(forKey: "mobileNumber")!
+        
+        let dicData = ["phone_number": phoneNumber]
+        dashBoardCommonService.getSettingPageDetails(urlString: getSettingPageDetail.settingPageUserDetailURL(), dicData: dicData as NSDictionary) { (responseData, err) in
+            
+            DispatchQueue.main.async {
+                print("The detail's of the Stting page is \(responseData)")
+                
+                self.userNameSetting = responseData.value(forKey: "user_name") as! NSArray
+                self.userMobileSetting = responseData.value(forKey: "phone_number") as! NSArray
+                self.userEmailSetting = responseData.value(forKey: "email_id") as! NSArray
+                self.userReminderSetting = responseData.value(forKey: "remainder") as! NSArray
+                self.userNotificationSetting = responseData.value(forKey: "notification") as! NSArray
+                self.userLanguageSetting = responseData.value(forKey: "language") as! NSArray
+                self.userCountrySetting = responseData.value(forKey: "country") as! NSArray
+                
+                let userName : String = self.userNameSetting[0] as! String
+                UserDefaults.standard.set(userName, forKey: "userNameSetting")
+                let userEmail : String = self.userEmailSetting[0] as! String
+                UserDefaults.standard.set(userEmail, forKey: "userEmailSetting")
+                let userMobile : String = self.userMobileSetting[0] as! String
+                UserDefaults.standard.set(userMobile, forKey: "userMobileSetting")
+                let userRemiander : String = self.userReminderSetting[0] as! String
+                UserDefaults.standard.set(userRemiander, forKey: "userReminderSetting")
+                let userNotification : String = self.userNotificationSetting[0] as! String
+                UserDefaults.standard.set(userNotification, forKey: "userNotificationSetting")
+                let userCountry : String = self.userCountrySetting[0] as! String
+                UserDefaults.standard.set(userCountry, forKey: "userCountrySetting")
+                let userlanguage : String = self.userLanguageSetting[0] as! String
+                UserDefaults.standard.set(userlanguage, forKey: "userLanguageSetting")
+            }
+            
+            
+            
+        }
+
     }
     
    
@@ -744,6 +792,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func viewWillAppear(_ animated: Bool) {
         // This will return the dashboard heart, private upload and notification count
+        getSettingDataResponse() //  This will return the detail of the user [will use in setting page]
         getUserProfile()
         dashboardXpressionCount()
         // This will create the number of circle animation and radius
