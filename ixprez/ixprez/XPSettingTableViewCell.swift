@@ -8,7 +8,7 @@
 
 import UIKit
 
-class XPSettingTableViewCell: UITableViewCell
+class XPSettingTableViewCell: UITableViewCell,UITextFieldDelegate
 {
     
     @IBOutlet weak var lblSettingName: UILabel!
@@ -42,6 +42,10 @@ class XPSettingTableViewCell: UITableViewCell
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("You click on text field for edit purpose")
     }
 
 }

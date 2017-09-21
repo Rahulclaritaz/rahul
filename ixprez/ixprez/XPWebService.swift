@@ -840,5 +840,106 @@ class XPWebService
         
     }
     
+    // This API will retrn the detail of the user in the setting page.
+    func getSettingPageDetails ( urlString : String , dicData : NSDictionary, callBack : @escaping (_ dataValue : NSArray , _ error : NSError?) -> Void) {
+        
+        guard let urlStringData = URL(string : urlString) else {
+            print("We didn't get the Url")
+            return
+        }
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        var requestedURL = URLRequest(url: urlStringData as! URL)
+        requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        requestedURL.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        requestedURL.httpBody = jsonData
+        requestedURL.httpMethod = "POST"
+        
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: requestedURL) { (data, response, error) in
+            if (data != nil && error == nil) {
+                print("You will get the Response")
+                do {
+                    let jsonData: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(jsonData)
+                    
+                    let jsonResponseValue : String = jsonData.value(forKey: "Status") as! String
+                    
+                    if (jsonResponseValue != "200") {
+                        return
+                    } else {
+                        let jsonDataValue : NSArray = jsonData.value(forKey: "Details") as! NSArray
+                        callBack(jsonDataValue, nil)
+                        
+                    }
+                    
+                } catch {
+                    
+                }
+            }else {
+                print("You will not get the Response any Error Occour")
+                return
+            }
+        }
+        
+        dataTask.resume()
+        
+    }
+    
+    
+    // This API will retrn the changes done by user in the setting page.
+    func getSettingPageModificationDetails ( urlString : String , dicData : NSDictionary, callBack : @escaping (_ dataValue : NSArray , _ error : NSError?) -> Void) {
+        
+        guard let urlStringData = URL(string : urlString) else {
+            print("We didn't get the Url")
+            return
+        }
+        
+        let jsonData = try? JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
+        var requestedURL = URLRequest(url: urlStringData as! URL)
+        requestedURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        requestedURL.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        requestedURL.httpBody = jsonData
+        requestedURL.httpMethod = "POST"
+        
+        let session = URLSession.shared
+        
+        let dataTask = session.dataTask(with: requestedURL) { (data, response, error) in
+            if (data != nil && error == nil) {
+                print("You will get the Response")
+                do {
+                    let jsonData: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
+                    print(jsonData)
+                    
+                    let jsonResponseValue : String = jsonData.value(forKey: "Status") as! String
+                    
+                    if (jsonResponseValue != "200") {
+                        return
+                    } else {
+                        let jsonDataValue : NSArray = jsonData.value(forKey: "Details") as! NSArray
+                        callBack(jsonDataValue, nil)
+                        
+                    }
+                    
+                } catch {
+                    
+                }
+            }else {
+                print("You will not get the Response any Error Occour")
+                return
+            }
+        }
+        
+        dataTask.resume()
+        
+    }
+    
     
 }

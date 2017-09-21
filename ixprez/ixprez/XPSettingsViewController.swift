@@ -19,6 +19,14 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     var remain = String()
     var language = String()
     var country = String()
+    
+    var  userNameSetting =  NSArray ()
+    var userMobileNumber = NSArray ()
+    var userEmail = NSArray ()
+    var userReminder = NSArray ()
+    var userNotification = NSArray ()
+    var userLanguage = NSArray ()
+    var userCountry = NSArray ()
   
     var saveEmail = String()
     
@@ -57,6 +65,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     let getOTPClass = XPWebService()
     
     let getOTPUrl = URLDirectory.RegistrationData()
+    let getSettingPageDetail = URLDirectory.getSettingPageDetails ()
+    let getSettingPageModificationDetail = URLDirectory.getSettingPageModificationDetails ()
     
     var tapGesture = UITapGestureRecognizer()
     
@@ -84,6 +94,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     override func awakeFromNib()
     {
  
+        getSettingDataResponse ()
  
  
     }
@@ -114,12 +125,11 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
           
         }
 
-        
-        emailID =  getData.string(forKey: "emailAddress")!
-        userName = getData.string(forKey: "userName")!
-        phoneNumber = getData.string(forKey: "mobileNumber")!
-        language = getData.string(forKey: "languageName")!
-        country = getData.string(forKey: "countryName")!
+        userName = getData.string(forKey: "userNameSetting")!
+        phoneNumber = getData.string(forKey: "userMobileSetting")!
+        emailID =  getData.string(forKey: "userEmailSetting")!
+        language = getData.string(forKey: "userLanguageSetting")!
+        country = getData.string(forKey: "userCountrySetting")!
         
         
     
@@ -148,7 +158,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
          imagePickerController.delegate = self
         
         self.profileName.text = userName
-        getSettingDataResponse ()
+        
         getPrivateData()
 
         
@@ -177,7 +187,28 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     }
     
     func getSettingDataResponse () {
-        let dicData = ["country":"India","email_id":"rahul@claritaz.com","language":"English","notification":"1","phone_number":"8144813820","remainder":"1","user_name":"Rahul"]
+        phoneNumber = getData.string(forKey: "mobileNumber")!
+        let dicData = ["phone_number": phoneNumber]
+        getOTPClass.getSettingPageDetails(urlString: getSettingPageDetail.settingPageUserDetailURL(), dicData: dicData as NSDictionary) { (responseData, err) in
+            
+            DispatchQueue.main.async {
+                print("The detail's of the Stting page is \(responseData)")
+                
+//                self.userNameSetting = responseData.value(forKey: "user_name") as! NSArray
+//                self.userMobileNumber = responseData.value(forKey: "phone_number") as! NSArray
+//                self.userEmail = responseData.value(forKey: "email_id") as! NSArray
+//                self.userReminder = responseData.value(forKey: "remainder") as! NSArray
+//                self.userNotification = responseData.value(forKey: "notification") as! NSArray
+//                self.userLanguage = responseData.value(forKey: "language") as! NSArray
+//                self.userCountry = responseData.value(forKey: "country") as! NSArray
+            }
+            
+            
+            
+            
+        }
+        
+//        let dicData = ["country":"India","email_id":"rahul@claritaz.com","language":"English","notification":"1","phone_number":"8144813820","remainder":"1","user_name":"Rahul"]
     }
     
     
@@ -263,23 +294,21 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
         case 0:
             
-          
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[0]
             cell.txtEnterSettings.text = userName
-            getData.set(cell.txtEnterSettings.text, forKey: "name")
+            getData.set(cell.txtEnterSettings.text, forKey: "userNameSetting")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
            
             
         case 1:
-            
-     
+        
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.isHidden = false
             cell.lblSettingName.text = arrayName[1]
             cell.txtEnterSettings.text = phoneNumber
-            getData.set(cell.txtEnterSettings.text, forKey: "phone")
+            getData.set(cell.txtEnterSettings.text, forKey: "userMobileSetting")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
            
             
@@ -290,7 +319,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.lblSettingName.text = arrayName[2]
             cell.txtEnterSettings.isHidden = false
             cell.txtEnterSettings.text = emailID
-            getData.set(cell.txtEnterSettings.text, forKey: "email")
+            getData.set(cell.txtEnterSettings.text, forKey: "userEmailSetting")
             cell.txtEnterSettings.isUserInteractionEnabled = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
           
@@ -309,7 +338,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
                 notify = "0"
             }
           
-              getData.set(notify, forKey: "notify")
+              getData.set(notify, forKey: "userNotificationSetting")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
           
             
@@ -330,18 +359,18 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             
 
             
-            getData.set(remain, forKey: "remain")
+            getData.set(remain, forKey: "userReminderSetting")
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             
             
             
         case 5:
-            
+
             cell.lblSettingName.isHidden = false
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.text = arrayName[5]
-            cell.txtEnterSettings.text = language
-            getData.set(cell.txtEnterSettings.text, forKey: "count")
+            cell.txtEnterSettings.text = country
+            getData.set(cell.txtEnterSettings.text, forKey: "userCountrySetting")
             cell.txtEnterSettings.isHidden = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(languageData(sender:)), for: .editingDidBegin)
@@ -352,8 +381,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
              cell.lblSettingName.isHidden = false
             cell.txtEnterSettings.isHidden = false
             cell.lblSettingName.text = arrayName[6]
-            cell.txtEnterSettings.text = country
-              getData.set(cell.txtEnterSettings.text, forKey: "lang")
+            cell.txtEnterSettings.text = language
+              getData.set(cell.txtEnterSettings.text, forKey: "userLanguageSetting")
              cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
             cell.txtEnterSettings.addTarget(self, action: #selector(countryData(sender:)), for: .editingDidBegin)
            
@@ -536,17 +565,16 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     
         print("getData",sender.tag)
    
+       userName = getData.object(forKey: "userNameSetting") as! String
         
-       userName = getData.object(forKey: "name") as! String
+        phoneNumber    = getData.object(forKey: "userMobileSetting") as! String
         
-        phoneNumber    = getData.object(forKey: "phone") as! String
-        
-        emailID = getData.object(forKey: "email") as! String
+        emailID = getData.object(forKey: "userEmailSetting") as! String
 
         
-        language = getData.object(forKey: "count") as! String
+        language = getData.object(forKey: "userLanguageSetting") as! String
 
-        country = getData.object(forKey: "lang") as! String
+        country = getData.object(forKey: "userCountrySetting") as! String
 
         /*
         
@@ -658,13 +686,11 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         
      else
         {
-        let parameter = ["user_name":userName,"email_id":emailID,"phone_number":phoneNumber,"country":country,"language": language,"device_id":appdelegate.deviceUDID,"notification": notify ,"remainder": remain,"mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"]
+        let parameter = ["user_name":userName,"email_id":emailID,"phone_number":phoneNumber,"country":country,"language": language,"notification": notify ,"remainder": remain]
         
-        getOTPClass.getaddDeviceWebService(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callBack: {
-            (dicc,token, err) in
-            
+            getOTPClass.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray, err) in
                 let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
-            
+                
                 let attributedString = NSAttributedString(string: "Saved", attributes: [
                     
                     NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
@@ -699,13 +725,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
                     }
                     
                 }, completion: nil)
-                
-                
-//            }
-
-        })
-        
-
+            })
         }
         
         
@@ -775,9 +795,37 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-      
+      let cell = tableView.dequeueReusableCell(withIdentifier: "settingcell", for: indexPath) as! XPSettingTableViewCell
         
         switch indexPath.row {
+            
+        case 0:
+            
+            getData.set(cell.txtEnterSettings.text, forKey: "userNameSetting")
+            
+        case 1:
+            
+            getData.set(cell.txtEnterSettings.text, forKey: "userMobileSetting")
+            
+        case 2:
+            
+            getData.set(cell.txtEnterSettings.text, forKey: "userEmailSetting")
+            
+        case 3:
+            
+            getData.set(notify, forKey: "userNotificationSetting")
+            
+        case 4:
+            
+            getData.set(remain, forKey: "userReminderSetting")
+            
+        case 5:
+            
+            getData.set(cell.txtEnterSettings.text, forKey: "userLanguageSetting")
+            
+        case 6:
+            
+            getData.set(cell.txtEnterSettings.text, forKey: "userCountrySetting")
         
         
         case 8:
