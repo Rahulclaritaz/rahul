@@ -21,6 +21,15 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
     
     var language : String!
     
+    var userNameSetting : String!
+    var mobileNumberSetting : String!
+    var countryNameSetting : String!
+    var languageNameSetting : String!
+    var reminderSetting : String!
+    var notificationSetting : String!
+    var isFromSettingPage  = Bool ()
+    
+    
     @IBOutlet var txtReEnterEmail: UITextField!
     
     @IBOutlet var designView: UIView!
@@ -30,6 +39,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
     @IBOutlet weak var changeButton: UIButton!
     
     let getAddData = XPWebService()
+    let getSettingPageModificationDetail = URLDirectory.getSettingPageModificationDetails ()
     
     let getAddDataUrl = URLDirectory.RegistrationData()
     
@@ -150,29 +160,97 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
         
         else
             {
-             let fcmToken = UserDefaults.standard.string(forKey: "FCMToken")
-        let dicData : NSDictionary = ["user_name" : userName , "email_id" : txtReEnterEmail.text!, "phone_number" : mobileNumber ,"country" : country , "language":language,"device_id":appdelegate.deviceUDID,
-                "notification":"1","remainder":"1","mobile_os":appdelegate.deviceOS, "mobile_version":appdelegate.deviceName,"mobile_modelname":appdelegate.deviceModel,"gcm_id":fcmToken ]
-
-               getAddData.getaddDeviceWebService(urlString: getAddDataUrl.url(), dicData: dicData, callBack: { (responseData, token, err) in
+                guard isFromSettingPage else {
+                    let fcmToken = UserDefaults.standard.string(forKey: "FCMToken")
+                    let parameter = ["user_name":userName,"email_id":txtReEnterEmail.text,"phone_number":mobileNumber,"country":country,"language": language,"notification": "1" ,"remainder": "1"] as [String : Any]
+                    
+                    getAddData.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray, err) in
+                        let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
+                        
+                        let attributedString = NSAttributedString(string: "Saved", attributes: [
+                            
+                            NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
+                            
+                            NSForegroundColorAttributeName : UIColor.white
+                            
+                            ])
+                        
+                        
+                        
+                        let subview1 = alert.view.subviews.first! as UIView
+                        let subview2 = subview1.subviews.first! as UIView
+                        let view = subview2.subviews.first! as UIView
+                        
+                        subview2.backgroundColor = UIColor.clear
+                        
+                        subview1.backgroundColor = UIColor.clear
+                        
+                        view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.8)
+                        
+                        view.layer.cornerRadius = 20.0
+                        
+                        alert.setValue(attributedString, forKey: "attributedTitle")
+                        
+                        
+                        UIView.animate(withDuration: 15.0, delay: 0, options: .curveEaseIn, animations: {
+                            
+                            DispatchQueue.main.async {
+                                
+                                alert.show()
+                                
+                            }
+                            
+                        }, completion: nil)
+                    })
+                    return
+                }
                 
-                //                    if (responseData["status"] as! String == "OK")
-                //                    {
-                //                        DispatchQueue.main.async {
-                //
-                //                     let otpView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-                //
-                //                        self.present(otpView, animated: true, completion: nil)
-                //                        }
-                //                        
-                //                        
-                //                        }
+                let fcmToken = UserDefaults.standard.string(forKey: "FCMToken")
+                let parameter = ["user_name":userNameSetting,"email_id":txtReEnterEmail.text,"phone_number":mobileNumberSetting,"country":countryNameSetting,"language": languageNameSetting,"notification": notificationSetting ,"remainder": reminderSetting]
                 
-               })
+                getAddData.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray, err) in
+                    let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
+                    
+                    let attributedString = NSAttributedString(string: "Saved", attributes: [
+                        
+                        NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
+                        
+                        NSForegroundColorAttributeName : UIColor.white
+                        
+                        ])
+                    
+                    
+                    
+                    let subview1 = alert.view.subviews.first! as UIView
+                    let subview2 = subview1.subviews.first! as UIView
+                    let view = subview2.subviews.first! as UIView
+                    
+                    subview2.backgroundColor = UIColor.clear
+                    
+                    subview1.backgroundColor = UIColor.clear
+                    
+                    view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.8)
+                    
+                    view.layer.cornerRadius = 20.0
+                    
+                    alert.setValue(attributedString, forKey: "attributedTitle")
+                    
+                    
+                    UIView.animate(withDuration: 15.0, delay: 0, options: .curveEaseIn, animations: {
+                        
+                        DispatchQueue.main.async {
+                            
+                            alert.show()
+                            
+                        }
+                        
+                    }, completion: nil)
+                })
+                self.navigationController?.popToRootViewController(animated: true)
                 
-    }
+             }
     
-    }
+          }
     
     
     
