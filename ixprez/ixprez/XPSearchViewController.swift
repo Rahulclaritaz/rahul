@@ -186,8 +186,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     }
    */
     
-    
-    func getPublicVideo(myString : String)
+    // This method will call when we search for a video
+    func getSearchPublicVideo(myString : String)
     {
         
       print("check data mathan", myString)
@@ -198,16 +198,19 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic, err ) in
       
-           
-         let myData = dic as! [ String : Any]
+            print("The search data is \(dic)")
+            let jsonSearchScrollData : Int = dic["last"] as! Int
+            let jsonSearchArrayValue : NSArray = dic["Records"] as! NSArray
             
+         let myData = jsonSearchArrayValue as! [[ String : Any]]
+            print("The search data in key value formet is \(myData)")
 //            print("sssss",dataValue["code"] as! String)
             
             
             
             
-   /*     if (dataValue["code"] as! String) != "202"
-        {
+//        if (dataValue["code"] as! String) != "202"
+//        {
             
             self.isFiltered = true
             
@@ -216,10 +219,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             print("ffffffff",dic);
             
-            if (myData["last"] as! Int == 0)
+            if (jsonSearchScrollData == 0)
             {
             
-              for dicData in dic
+              for dicData in myData
               {
                  self.recordPublicVideo.append(dicData)
               
@@ -227,34 +230,25 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
                 
                 self.lastRecord = false
                 
-               
-          
-           
-            
             }
             
                else
               {
-                for dicData in dic
+                for dicData in myData
                 {
                     self.recordPublicVideo.append(dicData)
                     
                 }
                 
                 self.lastRecord = true
-                
-                
                 print("last record")
-                
-                          
                 
              }
            
             
             
-            } */
-         /*   else
-           {
+//            }
+            /* else {
             self.isFiltered = false
             
             print("No record")
@@ -319,6 +313,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
     }
     
+    // This will return the video list that is search by the user
     func   getPopularVideo()
     {
         let dicData = ["user_email": userEmail]
@@ -327,7 +322,10 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
           
             if ( err == nil)
             {
-            self.recordPopularVideo = dicc as! [[String : Any]]
+                let jsonPopularScrollData : Int = dicc["last"] as! Int
+                let jsonPopularArrayValue : NSArray = dicc["Records"] as! NSArray
+                
+            self.recordPopularVideo = jsonPopularArrayValue as! [[String : Any]]
                 
                 print ( "Popular Video", self.recordPopularVideo)
                 
@@ -388,7 +386,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
          
            
-            self.getPublicVideo(myString: self.mySearchData)
+            self.getSearchPublicVideo(myString: self.mySearchData)
             
             DispatchQueue.main.async {
                 
@@ -520,7 +518,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         cell.lblLikeCount.text = String(format: "%d  Likes", publicData["likeCount"] as! Int)
         
-        let viewCount: Int = Int(publicData["view_count"] as! String)!
+        let viewCount: Int = publicData["view_count"] as! Int
         
         cell.lblViewCount.text = String(format: "%d  Views", viewCount)
 
@@ -603,7 +601,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         {
             
            print("mathan what happen")
-           self.getPublicVideo(myString: self.mySearchData)
+           self.getSearchPublicVideo(myString: self.mySearchData)
           
         
         }
@@ -716,7 +714,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             let playLikeCount = publicData["likeCount"] as! Int
             
-            let playViewCount = Int(publicData["view_count"] as! String)
+            let playViewCount = publicData["view_count"] as! Int
             
             let playSmiley = publicData["emotionCount"] as! Int
             
@@ -734,7 +732,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             playViewController.playLike = playLikeCount
             
-            playViewController.playView = playViewCount! + 1
+            playViewController.playView = playViewCount + 1
             
             playViewController.playSmiley = playSmiley
             
@@ -794,7 +792,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             let playLikeCount = publicData["likeCount"] as! Int
             
-            let playViewCount = Int(publicData["view_count"] as! String)
+            let playViewCount = publicData["view_count"] as! Int
             
             let playSmiley = publicData["emotionCount"] as! Int
             
@@ -812,7 +810,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
             playViewController.playLike = playLikeCount
             
-            playViewController.playView = playViewCount! + 1
+            playViewController.playView = playViewCount + 1
             
             playViewController.playSmiley = playSmiley
             
@@ -1112,7 +1110,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         let playLikeCount = popularData["likeCount"] as! Int
         
-        let playViewCount = Int(popularData["view_count"] as! String)
+        let playViewCount = popularData["view_count"] as! Int
         
         let playSmiley = popularData["emotionCount"] as! Int
         
@@ -1130,7 +1128,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         playViewController.playLike = playLikeCount
         
-        playViewController.playView = playViewCount!
+        playViewController.playView = playViewCount
         
         playViewController.playSmiley = playSmiley
         

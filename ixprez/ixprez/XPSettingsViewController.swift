@@ -19,14 +19,15 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     var remain = String()
     var language = String()
     var country = String()
+    var emilVerified = Int()
     
-    var  userNameSetting =  NSArray ()
-    var userMobileNumber = NSArray ()
-    var userEmail = NSArray ()
-    var userReminder = NSArray ()
-    var userNotification = NSArray ()
-    var userLanguage = NSArray ()
-    var userCountry = NSArray ()
+//    var  userNameSetting =  NSArray ()
+//    var userMobileNumber = NSArray ()
+//    var userEmail = NSArray ()
+//    var userReminder = NSArray ()
+//    var userNotification = NSArray ()
+//    var userLanguage = NSArray ()
+//    var userCountry = NSArray ()
   
     var saveEmail = String()
     
@@ -103,9 +104,6 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     {
         super.viewDidLoad()
         
-        
-        print("hai da mathan",isFromMenu)
-        
         if Reachability.isConnectedToNetwork() == true
         {
             print("Internet connection OK")
@@ -130,6 +128,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
         emailID =  getData.string(forKey: "userEmailSetting")!
         language = getData.string(forKey: "userLanguageSetting")!
         country = getData.string(forKey: "userCountrySetting")!
+        emilVerified = getData.value(forKey: "userEmailVerifiedSetting")! as! Int
         
         
     
@@ -211,7 +210,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
 //        let dicData = ["country":"India","email_id":"rahul@claritaz.com","language":"English","notification":"1","phone_number":"8144813820","remainder":"1","user_name":"Rahul"]
     }
     
-    
+    // This API will return the follow and follow count and profile image
     func getPrivateData()
     {
         let dicData = ["PreviousCount":0 ,"user_email": emailID] as [String : Any]
@@ -254,6 +253,17 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
   
 
     }
+    
+    func emailAuthenticationAndChange (sender : UIButton) {
+        print("You click on email button")
+        print("The value of email verified is \(emilVerified) ---- O means not verified and 1 means verified")
+        if (emilVerified == 0) {
+            print("Your email is not verified")
+        } else {
+            print("Your email is verified")
+        }
+        
+    }
  
 
     override func didReceiveMemoryWarning() {
@@ -287,6 +297,8 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         cell.lblSettingName.isHidden = true
         
         cell.downArrow.isHidden = true
+        cell.phoneNumberValidation.isHidden = true
+        cell.phoneNumberValidation.addTarget(self, action: #selector(emailAuthenticationAndChange(sender:)), for: .touchUpInside)
         
         
         switch indexPath.row
@@ -309,6 +321,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.lblSettingName.text = arrayName[1]
             cell.txtEnterSettings.text = phoneNumber
             getData.set(cell.txtEnterSettings.text, forKey: "userMobileSetting")
+            cell.txtEnterSettings.isUserInteractionEnabled = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
            
             
@@ -320,6 +333,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             cell.txtEnterSettings.isHidden = false
             cell.txtEnterSettings.text = emailID
             getData.set(cell.txtEnterSettings.text, forKey: "userEmailSetting")
+            cell.phoneNumberValidation.isHidden = false
             cell.txtEnterSettings.isUserInteractionEnabled = false
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
           

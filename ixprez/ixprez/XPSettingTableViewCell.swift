@@ -14,6 +14,7 @@ class XPSettingTableViewCell: UITableViewCell,UITextFieldDelegate
     @IBOutlet weak var lblSettingName: UILabel!
     
     @IBOutlet weak var btnSettingSave: UIButton!
+    @IBOutlet weak var phoneNumberValidation: UIButton!
     
     @IBOutlet weak var switchNotify: UISwitch!
     
@@ -29,7 +30,7 @@ class XPSettingTableViewCell: UITableViewCell,UITextFieldDelegate
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
+        txtEnterSettings.delegate = self
         switchNotify.onTintColor = UIColor.getOrangeColor()
         
         btnSettingSave.layer.cornerRadius = 25.0
@@ -42,6 +43,10 @@ class XPSettingTableViewCell: UITableViewCell,UITextFieldDelegate
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("You jst click on textfield")
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {

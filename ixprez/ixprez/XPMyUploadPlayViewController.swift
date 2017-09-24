@@ -270,6 +270,8 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
  
     func  playVideoAudio()
     {
+//      let urlString =  "https://s3.amazonaws.com/kargopolov/kukushka.mp3"
+//        let urlForPlay = "http://183.82.33.232:8095/ExpressApp2/sample.mp4"
     
        let urlData = URL(string: playUrlString)
         

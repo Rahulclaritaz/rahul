@@ -62,6 +62,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var userNotificationSetting = NSArray ()
     var userLanguageSetting = NSArray ()
     var userCountrySetting = NSArray ()
+    var userVerifiedEmailSetting = NSArray()
     
     let pulsrator = Pulsator()
     var  popController = UIViewController()
@@ -88,7 +89,6 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     override func awakeFromNib() {
         super.awakeFromNib()
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
-//        dashboardXpressionCount()  // This will return the dashboard heart, private upload and notification count
         getIcarouselFeaturesVideo() // This will return the carousel video
         getTrendingResponse()  // This will return the treanding video (most like video)
 //        getRecentResponse()
@@ -199,6 +199,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.userLanguageSetting = responseData.value(forKey: "language") as! NSArray
                 self.userCountrySetting = responseData.value(forKey: "country") as! NSArray
                 
+                self.userVerifiedEmailSetting = self.dashboardCountData["email_verified"] as! NSArray
+                
                 let userName : String = self.userNameSetting[0] as! String
                 UserDefaults.standard.set(userName, forKey: "userNameSetting")
                 let userEmail : String = self.userEmailSetting[0] as! String
@@ -213,6 +215,9 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 UserDefaults.standard.set(userCountry, forKey: "userCountrySetting")
                 let userlanguage : String = self.userLanguageSetting[0] as! String
                 UserDefaults.standard.set(userlanguage, forKey: "userLanguageSetting")
+                let emailVerified : Int = self.userVerifiedEmailSetting[0] as! Int
+                UserDefaults.standard.set(emailVerified, forKey: "userEmailVerifiedSetting")
+                
             }
             
             

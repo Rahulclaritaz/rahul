@@ -184,7 +184,10 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
                 
                 print("check private web service data",dicc)
                 
-                self.recordPrivateData = dicc as! [[String : Any]]
+                let jsonScrollData : Int = dicc["last"] as! Int
+                let jsonArrayValue : NSArray = dicc["Records"] as! NSArray
+                
+                self.recordPrivateData = jsonArrayValue as! [[String : Any]]
                
                 DispatchQueue.main.async{
                     

@@ -30,6 +30,8 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     var videoPage = XPVideoViewController ()
     var isUnregisteredUser = Bool ()
     var isPopUpHaveUserEmailEmpty = Bool ()
+    var toEmailString = String ()
+    var toEmailPhoneNumberFormet = String ()
     
    @IBOutlet weak var bootomToolBarView = UIView ()
     var videoFileURLPath : URL?
@@ -61,6 +63,17 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
 //        }
 //        videoThumbnailImage = UIImagePNGRepresentation(thumbImageView)! as NSData
 //        urlData = NSData(data: videoThumbnailImage as Data )
+        
+        self.toEmailString = videoPage.defaultValue.string(forKey: "toEmailAddress") as! String
+        
+        let phoneNumberValidate = self.toEmailString
+        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        let filteredCharacters = phoneNumberValidate.characters.filter {
+            return numericSet.contains($0)
+        }
+        let filteredString = String(filteredCharacters)
+        self.toEmailPhoneNumberFormet = " - " + filteredString // We have to send this formet only.
+        print(toEmailPhoneNumberFormet)
         
         setupCameraSession()
         cameraSession.startRunning()
@@ -226,7 +239,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
             } else {
                 body.appendString("--\(boundary)\r\n")
                 body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
-                body.appendString(videoPage.defaultValue.string(forKey: "toEmailAddress")!)
+                body.appendString(self.toEmailPhoneNumberFormet)
                 body.appendString("\r\n")
             }
         }

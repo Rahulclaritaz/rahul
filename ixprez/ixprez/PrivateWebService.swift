@@ -13,8 +13,8 @@ class  PrivateWebService
     
 
 
-    
-    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: NSArray,_ error : Error?) -> Void)
+    // This Api Will Return the Populer Public video list serach by the user.
+    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: NSDictionary,_ error : Error?) -> Void)
         
     {
         let privateData = try! JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
@@ -44,25 +44,24 @@ class  PrivateWebService
                 do
                 {
         
-                    let  jsonData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                    let  jsonData : NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     
                     print(jsonData)
               
-                    let jsonResponseValue : String = (jsonData as AnyObject).value(forKey: "status") as! String
+                    let jsonResponseValue : String = jsonData.value(forKey: "code") as! String
                     
-                    if(jsonResponseValue == "Failed") {
+                    if (jsonResponseValue != "200") {
                         return
                     } else {
-                        return
+                        let jsonDictValue = jsonData["data"] as! NSDictionary
+                        let jsonArrayValue : NSArray = jsonDictValue["Records"] as! NSArray
                         
-//                        let jsonArrayValue : NSArray = (jsonData as AnyObject).value(forKey: "Records") as! NSArray
-//                        
-//                        if (jsonArrayValue == nil) {
-//                            print("Record have No value to display in serach ")
-//                            return
-//                        } else {
-//                           callback(jsonArrayValue,nil)
-//                        }
+                        if (jsonArrayValue == nil) {
+                            print("Record have No value to display in serach ")
+                            return
+                        } else {
+                           callback(jsonDictValue,nil)
+                        }
                         
 //                        let jsonDictResponse = jsonData as! [String : Any]
 //                        print(jsonDictResponse)
@@ -88,6 +87,8 @@ class  PrivateWebService
 //                callback(recordPrivate,myPrivateDictionary,error)
          
                 
+            } else {
+                print("There is no data in the search")
             }
             
         
