@@ -19,7 +19,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     var remain = String()
     var language = String()
     var country = String()
-    var emilVerified = Int()
+    var emailVerified = Int()
     
 //    var  userNameSetting =  NSArray ()
 //    var userMobileNumber = NSArray ()
@@ -28,6 +28,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
 //    var userNotification = NSArray ()
 //    var userLanguage = NSArray ()
 //    var userCountry = NSArray ()
+    var emailVerifiedArray = NSArray()
   
     var saveEmail = String()
     
@@ -128,7 +129,7 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
         emailID =  getData.string(forKey: "userEmailSetting")!
         language = getData.string(forKey: "userLanguageSetting")!
         country = getData.string(forKey: "userCountrySetting")!
-        emilVerified = getData.value(forKey: "userEmailVerifiedSetting")! as! Int
+//        emailVerified = getData.value(forKey: "userEmailVerifiedSetting")! as! Int
         
         
     
@@ -200,6 +201,8 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
 //                self.userNotification = responseData.value(forKey: "notification") as! NSArray
 //                self.userLanguage = responseData.value(forKey: "language") as! NSArray
 //                self.userCountry = responseData.value(forKey: "country") as! NSArray
+                self.emailVerifiedArray = responseData.value(forKey: "email_verified") as! NSArray
+                
             }
             
             
@@ -256,12 +259,12 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
     
     func emailAuthenticationAndChange (sender : UIButton) {
         print("You click on email button")
-        print("The value of email verified is \(emilVerified) ---- O means not verified and 1 means verified")
-        if (emilVerified == 0) {
-            print("Your email is not verified")
-        } else {
-            print("Your email is verified")
-        }
+//        print("The value of email verified is \(emailVerified) ---- O means not verified and 1 means verified")
+//        if (emailVerified == 0) {
+//            print("Your email is not verified")
+//        } else {
+//            print("Your email is verified")
+//        }
         
     }
  
@@ -298,7 +301,6 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         
         cell.downArrow.isHidden = true
         cell.phoneNumberValidation.isHidden = true
-        cell.phoneNumberValidation.addTarget(self, action: #selector(emailAuthenticationAndChange(sender:)), for: .touchUpInside)
         
         
         switch indexPath.row
@@ -335,6 +337,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
             getData.set(cell.txtEnterSettings.text, forKey: "userEmailSetting")
             cell.phoneNumberValidation.isHidden = false
             cell.txtEnterSettings.isUserInteractionEnabled = false
+            cell.phoneNumberValidation.addTarget(self, action: #selector(emailAuthenticationAndChange(sender:)), for: .touchUpInside)
             cell.lblWidthSize.constant = CGFloat((cell.lblSettingName.text?.lengthOfBytes(using: .utf32))!*2)
           
         case 3:
@@ -809,37 +812,58 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-      let cell = tableView.dequeueReusableCell(withIdentifier: "settingcell", for: indexPath) as! XPSettingTableViewCell
+//      let cell = tableView.dequeueReusableCell(withIdentifier: "settingcell", for: indexPath) as! XPSettingTableViewCell
         
         switch indexPath.row {
             
-        case 0:
-            
-            getData.set(cell.txtEnterSettings.text, forKey: "userNameSetting")
-            
-        case 1:
-            
-            getData.set(cell.txtEnterSettings.text, forKey: "userMobileSetting")
-            
+//        case 0:
+//            
+//            getData.set(cell.txtEnterSettings.text, forKey: "userNameSetting")
+//            
+//        case 1:
+//            
+//            getData.set(cell.txtEnterSettings.text, forKey: "userMobileSetting")
+//
         case 2:
             
-            getData.set(cell.txtEnterSettings.text, forKey: "userEmailSetting")
+            self.emailVerified = self.emailVerifiedArray[0] as! Int
+            if (self.emailVerified == 0) {
+                
+                let verifiedEmail = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
+                verifiedEmail.isFromSettingPage = true
+                verifiedEmail.mobileNumberSetting = phoneNumber
+                verifiedEmail.emailSettingPage = emailID
+                self.navigationController?.pushViewController(verifiedEmail, animated: true)
+                
+            } else {
+                let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
+                gotoChangeEmailPage.isFromSettingPage = true
+                gotoChangeEmailPage.userNameSetting = userName
+                gotoChangeEmailPage.mobileNumberSetting = phoneNumber
+                gotoChangeEmailPage.countryNameSetting = country
+                gotoChangeEmailPage.languageNameSetting = language
+                gotoChangeEmailPage.notificationSetting = notify
+                gotoChangeEmailPage.reminderSetting = remain
+                self.navigationController?.pushViewController(gotoChangeEmailPage, animated: true)
+            }
             
-        case 3:
             
-            getData.set(notify, forKey: "userNotificationSetting")
             
-        case 4:
-            
-            getData.set(remain, forKey: "userReminderSetting")
-            
-        case 5:
-            
-            getData.set(cell.txtEnterSettings.text, forKey: "userLanguageSetting")
-            
-        case 6:
-            
-            getData.set(cell.txtEnterSettings.text, forKey: "userCountrySetting")
+//        case 3:
+//            
+//            getData.set(notify, forKey: "userNotificationSetting")
+//            
+//        case 4:
+//            
+//            getData.set(remain, forKey: "userReminderSetting")
+//            
+//        case 5:
+//            
+//            getData.set(cell.txtEnterSettings.text, forKey: "userLanguageSetting")
+//            
+//        case 6:
+//            
+//            getData.set(cell.txtEnterSettings.text, forKey: "userCountrySetting")
         
         
         case 8:

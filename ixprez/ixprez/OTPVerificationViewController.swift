@@ -34,9 +34,12 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     var language : String = ""
     var phoneNumber : String = ""
     var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var isFromSettingPage  = Bool ()
+    var mobileNumberSetting : String!
+    var emailSettingPage : String!
     
     let getOTPClass = XPWebService()
-//    let getOTPUrl = URLDirectory.OTPVerification()
+    let getOTPVerification = URLDirectory.OTPVerification()
     let getOTPUrl       = URLDirectory.RegistrationData()
     let getOTPResendUrl = URLDirectory.ResendOTP()
     
@@ -274,46 +277,58 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         }
         else
         {
-            let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: UserDefaults.standard.string(forKey: "authVID")! , verificationCode: txtOTP.text!)
-            Auth.auth().signIn(with: credential, completion: { (user, error) in
-                if error != nil {
-                    print("error : \(error?.localizedDescription)")
-                    self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
-                    
-                } else {
-                    print("phone number : \(user?.phoneNumber)")
-                    let userInfo = user?.providerData[0]
-                    print("Provided Id : \(user?.providerID)")
-                    
-                    let fcmToken = self.userDefault.string(forKey: "FCMToken")
-                    if (fcmToken == nil) {
-                        self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id": "DDD454564" ,"is_edit":"0"] as [String : Any]
+            guard isFromSettingPage else {
+                let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: UserDefaults.standard.string(forKey: "authVID")! , verificationCode: txtOTP.text!)
+                Auth.auth().signIn(with: credential, completion: { (user, error) in
+                    if error != nil {
+                        print("error : \(error?.localizedDescription)")
+                        self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
                         
                     } else {
-                        self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":fcmToken ,"is_edit":"0"] as [String : Any]
-                    }
-                    
-                    
-                    
-//                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: (self.parameter as NSDictionary) as! [String : Any], callback: {
-//                        (dicc ,err) in
-                    
-                    self.getOTPClass.getaddDeviceWebService(urlString: self.getOTPUrl.url(), dicData: self.parameter as NSDictionary
-                        , callBack: { (responseData, tokenString, err) in
-                            let authToken : String = tokenString
+                        print("phone number : \(user?.phoneNumber)")
+                        let userInfo = user?.providerData[0]
+                        print("Provided Id : \(user?.providerID)")
+                        
+                        let fcmToken = self.userDefault.string(forKey: "FCMToken")
+                        if (fcmToken == nil) {
+                            self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id": "DDD454564" ,"is_edit":"0"] as [String : Any]
                             
-                            self.userDefault.setValue(authToken , forKey: "authToken")
-                            DispatchQueue.main.async
-                            {
-                                    self.appDelegate.changeInitialViewController()
-                            }
-                    })
-                    
+                        } else {
+                            self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":fcmToken ,"is_edit":"0"] as [String : Any]
+                        }
+                        
+                        
+                        
+                        //                    self.getOTPClass.getAddContact(urlString: self.getOTPUrl.url(), dicData: (self.parameter as NSDictionary) as! [String : Any], callback: {
+                        //                        (dicc ,err) in
+                        
+                        self.getOTPClass.getaddDeviceWebService(urlString: self.getOTPUrl.url(), dicData: self.parameter as NSDictionary
+                            , callBack: { (responseData, tokenString, err) in
+                                let authToken : String = tokenString
+                                
+                                self.userDefault.setValue(authToken , forKey: "authToken")
+                                DispatchQueue.main.async
+                                    {
+                                        self.appDelegate.changeInitialViewController()
+                                }
+                        })
+                        
+                    }
+                })
+                return
+            }
+            let parameter = [ "email_id" : emailSettingPage,"device_id":appDelegate.deviceUDID,"otp":txtOTP.text ,"phone_number":mobileNumberSetting]
+            getOTPClass.getOTPWebService(urlString: getOTPVerification.url(), dicData: parameter as NSDictionary, callBack: { (responseData, err) in
+                print(responseData)
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
                 }
+                
             })
             
-    }
-    }
+            
+         }
+      }
     
     
     override func didReceiveMemoryWarning()
@@ -325,14 +340,19 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
 
     @IBAction func changeEmailView(_ sender: Any)
     {
-     self.dismiss(animated: true, completion: nil)
-//        let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
-//        
-//        gotoChangeEmailPage.userName = userName
-//        gotoChangeEmailPage.country = country
-//        gotoChangeEmailPage.language = language
-//        gotoChangeEmailPage.mobileNumber = mobileNumber
-//        self.present(gotoChangeEmailPage, animated: true, completion: nil)
+        guard isFromSettingPage else {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        
+        let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
+        //
+        //        gotoChangeEmailPage.userName = userName
+        //        gotoChangeEmailPage.country = country
+        //        gotoChangeEmailPage.language = language
+        //        gotoChangeEmailPage.mobileNumber = mobileNumber
+        gotoChangeEmailPage.isFromSettingPage = true
+        self.navigationController?.pushViewController(gotoChangeEmailPage, animated: true)
         
         
     }

@@ -918,12 +918,12 @@ class XPWebService
                     let jsonData: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     print(jsonData)
                     
-                    let jsonResponseValue : String = jsonData.value(forKey: "Status") as! String
+                    let jsonResponseValue : String = jsonData.value(forKey: "code") as! String
                     
                     if (jsonResponseValue != "200") {
                         return
                     } else {
-                        let jsonDataValue : NSArray = jsonData.value(forKey: "Details") as! NSArray
+                        let jsonDataValue : NSArray = jsonData.value(forKey: "data") as! NSArray
                         callBack(jsonDataValue, nil)
                         
                     }

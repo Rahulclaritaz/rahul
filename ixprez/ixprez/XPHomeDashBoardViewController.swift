@@ -199,7 +199,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.userLanguageSetting = responseData.value(forKey: "language") as! NSArray
                 self.userCountrySetting = responseData.value(forKey: "country") as! NSArray
                 
-                self.userVerifiedEmailSetting = self.dashboardCountData["email_verified"] as! NSArray
+                self.userVerifiedEmailSetting = responseData.value(forKey: "email_verified") as! NSArray
                 
                 let userName : String = self.userNameSetting[0] as! String
                 UserDefaults.standard.set(userName, forKey: "userNameSetting")
@@ -254,16 +254,19 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         let parameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress"), "PreviousCount" : 0 ]
         
          getDashBoardCountWebService.getPrivateData(urlString: dashboardScreenCount.getPrivateData(), dicData: parameter) { (response, error) in
-            print("the dashboard count is \(response)")
-            self.dashboardCountData = response["data"] as! [String : AnyObject]
-            self.dashboardHeartButtonCount = self.dashboardCountData["TotalNumberofrecords"] as! Int
-            print("The dashboard heart expression count is \(self.dashboardHeartButtonCount)")
-            self.dashboardPrivateButtonCount = self.dashboardCountData["PrivateCount"] as! Int
-            print("The dashboard private  expression count is \(self.dashboardPrivateButtonCount)")
-            self.dashboardNotifiacationCount = self.dashboardCountData["PrivateFollowCount"] as! Int
-            print("The dashboard notification  expression count is \(self.dashboardNotifiacationCount)")
-            self.userVerifiedEmail = self.dashboardCountData["email_verified"] as! Int
-            print("User email verification code 0 = Not verified and 1 = Verified    \(self.userVerifiedEmail)")
+            DispatchQueue.main.async {
+                print("the dashboard count is \(response)")
+                self.dashboardCountData = response["data"] as! [String : AnyObject]
+                self.dashboardHeartButtonCount = self.dashboardCountData["TotalNumberofrecords"] as! Int
+                print("The dashboard heart expression count is \(self.dashboardHeartButtonCount)")
+                self.dashboardPrivateButtonCount = self.dashboardCountData["PrivateCount"] as! Int
+                print("The dashboard private  expression count is \(self.dashboardPrivateButtonCount)")
+                self.dashboardNotifiacationCount = self.dashboardCountData["PrivateFollowCount"] as! Int
+                print("The dashboard notification  expression count is \(self.dashboardNotifiacationCount)")
+                self.userVerifiedEmail = self.dashboardCountData["email_verified"] as! Int
+                print("User email verification code 0 = Not verified and 1 = Verified    \(self.userVerifiedEmail)")
+            }
+            
         }
         
     }
