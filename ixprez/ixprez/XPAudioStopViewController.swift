@@ -41,16 +41,16 @@ class XPAudioStopViewController: UIViewController {
         titleLabel = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
 //        unregisteredXprezUserEmail = UserDefaults.standard.value(forKey: "inviteXprezUser") as! String
         self.title = titleLabel
-        self.toEmailString = audioPage.defaultValue.string(forKey: "toEmailAddress") as! String
+//        self.toEmailString = audioPage.defaultValue.string(forKey: "toEmailAddress") as! String
         
-       let phoneNumberValidate = self.toEmailString
-        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-        let filteredCharacters = phoneNumberValidate.characters.filter {
-            return numericSet.contains($0)
-        }
-       let filteredString = String(filteredCharacters)
-        self.toEmailPhoneNumberFormet = " - " + filteredString // We have to send this formet only.
-        print(toEmailPhoneNumberFormet)
+//       let phoneNumberValidate = self.toEmailString
+//        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+//        let filteredCharacters = phoneNumberValidate.characters.filter {
+//            return numericSet.contains($0)
+//        }
+//       let filteredString = String(filteredCharacters)
+//        self.toEmailPhoneNumberFormet = " - " + filteredString // We have to send this formet only.
+//        print(toEmailPhoneNumberFormet)
         print(registrationPage.defaults.string(forKey: "emailAddress"))
          print(audioPage.defaultValue.string(forKey: "toEmailAddress"))
          print(audioPage.defaultValue.string(forKey: "feelingsLabelValue"))
