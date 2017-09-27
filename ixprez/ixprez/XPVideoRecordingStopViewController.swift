@@ -136,7 +136,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     // This method will send to the request parameter to the server and move to dashboard main view.
     @IBAction func xpressButtonAction (sender : Any) {
         
-        uploadVideoToWebService()
+        sendRequestToWebService()
 
     }
     
@@ -156,7 +156,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     }
     
     
-    func uploadVideoToWebService()
+    func sendRequestToWebService ()
     {
         
         do
@@ -169,7 +169,8 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
             print("your audio data have problem.")
         }
         
-      thumbImageView =  getThumbnailImage(forUrl: videoFileURLPath!)!
+        
+        thumbImageView =  getThumbnailImage(forUrl: videoFileURLPath!)!
         
         if (thumbImageView != nil) {
             var imageThumbView = UIImageView(image: thumbImageView)
@@ -179,8 +180,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
             var imageThumbView = UIImageView(image: imageThumb)
             videoThumbnailImage  = (imageThumbView.image?.lowQualityJPEGNSData)! as NSData
         }
-        
-        
+
         
         let myUrl = NSURL(string : commonWebURL.url())
         var requestUrl = URLRequest(url: myUrl! as URL)
@@ -188,7 +188,6 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         // Setting the Content - type in HTTP header
         let boundary = generateBoundaryString()
         requestUrl.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
         // This will add the authentication token on the header of the API.
         let authtoken = UserDefaults.standard.value(forKey: "authToken")
         print("The authtoken for this user is \(authtoken)")
@@ -202,7 +201,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         if (registrationPage.defaults.string(forKey: "emailAddress") == nil) {
             body.appendString("--\(boundary)\r\n")
             body.appendString("Content-Disposition: form-data; name=\"from_email\"\r\n\r\n")
-            body.appendString("mathan6@gmail.com")
+            body.appendString("rahul@claritaz.com")
             body.appendString("\r\n")
         } else {
             body.appendString("--\(boundary)\r\n")
@@ -218,7 +217,6 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
             print("You don't have email because u select public")
         } else
         {
-            
             // Here will check register ixprez user or not. If not then will pass email id [Type in pop up] other wise will pass [ - phoneNumber] in to_email parameter.
             isUnregisteredUser = UserDefaults.standard.value(forKey: "isUnregisterXprezUser") as! Bool
             if (isUnregisteredUser) {
@@ -227,6 +225,8 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
                 body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
                 isPopUpHaveUserEmailEmpty = (videoPage.defaultValue.string(forKey: "inviteXprezUser")?.isEmpty)!
                 if (isPopUpHaveUserEmailEmpty) {
+                    //                    body.appendString("rahul@claritaz.com")
+                    
                     let alert = UIAlertController(title: "Alert", message: "Pop-UP Email can not be blank. Please provide a valid Email.", preferredStyle: UIAlertControllerStyle.alert)
                     alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                     self.present(alert, animated: true, completion: nil)
@@ -235,6 +235,8 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
                 } else {
                     body.appendString(videoPage.defaultValue.string(forKey: "inviteXprezUser")!)
                 }
+                
+                
                 body.appendString("\r\n")
             } else {
                 body.appendString("--\(boundary)\r\n")
@@ -242,6 +244,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
                 body.appendString(self.toEmailPhoneNumberFormet)
                 body.appendString("\r\n")
             }
+            
         }
         
         body.appendString("--\(boundary)\r\n")
@@ -304,17 +307,17 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         
         // This is the recorded audio parameter add in the web service.
         body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Documents/Movie.mp4\"\r\n")
+        //        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Documents/Movie.mp4\"\r\n")
+        //        body.appendString("Content-Type: video/mp4\r\n\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"Movie.mp4\"\r\n")
         body.appendString("Content-Type: video/mp4\r\n\r\n")
-        //        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"MyAudioMemo.wav\"\r\n")
-        //        body.appendString("Content-Type: audio/wav\r\n\r\n")
         //let urlData = NSData(data: audioData as Data)
         body.append(videoData as Data)
         body.appendString("\r\n")
         
         body.appendString("--\(boundary)\r\n")
-        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename=\"sample.jpg\"\r\n")
-        body.appendString("Content-Type: image/jpg\r\n\r\n")
+        body.appendString("Content-Disposition: form-data; name=\"fileupload\"; filename = \"bg_reg.png\"\r\n")
+        body.appendString("Content-Type: image/png\r\n\r\n")
         body.append(videoThumbnailImage as Data)
         body.appendString("\r\n")
         
