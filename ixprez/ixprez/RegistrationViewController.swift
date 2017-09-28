@@ -121,13 +121,24 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
      
         mobileNumberTextField?.delegate = self
         emailTextField?.delegate = self
-        
+        self.btnTerm.addTarget(self, action: #selector(termsAndCondition(sender:)), for: .touchUpInside)
+        self.btnPrivacy.addTarget(self, action: #selector(privacyPolicy(sender:)), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         countryTableView.isHidden = true
         languageTableView.isHidden = true
     }
+    
+    // This will open the browser for term and Conditions.
+   @IBAction func termsAndCondition (sender : UIButton) {
+    UIApplication.shared.openURL(NSURL(string: "http://www.quadrupleindia.com/ixprez/page/terms_conditions.html")! as URL)
+    }
+    // This will open the browser for Privacy.
+   @IBAction func privacyPolicy (sender : UIButton) {
+    UIApplication.shared.openURL(NSURL(string: "http://www.quadrupleindia.com/ixprez/page/privacy_policy.html")! as URL)
+    }
+    
     
    
      
@@ -525,16 +536,23 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         
         else
         {
-            defaults.set(nameTextField?.text, forKey: "userName")
-            defaults.set(emailTextField?.text, forKey: "emailAddress")
-    
-            defaults.set(countryTextField.text, forKey: "countryName")
-            defaults.set(languageTextField.text, forKey: "languageName")
-            defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
-            
-//            let alert = UIAlertController(title: "Phone Number", message: "Is this your Phone Number \(mobileNumberTextField?.text)", preferredStyle: .alert)
-//            
-//            let action = UIAlertAction(title: "Yes", style: .default, handler: {(UIAlertAction) in
+            self.nameTextField?.textFieldBoarder(txtColor: UIColor.clear, txtWidth: 3.0)
+            if (self.emailTextField?.text?.isValidEmail() == false)
+            {
+                self.emailTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+                
+                let alertController = UIAlertController(title: "Alert", message: "This is not a Valid Email.", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(alertAction)
+                present(alertController, animated: true, completion: nil)
+                
+            }else {
+                defaults.set(nameTextField?.text, forKey: "userName")
+                defaults.set(emailTextField?.text, forKey: "emailAddress")
+                
+                defaults.set(countryTextField.text, forKey: "countryName")
+                defaults.set(languageTextField.text, forKey: "languageName")
+                defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
                 PhoneAuthProvider.provider().verifyPhoneNumber((self.mobileNumberTextField?.text)!, completion: { (verificationID, error) in
                     
                     if error != nil {
@@ -548,6 +566,16 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
                         
                     }
                 })
+                
+            }
+                
+            
+            
+            
+//            let alert = UIAlertController(title: "Phone Number", message: "Is this your Phone Number \(mobileNumberTextField?.text)", preferredStyle: .alert)
+//            
+//            let action = UIAlertAction(title: "Yes", style: .default, handler: {(UIAlertAction) in
+            
 //            })
             
 //            let action = UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in

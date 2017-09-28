@@ -23,6 +23,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     @IBOutlet var btnDone: UIButton!
     
     @IBOutlet var txtOTP: UITextField!
+    @IBOutlet var txtStringLabel : UILabel!
     var dataArrayValue = [String : AnyObject]()
     
     var authtoken : String = ""
@@ -46,6 +47,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     let userDefaultData = UserDefaults.standard
 
     var email : String!
+    var phone : String!
     
     let userDefault = UserDefaults.standard
     var dictArrayValue = NSArray()
@@ -58,15 +60,13 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     {
         
         email = userDefault.string(forKey: "emailAddress")
+        phone = userDefault.string(forKey: "mobileNumber")
         
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor(patternImage: UIImage(named: "bg_reg.png")!)
         
         designView.backgroundColor = UIColor(patternImage: UIImage(named: "bg_reg.png")!)
-        
-        lblOtpDescription.text = String(format: "%@ please Click resend if the mail failed to deliver", email)
-        
         
         lblOtpDescription.textAlignment = .center
   
@@ -104,6 +104,17 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
  
         self.focusTextFields()
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard isFromSettingPage else {
+            txtStringLabel.text = String(format: "on your registered mobile number")
+            lblOtpDescription.text = String(format: "%@ please Click resend if the Code failed to deliver", phone)
+            return
+        }
+        txtStringLabel.text = String(format: "on your registered Email ID")
+        
+        lblOtpDescription.text = String(format: "%@ please Click resend if the code failed to deliver", email)
     }
     
     
@@ -291,10 +302,10 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                         
                         let fcmToken = self.userDefault.string(forKey: "FCMToken")
                         if (fcmToken == nil) {
-                            self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id": "DDD454564" ,"is_edit":"0"] as [String : Any]
+                            self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id": "DDD454564","country_code": "+91" ,"is_edit":"0"] as [String : Any]
                             
                         } else {
-                            self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":fcmToken ,"is_edit":"0"] as [String : Any]
+                            self.parameter = ["user_name":self.userDefault.string(forKey: "userName"),"email_id": self.userDefault.string(forKey: "emailAddress") ,"phone_number":self.userDefault.string(forKey: "mobileNumber"),"country":self.userDefault.string(forKey: "countryName"),"language": self.userDefault.string(forKey: "languageName"),"device_id":self.appDelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":self.appDelegate.deviceOS,"mobile_version":self.appDelegate.deviceName,"mobile_modelname": self.appDelegate.deviceModel,"gcm_id":fcmToken, "country_code": "+91" ,"is_edit":"0"] as [String : Any]
                         }
                         
                         

@@ -11,17 +11,16 @@ import UIKit
 class XPHelpViewController: UIViewController {
 
     var isFromMenu = Bool()
-    
+    @IBOutlet weak var webView : UIWebView!
     override func viewDidLoad() {
         super.viewDidLoad()
 //        self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationController?.navigationBar.barTintColor = UIColor(red: 103.0/255.0, green: 68.0/255.0, blue: 240.0/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white]
-//        self.navigationController?.navigationBar.barTintColor = UIColor.green
-//        let leftButton = UIBarButtonItem(title: "BAck", style: .plain, target: self, action: #selector(backButtonAction(sender:)))
-//        let leftButton = UIBarButtonItem(image: UIImageView(image: UIImage(named: leftButtonArrow)), style: UIBarButtonItemStyle.plain, target: self, action: #selector(backButtonAction(sender:)))
-//        self.navigationItem.leftBarButtonItem = leftButton
+        let url = NSURL(string: "http://www.quadrupleindia.com/ixprez/page/help.html")
+        let requestObj = NSURLRequest(url: url as! URL)
+        self.webView.loadRequest(requestObj as URLRequest)
         // Do any additional setup after loading the view.
     }
 
