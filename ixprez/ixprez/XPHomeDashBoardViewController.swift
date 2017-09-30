@@ -63,6 +63,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     var userLanguageSetting = NSArray ()
     var userCountrySetting = NSArray ()
     var userVerifiedEmailSetting = NSArray()
+    var profileImageString = String ()
     
     let pulsrator = Pulsator()
     var  popController = UIViewController()
@@ -265,6 +266,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 print("The dashboard notification  expression count is \(self.dashboardNotifiacationCount)")
                 self.userVerifiedEmail = self.dashboardCountData["email_verified"] as! Int
                 print("User email verification code 0 = Not verified and 1 = Verified    \(self.userVerifiedEmail)")
+                self.profileImageString = self.dashboardCountData["ProfileImage"] as! String
+                
             }
             
         }
@@ -833,17 +836,21 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             settingButton?.setBackgroundImage((UIImage(named: "")), for: .normal, barMetrics: .default)
             print("Email verified")
         }
-        
-        
        
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        DispatchQueue.main.async(execute: {
+            self.xpressTableView?.reloadData()
+            
+        })
+
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         pulsrator.stop()
+        
     }
     
 
@@ -860,47 +867,27 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
             print(imageURL)
             self.userProfileImageResponseURl = imageURL
+            self.userProfileImage?.getImageFromUrl(imageURL)
             
            // self.userProfileImageResponseURl = imageURL.replacingOccurrences(of: localPath , with:localUrl )
 
-            let url = NSURL(string: imageURL)
-            let session = URLSession.shared
-            
-            let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
-                
-                if (data != nil)
-                {
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.userProfileImage?.image = UIImage(data: data!)
-                        
-                    }
-                    
-                    
-                }
-                
-                
-            })
-            
-            
-            taskData.resume()
-//            self.userProfileImage?.getImageFromUrl(newString)
-//            print(newString)
-//            self.userProfileImage?.getImageFromUrl(newString)
-//            let url = NSURL(string : newString)
-//            let imageData = NSData(contentsOf: (url as URL?)!)
-//            self.userProfileImage?.image = UIImage(data: (imageData as Data?)!)
-            
-//            if let url = NSURL(string: "http://183.82.33.232:3000/uploads/profileImage/1487756666037s.jpg") {
-//                if let imageData = NSData(contentsOf: url as URL) {
-//                    let str64 = imageData.base64EncodedData(options: .lineLength64Characters)
-//                    let data: NSData = NSData(base64Encoded: str64 , options: .ignoreUnknownCharacters)!
-//                     self.userProfileImage?.image = UIImage(data: data as Data)
+//            let url = NSURL(string: imageURL)
+//            let session = URLSession.shared
+//            
+//            let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
+//                
+//                if (data != nil)
+//                {
 //                    
-//                }        
-//            }
-        
+//                    DispatchQueue.main.async {
+//                        
+//                        self.userProfileImage?.image = UIImage(data: data!)
+//                    }
+//                }
+//            })
+//            
+//            
+//            taskData.resume()
         })
         
         

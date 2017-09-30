@@ -1166,8 +1166,13 @@ func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMe
  
  
         request.setValue("multipart/form-data; boundary =\("---------------------------14737809831466499882746641449")", forHTTPHeaderField: "Content-Type")
- 
- 
+        
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        print("The authtoken for this user is \(authtoken)")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        
+    
         body.appendString("--\("---------------------------14737809831466499882746641449")\r\n")
         body.appendString("Content-Disposition: form-data; name=\"user_email\"\r\n\r\n")
         body.appendString(emailID)
