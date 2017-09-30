@@ -32,7 +32,6 @@ class XPHumburgerMenuViewController: UIViewController {
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
         humburgerMenuUserName?.text = UserDefaults.standard.value(forKey: "userName") as! String
         self.menuXpressionCount()
-         self.getUserProfile()
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
         self.navigationItem.titleView = imageView
@@ -74,6 +73,7 @@ class XPHumburgerMenuViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
        self.navigationItem.leftBarButtonItem?.badgeValue = String(self.heartButtonBadgeCount)
+        self.getUserProfile()
     }
     
     // This method will call when clik on the trending button
@@ -116,28 +116,30 @@ class XPHumburgerMenuViewController: UIViewController {
         dashBoardCommonService.getUserProfileWebService(urlString: userPrifileURL.url(), dicData: parameter as NSDictionary, callback: {(userprofiledata , error) in
             let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
             print(imageURL)
+            self.humburgerMenuUserProfile?.getImageFromUrl(imageURL)
             
-            var urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+//            var urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
+//            
+//            let url = NSURL(string: urlString)
+//            
             
-            let url = NSURL(string: urlString)
-            
-            let session = URLSession.shared
-            
-            let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
-                
-                if (data != nil)
-                {
-                    
-                    DispatchQueue.main.async {
-                        
-                        self.humburgerMenuUserProfile?.image = UIImage(data: data!)
-                        
-                    }
-                }
-            })
-            
-            
-            taskData.resume()
+//            let session = URLSession.shared
+//            
+//            let taskData = session.dataTask(with: url! as URL, completionHandler: {(data,response,error) -> Void  in
+//                
+//                if (data != nil)
+//                {
+//                    
+//                    DispatchQueue.main.async {
+//                        
+//                        self.humburgerMenuUserProfile?.image = UIImage(data: data!)
+//                        
+//                    }
+//                }
+//            })
+//            
+//            
+//            taskData.resume()
         })
         
         

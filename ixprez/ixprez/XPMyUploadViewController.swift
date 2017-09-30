@@ -1033,9 +1033,9 @@ func deleteVideo(sender : UIButton)
             
             let playUploadTitle = myUploadPlayData["title"] as! String
             
-            var playUploadVideoPath = myUploadPlayData["fileuploadPath"] as? String
+            var playUploadVideoPath = myUploadPlayData["tokenizedUrl"] as? String
             
-            playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//            playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
             
             
             let playFilemimeType  = myUploadPlayData["filemimeType"] as! String

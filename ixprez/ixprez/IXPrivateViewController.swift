@@ -138,7 +138,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         
         privateTableView.backgroundColor = UIColor.clear
         
-        self.getPrivateData()
+//        self.getPrivateData()
         // Do any additional setup after loading the view.
     }
    
@@ -188,10 +188,10 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
                 let jsonArrayValue : NSArray = dicc["Records"] as! NSArray
                 
                 self.recordPrivateData = jsonArrayValue as! [[String : Any]]
-               
+                self.refershController.beginRefreshing()
                 DispatchQueue.main.async{
                     
-                    self.refershController.beginRefreshing()
+                    
                     
                     self.privateTableView.reloadData()
                     
