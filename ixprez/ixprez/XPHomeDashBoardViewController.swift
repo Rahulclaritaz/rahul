@@ -707,7 +707,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         
         let playTitle = playData["title"] as! String
         
-        var playVideoPath = playData["fileuploadPath"] as! String
+        var playVideoPath = playData["tokenizedUrl"] as! String
         
        // playVideoPath.replace(localPath, with: localUrl )
         

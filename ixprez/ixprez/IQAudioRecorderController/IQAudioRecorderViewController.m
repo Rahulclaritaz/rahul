@@ -625,6 +625,7 @@
         countdownLabel.text = nil;
         UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         XPAudioStopViewController *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
+        stopView.audioRecordURLString = recordingFileURL;
         [self.navigationController pushViewController:stopView animated:true];
     }
 }

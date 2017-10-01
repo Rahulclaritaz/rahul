@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UNUserNotificationCenterDe
         print(deviceOS)
         systemName = UIDevice.current.systemName
         print(systemName)
-        
+        UIApplication.shared.applicationIconBadgeNumber = 0
         application.registerForRemoteNotifications()
         
 //        FirebaseApp.configure()
