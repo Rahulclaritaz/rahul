@@ -48,7 +48,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     
     var nsuerDefault = UserDefaults.standard
     
-    let  myImage = UIImageView()
+   @IBOutlet weak var  myImage = UIImageView()
     
     var addContactList = [ContactList]()
     
@@ -153,11 +153,11 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
     func getBackgroundView()
     {
         
-        myImage.frame = CGRect(x: 0, y: 0, width: privateTableView.frame.size.width, height: privateTableView.frame.size.height)
+        myImage?.frame = CGRect(x: 0, y: 0, width: privateTableView.frame.size.width, height: privateTableView.frame.size.height)
         
-        myImage.image = UIImage(named: "SearchCaughtUPBGImage")
+        myImage?.image = UIImage(named: "SearchCaughtUPBGImage")
         
-        myImage.contentMode = .scaleAspectFit
+        myImage?.contentMode = .scaleAspectFit
   
     }
     
@@ -255,6 +255,7 @@ func getRefersh( action : UIRefreshControl)
         
         guard let getData = privateData["msg"] as? String else
         {
+            myImage?.isHidden = true
             privatecell.isHidden = false
             privatecell.lblPrivateTitle.text = privateData["title"] as? String
             
@@ -403,7 +404,7 @@ func getRefersh( action : UIRefreshControl)
         if ( getData.isEqual("No Records"))
         {
             privatecell.isHidden = true
-            
+            myImage?.isHidden = false
             
            // let noDataLabel: UILabel     = UILabel(frame:CGRect(x: 0, y: 0, width: privateTableView.bounds.size.width, height: privateTableView.bounds.size.height))
             //noDataLabel.text             = "No data available"
@@ -532,7 +533,7 @@ func getRefersh( action : UIRefreshControl)
         
         var playPrivateData = recordPrivateData[indexPathValue.section]
         
-        var playVideoPath = playPrivateData["fileuploadPath"] as? String
+        var playVideoPath = playPrivateData["tokenizedUrl"] as? String
         
         let playVideoTitle = playPrivateData["title"] as? String
         
@@ -559,7 +560,7 @@ func getRefersh( action : UIRefreshControl)
         
         //http://192.168.1.20:3000
         
-        playVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//        playVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
         
         
        // playVideoPath?.replace("/var/www/html/xpresslive/Xpress/", with: "http://192.168.1.20:3000/")

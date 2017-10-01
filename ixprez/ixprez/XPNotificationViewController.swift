@@ -21,7 +21,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
     var recordMessageStatus = String()
     var checkAcceptUser : Bool!
     var showAddContact : Bool!
-    let  myImage = UIImageView()
+   @IBOutlet weak var myImage = UIImageView()
     var notificationCount = NSArray()
     var privateType : String!
     
@@ -45,7 +45,9 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
         userEmail = UserDefaults.standard.string(forKey: "emailAddress")!
         self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white];
+        getBackGroundView()
         self.getValueFromService()
+        self.notificationTableView.backgroundColor = UIColor.clear
 
         // Do any additional setup after loading the view.
     }
@@ -55,9 +57,21 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     @IBAction  func backButton (_sender : Any) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+    func getBackGroundView () {
+        self.myImage?.frame = CGRect(x: 0, y: 0, width: notificationTableView.frame.size.width, height: notificationTableView.frame.size.height)
+        self.myImage?.image = UIImage(named: "SearchCaughtUPBGImage")
+        self.myImage?.contentMode = .scaleAspectFit
+        
+    }
+    
     
     func getValueFromService() {
         let parameter : NSDictionary = ["user_email" :userEmail,"limit" : "30","index":"0","notificationCount":"1"]
@@ -292,7 +306,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
         if ( self.recordMessageStatus == "No Records")
         {
             privatecell.isHidden = true
-            
+            self.myImage?.isHidden = false
             
             // let noDataLabel: UILabel     = UILabel(frame:CGRect(x: 0, y: 0, width: privateTableView.bounds.size.width, height: privateTableView.bounds.size.height))
             //noDataLabel.text             = "No data available"
@@ -305,6 +319,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
             notificationTableView.separatorStyle = .none
             
         } else {
+            self.myImage?.isHidden = true
             privatecell.isHidden = false
             privatecell.lblPrivateTitle.text = privateData["title"] as? String
             
@@ -664,7 +679,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
             
             var playPrivateData = recordPrivateData[indexPathValue.section]
             
-            var playVideoPath = playPrivateData["fileuploadPath"] as? String
+            var playVideoPath = playPrivateData["tokenizedUrl"] as? String
             
             let playVideoTitle = playPrivateData["title"] as? String
             
@@ -691,7 +706,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
             
             //http://192.168.1.20:3000
             
-            playVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//            playVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
             
             
             // playVideoPath?.replace("/var/www/html/xpresslive/Xpress/", with: "http://192.168.1.20:3000/")
