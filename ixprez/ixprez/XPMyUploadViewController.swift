@@ -983,7 +983,7 @@ func deleteVideo(sender : UIButton)
         
         let playUploadTitle = myUploadPlayData["title"] as! String
         
-        var playUploadVideoPath = myUploadPlayData["fileuploadPath"] as? String
+        var playUploadVideoPath = myUploadPlayData["tokenizedUrl"] as? String
             
         let playFilemimeType  = myUploadPlayData["filemimeType"] as! String
             
@@ -996,7 +996,7 @@ func deleteVideo(sender : UIButton)
             
             print("mathan mathan ",checkUserLike)
         
-       playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//       playUploadVideoPath?.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
     
             let playUploadLikeCount = myUploadPlayData["likeCount"] as! Int
             let playUploadViewCount = myUploadPlayData["view_count"] as! Int

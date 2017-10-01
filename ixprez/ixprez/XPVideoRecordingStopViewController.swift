@@ -64,7 +64,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
 //        videoThumbnailImage = UIImagePNGRepresentation(thumbImageView)! as NSData
 //        urlData = NSData(data: videoThumbnailImage as Data )
         
-        self.toEmailString = videoPage.defaultValue.string(forKey: "toEmailAddress") as! String
+        self.toEmailString = videoPage.defaultValue.string(forKey: "toEmailAddress")!
         
         let phoneNumberValidate = self.toEmailString
         let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
