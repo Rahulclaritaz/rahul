@@ -805,7 +805,6 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         // This will return the dashboard heart, private upload and notification count
         getSettingDataResponse() //  This will return the detail of the user [will use in setting page]
         getUserProfile()
-        dashboardXpressionCount()
         // This will create the number of circle animation and radius
         pulsrator.numPulse = 5
         pulsrator.radius = 120
@@ -841,6 +840,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.async(execute: {
+            self.dashboardXpressionCount()
             self.xpressTableView?.reloadData()
             
         })

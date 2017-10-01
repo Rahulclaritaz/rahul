@@ -709,9 +709,9 @@ class XPWebService
                     let jsonData: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as! NSDictionary
                     print(jsonData)
                     
-                    let jsonResponseValue : String = jsonData.value(forKey: "status") as! String
+                    let jsonResponseValue : String = jsonData.value(forKey: "code") as! String
                     
-                    if (jsonResponseValue == "Failed") {
+                    if (jsonResponseValue != "200") {
                         return
                     } else {
                         let jsonDataValue : NSDictionary = (jsonData as AnyObject)["data"] as! NSDictionary
