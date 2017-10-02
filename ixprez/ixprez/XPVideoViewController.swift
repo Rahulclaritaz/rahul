@@ -90,6 +90,40 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         self.navigationController?.popViewController(animated: true)
         
     }
+    
+    
+    @IBAction func upArrowPickerButtonAction (_sender : Any) {
+        print("you select the up arrow button")
+        var upArrow : Int =  self.videoPickerView!.selectedRow(inComponent: 0)
+        print(upArrow)
+        if (videoPickerView?.selectedRow(inComponent: 0) == 2) {
+            videoPickerView?.selectRow(1, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[upArrow - 1]
+            videoTableView.reloadData()
+        } else if (videoPickerView?.selectedRow(inComponent: 0) == 1) {
+            videoPickerView?.selectRow(0, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[upArrow - 1]
+            videoTableView.reloadData()
+        }
+    }
+    @IBAction func downArrowPickerButtonAction (_sender : Any) {
+        print("you select the down arrow button")
+        var downArrow : Int =  self.videoPickerView!.selectedRow(inComponent: 0)
+        print(downArrow)
+        if (videoPickerView?.selectedRow(inComponent: 0) == 0) {
+            videoPickerView?.selectRow(1, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[downArrow + 1]
+            videoTableView.reloadData()
+        } else if (videoPickerView?.selectedRow(inComponent: 0) == 1) {
+            videoPickerView?.selectRow(2, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[downArrow + 1]
+            videoTableView.reloadData()
+        }
+        
+    }
+
+    
+    
     override func viewWillAppear(_ animated: Bool) {
 //        self.view.layer.addSublayer(previewLayer)
         pulsrator.numPulse = 5
