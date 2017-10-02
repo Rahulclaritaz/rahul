@@ -267,7 +267,17 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.userVerifiedEmail = self.dashboardCountData["email_verified"] as! Int
                 print("User email verification code 0 = Not verified and 1 = Verified    \(self.userVerifiedEmail)")
                 self.profileImageString = self.dashboardCountData["ProfileImage"] as! String
-                
+                self.navigationItem.leftBarButtonItem?.badgeValue = String(self.dashboardHeartButtonCount)
+                self.privateButton?.badgeValue = String(self.dashboardPrivateButtonCount)
+                self.notificationButton?.badgeValue = String(self.dashboardNotifiacationCount)
+                if (self.userVerifiedEmail == 0) {
+                    self.settingButton?.setBackgroundImage((UIImage(named: "setting_Warning.png")), for: .normal, barMetrics: .default)
+                    print("Email Not verified")
+                } else {
+                    self.settingButton?.setBackgroundImage((UIImage(named: "")), for: .normal, barMetrics: .default)
+                    print("Email verified")
+                }
+
             }
             
         }
@@ -804,6 +814,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     override func viewWillAppear(_ animated: Bool) {
         // This will return the dashboard heart, private upload and notification count
         getSettingDataResponse() //  This will return the detail of the user [will use in setting page]
+        self.dashboardXpressionCount() // This method will return the badge count of private video, notification and total count.
         getUserProfile()
         // This will create the number of circle animation and radius
         pulsrator.numPulse = 5
@@ -821,26 +832,25 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.didMove(toParentViewController: self)
         }
         
-        self.navigationItem.leftBarButtonItem?.badgeValue = String(self.dashboardHeartButtonCount)
+//        self.navigationItem.leftBarButtonItem?.badgeValue = String(badgeCount)  //String(self.dashboardHeartButtonCount)
         self.privateButton?.badgeOriginX = 10.0
         self.privateButton?.badgeOriginY = 10.0
-        self.privateButton?.badgeValue = String(self.dashboardPrivateButtonCount)
+//        self.privateButton?.badgeValue = String(self.dashboardPrivateButtonCount)
         self.notificationButton?.badgeOriginX = 10.0
         self.notificationButton?.badgeOriginY = 10.0
-        self.notificationButton?.badgeValue = String(self.dashboardNotifiacationCount)
-        if (self.userVerifiedEmail == 0) {
-            settingButton?.setBackgroundImage((UIImage(named: "setting_Warning.png")), for: .normal, barMetrics: .default)
-            print("Email Not verified")
-        } else {
-            settingButton?.setBackgroundImage((UIImage(named: "")), for: .normal, barMetrics: .default)
-            print("Email verified")
-        }
+//        self.notificationButton?.badgeValue = String(self.dashboardNotifiacationCount)
+//        if (self.userVerifiedEmail == 0) {
+//            settingButton?.setBackgroundImage((UIImage(named: "setting_Warning.png")), for: .normal, barMetrics: .default)
+//            print("Email Not verified")
+//        } else {
+//            settingButton?.setBackgroundImage((UIImage(named: "")), for: .normal, barMetrics: .default)
+//            print("Email verified")
+//        }
        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.async(execute: {
-            self.dashboardXpressionCount()
             self.xpressTableView?.reloadData()
             
         })
