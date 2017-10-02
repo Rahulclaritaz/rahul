@@ -503,29 +503,29 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             if (self.nameTextField?.text == "")
             {
                 
-                self.nameTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+//                self.nameTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
                 
             }
             
             
             if (self.emailTextField?.text?.isValidEmail() == false)
             {
-                self.emailTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+//                self.emailTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
                 
             }
             if (self.mobileNumberTextField?.text == "")
             {
-                self.mobileNumberTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+//                self.mobileNumberTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
                 
             }
             if (self.countryTextField.text == "")
             {
-                self.countryTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+//                self.countryTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
                 
             }
             if (self.languageTextField.text == "")
             {
-               self.languageTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+//               self.languageTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
 
             }
             else
@@ -539,7 +539,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             self.nameTextField?.textFieldBoarder(txtColor: UIColor.clear, txtWidth: 3.0)
             if (self.emailTextField?.text?.isValidEmail() == false)
             {
-                self.emailTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
+//                self.emailTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
                 
                 let alertController = UIAlertController(title: "Alert", message: "This is not a Valid Email.", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)

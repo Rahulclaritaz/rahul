@@ -115,6 +115,37 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         audioPickerBar.isHidden = true
     }
     
+    @IBAction func upArrowPickerButtonAction (_sender : Any) {
+      print("you select the up arrow button")
+        var upArrow : Int =  self.audioPickerView.selectedRow(inComponent: 0)
+        print(upArrow)
+        if (audioPickerView.selectedRow(inComponent: 0) == 2) {
+            audioPickerView.selectRow(1, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[upArrow - 1]
+            audioTableView.reloadData()
+        } else if (audioPickerView.selectedRow(inComponent: 0) == 1) {
+            audioPickerView.selectRow(0, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[upArrow - 1]
+            audioTableView.reloadData()
+        }
+    }
+    @IBAction func downArrowPickerButtonAction (_sender : Any) {
+        print("you select the down arrow button")
+        var downArrow : Int =  self.audioPickerView.selectedRow(inComponent: 0)
+        print(downArrow)
+        if (audioPickerView.selectedRow(inComponent: 0) == 0) {
+            audioPickerView.selectRow(1, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[downArrow + 1]
+            audioTableView.reloadData()
+        } else if (audioPickerView.selectedRow(inComponent: 0) == 1) {
+            audioPickerView.selectRow(2, inComponent: 0, animated: true)
+            shareTitleLabel.text = shareTitle[downArrow + 1]
+            audioTableView.reloadData()
+        }
+
+    }
+
+    
     
     override func viewWillAppear(_ animated: Bool) {
             
