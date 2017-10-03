@@ -217,7 +217,7 @@ class XPAudioStopViewController: UIViewController {
             } else {
                 body.appendString("--\(boundary)\r\n")
                 body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
-                body.appendString(self.toEmailPhoneNumberFormet)
+                body.appendString(audioPage.defaultValue.string(forKey: "toEmailAddress")!)
                 body.appendString("\r\n")
             }
             
