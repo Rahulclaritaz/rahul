@@ -283,7 +283,12 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         if ( txtOTP.text?.isEmpty)!
         {
         
-        txtOTP.textFieldBoarder(txtColor : UIColor.getLightBlueColor(), txtWidth : 1.0)
+//        txtOTP.textFieldBoarder(txtColor : UIColor.getLightBlueColor(), txtWidth : 1.0)
+            let alertController = UIAlertController(title: "Alert!", message: "OTP can Not be blank it will be 6 digit number.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            present(alertController, animated: true, completion: nil)
+
             
         }
         else
