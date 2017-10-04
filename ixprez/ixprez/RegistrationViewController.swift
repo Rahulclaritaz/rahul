@@ -62,6 +62,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
     var myCountry : String!
     var translated = String()
     var country : String!
+    var countryCode : String!
     
     override func awakeFromNib()
     {
@@ -430,8 +431,9 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             {
                 
                 self.mobileNumberTextField?.text = String(format: "+%@", arrData["ph_code"] as! String)
-                
-             
+                self.countryCode = "+" + (arrData["ph_code"] as! String)
+                print("The country code for this country is \(self.countryCode)")
+                self.defaults.set(self.countryCode, forKey: "countryCode")
             }
             
             
