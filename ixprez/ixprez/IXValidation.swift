@@ -22,7 +22,7 @@ extension String
     func isValidPhono() -> Bool
     {
         //let phoneRegx = "^\\d{3}-\\d{3}-\\d{4}$"
-        let phoneRegex = "[0-9-]{10,14}"
+        let phoneRegex = "[0-9-+]{10,14}"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         return phoneTest.evaluate(with:self)
         
