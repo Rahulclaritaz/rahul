@@ -517,53 +517,62 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             alertController.addAction(defaultAction)
             present(alertController, animated: true, completion: nil)
             
-        } /*else if (!(countryTextField.text == "")) {
+        } else if (!(countryTextField.text == "")) {
             
-            let countryTextFieldString : String = countryTextField.text!
+            var countryTextFieldString : String = countryTextField.text!
+            var CountryTextFieldValidate = String ()
             for coun in self.countryData {
                 
                 let countryName : String = coun["country_name"] as! String
                 print(countryName)
                 if (countryName == countryTextFieldString) {
-                    print("This country is available in List")
+                    CountryTextFieldValidate = countryTextFieldString
                     break
-                } else {
-                    let alertView = UIAlertController(title: "Alert", message: "This country is not available, please select from the country list.", preferredStyle: .alert)
-                    let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertView.addAction(alertAction)
-                    present(alertView, animated: true, completion: nil)
                 }
                 
             }
+            
+            if (countryTextFieldString == CountryTextFieldValidate) {
+                print("The country name is available in the web")
+            } else {
+                let alertView = UIAlertController(title: "Alert", message: "This country is not available, please select from the country list.", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertView.addAction(alertAction)
+                present(alertView, animated: true, completion: nil)
+            }
+            
 
             
-         }*/ else if (languageTextField.text == "") {
+         } else if (languageTextField.text == "") {
             let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please select your language from the list only.", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertController.addAction(defaultAction)
             present(alertController, animated: true, completion: nil)
             
-        } /*else if (!(languageTextField.text == "")) {
+        } else if (!(languageTextField.text == "")) {
            
             let languageTextFieldString : String  = languageTextField.text!
+            var languageTextFieldValidate = String ()
             
             for lang in self.languageData {
                 let languageName: String = lang["name"] as! String
                 if (languageName == languageTextFieldString) {
-                    print("This language is available in List")
+                    languageTextFieldValidate = languageTextFieldString
                     break
-                    
-                } else {
-                    let alertView = UIAlertController(title: "Alert", message: "This language is not available, please select from the language list.", preferredStyle: .alert)
-                    let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertView.addAction(alertAction)
-                    present(alertView, animated: true, completion: nil)
                 }
-                
-                
             }
             
-        } */ else if (mobileNumberTextField?.text == "") {
+            if (languageTextFieldString == languageTextFieldValidate) {
+                print("This Language is available in List")
+                
+            } else {
+                let alertView = UIAlertController(title: "Alert", message: "This language is not available, please select from the language list.", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertView.addAction(alertAction)
+                present(alertView, animated: true, completion: nil)
+            }
+            
+        } else if (mobileNumberTextField?.text == "") {
             let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Mobile Number.", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertController.addAction(defaultAction)
