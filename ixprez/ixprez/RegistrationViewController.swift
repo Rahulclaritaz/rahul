@@ -178,7 +178,14 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
         
         return true
     }
-    //United States
+    
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextFieldDidEndEditingReason) {
+        countryTableView.isHidden = true
+        languageTableView.isHidden = true
+    }
+    
+   
     
     
 
@@ -448,10 +455,6 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
       })
             
-            
-        
-        
-             
     }
    // This method Will call the Web Service to get the language and passing parameter
     func getLanguageNameFromWebService() -> Void
@@ -494,6 +497,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
       // This method will store the data into the NSUSerDefaults.
     @IBAction func saveButtonAction(_ sender: Any)
     {
+        
         if (nameTextField?.text == "") {
             let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Name.", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -517,40 +521,64 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             alertController.addAction(defaultAction)
             present(alertController, animated: true, completion: nil)
             
-        } else if (!(countryTextField.text == "")) {
-            
-            var countryTextFieldString : String = countryTextField.text!
-            var CountryTextFieldValidate = String ()
-            for coun in self.countryData {
-                
-                let countryName : String = coun["country_name"] as! String
-                print(countryName)
-                if (countryName == countryTextFieldString) {
-                    CountryTextFieldValidate = countryTextFieldString
-                    break
-                }
-                
-            }
-            
-            if (countryTextFieldString == CountryTextFieldValidate) {
-                print("The country name is available in the web")
-            } else {
-                let alertView = UIAlertController(title: "Alert", message: "This country is not available, please select from the country list.", preferredStyle: .alert)
-                let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                alertView.addAction(alertAction)
-                present(alertView, animated: true, completion: nil)
-            }
-            
-
-            
-         } else if (languageTextField.text == "") {
+        }  else if (languageTextField.text == "") {
             let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please select your language from the list only.", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
             alertController.addAction(defaultAction)
             present(alertController, animated: true, completion: nil)
             
-        } else if (!(languageTextField.text == "")) {
-           
+        }  else if (mobileNumberTextField?.text == "") {
+            let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Mobile Number.", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(defaultAction)
+            present(alertController, animated: true, completion: nil)
+            
+        }  else if (!(mobileNumberTextField?.text?.isValidPhono())!) {
+            let alertController = UIAlertController(title: "Alert", message: "This is not a Valid Phone Number. Use only Numeric with your Country Code", preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(alertAction)
+            present(alertController, animated: true, completion: nil)
+            
+        } else {
+            print("Good YOU given all the details in Registration Field.")
+            
+             if (!(countryTextField.text == "")) {
+                
+                var countryTextFieldString : String = countryTextField.text!
+                var CountryTextFieldValidate = String ()
+                for coun in self.countryData {
+                    
+                    let countryName : String = coun["country_name"] as! String
+                    print(countryName)
+                    if (countryName == countryTextFieldString) {
+                        CountryTextFieldValidate = countryTextFieldString
+                        break
+                    }
+                    
+                }
+                
+                if (countryTextFieldString == CountryTextFieldValidate) {
+                    print("The country name is available in the web")
+                    
+                    languageFieldValidation()
+                    
+                } else {
+                    let alertView = UIAlertController(title: "Alert", message: "This country is not available, please select from the country list.", preferredStyle: .alert)
+                    let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertView.addAction(alertAction)
+                    present(alertView, animated: true, completion: nil)
+                    
+                }
+            }
+            
+        }
+    
+}// end save function
+    
+    // This function will validate that language is available in the Server or not
+    func languageFieldValidation() {
+        if (!(languageTextField.text == "")) {
+            
             let languageTextFieldString : String  = languageTextField.text!
             var languageTextFieldValidate = String ()
             
@@ -564,7 +592,7 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
             
             if (languageTextFieldString == languageTextFieldValidate) {
                 print("This Language is available in List")
-                
+                smsFieldVarification()
             } else {
                 let alertView = UIAlertController(title: "Alert", message: "This language is not available, please select from the language list.", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -572,185 +600,32 @@ class RegistrationViewController: UIViewController,UITextFieldDelegate,UITableVi
                 present(alertView, animated: true, completion: nil)
             }
             
-        } else if (mobileNumberTextField?.text == "") {
-            let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Mobile Number.", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            present(alertController, animated: true, completion: nil)
-            
-        }  else if (!(mobileNumberTextField?.text?.isValidPhono())!) {
-            let alertController = UIAlertController(title: "Alert", message: "This is not a Valid Phone Number. Use only Number with your Country Code", preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(alertAction)
-            present(alertController, animated: true, completion: nil)
-            
-        } else {
-            print("Good YOU given all the details in Registration Field.")
-            defaults.set(nameTextField?.text, forKey: "userName")
-            defaults.set(emailTextField?.text, forKey: "emailAddress")
-            
-            defaults.set(countryTextField.text, forKey: "countryName")
-            defaults.set(languageTextField.text, forKey: "languageName")
-            defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
-            
-            PhoneAuthProvider.provider().verifyPhoneNumber((self.mobileNumberTextField?.text)!, completion: { (verificationID, error) in
-                
-                if error != nil {
-                    print("error \(error?.localizedDescription)")
-                    self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)! + " Add country code with + symbole if not added.  ")
-                } else {
-                    let defaults = UserDefaults.standard.set(verificationID, forKey: "authVID")
-//                    print("OTP is \(verificationID)") 
-                    let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-                    self.present(verifyOTPView, animated: true, completion: nil)
-                    
-                    }
-                })
         }
+    }
+    // This method will send the OTP from FCM server.
+    func smsFieldVarification () {
         
+        defaults.set(nameTextField?.text, forKey: "userName")
+        defaults.set(emailTextField?.text, forKey: "emailAddress")
         
-    /*    if ((nameTextField?.text == "") || (emailTextField?.text == "") || (mobileNumberTextField?.text == "") || (countryTextField.text == "") || (languageTextField.text == ""))
-        
-        {
-            let alertController = UIAlertController(title: "Alert!", message: "Registration field will not be Blank: Please check your Name or Email or Mobile Text Field ", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(defaultAction)
-            present(alertController, animated: true, completion: nil)
-            
-            if (self.nameTextField?.text == "")
-            {
-                
-//                self.nameTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
-                
-            }
-            
-            
-            if (self.emailTextField?.text?.isValidEmail() == false)
-            {
-//                self.emailTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
-                
-            }
-            if (self.mobileNumberTextField?.text == "")
-            {
-//                self.mobileNumberTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
-                
-            }
-            if (self.countryTextField.text == "")
-            {
-//                self.countryTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
-                
-            }
-            if (self.languageTextField.text == "")
-            {
-//               self.languageTextField.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
-
-            }
-            else
-            {
-                print("Ok")
-            }
-        }//end if
-        
-        else
-        {
-            self.nameTextField?.textFieldBoarder(txtColor: UIColor.clear, txtWidth: 3.0)
-            if (self.emailTextField?.text?.isValidEmail() == false)
-            {
-//                self.emailTextField?.textFieldBoarder(txtColor: UIColor.red, txtWidth: 3.0)
-                
-                let alertController = UIAlertController(title: "Alert", message: "This is not a Valid Email.", preferredStyle: .alert)
-                let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alertController.addAction(alertAction)
-                present(alertController, animated: true, completion: nil)
-                
-            }else {
-                defaults.set(nameTextField?.text, forKey: "userName")
-                defaults.set(emailTextField?.text, forKey: "emailAddress")
-                
-                defaults.set(countryTextField.text, forKey: "countryName")
-                defaults.set(languageTextField.text, forKey: "languageName")
-                defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
-              /*  PhoneAuthProvider.provider().verifyPhoneNumber((self.mobileNumberTextField?.text)!, completion: { (verificationID, error) in
-                    
-                    if error != nil {
-                        print("error \(error?.localizedDescription)")
-                        self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)! + " Add country code with + symbole if not added.  ")
-                    } else {
-                        let defaults = UserDefaults.standard.set(verificationID, forKey: "authVID")
-                        //print("OTP is \(verificationID)") */
-                        let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-                        self.present(verifyOTPView, animated: true, completion: nil)
-//                        
-//                    }
-//                })
-                
-            }
-                
-            
-            
-            
-//            let alert = UIAlertController(title: "Phone Number", message: "Is this your Phone Number \(mobileNumberTextField?.text)", preferredStyle: .alert)
-//            
-//            let action = UIAlertAction(title: "Yes", style: .default, handler: {(UIAlertAction) in
-            
-//            })
-            
-//            let action = UIAlertAction(title: "Yes", style: .default, handler: { (UIAlertAction) in
-//                PhoneAuthProvider.provider().verifyPhoneNumber((self.mobileNumberTextField?.text)!, completion: { (verificationID, error) in
-//                    
-//                    if error != nil {
-//                        print("error \(error?.localizedDescription)")
-//                    } else {
-//                       let defaults = UserDefaults.standard.set(verificationID, forKey: "authVID")
-//                    }
-//                })
-//            })
-          
-//            let cancel = UIAlertAction(title: "NO", style: .cancel, handler: nil)
-//            alert.addAction(action)
-//            alert.addAction(cancel)
-//            self.present(alert, animated: true, completion: nil)
-         
-            
-            let parameter = ["user_name":self.nameTextField?.text!,"email_id": emailTextField?.text! ,"phone_number":self.mobileNumberTextField?.text!,"country":self.countryTextField.text!,"language": self.languageTextField.text!,"device_id":appdelegate.deviceUDID,"notification":1,"remainder":1,"mobile_os":appdelegate.deviceOS,"mobile_version":appdelegate.deviceName,"mobile_modelname": appdelegate.deviceModel,"gcm_id":"DDD454564"] as [String : Any]
-        
-            
-      /*  getOTPClass.getAddContact(urlString: getOTPUrl.url(), dicData: parameter as NSDictionary, callback: {
-            (dicc ,err) in
-            
-            
-            
-            if ( (dicc["status"] as! String) == "OK" )
-            {
-                
-                DispatchQueue.main.async
-                    {
-                    
-                
-              
+        defaults.set(countryTextField.text, forKey: "countryName")
+        defaults.set(languageTextField.text, forKey: "languageName")
+        defaults.set(mobileNumberTextField?.text, forKey: "mobileNumber")
+        PhoneAuthProvider.provider().verifyPhoneNumber((self.mobileNumberTextField?.text)!, completion: { (verificationID, error) in
+            print("First time verification Id is \(verificationID)")
+            if error != nil {
+                print("error \(error?.localizedDescription)")
+                self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)! + " Add country code with + symbole if not added.  ")
+            } else {
+                let defaults = UserDefaults.standard.set(verificationID, forKey: "OTPVerificationID")
+                //                    print("OTP is \(verificationID)")
                 let verifyOTPView = self.storyboard?.instantiateViewController(withIdentifier: "OTPVerificationViewController") as! OTPVerificationViewController
-                
                 self.present(verifyOTPView, animated: true, completion: nil)
                 
-                }
-                
-                
             }
-            else
-            {
-                
-                print("error")
-                
-            }
-            
-            
-            print(dicc)
-            
-            
-        }) */
-        
-       }//end else   */
-}// end save function
+        })
+    }
+    
 
 
 } // end class

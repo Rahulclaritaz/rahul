@@ -192,89 +192,26 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     
     @IBAction func reSendOTP(_ sender: Any)
     {
-        
-        PhoneAuthProvider.provider().verifyPhoneNumber(userDefault.string(forKey: "mobileNumber")!, completion: { (verificationID, error) in
-            
-            if error != nil {
-                print("error \(error?.localizedDescription)")
-                self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
-            } else {
-                self.alertViewControlerWithOkAndCancel(headerTitle: "Conformation", bodyMessage: "Is this your Phone Number \(self.userDefault.string(forKey: "mobileNumber"))!")
+        let alertViewController = UIAlertController(title: "Conformation", message: "Is this your Phone Number \(self.userDefault.string(forKey: "mobileNumber"))!", preferredStyle: .alert)
+        let alertOKAction = UIAlertAction(title: "OK", style: .default) { (UIAlertAction) in
+            PhoneAuthProvider.provider().verifyPhoneNumber(self.userDefault.string(forKey: "mobileNumber")!, completion: { (verificationID, error) in
                 
-            }
-        })
-//        let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: UserDefaults.standard.string(forKey: "authVID")! , verificationCode: txtOTP.text!)
-//        Auth.auth().signIn(with: credential, completion: { (user, error) in
-//            if error != nil {
-//                print("error : \(error?.localizedDescription)")
-//                self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
-//                
-//            } else {
-//                print("phone number : \(user?.phoneNumber)")
-//                self.phoneNumber = (user?.phoneNumber)!
-//                self.alertViewControlerWithOkAndCancel(headerTitle: "Conformation", bodyMessage: "Is this your \( self.phoneNumber ) phone number")
-//                
-//            }
-//        })
-        
-      //status = OK
-        
-        
-    /*    let dicOtpResend  = [ "email_id" : self.emailId , "device_id" : appDelegate.deviceUDID]
-        getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: dicOtpResend as NSDictionary, callBack: {
-            (dic ,err)  in
-            
-            print("resend ",dic)
-            
-            if (dic["status"] as! String == "OK")
-            {
-                
-                let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
-                
-                
-                
-                let attributedString1 = NSAttributedString(string: "OTP Successfully Resend Please Check Your mail", attributes: [
-                    NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
-                    NSForegroundColorAttributeName : UIColor.white
-                    ])
-                
-                alert.setValue(attributedString1, forKey: "attributedMessage")
-                
-                /*
- let subview =(alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
- 
- subview.backgroundColor = UIColor(red: (145/255.0), green: (200/255.0), blue: (0/255.0), alpha: 1.0)
- 
- alert.view.tintColor = UIColor.black
- */
-                
- 
-                let subView1 = alert.view.subviews.first! as UIView
-                let subView2 = subView1.subviews.first! as UIView
-                let view = subView2.subviews.first! as UIView
-                
-                
-                view.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
-                
-                
-                
-                
-                alert.view.clipsToBounds = true
-
-                DispatchQueue.main.async
-                {
-                    
-                    alert.show()
+                print("While regenerating the OTP, that time  verification Id is \(verificationID)")
+                if error != nil {
+                    print("error \(error?.localizedDescription)")
+                    self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
+                } else {
+                    UserDefaults.standard.set(verificationID, forKey: "OTPVerificationID")
                 }
-                
-            }
-            else
-            {
-                
-            }
-            
-            
-        }) */
+            })
+        }
+        
+        let alertCancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (UIAlertAction) in
+          print("You cancel the Action")
+        }
+        alertViewController.addAction(alertOKAction)
+        alertViewController.addAction(alertCancelAction)
+        present(alertViewController, animated: true, completion: nil)
         
     }
     
@@ -294,7 +231,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         else
         {
             guard isFromSettingPage else {
-                let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: UserDefaults.standard.string(forKey: "authVID")! , verificationCode: txtOTP.text!)
+                let credential: PhoneAuthCredential = PhoneAuthProvider.provider().credential(withVerificationID: UserDefaults.standard.string(forKey: "OTPVerificationID")! , verificationCode: txtOTP.text!)
                 Auth.auth().signIn(with: credential, completion: { (user, error) in
                     if error != nil {
                         print("error : \(error?.localizedDescription)")
