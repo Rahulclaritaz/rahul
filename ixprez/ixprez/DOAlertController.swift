@@ -756,7 +756,7 @@ open class DOAlertController : UIViewController, UITextFieldDelegate, UIViewCont
     open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (textField.canResignFirstResponder) {
             textField.resignFirstResponder()
-            self.dismiss(animated: true, completion: nil)
+//            self.dismiss(animated: true, completion: nil)
         }
         return true
     }

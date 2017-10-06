@@ -262,7 +262,9 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                                 self.userDefault.setValue(authToken , forKey: "authToken")
                                 DispatchQueue.main.async
                                     {
-                                        self.appDelegate.changeInitialViewController()
+//                                        self.appDelegate.changeInitialViewController()
+                                        let storyBoard = self.storyboard?.instantiateViewController(withIdentifier: "WelcomePageViewController") as! WelcomePageViewController
+                                       self.present(storyBoard, animated: true, completion: nil)
                                 }
                         })
                         

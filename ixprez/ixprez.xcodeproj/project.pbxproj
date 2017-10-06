@@ -100,8 +100,6 @@
 		856AD66E1EC0403D00FCBBEC /* XPNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */; };
 		856AD6721EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */; };
 		856E8C161ED9578E0081BCF7 /* XPCameraBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856E8C151ED9578E0081BCF7 /* XPCameraBaseViewController.swift */; };
-		856E8C181ED97FBB0081BCF7 /* XPCameraONViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856E8C171ED97FBB0081BCF7 /* XPCameraONViewController.swift */; };
-		856E8C1A1ED98AAA0081BCF7 /* XPCameraStopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856E8C191ED98AAA0081BCF7 /* XPCameraStopViewController.swift */; };
 		85730F071F41D5240054272A /* mask1.png in Resources */ = {isa = PBXBuildFile; fileRef = 85730F061F41D5240054272A /* mask1.png */; };
 		8573CE9A1EC18CB900E42CD6 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8573CE991EC18CB900E42CD6 /* CoreTelephony.framework */; };
 		857C35C51F1774D2009257B2 /* UIViewAnimationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857C35C41F1774D2009257B2 /* UIViewAnimationExtension.swift */; };
@@ -270,8 +268,6 @@
 		856AD66D1EC0403D00FCBBEC /* XPNotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPNotificationViewController.swift; sourceTree = "<group>"; };
 		856AD6711EC0A9CE00FCBBEC /* XPCountryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCountryTableViewCell.swift; sourceTree = "<group>"; };
 		856E8C151ED9578E0081BCF7 /* XPCameraBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCameraBaseViewController.swift; sourceTree = "<group>"; };
-		856E8C171ED97FBB0081BCF7 /* XPCameraONViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCameraONViewController.swift; sourceTree = "<group>"; };
-		856E8C191ED98AAA0081BCF7 /* XPCameraStopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCameraStopViewController.swift; sourceTree = "<group>"; };
 		85730F061F41D5240054272A /* mask1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask1.png; sourceTree = "<group>"; };
 		8573CE991EC18CB900E42CD6 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		857C35C41F1774D2009257B2 /* UIViewAnimationExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewAnimationExtension.swift; sourceTree = "<group>"; };
@@ -581,10 +577,8 @@
 				857CE0461EC9D85E00F151AF /* XPAudioStopViewController.swift */,
 				856E8C151ED9578E0081BCF7 /* XPCameraBaseViewController.swift */,
 				859407C11ECEBA7B000A6A80 /* XPVideoViewController.swift */,
-				856E8C171ED97FBB0081BCF7 /* XPCameraONViewController.swift */,
 				859A5E101ED0536500FC55AF /* XPVideoRecordingPlayViewController.swift */,
 				859A5E121ED0539B00FC55AF /* XPVideoRecordingStopViewController.swift */,
-				856E8C191ED98AAA0081BCF7 /* XPCameraStopViewController.swift */,
 				8590E8A91EDEE9AD00FB8F78 /* iCarousel.h */,
 				8590E8AA1EDEE9AD00FB8F78 /* iCarousel.m */,
 				8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */,
@@ -881,7 +875,6 @@
 				85BCA1EB1EE2B4FD009C4B02 /* ActivityExtension.swift in Sources */,
 				131703DF1F061FE200101221 /* XPFolllowsViewController.swift in Sources */,
 				850A98401F1669C200AF81F2 /* UIBarButtonItem+Badge.m in Sources */,
-				856E8C181ED97FBB0081BCF7 /* XPCameraONViewController.swift in Sources */,
 				8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */,
 				1314C6F21ED7EDA100FD0A8F /* MyUploadReportAbuseTableViewCell.swift in Sources */,
 				131703E01F061FE200101221 /* XPSettingPhotoViewController.swift in Sources */,
@@ -932,7 +925,6 @@
 				131703EA1F0625AA00101221 /* FontExtension.swift in Sources */,
 				85A572AE1EE6D00400C40E55 /* XPDashboardHeaderTableViewCell.swift in Sources */,
 				13111E7E1EB20B0C003661C2 /* OTPVerificationViewController.swift in Sources */,
-				856E8C1A1ED98AAA0081BCF7 /* XPCameraStopViewController.swift in Sources */,
 				8592909B1F00FD22006A488D /* IQAudioCropperViewController.m in Sources */,
 				1314C6D71ED7E6F900FD0A8F /* IXPrivateViewController.swift in Sources */,
 				859A22F31EB1ADDB008DD7F7 /* ViewController.swift in Sources */,
