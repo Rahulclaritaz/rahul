@@ -85,12 +85,14 @@
     UIView *pulsratorView;
     UIImageView *userProfileView;
     NSTimer *audioTimer;
+    NSTimer *audioBlinkTimer;
     int countDownTime;
     UILabel *countdownLabel;
     NSBundle* bundle;
     NSBundle *resourcesBundle;
     NSString *userEmail;
     NSData *profileimgData;
+    BOOL blinkStatus;
     
     
     
@@ -615,9 +617,23 @@
 
 - (void)countDownTimer  {
     if (countDownTime > 0) {
-        countDownTime = countDownTime - 1;
-        NSString *countTimeString = [NSString stringWithFormat:@"%d", countDownTime];
-        countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
+        if (countDownTime <= 5) {
+            audioBlinkTimer = [NSTimer
+                               scheduledTimerWithTimeInterval:(NSTimeInterval)(1.0)
+                               target:self
+                               selector:@selector(audioTimerBlink)
+                               userInfo:nil
+                               repeats:TRUE];
+            blinkStatus = NO;
+            [self audioTimerBlink];
+            countDownTime = countDownTime - 1;
+        } else {
+            countDownTime = countDownTime - 1;
+            NSString *countTimeString = [NSString stringWithFormat:@"%d", countDownTime];
+            countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
+        }
+        
+        
     } else {
         [audioTimer invalidate];
         [_audioRecorder stop];
@@ -865,6 +881,17 @@
     else
     {
         [_audioRecorder recordForDuration:self.maximumRecordDuration];
+    }
+}
+
+
+-(void)audioTimerBlink{
+    if(blinkStatus == NO){
+        countdownLabel.backgroundColor = [UIColor whiteColor];
+        blinkStatus = YES;
+    }else {
+        countdownLabel.backgroundColor = [UIColor redColor];
+        blinkStatus = NO;
     }
 }
 

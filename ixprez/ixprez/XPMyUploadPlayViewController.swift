@@ -96,7 +96,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     
     var isTuch : Bool!
-    
+    var isEmotionUploadViewOpen : Bool!
     
     
     
@@ -121,7 +121,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
         
         print("mathan check this one",checkLike)
-
+       isEmotionUploadViewOpen = false
        isTuch = true
         
        setImage = false
@@ -176,6 +176,8 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     }
     
     @IBAction func  backButton (_ sender : Any) {
+        player.pause()
+        playerController.dismiss(animated: true, completion: nil)
        self.navigationController?.popViewController(animated: true)
     }
     
@@ -185,21 +187,30 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
     
     override func viewWillDisappear(_ animated: Bool) {
 //        player.pause()
-        playerController.dismiss(animated: true, completion: nil)
+//        playerController.dismiss(animated: true, completion: nil)
     }
     
  
     func handeltap(sender: UITapGestureRecognizer)
     {
-        
+        guard isEmotionUploadViewOpen else {
+            print("Emotion upload view not open")
+            return
+        }
         removeChildView()
+        isEmotionUploadViewOpen = false
         
     }
     
     func handleSwipes(sender : UISwipeGestureRecognizer)
     {
         
-    removeChildView()
+        guard isEmotionUploadViewOpen else {
+            print("Emotion upload view not open")
+            return
+        }
+        removeChildView()
+        isEmotionUploadViewOpen = false
         
     }
     
@@ -477,6 +488,7 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
    
         let emotionView = self.storyboard?.instantiateViewController(withIdentifier: "XPUploadsEmotionsViewController") as! XPUploadsEmotionsViewController
         
+         isEmotionUploadViewOpen = true
         emotionView.ID = nextID
         
         emotionView.FileType = nextFileType

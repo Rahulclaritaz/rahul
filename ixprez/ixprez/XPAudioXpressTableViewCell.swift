@@ -89,6 +89,13 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     }
     
     
+    func textFieldShouldReturn(textField: UITextField!) -> Bool // called when 'return' key pressed. return NO to ignore.
+    {
+        expressTitleTextField?.resignFirstResponder()
+        return true;
+    }
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -101,37 +108,13 @@ class XPAudioXpressTableViewCell: UITableViewCell,UITextFieldDelegate {
     }
     
     
-   // This is delegate method that will return the textfield value according to picker type.
-//    func cellTextData(vc: XPAudioViewController) {
-//        vc.delegateCell = self
-//        if (pickerStatusType.text == "Private" ){
-//            if (indexPathRow == 0) {
-//                vc.emailAddressLabel.text =  cellLabelExpress.text
-//            } else if (indexPathRow == 1) {
-//                vc.feelingsLabel.text =  cellLabelFeeling.text
-//                
-//            }
-//        } else if (pickerStatusType.text == "Public") {
-//            if (indexPathRow == 0) {
-//                vc.moodLabel.text =   cellLabelMood.text
-//            } else if (indexPathRow == 1) {
-//                vc.feelingsLabel.text =  cellLabelFeeling.text
-//                
-//            }
-//        } else if  (pickerStatusType.text == "Both") {
-//            if (indexPathRow == 0) {
-//              vc.moodLabel.text =   cellLabelMood.text
-//            } else if (indexPathRow == 1) {
-//              vc.emailAddressLabel.text =  cellLabelExpress.text
-//                
-//            } else if (indexPathRow == 2) {
-//               vc.feelingsLabel.text =  cellLabelFeeling.text
-//                
-//            }
-//        }
-//    }
+    // This textfield method will hide the keyboard when click on done button.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
-    
+
 }
 
 

@@ -490,10 +490,10 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         
         customAlertController.alertView.layer.cornerRadius = 6.0
         
-        customAlertController.alertViewBgColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.7)
+        customAlertController.alertViewBgColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.9)
         
         customAlertController.titleFont = UIFont(name: "Mosk", size: 17.0)
-        customAlertController.titleTextColor = UIColor.green
+        customAlertController.titleTextColor = UIColor.black
         
         customAlertController.messageFont = UIFont(name: "Mosk", size: 15.0)
         
