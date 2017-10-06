@@ -165,6 +165,7 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
     {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
+        
         audioPickerView.isHidden = true
         audioPickerBar.isHidden = true
     
@@ -514,10 +515,10 @@ class XPAudioViewController: UIViewController, UITableViewDelegate,UITableViewDa
         
         customAlertController.alertView.layer.cornerRadius = 6.0
         
-        customAlertController.alertViewBgColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.7)
+        customAlertController.alertViewBgColor = UIColor(red:255/255, green:255/255, blue:255/255, alpha:0.9)
         
         customAlertController.titleFont = UIFont(name: "Mosk", size: 17.0)
-        customAlertController.titleTextColor = UIColor.green
+        customAlertController.titleTextColor = UIColor.black
         
         customAlertController.messageFont = UIFont(name: "Mosk", size: 15.0)
         

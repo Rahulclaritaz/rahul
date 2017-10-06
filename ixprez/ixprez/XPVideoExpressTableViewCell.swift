@@ -85,6 +85,12 @@ class XPVideoExpressTableViewCell: UITableViewCell,UITextFieldDelegate {
         }
     }
     
+    // This textfield method will hide the keyboard when click on done button.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

@@ -77,6 +77,8 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
     }
     
     @IBAction func backButton (_ sender : Any) {
+        privatePlayer.pause()
+        privatePlayerController.dismiss(animated: true, completion: nil)
         self.navigationController?.popViewController(animated: true)
     }
     

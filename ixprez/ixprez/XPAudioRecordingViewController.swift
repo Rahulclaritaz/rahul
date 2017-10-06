@@ -30,6 +30,8 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     @IBOutlet weak var pulseAnimationView: UIView!
     var countTime = 40
     var audioTimer = Timer ()
+    var audioBlinkTimer = Timer ()
+    var blinkStatus : Bool!
     var audioPlayer : AVAudioPlayer!
     var recordingSession : AVAudioSession!
     var audioRecorder    :AVAudioRecorder!
@@ -332,6 +334,8 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
             audioButton.setImage(UIImage(named: "MicrophonePlayingImage"), for: UIControlState.normal)
             isAudioButtonSelected = true
             audioTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: Selector("countDownTimer"), userInfo: nil, repeats: true)
+            audioBlinkTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(audioTimerBlink), userInfo: nil, repeats: true)
+            blinkStatus = false
  //            self.startAudioVisualizer()
 //            addChildViewController(controller)
 //            self.view.addSubview(controller.view)
@@ -366,13 +370,30 @@ class XPAudioRecordingViewController: UIViewController,AVAudioRecorderDelegate,A
     // This method will check the timer
     func countDownTimer () {
         if (countTime >= 0) {
-            countTime -= 1
-            countLabel?.text = "00:" + String(countTime)
+            
+            guard (countTime <= 5) else {
+                countTime -= 1
+                countLabel?.text = "00:" + String(countTime)
+                return
+            }
+          audioTimerBlink()
+            
         } else {
             finishRecording()
         }
         
         
+    }
+    
+    func audioTimerBlink ()
+    {
+        guard blinkStatus else {
+            countLabel?.backgroundColor = UIColor.white
+            blinkStatus = true
+            return
+        }
+        countLabel?.backgroundColor = UIColor.red
+        blinkStatus = false
     }
     
     
