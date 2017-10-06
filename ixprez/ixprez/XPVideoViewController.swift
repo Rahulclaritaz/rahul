@@ -421,19 +421,24 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             
             let textFields = self.customAlertController.textFields as? Array<UITextField>
             
-            if (textFields != nil) {
+           
                 for textField: UITextField in textFields! {
                     print("mathan Check",textField.text!)
-                    UserDefaults.standard.set(true, forKey: "isUnregisterXprezUser")
-                    // This will store the pop up email TextField value
-                    UserDefaults.standard.set(textField.text!, forKey: "inviteXprezUser")
-                    self.unregisterdXprezAudioUser()
+                    
+                    if ((textField.text != "") && (textField.text?.isValidEmail())!) {
+                        UserDefaults.standard.set(true, forKey: "isUnregisterXprezUser")
+                        // This will store the pop up email TextField value
+                        UserDefaults.standard.set(textField.text!, forKey: "inviteXprezUser")
+                        self.unregisterdXprezAudioUser()
+                    } else {
+                        self.dismiss(animated: true, completion: {
+                            let alertViewController = UIAlertController(title: "Alert!", message: "Please Provide Valid Email-ID", preferredStyle: .alert)
+                            let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                            alertViewController.addAction(alertAction)
+                            self.present(alertViewController, animated: true, completion: nil)
+                        })
+                    }
                 }
-            } else {
-                let alert = UIAlertController(title: "Alert", message: "Email- Id can not be blank.", preferredStyle: UIAlertControllerStyle.alert)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
         }
         // Add the actions.
         customAlertController.addAction(cancelAction)

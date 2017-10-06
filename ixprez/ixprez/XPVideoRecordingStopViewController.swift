@@ -212,7 +212,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         
         
         // This is the to email parameter add in the web service.
-        if (videoPage.defaultValue.string(forKey: "toEmailAddress") == nil)
+        if (videoPage.defaultValue.string(forKey: "toEmailAddress") == "")
         {
             print("You don't have email because u select public")
         } else
