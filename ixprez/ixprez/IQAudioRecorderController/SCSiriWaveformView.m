@@ -101,7 +101,7 @@ static const CGFloat kDefaultSecondaryLineWidth = 1.0f;
 			// We use a parable to scale the sinus wave, that has its peak in the middle of the view.
 			CGFloat scaling = -pow(1 / mid * (x - mid), 2) + 1;
 			
-			CGFloat y = scaling * maxAmplitude * normedAmplitude * sinf(2 * M_PI *(x / width) * self.frequency + self.phase) + halfHeight;
+			CGFloat y = scaling * maxAmplitude * normedAmplitude * sinf(2 * M_PI *(x / width) * self.frequency + self.phase) + (halfHeight + 40);
 			
 			if (x == 0) {
 				CGContextMoveToPoint(context, x, y);

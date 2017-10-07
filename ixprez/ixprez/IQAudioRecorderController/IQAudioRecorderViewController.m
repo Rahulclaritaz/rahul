@@ -93,6 +93,7 @@
     NSString *userEmail;
     NSData *profileimgData;
     BOOL blinkStatus;
+    NSString *countTimeString;
     
     
     
@@ -234,6 +235,7 @@
     userProfileView.layer.cornerRadius = userProfileView.frame.size.width/2;
     userProfileView.layer.masksToBounds = true;
     [visualEffectView addSubview:userProfileView];
+    
     
  
     
@@ -439,6 +441,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:nil];
     [self validateMicrophoneAccess];
+    blinkStatus = YES;
+   
     
 //    if (_isFirstTime)
 //    {
@@ -617,28 +621,33 @@
 
 - (void)countDownTimer  {
     if (countDownTime > 0) {
-        if (countDownTime <= 5) {
+        if (countDownTime == 5) {
             audioBlinkTimer = [NSTimer
-                               scheduledTimerWithTimeInterval:(NSTimeInterval)(1.0)
+                               scheduledTimerWithTimeInterval:(NSTimeInterval)(0.5)
                                target:self
                                selector:@selector(audioTimerBlink)
                                userInfo:nil
                                repeats:TRUE];
-            blinkStatus = NO;
+            blinkStatus = YES;
             [self audioTimerBlink];
             countDownTime = countDownTime - 1;
-        } else {
+            countTimeString = [NSString stringWithFormat:@"%d",countDownTime];
+            countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
+            
+        }  else {
             countDownTime = countDownTime - 1;
-            NSString *countTimeString = [NSString stringWithFormat:@"%d", countDownTime];
+            countTimeString = [NSString stringWithFormat:@"%d", countDownTime];
             countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
         }
         
         
     } else {
         [audioTimer invalidate];
+        [audioBlinkTimer invalidate];
         [_audioRecorder stop];
         _audioRecorder = nil;
         countdownLabel.text = nil;
+        countdownLabel.textColor = [UIColor whiteColor];
         UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         XPAudioStopViewController *stopView = [storyboardStop instantiateViewControllerWithIdentifier:@"XPAudioStopViewController"];
         stopView.audioRecordURLString = recordingFileURL;
@@ -887,10 +896,10 @@
 
 -(void)audioTimerBlink{
     if(blinkStatus == NO){
-        countdownLabel.backgroundColor = [UIColor whiteColor];
+        countdownLabel.textColor = [UIColor whiteColor];
         blinkStatus = YES;
     }else {
-        countdownLabel.backgroundColor = [UIColor redColor];
+        countdownLabel.textColor = [UIColor clearColor];
         blinkStatus = NO;
     }
 }

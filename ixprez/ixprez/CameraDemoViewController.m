@@ -62,8 +62,11 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 @property (nonatomic) IBOutlet UIButton* videoButton;
 @property (nonatomic) BOOL isVideoButtonSelected;
 @property (nonatomic) NSTimer* videoTimer;
+@property (nonatomic) NSTimer* videoTimerBlink;
+@property (nonatomic) BOOL blinkStatus;
 @property (nonatomic) int countDownTime;
 @property (nonatomic)IBOutlet UILabel* countdownLabel;
+@property (nonatomic) NSString  *countTimeString;
 
 @end
 
@@ -277,6 +280,7 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     _countdownLabel.text = @"00 : 40";
     _countdownLabel.textColor = [UIColor whiteColor];
     _countdownLabel.font = [UIFont fontWithName:@"MoskSemi-Bold600" size:20.0];
+    _blinkStatus = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -415,9 +419,26 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
 -(void)countDownTimer {
     
     if (_countDownTime > 0) {
-        _countDownTime = _countDownTime - 1;
-        NSString *countTimeString = [NSString stringWithFormat:@"%d", _countDownTime];
-        _countdownLabel.text = [@"00 : " stringByAppendingString:countTimeString];
+        
+        if (_countDownTime == 5) {
+            _videoTimerBlink = [NSTimer
+                               scheduledTimerWithTimeInterval:(NSTimeInterval)(0.5)
+                               target:self
+                               selector:@selector(blinkTimerStatus)
+                               userInfo:nil
+                               repeats:TRUE];
+            _blinkStatus = YES;
+            [self blinkTimerStatus];
+            _countDownTime = _countDownTime - 1;
+            _countTimeString = [NSString stringWithFormat:@"%d",_countDownTime];
+            _countdownLabel.text = [@"00 : " stringByAppendingString:_countTimeString];
+            
+        }  else {
+            _countDownTime = _countDownTime - 1;
+            _countTimeString = [NSString stringWithFormat:@"%d", _countDownTime];
+            _countdownLabel.text = [@"00 : " stringByAppendingString:_countTimeString];
+        }
+        
     } else {
         if([_myCameraViewHandler isRecording])
         {
@@ -428,8 +449,10 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
                     //                [sender setTitle:@"Rec OK" forState:UIControlStateNormal];
 //                    [sender setEnabled:YES];
                     [_videoTimer invalidate];
+                    [_videoTimerBlink invalidate];
                     _isVideoButtonSelected = false;
                     _countdownLabel.text = nil;
+                    _countdownLabel.textColor = [UIColor whiteColor];
                     _videoButtonBG.backgroundColor = [UIColor colorWithRed:84.0/255.0 green:198.0/255.0 blue:231.0/255.0 alpha:1.0];
                     [_videoButton setImage:[UIImage imageNamed:@"VideoCameraIcon"] forState:UIControlStateNormal];
                     UIStoryboard *storyboardStop = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -451,6 +474,19 @@ static const int s_functionNum = sizeof(s_functionList) / sizeof(*s_functionList
     }
     
 }
+
+- (void) blinkTimerStatus {
+    
+    if(_blinkStatus == NO){
+        _countdownLabel.textColor = [UIColor whiteColor];
+        _blinkStatus = YES;
+    }else {
+        _countdownLabel.textColor = [UIColor clearColor];
+        _blinkStatus = NO;
+    }
+}
+
+
 
 - (void)filterButtonClicked: (MyButton*)sender
 {
