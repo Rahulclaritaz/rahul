@@ -78,7 +78,8 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         publicTableView.separatorColor = UIColor.clear
     
         isFiltered = false
-        
+        self.publicTableView.reloadData()
+        self.searchCollectionView.reloadData()
 
     }
     
@@ -196,54 +197,83 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         let dicData = ["tags":myString,"index": Index - 1 ,"limit": 30,"sort":"like","user_email": userEmail] as [String : Any]
         
-        getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic, err ) in
+        getWebService.getPrivateDataWebService(urlString: getSearchURL.publicVideo(), dicData: dicData as NSDictionary, callback:  { (dic,responseCode, err ) in
       
-            print("The search data is \(dic)")
-            let jsonSearchScrollData : Int = dic["last"] as! Int
-            let jsonSearchArrayValue : NSArray = dic["Records"] as! NSArray
+            print("The search data is \(responseCode)")
+            let responseReturnCode = responseCode.value(forKey: "code") as! String
             
-         let myData = jsonSearchArrayValue as! [[ String : Any]]
-            print("The search data in key value formet is \(myData)")
-//            print("sssss",dataValue["code"] as! String)
-            
-            
-            
-            
-//        if (dataValue["code"] as! String) != "202"
-//        {
-            
-            self.isFiltered = true
-            
-            self.recordPublicVideo.removeAll()
-            
-            
-            print("ffffffff",dic);
-            
-            if (jsonSearchScrollData == 0)
-            {
-            
-              for dicData in myData
-              {
-                 self.recordPublicVideo.append(dicData)
-              
-              }
+            if (responseReturnCode != "200") {
+                let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
                 
-                self.lastRecord = false
+                let attributedString1 = NSAttributedString(string: "Nothing Found With the name \(myString), Why don't you Xpress one with that name yourself!", attributes: [
+                    NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                    NSForegroundColorAttributeName : UIColor.white
+                    ])
                 
-            }
-            
-               else
-              {
-                for dicData in myData
+                alert.setValue(attributedString1, forKey: "attributedMessage")
+                
+                let subView1 = alert.view.subviews.first! as UIView
+                let subView2 = subView1.subviews.first! as UIView
+                let view = subView2.subviews.first! as UIView
+                
+                
+                view.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
+                
+                alert.view.clipsToBounds = true
+                
+                DispatchQueue.main.async
+                    {
+                        
+                        alert.show()
+                }
+            } else {
+                let jsonSearchScrollData : Int = dic["last"] as! Int
+                let jsonSearchArrayValue : NSArray = dic["Records"] as! NSArray
+                
+                let myData = jsonSearchArrayValue as! [[ String : Any]]
+                print("The search data in key value formet is \(myData)")
+                //            print("sssss",dataValue["code"] as! String)
+                
+                
+                
+                
+                //        if (dataValue["code"] as! String) != "202"
+                //        {
+                
+                self.isFiltered = true
+                
+                self.recordPublicVideo.removeAll()
+                
+                
+                print("ffffffff",dic);
+                
+                if (jsonSearchScrollData == 0)
                 {
-                    self.recordPublicVideo.append(dicData)
+                    
+                    for dicData in myData
+                    {
+                        self.recordPublicVideo.append(dicData)
+                        
+                    }
+                    
+                    self.lastRecord = false
                     
                 }
-                
-                self.lastRecord = true
-                print("last record")
-                
-             }
+                    
+                else
+                {
+                    for dicData in myData
+                    {
+                        self.recordPublicVideo.append(dicData)
+                        
+                    }
+                    
+                    self.lastRecord = true
+                    print("last record")
+                    
+                }
+            }
+            
            
             
             
@@ -318,7 +348,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
     {
         let dicData = ["user_email": userEmail]
         
-        getWebService.getPrivateDataWebService(urlString: getSearchURL.searchPopularVideo() , dicData: dicData as NSDictionary, callback: {(dicc, err) in
+        getWebService.getPrivateDataWebService(urlString: getSearchURL.searchPopularVideo() , dicData: dicData as NSDictionary, callback: {(dicc,responseCode, err) in
           
             if ( err == nil)
             {
@@ -1082,7 +1112,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         cell.lblPopularLike.text = String(likeCount)
         let viewCount = popularData["view_count"] as! Int
         cell.lblPopularViews.text = String(viewCount)
-        let emotionCount = popularData["emotionCount "] as! Int
+        let emotionCount = popularData["emotionCount"] as! Int
         cell.lblPopularEmotion.text = String(emotionCount)
         cell.lblPopularTitle.text = popularData["title"] as? String
         
@@ -1125,6 +1155,18 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
      
         print("check collection video ",checkUserLike)
         
+        let requestParameter = ["id" : popularData["_id"] as! String,"video_type": playFilemimeType] as [String : Any]
+        
+        dashBoardCommonService.updateNumberOfViewOfCount(urlString: followUpdateCountURL.viewCount(), dicData: requestParameter as NSDictionary) { (updateCountresponse, error
+            ) in
+            print(updateCountresponse)
+            if (error == nil) {
+                //                storyBoard.playView = labelPlayView + 1
+            } else {
+                //                storyBoard.playView = labelPlayView
+            }
+        }
+        
         
         let playViewController = self.storyboard?.instantiateViewController(withIdentifier: "XPMyUploadPlayViewController") as! XPMyUploadPlayViewController
         
@@ -1135,7 +1177,7 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
         
         playViewController.playLike = playLikeCount
         
-        playViewController.playView = playViewCount
+        playViewController.playView = playViewCount + 1
         
         playViewController.playSmiley = playSmiley
         

@@ -180,7 +180,7 @@ class IXPrivateViewController: UIViewController,UITableViewDataSource,UITableVie
         
         getPrivateWebData.getPrivateDataWebService(urlString: getPrivateURL.privateDataUrl(), dicData: privateDic, callback:
             {
-                (dicc,erro) in
+                (dicc,responseCode,erro) in
                 
                 print("check private web service data",dicc)
                 
