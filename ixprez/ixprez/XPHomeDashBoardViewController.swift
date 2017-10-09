@@ -872,6 +872,39 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         // Dispose of any resources that can be recreated.
     }
     
+    
+   @IBAction func cameraVideoButtonAction (sender : UIButton) {
+    if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeVideo) == AVAuthorizationStatus.authorized {
+        // Already Authorised
+        let storyBoard = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+        
+        self.navigationController?.pushViewController(storyBoard, animated: true)
+        
+    } else {
+        AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeVideo, completionHandler: { (granted : Bool) in
+            if granted == true {
+                // User Granted
+                
+                let storyBoard = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPCameraBaseViewController") as! XPCameraBaseViewController
+                
+                self.navigationController?.pushViewController(storyBoard, animated: true)
+            } else {
+                // User Rejected
+                let alertController = UIAlertController(title: "Alert", message: "You Don't Have Camera Permission. Check Your Setting", preferredStyle: .alert)
+                let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(alertAction)
+                self.present(alertController, animated: true, completion: nil);
+            }
+        })
+    }
+        
+    }
+    
+    @IBAction func audioButtonAction (sender : UIButton) {
+        
+    }
+    
+    
     func getUserProfile() {
 
     let parameter = [ "email_id" : userEmail]

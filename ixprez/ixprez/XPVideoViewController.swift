@@ -517,10 +517,10 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
         defaultValue.set(moodLabel.text , forKey: "moodLabelValue")
         defaultValue.set(feelingsLabel.text, forKey: "feelingsLabelValue")
         
-        let alert = UIAlertController(title: "Alert", message: "Phone Number and feeling can not Empty", preferredStyle: UIAlertControllerStyle.alert)
-        alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
         if (shareTitleLabel.text == "Private") {
-            if ((emailAddressLabel.text == nil) || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings!")) {
+            if ((emailAddressLabel.text == "") || (feelingsLabel.text == "") || (feelingsLabel.text == "Feelings!")) {
+                let alert = UIAlertController(title: "Alert", message: "Phone Number and feeling can not be Empty", preferredStyle: UIAlertControllerStyle.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
                 self.present(alert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
@@ -533,8 +533,10 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             }
             
         } else if (shareTitleLabel.text == "Public") {
-            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings")) {
-                self.present(alert, animated: true, completion: nil)
+            if ((moodLabel.text == "") || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == "") || (feelingsLabel.text == "Feelings")) {
+                let publicAlert = UIAlertController(title: "Alert", message: "Your Mood and Your Feeling can not be Empty", preferredStyle: UIAlertControllerStyle.alert)
+                publicAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(publicAlert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
                     feelingsLabel.text! = "Awesome"
@@ -546,8 +548,10 @@ class XPVideoViewController: UIViewController,UITableViewDelegate,UITableViewDat
             self.unregisterdXprezAudioUser()
             
         } else if (shareTitleLabel.text == "Both") {
-            if ((moodLabel.text == nil) || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == nil) || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == nil)) {
-                self.present(alert, animated: true, completion: nil)
+            if ((moodLabel.text == "") || (moodLabel.text == "Enter Tags") || (feelingsLabel.text == "") || (feelingsLabel.text == "Feelings") || (emailAddressLabel.text == "")) {
+                let bothAlert = UIAlertController(title: "Alert", message: "Your Mood, Phone Number and Your Feeling can not be Empty", preferredStyle: UIAlertControllerStyle.alert)
+                bothAlert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil))
+                self.present(bothAlert, animated: true, completion: nil)
             } else {
                 if (feelingsLabel.text == nil) {
                     feelingsLabel.text! = "Awesome"
