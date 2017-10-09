@@ -833,11 +833,11 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         }
         
 //        self.navigationItem.leftBarButtonItem?.badgeValue = String(badgeCount)  //String(self.dashboardHeartButtonCount)
-        self.privateButton?.badgeOriginX = 10.0
-        self.privateButton?.badgeOriginY = 10.0
+//        self.privateButton?.badgeOriginX = 10.0
+//        self.privateButton?.badgeOriginY = 10.0
 //        self.privateButton?.badgeValue = String(self.dashboardPrivateButtonCount)
-        self.notificationButton?.badgeOriginX = 10.0
-        self.notificationButton?.badgeOriginY = 10.0
+//        self.notificationButton?.badgeOriginX = 10.0
+//        self.notificationButton?.badgeOriginY = 10.0
 //        self.notificationButton?.badgeValue = String(self.dashboardNotifiacationCount)
 //        if (self.userVerifiedEmail == 0) {
 //            settingButton?.setBackgroundImage((UIImage(named: "setting_Warning.png")), for: .normal, barMetrics: .default)

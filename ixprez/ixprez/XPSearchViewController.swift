@@ -1078,6 +1078,13 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
             
         }
         
+        let likeCount = popularData["likeCount"] as! Int
+        cell.lblPopularLike.text = String(likeCount)
+        let viewCount = popularData["view_count"] as! Int
+        cell.lblPopularViews.text = String(viewCount)
+        let emotionCount = popularData["emotionCount "] as! Int
+        cell.lblPopularEmotion.text = String(emotionCount)
+        cell.lblPopularTitle.text = popularData["title"] as? String
         
         
         cell.btnPlayPopularVideo.tag = indexPath.item
@@ -1100,9 +1107,9 @@ class XPSearchViewController: UIViewController,UICollectionViewDelegate,UICollec
  
         let playTitle = popularData["title"] as! String
  
-        var playVideoPath = popularData["fileuploadPath"] as! String
+        var playVideoPath = popularData["tokenizedUrl"] as! String
  
-        playVideoPath.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
+//        playVideoPath.replace("/root/cpanel3-skel/public_html/Xpress/", with: "http://103.235.104.118:3000/")
  
         let playFilemimeType = popularData["filemimeType"] as! String
  
