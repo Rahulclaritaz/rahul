@@ -91,7 +91,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         super.awakeFromNib()
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
         getIcarouselFeaturesVideo() // This will return the carousel video
-        getTrendingResponse()  // This will return the treanding video (most like video)
+//        getTrendingResponse()  // This will return the treanding video (most like video)
 //        getRecentResponse()
         
     }
@@ -816,6 +816,8 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
         getSettingDataResponse() //  This will return the detail of the user [will use in setting page]
         self.dashboardXpressionCount() // This method will return the badge count of private video, notification and total count.
         getUserProfile()
+        getTrendingResponse()
+        self.getRecentResponse()
         // This will create the number of circle animation and radius
         pulsrator.numPulse = 5
         pulsrator.radius = 120
@@ -831,13 +833,14 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
             self.view.addSubview(popController.view)
             self.didMove(toParentViewController: self)
         }
+        self.xpressTableView?.reloadData()
         
 //        self.navigationItem.leftBarButtonItem?.badgeValue = String(badgeCount)  //String(self.dashboardHeartButtonCount)
-        self.privateButton?.badgeOriginX = 10.0
-        self.privateButton?.badgeOriginY = 10.0
+//        self.privateButton?.badgeOriginX = 10.0
+//        self.privateButton?.badgeOriginY = 10.0
 //        self.privateButton?.badgeValue = String(self.dashboardPrivateButtonCount)
-        self.notificationButton?.badgeOriginX = 10.0
-        self.notificationButton?.badgeOriginY = 10.0
+//        self.notificationButton?.badgeOriginX = 10.0
+//        self.notificationButton?.badgeOriginY = 10.0
 //        self.notificationButton?.badgeValue = String(self.dashboardNotifiacationCount)
 //        if (self.userVerifiedEmail == 0) {
 //            settingButton?.setBackgroundImage((UIImage(named: "setting_Warning.png")), for: .normal, barMetrics: .default)

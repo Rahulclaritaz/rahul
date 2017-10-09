@@ -14,7 +14,7 @@ class  PrivateWebService
 
 
     // This Api Will Return the Populer Public video list serach by the user.
-    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: NSDictionary,_ error : Error?) -> Void)
+    func getPrivateDataWebService(urlString : String ,dicData : NSDictionary , callback : @escaping (_ dicc: NSDictionary,_ responseCode : NSDictionary, _ error : Error?) -> Void)
         
     {
         let privateData = try! JSONSerialization.data(withJSONObject: dicData, options: .prettyPrinted)
@@ -51,6 +51,9 @@ class  PrivateWebService
                     let jsonResponseValue : String = jsonData.value(forKey: "code") as! String
                     
                     if (jsonResponseValue != "200") {
+                        
+                        let jsonDictValue = ["data" : "NO Record in serach"]
+                        callback(jsonDictValue as NSDictionary,jsonData, nil)
                         return
                     } else {
                         let jsonDictValue = jsonData["data"] as! NSDictionary
@@ -60,7 +63,7 @@ class  PrivateWebService
                             print("Record have No value to display in serach ")
                             return
                         } else {
-                           callback(jsonDictValue,nil)
+                           callback(jsonDictValue,jsonData, nil)
                         }
                         
 //                        let jsonDictResponse = jsonData as! [String : Any]

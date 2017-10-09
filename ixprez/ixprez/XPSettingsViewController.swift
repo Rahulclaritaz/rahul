@@ -157,6 +157,12 @@ class XPSettingsViewController: UIViewController,UITableViewDelegate,UITableView
         
          imagePickerController.delegate = self
         
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        profilePhoto.addSubview(blurEffectView)
+        
         self.profileName.text = userName
         
         getPrivateData()
