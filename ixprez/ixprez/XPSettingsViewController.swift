@@ -839,13 +839,18 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
                 verifiedEmail.isFromSettingPage = true
                 verifiedEmail.mobileNumberSetting = phoneNumber
                 verifiedEmail.emailSettingPage = emailID
+                verifiedEmail.userNameSetting = userName
+                verifiedEmail.countryNameSetting = country
+                verifiedEmail.languageNameSetting = language
+                verifiedEmail.notificationSetting = notify
+                verifiedEmail.reminderSetting = remain
                 self.navigationController?.pushViewController(verifiedEmail, animated: true)
                 
             } else {
                 let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
                 gotoChangeEmailPage.isFromSettingPage = true
                 gotoChangeEmailPage.userNameSetting = userName
-                gotoChangeEmailPage.mobileNumberSetting = phoneNumber
+                gotoChangeEmailPage.phoneNumberSetting = phoneNumber
                 gotoChangeEmailPage.countryNameSetting = country
                 gotoChangeEmailPage.languageNameSetting = language
                 gotoChangeEmailPage.notificationSetting = notify

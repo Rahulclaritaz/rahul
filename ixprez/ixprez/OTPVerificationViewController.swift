@@ -51,6 +51,12 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     
     let userDefault = UserDefaults.standard
     var dictArrayValue = NSArray()
+    var userNameSetting : String!
+    var phoneNumberSetting : String!
+    var countryNameSetting : String!
+    var languageNameSetting : String!
+    var reminderSetting : String!
+    var notificationSetting : String!
 
     
     
@@ -192,26 +198,79 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
     
     @IBAction func reSendOTP(_ sender: Any)
     {
-        let alertViewController = UIAlertController(title: "Conformation", message: "Is this your Phone Number \(self.userDefault.string(forKey: "mobileNumber"))!", preferredStyle: .alert)
-        let alertOKAction = UIAlertAction(title: "OK", style: .default) { (UIAlertAction) in
-            PhoneAuthProvider.provider().verifyPhoneNumber(self.userDefault.string(forKey: "mobileNumber")!, completion: { (verificationID, error) in
+        
+        
+        guard isFromSettingPage else {
+            let alertViewController = UIAlertController(title: "Conformation", message: "Is this your Phone Number \(self.userDefault.string(forKey: "mobileNumber"))!", preferredStyle: .alert)
+            let alertOKAction = UIAlertAction(title: "OK", style: .default) { (UIAlertAction) in
+                PhoneAuthProvider.provider().verifyPhoneNumber(self.userDefault.string(forKey: "mobileNumber")!, completion: { (verificationID, error) in
+                    
+                    print("While regenerating the OTP, that time  verification Id is \(verificationID)")
+                    if error != nil {
+                        print("error \(error?.localizedDescription)")
+                        self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
+                    } else {
+                        UserDefaults.standard.set(verificationID, forKey: "OTPVerificationID")
+                    }
+                })
+            }
+            
+            let alertCancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (UIAlertAction) in
+                print("You cancel the Action")
+            }
+            alertViewController.addAction(alertOKAction)
+            alertViewController.addAction(alertCancelAction)
+            present(alertViewController, animated: true, completion: nil)
+            return
+        }
+        let param = ["email_id" : email,"device_id" : self.appDelegate.deviceUDID ]
+        getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: param as NSDictionary) { (responseData, error) in
+            
+            let responseCode : String = String(describing: responseData["code"])
+            if (responseCode == "404") {
+                let alertController = UIAlertController(title: "Alert!", message: "Oops! Something Went Wrong, Please Try again.", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
+            } else {
+                let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
                 
-                print("While regenerating the OTP, that time  verification Id is \(verificationID)")
-                if error != nil {
-                    print("error \(error?.localizedDescription)")
-                    self.alertViewControllerWithCancel(headerTile: "Error", bodyMessage: (error?.localizedDescription)!)
-                } else {
-                    UserDefaults.standard.set(verificationID, forKey: "OTPVerificationID")
-                }
-            })
+                let attributedString = NSAttributedString(string: "OTP Send to your Email id.", attributes: [
+                    
+                    NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
+                    
+                    NSForegroundColorAttributeName : UIColor.white
+                    
+                    ])
+                let subview1 = alert.view.subviews.first! as UIView
+                let subview2 = subview1.subviews.first! as UIView
+                let view = subview2.subviews.first! as UIView
+                
+                subview2.backgroundColor = UIColor.clear
+                
+                subview1.backgroundColor = UIColor.clear
+                
+                view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.8)
+                
+                view.layer.cornerRadius = 20.0
+                
+                alert.setValue(attributedString, forKey: "attributedTitle")
+                
+                
+                UIView.animate(withDuration: 15.0, delay: 0, options: .curveEaseIn, animations: {
+                    
+                    DispatchQueue.main.async {
+                        
+                        alert.show()
+                        
+                    }
+                    
+                }, completion: nil)
+            }
+            
         }
         
-        let alertCancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (UIAlertAction) in
-          print("You cancel the Action")
-        }
-        alertViewController.addAction(alertOKAction)
-        alertViewController.addAction(alertCancelAction)
-        present(alertViewController, animated: true, completion: nil)
+        
         
     }
     
@@ -275,9 +334,18 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
             let parameter = [ "email_id" : emailSettingPage,"device_id":appDelegate.deviceUDID,"otp":txtOTP.text ,"phone_number":mobileNumberSetting]
             getOTPClass.getOTPWebService(urlString: getOTPVerification.url(), dicData: parameter as NSDictionary, callBack: { (responseData, err) in
                 print(responseData)
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
+                if (responseData == "Failed") {
+                    let alertController = UIAlertController(title: "Alert", message: "Oops! Wrong Password.", preferredStyle: .alert)
+                    let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertController.addAction(alertAction)
+                    self.present(alertController, animated: true, completion: nil);
+                } else {
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 }
+
+                
                 
             })
             
@@ -301,11 +369,13 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         }
         
         let gotoChangeEmailPage = self.storyboard?.instantiateViewController(withIdentifier: "ChangeEmailViewController") as! ChangeEmailViewController
-        //
-        //        gotoChangeEmailPage.userName = userName
-        //        gotoChangeEmailPage.country = country
-        //        gotoChangeEmailPage.language = language
-        //        gotoChangeEmailPage.mobileNumber = mobileNumber
+        
+                gotoChangeEmailPage.userNameSetting = userNameSetting
+                gotoChangeEmailPage.countryNameSetting = countryNameSetting
+                gotoChangeEmailPage.languageNameSetting = languageNameSetting
+                gotoChangeEmailPage.phoneNumberSetting = mobileNumberSetting
+                gotoChangeEmailPage.reminderSetting = reminderSetting
+                gotoChangeEmailPage.notificationSetting = notificationSetting
         gotoChangeEmailPage.isFromSettingPage = true
         self.navigationController?.pushViewController(gotoChangeEmailPage, animated: true)
         

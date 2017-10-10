@@ -22,7 +22,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
     var language : String!
     
     var userNameSetting : String!
-    var mobileNumberSetting : String!
+    var phoneNumberSetting : String!
     var countryNameSetting : String!
     var languageNameSetting : String!
     var reminderSetting : String!
@@ -154,7 +154,12 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
        UserDefaults.standard.set(txtReEnterEmail.text, forKey: "emailAddress")
             if  (txtReEnterEmail.text?.isValidEmail() != true)
             {
-                txtReEnterEmail.textFieldBoarder(txtColor: .getLightBlueColor(), txtWidth: 1.0)
+//                txtReEnterEmail.textFieldBoarder(txtColor: .getLightBlueColor(), txtWidth: 1.0)
+                
+                let alertController = UIAlertController(title: "Alert!", message: "Please Provide Valid Email ID.", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                alertController.addAction(defaultAction)
+                present(alertController, animated: true, completion: nil)
                 
             }
         
@@ -202,11 +207,12 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
                             
                         }, completion: nil)
                     })
+                    self.navigationController?.popToRootViewController(animated: true)
                     return
                 }
                 
                 let fcmToken = UserDefaults.standard.string(forKey: "FCMToken")
-                let parameter = ["user_name":userNameSetting,"email_id":txtReEnterEmail.text,"phone_number":mobileNumberSetting,"country":countryNameSetting,"language": languageNameSetting,"notification": notificationSetting ,"remainder": reminderSetting]
+                let parameter = ["user_name":userNameSetting,"email_id":txtReEnterEmail.text,"phone_number":phoneNumberSetting,"country":countryNameSetting,"language": languageNameSetting,"notification": notificationSetting ,"remainder": reminderSetting]
                 
                 getAddData.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray, err) in
                     let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
@@ -246,7 +252,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
                         
                     }, completion: nil)
                 })
-                self.navigationController?.popToRootViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
                 
              }
     
