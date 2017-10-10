@@ -28,6 +28,8 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
     var reminderSetting : String!
     var notificationSetting : String!
     var isFromSettingPage  = Bool ()
+    var messageAlert = UIAlertController ()
+    var attributedString = NSAttributedString ()
     
     
     @IBOutlet var txtReEnterEmail: UITextField!
@@ -169,7 +171,7 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
                     let fcmToken = UserDefaults.standard.string(forKey: "FCMToken")
                     let parameter = ["user_name":userName,"email_id":txtReEnterEmail.text,"phone_number":mobileNumber,"country":country,"language": language,"notification": "1" ,"remainder": "1"] as [String : Any]
                     
-                    getAddData.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray, err) in
+                    getAddData.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray,responseDict, err) in
                         let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
                         
                         let attributedString = NSAttributedString(string: "Saved", attributes: [
@@ -214,20 +216,37 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
                 let fcmToken = UserDefaults.standard.string(forKey: "FCMToken")
                 let parameter = ["user_name":userNameSetting,"email_id":txtReEnterEmail.text,"phone_number":phoneNumberSetting,"country":countryNameSetting,"language": languageNameSetting,"notification": notificationSetting ,"remainder": reminderSetting]
                 
-                getAddData.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray, err) in
-                    let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
+                getAddData.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray,responseDict, err) in
                     
-                    let attributedString = NSAttributedString(string: "Saved", attributes: [
+                    var responseMessage = responseDict.value(forKey: "message") as! String
+                    
+                    if (responseMessage == "no change in email") {
+                       self.messageAlert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
+                         self.attributedString = NSAttributedString(string: "No change in Email, Please Change your Email ID", attributes: [
+                            
+                            NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
+                            
+                            NSForegroundColorAttributeName : UIColor.white
+                            
+                            ])
+
+                    } else {
+                        self.messageAlert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
                         
-                        NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
-                        
-                        NSForegroundColorAttributeName : UIColor.white
-                        
-                        ])
+                         self.attributedString = NSAttributedString(string: "Email-ID Saved", attributes: [
+                            
+                            NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
+                            
+                            NSForegroundColorAttributeName : UIColor.white
+                            
+                            ])
+                    }
                     
                     
                     
-                    let subview1 = alert.view.subviews.first! as UIView
+                    
+                    
+                    let subview1 = self.messageAlert.view.subviews.first! as UIView
                     let subview2 = subview1.subviews.first! as UIView
                     let view = subview2.subviews.first! as UIView
                     
@@ -239,14 +258,14 @@ class ChangeEmailViewController: UIViewController,UITextFieldDelegate
                     
                     view.layer.cornerRadius = 20.0
                     
-                    alert.setValue(attributedString, forKey: "attributedTitle")
+                    self.messageAlert.setValue(self.attributedString, forKey: "attributedTitle")
                     
                     
                     UIView.animate(withDuration: 15.0, delay: 0, options: .curveEaseIn, animations: {
                         
                         DispatchQueue.main.async {
                             
-                            alert.show()
+                            self.messageAlert.show()
                             
                         }
                         

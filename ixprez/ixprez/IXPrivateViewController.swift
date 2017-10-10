@@ -1016,7 +1016,7 @@ func getRefersh( action : UIRefreshControl)
     func getAcceptAction()
     {
     let title = self.privatefromEmail
-    let message = "It’s your turn now to Press! Want to replay right now and press yourself back to them ? Do it"
+    let message = "It’s your turn to xpress! Want to replay right now and xpress yourself back to them ? Do it"
     let cancelButtonTitle = "Cancel"
     let otherButtonTitle = "Xpress it"
     

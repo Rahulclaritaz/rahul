@@ -711,7 +711,7 @@ func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> 
         {
         let parameter = ["user_name":userName,"email_id":emailID,"phone_number":phoneNumber,"country":country,"language": language,"notification": notify ,"remainder": remain]
         
-            getOTPClass.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray, err) in
+            getOTPClass.getSettingPageModificationDetails(urlString: getSettingPageModificationDetail.settingPageModificationUserDetailURL(), dicData: parameter as NSDictionary, callBack: { (responseArray,responseDict, err) in
                 let alert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
                 
                 let attributedString = NSAttributedString(string: "Saved", attributes: [

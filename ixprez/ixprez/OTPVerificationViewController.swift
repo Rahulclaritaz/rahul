@@ -226,7 +226,7 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
         let param = ["email_id" : email,"device_id" : self.appDelegate.deviceUDID ]
         getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: param as NSDictionary) { (responseData, error) in
             
-            let responseCode : String = String(describing: responseData["code"])
+            let responseCode : String = String(describing: responseData["code"]!)
             if (responseCode == "404") {
                 let alertController = UIAlertController(title: "Alert!", message: "Oops! Something Went Wrong, Please Try again.", preferredStyle: .alert)
                 let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -341,7 +341,40 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
                     self.present(alertController, animated: true, completion: nil);
                 } else {
                     DispatchQueue.main.async {
-                        self.navigationController?.popViewController(animated: true)
+                        let messageAlert = UIAlertController(title: "", message:  "", preferredStyle: .actionSheet )
+                        let attributedString = NSAttributedString(string: "Email Authentication Verified.", attributes: [
+                            
+                            NSFontAttributeName : UIFont.xprezBoldFontOfSize(size: 15) ,
+                            
+                            NSForegroundColorAttributeName : UIColor.white
+                            
+                            ])
+                        
+                        let subview1 = messageAlert.view.subviews.first! as UIView
+                        let subview2 = subview1.subviews.first! as UIView
+                        let view = subview2.subviews.first! as UIView
+                        
+                        subview2.backgroundColor = UIColor.clear
+                        
+                        subview1.backgroundColor = UIColor.clear
+                        
+                        view.backgroundColor = UIColor(red:255-255, green:255-255, blue:255-255, alpha:0.8)
+                        
+                        view.layer.cornerRadius = 20.0
+                        
+                        messageAlert.setValue(attributedString, forKey: "attributedTitle")
+                        
+                        
+                        UIView.animate(withDuration: 15.0, delay: 0, options: .curveEaseIn, animations: {
+                            
+                            DispatchQueue.main.async {
+                                
+                                messageAlert.show()
+                                
+                            }
+                            
+                        }, completion: nil)
+                        self.navigationController?.popToRootViewController(animated: true)
                     }
                 }
 

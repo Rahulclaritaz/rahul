@@ -215,6 +215,10 @@ class XPWebService
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        // This will add the authentication token on the header of the API.
+        let authtoken = UserDefaults.standard.value(forKey: "authToken")
+        request.addValue(authtoken as! String, forHTTPHeaderField: "authtoken")
+        
         request.httpBody = jsonData
         
         request.httpMethod = "POST"
@@ -892,7 +896,7 @@ class XPWebService
     
     
     // This API will retrn the changes done by user in the setting page.
-    func getSettingPageModificationDetails ( urlString : String , dicData : NSDictionary, callBack : @escaping (_ dataValue : NSArray , _ error : NSError?) -> Void) {
+    func getSettingPageModificationDetails ( urlString : String , dicData : NSDictionary, callBack : @escaping (_ dataValue : NSArray , _ dataDictValue : NSDictionary, _ error : NSError?) -> Void) {
         
         guard let urlStringData = URL(string : urlString) else {
             print("We didn't get the Url")
@@ -924,7 +928,7 @@ class XPWebService
                         return
                     } else {
                         let jsonDataValue : NSArray = jsonData.value(forKey: "data") as! NSArray
-                        callBack(jsonDataValue, nil)
+                        callBack(jsonDataValue,jsonData, nil)
                         
                     }
                     
