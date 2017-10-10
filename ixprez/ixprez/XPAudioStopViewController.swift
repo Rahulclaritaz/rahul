@@ -61,6 +61,17 @@ class XPAudioStopViewController: UIViewController {
         userProfileView?.layer.cornerRadius = (userProfileView?.frame.size.width)!/2
         userProfileView?.layer.masksToBounds = true
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
+        
+        self.toEmailString = audioPage.defaultValue.string(forKey: "toEmailAddress")!
+        
+        let phoneNumberValidate = self.toEmailString
+        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        let filteredCharacters = phoneNumberValidate.characters.filter {
+            return numericSet.contains($0)
+        }
+        let filteredString = String(filteredCharacters)
+        self.toEmailPhoneNumberFormet = " - " + filteredString // We have to send this formet only.
+        print(toEmailPhoneNumberFormet)
         self.getUserProfile()
         // this will remove the back button from the navigation bar
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
@@ -217,7 +228,7 @@ class XPAudioStopViewController: UIViewController {
             } else {
                 body.appendString("--\(boundary)\r\n")
                 body.appendString("Content-Disposition: form-data; name=\"to_email\"\r\n\r\n")
-                body.appendString(audioPage.defaultValue.string(forKey: "toEmailAddress")!)
+                body.appendString(self.toEmailPhoneNumberFormet)
                 body.appendString("\r\n")
             }
             
