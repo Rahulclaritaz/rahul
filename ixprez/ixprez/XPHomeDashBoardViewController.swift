@@ -890,7 +890,7 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
                 self.navigationController?.pushViewController(storyBoard, animated: true)
             } else {
                 // User Rejected
-                let alertController = UIAlertController(title: "Alert", message: "You Don't Have Camera Permission. Check Your Setting", preferredStyle: .alert)
+                let alertController = UIAlertController(title: "Alert", message: "You Don't Have Camera Access Permission. Check Your Setting", preferredStyle: .alert)
                 let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(alertAction)
                 self.present(alertController, animated: true, completion: nil);
@@ -901,6 +901,26 @@ class XPHomeDashBoardViewController: UIViewController ,iCarouselDataSource,iCaro
     }
     
     @IBAction func audioButtonAction (sender : UIButton) {
+       
+        if AVCaptureDevice.authorizationStatus(forMediaType: AVMediaTypeAudio) == AVAuthorizationStatus.authorized {
+            
+            let StoryBoard = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
+            self.navigationController?.pushViewController(StoryBoard, animated: true)
+            
+        } else {
+            AVCaptureDevice.requestAccess(forMediaType: AVMediaTypeAudio, completionHandler: { (granted : Bool) in
+                if granted {
+                   let StoryBoard = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "XPAudioViewController") as! XPAudioViewController
+                    self.navigationController?.pushViewController(StoryBoard, animated: true)
+                    
+                } else {
+                    let alertController = UIAlertController(title: "Alert", message: "You Don't Have Audio Microphone Access Permission. Check Your Setting", preferredStyle: .alert)
+                    let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertController.addAction(alertAction)
+                    self.present(alertController, animated: true, completion: nil);
+                }
+            })
+        }
         
     }
     

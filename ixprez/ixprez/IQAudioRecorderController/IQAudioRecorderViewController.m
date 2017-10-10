@@ -476,27 +476,27 @@
 -(void) audioWaveEquilizer {
     if (resourcesBundle == nil) resourcesBundle = bundle;
     
-    {
-        viewMicrophoneDenied = [[IQMessageDisplayView alloc] initWithFrame:visualEffectView.bounds];
-        viewMicrophoneDenied.translatesAutoresizingMaskIntoConstraints = NO;
-        viewMicrophoneDenied.delegate = self;
-        viewMicrophoneDenied.alpha = 0.0;
-        
-        if (self.barStyle == UIBarStyleDefault)
-        {
-            viewMicrophoneDenied.tintColor = [UIColor darkGrayColor];
-        }
-        else
-        {
-            viewMicrophoneDenied.tintColor = [UIColor whiteColor];
-        }
-        viewMicrophoneDenied.image = [[UIImage imageNamed:@"microphone_access" inBundle:resourcesBundle compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        viewMicrophoneDenied.title = @"Microphone Access Denied!";
-        viewMicrophoneDenied.message = @"Unable to access microphone. Please enable microphone access in Settings.";
-        viewMicrophoneDenied.buttonTitle = @"Go to Settings";
-        [visualEffectView addSubview:viewMicrophoneDenied];
-        
-    }
+//    {
+//        viewMicrophoneDenied = [[IQMessageDisplayView alloc] initWithFrame:visualEffectView.bounds];
+//        viewMicrophoneDenied.translatesAutoresizingMaskIntoConstraints = NO;
+//        viewMicrophoneDenied.delegate = self;
+//        viewMicrophoneDenied.alpha = 0.0;
+//        
+//        if (self.barStyle == UIBarStyleDefault)
+//        {
+//            viewMicrophoneDenied.tintColor = [UIColor darkGrayColor];
+//        }
+//        else
+//        {
+//            viewMicrophoneDenied.tintColor = [UIColor whiteColor];
+//        }
+//        viewMicrophoneDenied.image = [[UIImage imageNamed:@"microphone_access" inBundle:resourcesBundle compatibleWithTraitCollection:nil] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+//        viewMicrophoneDenied.title = @"Microphone Access Denied!";
+//        viewMicrophoneDenied.message = @"Unable to access microphone. Please enable microphone access in Settings.";
+//        viewMicrophoneDenied.buttonTitle = @"Go to Settings";
+//        [visualEffectView addSubview:viewMicrophoneDenied];
+//        
+//    }
     
     {
         musicFlowView = [[SCSiriWaveformView alloc] initWithFrame:visualEffectView.bounds];

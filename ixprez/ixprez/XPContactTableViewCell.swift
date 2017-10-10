@@ -52,11 +52,11 @@ class XPContactTableViewCell: UITableViewCell {
         
         if devicePhoneNumber.contains(contact.phoneNumber)
         {
-            contactType?.image =  UIImage(named: "ExpressUser")
+            contactType?.image =  UIImage(named: "ContactUserEnvelope")
         }
             
         else{
-            contactType?.image =  UIImage(named: "ContactUser")
+            contactType?.image =  UIImage(named: "ExpressUserHeart")
             
         }
         
