@@ -62,19 +62,22 @@ class XPAudioStopViewController: UIViewController {
         userProfileView?.layer.masksToBounds = true
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
         
-        self.toEmailString = audioPage.defaultValue.string(forKey: "toEmailAddress")!
-        
-        let phoneNumberValidate = self.toEmailString
-        let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-        let filteredCharacters = phoneNumberValidate.characters.filter {
-            return numericSet.contains($0)
+        if (UserDefaults.standard.value(forKey: "toEmailAddress") != nil) {
+            self.toEmailString = UserDefaults.standard.value(forKey: "toEmailAddress")! as! String
+            
+            let phoneNumberValidate = self.toEmailString
+            let numericSet : [Character] = ["+","0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            let filteredCharacters = phoneNumberValidate.characters.filter {
+                return numericSet.contains($0)
+            }
+            let filteredString = String(filteredCharacters)
+            self.toEmailPhoneNumberFormet = " - " + filteredString // We have to send this formet only.
         }
-        let filteredString = String(filteredCharacters)
-        self.toEmailPhoneNumberFormet = " - " + filteredString // We have to send this formet only.
+        
         print(toEmailPhoneNumberFormet)
         self.getUserProfile()
         // this will remove the back button from the navigation bar
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
+        let backButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelButtonAction))
         navigationItem.leftBarButtonItem = backButton
         
         retryButton?.layer.cornerRadius = 25.0
@@ -101,6 +104,10 @@ class XPAudioStopViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         pulsrator.stop()
+    }
+    
+    func cancelButtonAction() {
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func getUserProfile() {

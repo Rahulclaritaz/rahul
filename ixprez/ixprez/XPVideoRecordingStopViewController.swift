@@ -42,7 +42,7 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
         print("The url path of the video file is \(videoFileURLPath)")
         self.title = UserDefaults.standard.value(forKey: "feelingsLabelValue") as! String
 //        self.countLabel?.text = countLabelString
-        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
+        let backButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelButtonAction))
         navigationItem.leftBarButtonItem = backButton
         retryButton?.layer.cornerRadius = 25.0
         xpressButton?.layer.cornerRadius = 25.0
@@ -84,6 +84,10 @@ class XPVideoRecordingStopViewController: UIViewController,AVCaptureVideoDataOut
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func cancelButtonAction() {
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
