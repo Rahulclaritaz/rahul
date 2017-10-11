@@ -223,11 +223,11 @@ class OTPVerificationViewController: UIViewController,UITextFieldDelegate
             present(alertViewController, animated: true, completion: nil)
             return
         }
-        let param = ["email_id" : email,"device_id" : self.appDelegate.deviceUDID ]
+        let param = ["email_id" : email,"device_id" : self.appDelegate.deviceUDID,"phone_number" : userDefault.string(forKey: "mobileNumber") ]
         getOTPClass.getResendOTPWebService(urlString: getOTPResendUrl.url(), dicData: param as NSDictionary) { (responseData, error) in
             
-            let responseCode : String = String(describing: responseData["code"]!)
-            if (responseCode == "404") {
+            let responseCodeString : String = String(describing: responseData["code"]!)
+            if (responseCodeString == "404") {
                 let alertController = UIAlertController(title: "Alert!", message: "Oops! Something Went Wrong, Please Try again.", preferredStyle: .alert)
                 let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
                 alertController.addAction(defaultAction)
