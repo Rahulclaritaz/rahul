@@ -22,6 +22,13 @@ class XPHumburgerMenuViewController: UIViewController {
     var heartButtonBadgeCount = Int()
     var userEmail = String ()
     var imageGesture =  UITapGestureRecognizer()
+    var profileImageURL: String!
+    
+    
+    
+    override func awakeFromNib() {
+        self.getUserProfile()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +37,8 @@ class XPHumburgerMenuViewController: UIViewController {
         imageGesture = UITapGestureRecognizer(target: self, action: #selector(gotoSettingView(gesture:)))
         
         userEmail = UserDefaults.standard.value(forKey: "emailAddress") as! String
-        humburgerMenuUserName?.text = UserDefaults.standard.value(forKey: "userName") as! String
-        self.menuXpressionCount()
+//        humburgerMenuUserName?.text = UserDefaults.standard.value(forKey: "userName") as? String
+//        self.menuXpressionCount()
         let imageLogo = UIImage (named: "DashboardTitleImage")
         let imageView = UIImageView(image : imageLogo)
         self.navigationItem.titleView = imageView
@@ -72,8 +79,10 @@ class XPHumburgerMenuViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-       self.navigationItem.leftBarButtonItem?.badgeValue = String(self.heartButtonBadgeCount)
+//       self.navigationItem.leftBarButtonItem?.badgeValue = String(self.heartButtonBadgeCount)
         self.getUserProfile()
+        self.menuXpressionCount()
+//        self.humburgerMenuTableView?.reloadData()
     }
     
     // This method will call when clik on the trending button
@@ -83,11 +92,15 @@ class XPHumburgerMenuViewController: UIViewController {
         let parameter = ["user_email": UserDefaults.standard.value(forKey: "emailAddress"), "PreviousCount" : 0 ]
         
         getMenuHeartCountWebService.getPrivateData(urlString: menuHeartScreenCount.getPrivateData(), dicData: parameter) { (response, error) in
-            print("the dashboard count is \(response)")
-            self.dashboardCountData = response["data"] as! [String : AnyObject]
-            self.heartButtonBadgeCount = self.dashboardCountData["TotalNumberofrecords"] as! Int
-            print("The dashboard heart expression count is \(self.heartButtonBadgeCount)")
-           
+            
+            DispatchQueue.main.async {
+                print("the dashboard count is \(response)")
+                self.dashboardCountData = response["data"] as! [String : AnyObject]
+                self.heartButtonBadgeCount = self.dashboardCountData["TotalNumberofrecords"] as! Int
+                
+                self.navigationItem.leftBarButtonItem?.badgeValue = String(self.heartButtonBadgeCount)
+                print("The dashboard heart menu expression count is \(self.heartButtonBadgeCount)")
+            }
         }
         
     }
@@ -114,9 +127,12 @@ class XPHumburgerMenuViewController: UIViewController {
         let parameter = [ "email_id" : userEmail]
         
         dashBoardCommonService.getUserProfileWebService(urlString: userPrifileURL.url(), dicData: parameter as NSDictionary, callback: {(userprofiledata , error) in
-            let imageURL: String = userprofiledata.value(forKey: "profile_image") as! String
-            print(imageURL)
-            self.humburgerMenuUserProfile?.getImageFromUrl(imageURL)
+            let imageUrl : String = userprofiledata.value(forKey: "profile_image") as! String
+            self.profileImageURL = imageUrl
+            print(self.profileImageURL)
+//            self.humburgerMenuUserProfile?.getImageFromUrl(imageURL)
+            
+            
             
 //            var urlString = imageURL.replacingOccurrences(of: "/root/cpanel3-skel/public_html/Xpress", with: "http://103.235.104.118:3000")
 //            
@@ -197,6 +213,24 @@ extension XPHumburgerMenuViewController : UITableViewDataSource {
             return cell
         }
         
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 165
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let cellIdentifierDashboard = "XPMenuProfileHeaderTableViewCell"
+        let cellMenu : XPMenuProfileHeaderTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierDashboard) as! XPMenuProfileHeaderTableViewCell
+        
+        if (profileImageURL == "") {
+            cellMenu.profileImage?.backgroundColor = UIColor.purple
+        } else {
+            cellMenu.profileImage?.getImageFromUrl(profileImageURL)
+        }
+        cellMenu.userName?.text = UserDefaults.standard.value(forKey: "userName") as? String
+        return cellMenu.contentView
     }
 }
 // MARK: UITableview delegate Method

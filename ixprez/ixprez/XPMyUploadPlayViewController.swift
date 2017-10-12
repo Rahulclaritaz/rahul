@@ -135,10 +135,12 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         print("myPlay")
         print(playUrlString)
         self.navigationItem.title = playTitle
-        self.backgroundImage.getImageFromUrl(backgroundUserImageString)
-        profileBackgroundImage.layer.cornerRadius = profileBackgroundImage.frame.size.width/2
-        profileBackgroundImage.clipsToBounds = true
-        profileBackgroundImage.getImageFromUrl(backgroundUserImageString)
+        backgroundImage.isHidden = true
+        profileBackgroundImage.isHidden = true
+//        self.backgroundImage.getImageFromUrl(backgroundUserImageString)
+//        profileBackgroundImage.layer.cornerRadius = profileBackgroundImage.frame.size.width/2
+//        profileBackgroundImage.clipsToBounds = true
+//        profileBackgroundImage.getImageFromUrl(backgroundUserImageString)
         self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
         self.navigationController?.navigationBar.tintColor = UIColor.white
         
@@ -307,14 +309,14 @@ class XPMyUploadPlayViewController: UIViewController,AVPlayerViewControllerDeleg
         
         playerController.showsPlaybackControls = false
     
-        playerController.contentOverlayView?.addSubview(backgroundImage)
-        playerController.contentOverlayView?.addSubview(profileBackgroundImage)
-        
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        backgroundImage.addSubview(blurEffectView)
+//        playerController.contentOverlayView?.addSubview(backgroundImage)
+//        playerController.contentOverlayView?.addSubview(profileBackgroundImage)
+//        
+//        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.dark)
+//        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+//        blurEffectView.frame = view.bounds
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        backgroundImage.addSubview(blurEffectView)
         
         playerController.player = player
         
