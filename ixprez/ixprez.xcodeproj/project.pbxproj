@@ -61,6 +61,7 @@
 		850A98401F1669C200AF81F2 /* UIBarButtonItem+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 850A983D1F1669C200AF81F2 /* UIBarButtonItem+Badge.m */; };
 		850A98411F1669C200AF81F2 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = 850A983F1F1669C200AF81F2 /* UIButton+Badge.m */; };
 		85348C2F1F35CD590030D692 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85348C2E1F35CD590030D692 /* GoogleService-Info.plist */; };
+		853B93DD1F8F7474002F27AB /* XPMenuProfileHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853B93DC1F8F7474002F27AB /* XPMenuProfileHeaderTableViewCell.swift */; };
 		8542F2481F03AFA6006FFCE5 /* StretchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */; };
 		8542F2491F03AFA6006FFCE5 /* StretchHeaderOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */; };
 		8542F24D1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */; };
@@ -221,6 +222,7 @@
 		850A983E1F1669C200AF81F2 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		850A983F1F1669C200AF81F2 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		85348C2E1F35CD590030D692 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		853B93DC1F8F7474002F27AB /* XPMenuProfileHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPMenuProfileHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		8542F2461F03AFA6006FFCE5 /* StretchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeader.swift; sourceTree = "<group>"; };
 		8542F2471F03AFA6006FFCE5 /* StretchHeaderOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StretchHeaderOptions.swift; sourceTree = "<group>"; };
 		8542F24C1F03DC84006FFCE5 /* XPDashBoardProfileTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPDashBoardProfileTableViewCell.swift; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 				857E4C6C1EEE6B9700274F8E /* XPHumburgerMenuTableViewCell.swift */,
 				856574F51EF145010056D97F /* XPContactTableViewCell.swift */,
 				856574F71EF145520056D97F /* XPContactHeaderTableViewCell.swift */,
+				853B93DC1F8F7474002F27AB /* XPMenuProfileHeaderTableViewCell.swift */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -897,6 +900,7 @@
 				1314C6E91ED7E81300FD0A8F /* UIImageViewExtension.swift in Sources */,
 				C2351C511EC10A4500289865 /* XPLanguageTableViewCell.swift in Sources */,
 				8592909D1F00FD22006A488D /* IQAudioRecorderViewController.m in Sources */,
+				853B93DD1F8F7474002F27AB /* XPMenuProfileHeaderTableViewCell.swift in Sources */,
 				132A15F41EB9EFDC00FF0217 /* RegistrationViewController.swift in Sources */,
 				855CCAD41ED31C1500939576 /* ATAudioVisualizer.m in Sources */,
 				859290A71F00FF5E006A488D /* SCSiriWaveformView.m in Sources */,

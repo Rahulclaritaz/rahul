@@ -257,17 +257,17 @@ func getRefersh( action : UIRefreshControl)
         {
             myImage?.isHidden = true
             privatecell.isHidden = false
+            privatecell.lblPrivateName.text = privateData["UpName"] as? String
+            
+            privatecell.lblPrivateName.textColor = UIColor.getLightBlueColor()
+            
             privatecell.lblPrivateTitle.text = privateData["title"] as? String
-            
-            privatecell.lblPrivateTitle.textColor = UIColor.getLightBlueColor()
-            
-            privatecell.lblPrivateTitleDescription.text = privateData["from_email"] as? String
             
             
             let checkIsContact = privateData["from_email"] as! String
             let username =  privateData["title"] as? String
        
-            let string1 : String = privateData["updatedAt"] as! String
+            let string1 : String = privateData["createdAt"] as! String
         
             let dataStringFormatter = DateFormatter()
             

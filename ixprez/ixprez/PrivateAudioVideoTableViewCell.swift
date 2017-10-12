@@ -14,9 +14,9 @@ class PrivateAudioVideoTableViewCell: UITableViewCell {
     
     @IBOutlet weak var imgPrivateVideoAudio: UIImageView!
     
-    @IBOutlet weak var lblPrivateTitle: UILabel!
+    @IBOutlet weak var lblPrivateName: UILabel!
     
-    @IBOutlet weak var lblPrivateTitleDescription: UILabel!
+    @IBOutlet weak var lblPrivateTitle: UILabel!
     
     @IBOutlet weak var imgPrivateTime: UIImageView!
     

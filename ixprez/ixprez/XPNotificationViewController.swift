@@ -321,13 +321,13 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
         } else {
             self.myImage?.isHidden = true
             privatecell.isHidden = false
+            privatecell.lblPrivateName.text = privateData["from_name"] as? String
+            
+            privatecell.lblPrivateName.textColor = UIColor.getLightBlueColor()
+            
             privatecell.lblPrivateTitle.text = privateData["title"] as? String
             
-            privatecell.lblPrivateTitle.textColor = UIColor.getLightBlueColor()
-            
-            privatecell.lblPrivateTitleDescription.text = privateData["from_email"] as? String
-            
-            if (privatecell.lblPrivateTitleDescription.text == nil) {
+            if (privatecell.lblPrivateTitle.text == nil) {
                 
                 print("There is no data in the notification")
                 
@@ -337,7 +337,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
                 let checkIsContact = privateData["from_email"] as! String
                 let username =  privateData["title"] as? String
                 
-                let string1 : String = privateData["updatedAt"] as! String
+                let string1 : String = privateData["createdAt"] as! String
                 
                 let dataStringFormatter = DateFormatter()
                 
