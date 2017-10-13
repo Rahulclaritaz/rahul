@@ -502,7 +502,7 @@ if ( flag == false)
         let myUploadPublicInfo = recordPublicUpload[indexPathValue.item]
         
         
-        let dateInfo = myUploadPublicInfo["updatedAt"] as! String
+        let dateInfo = myUploadPublicInfo["createdAt"] as! String
             
             
             let dataStringFormatter = DateFormatter()
@@ -538,6 +538,8 @@ if ( flag == false)
             
         let likeInfo = myUploadPublicInfo["likeCount"] as! Int
             
+        let viewInfo = myUploadPublicInfo["view_count"] as! Int
+            
             
             
             
@@ -548,6 +550,7 @@ if ( flag == false)
             myCell.infoPrivilege.text = privilegeInfo
             
             myCell.infoLikeCount.text = String(likeInfo)
+            myCell.infoViewCount.text = String(viewInfo)
             
             
             
@@ -565,7 +568,7 @@ if ( flag == false)
             
             let myUploadPrivateInfo = recordPrivateUpload[indexPathValue.item]
             
-            let dateInfo = myUploadPrivateInfo["updatedAt"] as! String
+            let dateInfo = myUploadPrivateInfo["createdAt"] as! String
             
             let myDate = String()
             
@@ -607,15 +610,17 @@ if ( flag == false)
             
             let likeInfo = myUploadPrivateInfo["likeCount"] as! Int
             
+            let viewInfo = myUploadPrivateInfo["view_count"] as! Int
             
-            myCell.infoDate.text = time1
             
-            myCell.infoTime.text = day1
+            myCell.infoDate.text = day1
+            
+            myCell.infoTime.text = time1
             
             myCell.infoPrivilege.text = privilegeInfo
             
             myCell.infoLikeCount.text = String(likeInfo)
-            
+            myCell.infoViewCount.text = String(viewInfo)
             
             
             print(myUploadPrivateInfo)
@@ -806,7 +811,7 @@ func deleteVideo(sender : UIButton)
     
     func getDeleteAction(infoId : String ,fileType : String,indexPath : IndexPath)
     {
-        let message = "Are You Sure You Want tp Delete This?"
+        let message = "Are You Sure You Want to Delete This?"
         let cancelButtonTitle = "Cancel"
         let otherButtonTitle = "Delete"
         

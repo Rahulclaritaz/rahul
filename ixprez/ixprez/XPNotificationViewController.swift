@@ -1158,7 +1158,7 @@ class XPNotificationViewController: UIViewController,UITableViewDelegate,UITable
     func getAcceptAction()
     {
         let title = self.privatefromEmail
-        let message = "It’s your turn to xpress! Want to replay right now and xpress yourself back to them ? Do it"
+        let message = "It's your turn to xpress! Want to reply right now and xpress yourself back to them? Do it"
         let cancelButtonTitle = "Cancel"
         let otherButtonTitle = "Xpress it"
         
