@@ -52,5 +52,11 @@ class XPSettingTableViewCell: UITableViewCell,UITextFieldDelegate
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("You click on text field for edit purpose")
     }
+    
+    // This textfield method will hide the keyboard when click on done button.
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 
 }

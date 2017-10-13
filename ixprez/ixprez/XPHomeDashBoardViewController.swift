@@ -1343,6 +1343,7 @@ extension XPHomeDashBoardViewController : UITableViewDelegate {
         let labelPlayView: NSInteger = trendingViewCount[indexPath.row] as! NSInteger
         storyBoard.playView = labelPlayView + 1
         storyBoard.backgroundUserImageString = userProfileImageResponseURl
+        storyBoard.nextFileType = followFileType
         
         print("the carousel video url path is \(storyBoard.playUrlString)")
         self.navigationController?.pushViewController(storyBoard, animated: true)

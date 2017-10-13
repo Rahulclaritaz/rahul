@@ -49,5 +49,7 @@ class MyUploadCollectionViewCell: UICollectionViewCell
     
     @IBOutlet weak var infoLikeCount: UILabel!
     
+    @IBOutlet weak var infoViewCount : UILabel!
+    
     
 }

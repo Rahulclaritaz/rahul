@@ -159,7 +159,7 @@ class XPPriavtePlayVideoAudioViewController: UIViewController,AVPlayerViewContro
         
         
         let title = self.fromEmail
-        let message = "It’s your turn to xpress! Want to replay right now and xpress yourself back to them ? Do it"
+        let message = "It's your turn to xpress! Want to reply right now and xpress yourself back to them? Do it"
         let cancelButtonTitle = "Cancel"
         let otherButtonTitle = "Xpress It"
         

@@ -224,7 +224,7 @@ extension XPHumburgerMenuViewController : UITableViewDataSource {
         let cellIdentifierDashboard = "XPMenuProfileHeaderTableViewCell"
         let cellMenu : XPMenuProfileHeaderTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifierDashboard) as! XPMenuProfileHeaderTableViewCell
         
-        if (profileImageURL == "") {
+        if (profileImageURL == nil) {
             cellMenu.profileImage?.backgroundColor = UIColor.purple
         } else {
             cellMenu.profileImage?.getImageFromUrl(profileImageURL)
