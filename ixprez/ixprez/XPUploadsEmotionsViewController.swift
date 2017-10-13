@@ -756,15 +756,85 @@ class XPUploadsEmotionsViewController: UIViewController,UITableViewDelegate,UITa
                 for textField: UITextField in textFields! {
                     print("mathan Check",textField.text!)
                     
-                    let dicData = [ "user_email" :self.userEmail , "description"  : textField.text! , "file_id" : self.ID , "file_type" : self.FileType] as [String : Any]
+                    if (textField.text != "") {
+                        let dicData = [ "user_email" :self.userEmail , "description"  : textField.text! , "file_id" : self.ID , "file_type" : self.FileType] as [String : Any]
+                        
+                        self.getEmotionWebService.getReportMyUploadWebService(urlString: self.getEmotionUrl.uploadReportAbuse(), dicData: dicData as NSDictionary, callback: {
+                            (dicc,erro) in
+                            
+                            print(dicc)
+                           let responseCode = dicc.value(forKey: "status") as! String
+                            
+                            if (responseCode == "OK") {
+                                let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
+                                
+                                
+                                
+                                let attributedString1 = NSAttributedString(string: "Report Abuse successfully send to the Server.", attributes: [
+                                    NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                                    NSForegroundColorAttributeName : UIColor.white
+                                    ])
+                                
+                                alert.setValue(attributedString1, forKey: "attributedMessage")
+                                
+                                let subView1 = alert.view.subviews.first! as UIView
+                                let subView2 = subView1.subviews.first! as UIView
+                                let view = subView2.subviews.first! as UIView
+                                
+                                
+                                view.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
+                                
+                                alert.view.clipsToBounds = true
+                                
+                                DispatchQueue.main.async
+                                    {
+                                        
+                                        alert.show()
+                                }
+                                
+                            } else {
+                                let alert = UIAlertController(title: nil, message:  "", preferredStyle: .actionSheet)
+                                
+                                
+                                
+                                let attributedString1 = NSAttributedString(string: "Oops! Someting Went Wrong, Please Try Again.", attributes: [
+                                    NSFontAttributeName : UIFont.xprezMediumFontOfsize(size: 15)  , //your font here
+                                    NSForegroundColorAttributeName : UIColor.white
+                                    ])
+                                
+                                alert.setValue(attributedString1, forKey: "attributedMessage")
+                                
+                                let subView1 = alert.view.subviews.first! as UIView
+                                let subView2 = subView1.subviews.first! as UIView
+                                let view = subView2.subviews.first! as UIView
+                                
+                                
+                                view.backgroundColor = UIColor(red: 255-255, green: 255-255, blue: 255-255, alpha: 0.8)
+                                
+                                alert.view.clipsToBounds = true
+                                
+                                DispatchQueue.main.async
+                                    {
+                                        
+                                        alert.show()
+                                }
+                            }
+                            
+                            
+                        })
+                        
+                        } else {
+                        
+                        self.dismiss(animated: true, completion: {
+                            let alertViewController = UIAlertController(title: "Alert!", message: "It can not be blank,Please Provide abuse description", preferredStyle: .alert)
+                            let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                            alertViewController.addAction(alertAction)
+                            self.present(alertViewController, animated: true, completion: nil)
+                        })
+                        
+                    }
                     
-                    self.getEmotionWebService.getReportMyUploadWebService(urlString: self.getEmotionUrl.uploadReportAbuse(), dicData: dicData as NSDictionary, callback: {
-                        (dicc,erro) in
-                        
-                        print(dicc)
-                        
-                        
-                    })
+                    
                     
                     
                 }
